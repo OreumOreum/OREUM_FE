@@ -6,7 +6,7 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
-import 'package:oreum_fe/core/themes/app_textstyles.dart';
+import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
-      ///context.go(RoutePath.splash);
+      context.go(RoutePath.splash);
     });
   }
 
