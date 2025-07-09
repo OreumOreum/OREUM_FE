@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oreum_fe/features/splash/splash_screen.dart';
 
-import 'core/themes/app_theme.dart';
+import 'core/routes/app_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,10 +18,9 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: AppTheme.kThemeData,
-          home: const SplashScreen(),
+        return MaterialApp.router(
+          routerConfig: appRouter,
+          debugShowCheckedModeBanner: false,
         );
       },
     );
