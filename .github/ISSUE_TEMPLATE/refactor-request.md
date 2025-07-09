@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: Refactor request
+about: 코드 리팩토링
+title: "[Refactor]"
+labels: "\U0001F528 Refactor"
 assignees: ''
 
 ---

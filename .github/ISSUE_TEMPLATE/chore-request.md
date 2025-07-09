@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: Chore request
+about: 빌드/패키지/설정 등 자잘한 작업
+title: "[Chore]"
+labels: "\U0001F9F9 Chore"
 assignees: ''
 
 ---

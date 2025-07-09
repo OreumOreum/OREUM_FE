@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: BugFix request
+about: 버그 수정
+title: "[BugFix]"
+labels: "\U0001F41E BugFix"
 assignees: ''
 
 ---

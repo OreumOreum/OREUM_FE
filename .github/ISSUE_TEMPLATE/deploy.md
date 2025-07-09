@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: Deploy
+about: 배포 관련
+title: "[Deploy]"
+labels: "\U0001F30F Deploy"
 assignees: ''
 
 ---

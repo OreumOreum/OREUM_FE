@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: Setting request
+about: 개발 환경 세팅
+title: "[Setting]"
+labels: "⚙ Setting"
 assignees: ''
 
 ---

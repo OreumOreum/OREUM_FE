@@ -1,8 +1,8 @@
 ---
-name: Feature request
-about: 새 기능 개발
-title: "[Feature]"
-labels: "✨ Feature"
+name: Docs request
+about: 문서 작성 및 수정 (README.md 등)
+title: "[Docs]"
+labels: "\U0001F4C3 Docs"
 assignees: ''
 
 ---
