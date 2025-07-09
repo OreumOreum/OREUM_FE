@@ -1,5 +1,5 @@
 ---
-name: Deploy
+name: Deploy request
 about: 배포 관련
 title: "[Deploy]"
 labels: "\U0001F30F Deploy"
