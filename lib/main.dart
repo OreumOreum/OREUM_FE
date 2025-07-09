@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oreum_fe/features/splash/splash_screen.dart';
 
 import 'core/themes/app_theme.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Flutter Demo',
           theme: AppTheme.kThemeData,
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: const SplashScreen(),
         );
       },
     );

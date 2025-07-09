@@ -28,16 +28,16 @@ linter:
     avoid_relative_lib_imports: true
     empty_statements: true
 
-  analyzer:
-    exclude:
-      - "**/*.g.dart"
-      - "**/*.freezed.dart"
-      - "**/*.gr.dart"
-    errors:
-      prefer_single_quotes: error
-      directives_ordering: warning
-      avoid_relative_lib_imports: warning
-      empty_statements: error
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+  errors:
+    prefer_single_quotes: error
+    directives_ordering: warning
+    avoid_relative_lib_imports: warning
+    empty_statements: error
 
 
 # Additional information about this file can be found at
