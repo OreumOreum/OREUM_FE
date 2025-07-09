@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oreum_fe/core/themes/app_theme.dart';
 
 import 'core/routes/app_router.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp.router(
           routerConfig: appRouter,
           debugShowCheckedModeBanner: false,
+          theme: AppTheme.kThemeData,
         );
       },
     );
