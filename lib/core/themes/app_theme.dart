@@ -22,7 +22,7 @@ class AppTheme {
 
   ///Appbar 테마
   static AppBarTheme kAppAppBarTheme = AppBarTheme(
-    color: Colors.white,
+    color: AppColors.white,
     scrolledUnderElevation: 0,
     titleSpacing: AppSizes.defaultPadding,
   );
@@ -51,9 +51,11 @@ class AppTheme {
       ));
 
   ///IconButton 테마
-  static IconButtonThemeData kIconButtonThemeData = const IconButtonThemeData(
+  static IconButtonThemeData kIconButtonThemeData = IconButtonThemeData(
     style: ButtonStyle(
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      padding: WidgetStatePropertyAll(EdgeInsets.zero),
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
     ),
   );
 
