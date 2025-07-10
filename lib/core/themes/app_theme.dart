@@ -43,7 +43,7 @@ class AppTheme {
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         elevation: 0,
-        overlayColor: AppColors.primary,
+        overlayColor: Colors.transparent,
         shadowColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMD),
@@ -64,11 +64,12 @@ class AppTheme {
     style: TextButton.styleFrom(
       minimumSize: Size.zero,
       padding: EdgeInsets.zero,
-      overlayColor: AppColors.primary,
+      overlayColor: Colors.transparent,
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
   );
 
+  ///BottomNavigationBar 테마
   static BottomNavigationBarThemeData kBottomNavigationBarThemeData =
   BottomNavigationBarThemeData(
       elevation: 0, backgroundColor: AppColors.white);

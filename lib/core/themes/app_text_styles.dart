@@ -39,6 +39,15 @@ extension AppTextStyles on TextTheme {
     ],
   );
 
+  TextStyle get headLine5 => TextStyle(
+    letterSpacing: 0,
+    height: 38 / 32,
+    fontSize: 32.sp,
+    fontVariations: const <FontVariation>[
+      FontVariation('wght', 600),
+    ],
+  );
+
   /// Label
   TextStyle get label1 => TextStyle(
     letterSpacing: (16.sp * -0.16 / 100).w,

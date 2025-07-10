@@ -9,6 +9,7 @@ import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -48,28 +49,7 @@ class AuthScreen extends StatelessWidget {
                     context.textStyles.body1.copyWith(color: AppColors.gray300),
               ),
               Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(AppSizes.radiusLG),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.shadow.withOpacity(0.25),
-                        offset: Offset(0, 4.h),
-                        blurRadius: 10,
-                        spreadRadius: 0,
-                      )
-                    ]),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 36.w, vertical: 8.w),
-                  child: Text(
-                    AppStrings.socialLoginTitle,
-                    style: context.textStyles.caption1
-                        .copyWith(color: AppColors.gray400),
-                  ),
-                ),
-              ),
+              GuideBox(text: AppStrings.socialLoginGuide),
               SizedBox(height: 14.h),
               Row(
                 mainAxisSize: MainAxisSize.min,

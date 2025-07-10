@@ -13,4 +13,10 @@ abstract class IconPath {
   static const String kakao = 'assets/icons/kakao.svg';
   static const String apple = 'assets/icons/apple.svg';
   static const String google = 'assets/icons/google.svg';
+
+  static String typeTestStatus(String status) => 'assets/icons/type_test_$status.svg';
+  static const String typeTestUnselectedSM ='assets/icons/type_test_unselected_sm.svg';
+
+  ///이미지 만들어지면 열거형.name으로 불러오기
+  static String typeImage(String type) => 'assets/icons/type_$type.svg';
 }
