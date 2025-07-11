@@ -33,5 +33,6 @@ abstract class AppStrings {
   static const String travelSuggestionTitle = '이런 여행지는 어때요?';
   static const String destinationRecommendToUser = '에게 여행지를 추천 드려요';
   static String typeRecommend(String type) => '$type을 위한 추천';
-  static String viewAll = '전체보기';
+  static const String viewAll = '전체보기';
+  static const String nearest = '가까운 순';
 }
