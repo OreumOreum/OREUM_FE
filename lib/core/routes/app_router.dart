@@ -6,6 +6,7 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_result_scree
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
+import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -37,6 +38,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.home,
       builder: (context, state) => HomeScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.recommend,
+      builder: (context, state) => RecommendScreen(),
     ),
   ],
 );

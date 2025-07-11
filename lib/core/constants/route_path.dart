@@ -5,4 +5,5 @@ abstract class RoutePath {
   static const String typeTest = '/typeTest';
   static const String typeTestResult = '/typeTestResult';
   static const String home = '/home';
+  static const String recommend = '/recommend';
 }
