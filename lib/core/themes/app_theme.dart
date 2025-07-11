@@ -9,6 +9,8 @@ class AppTheme {
       primaryColorLight: AppColors.secondary,
       cardColor: AppColors.white,
       scaffoldBackgroundColor: AppColors.white,
+      splashFactory: NoSplash.splashFactory,
+      highlightColor: Colors.transparent,
 
       ///textTheme: textTheme,
       fontFamily: 'PretendardVariable',
