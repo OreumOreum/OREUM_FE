@@ -19,4 +19,9 @@ abstract class IconPath {
 
   ///이미지 만들어지면 열거형.name으로 불러오기
   static String typeImage(String type) => 'assets/icons/type_$type.svg';
+  static String largeCategoryImage(String type) => 'assets/icons/large_category_$type.svg';
+
+  static const String cloud = 'assets/icons/cloud.svg';
+
+  static const String bookmarkOutline = 'assets/icons/bookmark_outline.svg';
 }

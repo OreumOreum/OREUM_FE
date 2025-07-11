@@ -5,6 +5,7 @@ import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
+import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -32,6 +33,10 @@ final GoRouter appRouter = GoRouter(
         final TravelType travelType = state.extra as TravelType;
         return TypeTestResultScreen(travelType: travelType);
       },
+    ),
+    GoRoute(
+      path: RoutePath.home,
+      builder: (context, state) => HomeScreen(),
     ),
   ],
 );

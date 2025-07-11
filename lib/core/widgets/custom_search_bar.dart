@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -50,7 +51,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(AppSizes.radiusSM)),
-        hintText: '오늘 제주 어디로 떠나볼까요?',
+        hintText: AppStrings.searchBarHintText,
         hintStyle: context.textStyles.body1.copyWith(color: AppColors.gray200),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide.none,

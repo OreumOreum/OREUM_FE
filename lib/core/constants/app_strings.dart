@@ -18,4 +18,20 @@ abstract class AppStrings {
   static const String viewResult = '결과보기';
   static const String typeTestResultGuide = '나의 유형 결과는? 🚀';
   static const String start = '시작하기';
+  static const String weatherTitle = '지금 제주 날씨는?';
+  static const String searchBarHintText = '오늘 제주 어디로 떠나볼까요?';
+  static String weatherType(String type) => '날씨는 $type으로 예상됩니다.';
+  static String placeCardSubTitle(String category) => '에게 어울리는 $category';
+  static const String jejuCityRecommendation = '제주시 추천';
+  static const String seogwipoCityRecommendation = '서귀포시 추천';
+  static const String personalizedCourseRecommendation = '회원님을 위한 추천';
+  static const String typeCourseRecommendation = '들이 선호하는 코스 추천';
+  static const String typePlaceRecommendation = '들이 선호하는 여행지';
+  static const String travelPickOfMonth = '이달의 여행지';
+  static const String trendingUserType = '지금 어떤 유형이 ';
+  static const String isTravelBoomingNow = '활발하게 여행하고 있나요?';
+  static const String travelSuggestionTitle = '이런 여행지는 어때요?';
+  static const String destinationRecommendToUser = '에게 여행지를 추천 드려요';
+  static String typeRecommend(String type) => '$type을 위한 추천';
+  static String viewAll = '전체보기';
 }
