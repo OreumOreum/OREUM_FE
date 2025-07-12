@@ -97,8 +97,8 @@ class TypeTestResultScreen extends StatelessWidget {
                     ),
                     Text(
                       StringUtils().wordBreaks(travelType.detailedDescription),
-                      style:
-                          context.textStyles.body2.copyWith(color: AppColors.gray300),
+                      style: context.textStyles.body2
+                          .copyWith(color: AppColors.gray300),
                     ),
                   ],
                 ),
@@ -110,9 +110,11 @@ class TypeTestResultScreen extends StatelessWidget {
                 height: 56,
                 width: double.infinity,
                 child: CustomElevatedButton.primary(
-                    text: AppStrings.start,
-                    onPressed: () {},
-                    textStyle: context.textStyles.label3),
+                  text: AppStrings.start,
+                  onPressed: () {},
+                  textStyle: context.textStyles.label3,
+                  radius: AppSizes.radiusMD,
+                ),
               ),
               SizedBox(
                 height: 16.h,

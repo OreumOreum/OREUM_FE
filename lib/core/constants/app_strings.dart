@@ -33,6 +33,21 @@ abstract class AppStrings {
   static const String travelSuggestionTitle = '이런 여행지는 어때요?';
   static const String destinationRecommendToUser = '에게 여행지를 추천 드려요';
   static String typeRecommend(String type) => '$type을 위한 추천';
+  static String viewAll = '전체보기';
+  static const String userCreatedCourseTitle = '회원님이 만드는 여행코스';
+  static const String userCreatedCourseSubTitle = '회원님이 만드는 여행코스';
+  static const String userCreatedCourseTileTitle = '새로운 여행코스 생성하기';
+  static const String userCreatedCourseTileSubTitle = '회원님의 입맛대로 여행코스를 생성해보세요.';
+  static String userRecommendationCourseTileTitle(String type) => '$type 추천 여행코스';
+  static const String userRecommendationCourseTileSubTitle = '회원님의 유형을 반영하여 코스를 짜봤어요!';
+  static const String create = '생성';
+  static const String select = '선택';
+  static String day(int day) => '$day일 차';
+  static String dayCourseInfo(int day) => '$day일 차 여행코스 정보';
+  static const String edit = '편집';
+  static const String sortByNearest = '가까운 순 정렬';
+  static const String addPlan = '일정 추가하기';
+  static const String save = '저장';
   static const String viewAll = '전체보기';
   static const String nearest = '가까운 순';
 }

@@ -45,21 +45,26 @@ class TypeTestStartScreen extends StatelessWidget {
                 ),
                 Text(
                   AppStrings.typeTestStartDescription,
-                  style:
-                      context.textStyles.body1.copyWith(color: AppColors.gray500),
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray500),
                 ),
                 SizedBox(
                   height: 57.h,
                 ),
-                Image.asset(ImagePath.banner, width: 219.w,),
+                Image.asset(
+                  ImagePath.banner,
+                  width: 219.w,
+                ),
                 Spacer(),
                 SizedBox(
                   height: 56.h,
                   width: double.infinity,
                   child: CustomElevatedButton.primary(
-                      text: AppStrings.typeTestStartText,
-                      onPressed: ()=> context.push(RoutePath.typeTest),
-                      textStyle: context.textStyles.label3),
+                    text: AppStrings.typeTestStartText,
+                    onPressed: () => context.push(RoutePath.typeTest),
+                    textStyle: context.textStyles.label3,
+                    radius: AppSizes.radiusMD,
+                  ),
                 ),
                 SizedBox(
                   height: 16.h,

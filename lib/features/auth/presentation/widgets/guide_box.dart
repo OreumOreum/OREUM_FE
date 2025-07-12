@@ -18,7 +18,7 @@ class GuideBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSizes.radiusLG),
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow.withOpacity(0.25),
+              color: AppColors.shadow100.withOpacity(0.25),
               offset: Offset(0, 4.h),
               blurRadius: 10,
               spreadRadius: 0,

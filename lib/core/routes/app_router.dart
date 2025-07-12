@@ -6,6 +6,10 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_result_scree
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
+import 'package:oreum_fe/features/place/presentation/views/planner_detail_screen.dart';
+import 'package:oreum_fe/features/place/presentation/views/planner_edit_screen.dart';
+import 'package:oreum_fe/features/place/presentation/views/planner_list_screen.dart';
+import 'package:oreum_fe/features/place/presentation/views/tab_screens/planner_detail_tab_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
 
@@ -40,6 +44,31 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => HomeScreen(),
     ),
     GoRoute(
+      path: RoutePath.planner,
+      builder: (context, state) => PlannerListScreen(),
+      routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) => PlannerEditScreen(isEdit: false),
+        ),
+
+        GoRoute(
+          path: ':id/edit',
+          builder: (context, state) {
+            final String idStr = state.pathParameters['id']!;
+            final int id = int.parse(idStr);
+            return PlannerEditScreen(isEdit: true, plannerId: id);
+          },
+        ),
+        GoRoute(
+          path: ':id',
+          builder: (context, state) {
+            final String idStr = state.pathParameters['id']!;
+            final int id = int.parse(idStr);
+            return PlannerDetailScreen(plannerId: id);
+          },
+        ),
+      ],
       path: RoutePath.recommend,
       builder: (context, state) => RecommendScreen(),
     ),
