@@ -48,4 +48,6 @@ abstract class AppStrings {
   static const String sortByNearest = '가까운 순 정렬';
   static const String addPlan = '일정 추가하기';
   static const String save = '저장';
+  static const String viewAll = '전체보기';
+  static const String nearest = '가까운 순';
 }

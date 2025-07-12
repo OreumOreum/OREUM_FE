@@ -10,6 +10,7 @@ import 'package:oreum_fe/features/place/presentation/views/planner_detail_screen
 import 'package:oreum_fe/features/place/presentation/views/planner_edit_screen.dart';
 import 'package:oreum_fe/features/place/presentation/views/planner_list_screen.dart';
 import 'package:oreum_fe/features/place/presentation/views/tab_screens/planner_detail_tab_screen.dart';
+import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -68,6 +69,8 @@ final GoRouter appRouter = GoRouter(
           },
         ),
       ],
+      path: RoutePath.recommend,
+      builder: (context, state) => RecommendScreen(),
     ),
   ],
 );

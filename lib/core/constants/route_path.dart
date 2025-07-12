@@ -9,4 +9,5 @@ abstract class RoutePath {
   static String plannerDetail(int id) => '/planner/$id';
   static String plannerDay(int id, int day) => '/planner/$id/day/$day';
   static String plannerEditWithId(String id) => '/planner/$id/edit';
+  static const String recommend = '/recommend';
 }
