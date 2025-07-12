@@ -77,7 +77,8 @@ class TypeTestScreen extends ConsumerWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 32.w),
                             child: Text(
-                              StringUtils().wordBreaks(currentQuestion .questionText),
+                              StringUtils()
+                                  .wordBreaks(currentQuestion.questionText),
                               textAlign: TextAlign.center,
                               style: context.textStyles.headLine1
                                   .copyWith(color: AppColors.gray600),
@@ -91,15 +92,18 @@ class TypeTestScreen extends ConsumerWidget {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: List.generate(5, (index) {
                               final int score = index + 1;
-                              final bool isSelected = currentQuestion .selectedScore == score;
-                              final double size = (score == 3) ? 42.r : AppSizes.iconMD;
+                              final bool isSelected =
+                                  currentQuestion.selectedScore == score;
+                              final double size =
+                                  (score == 3) ? 42.r : AppSizes.iconMD;
                               final String iconPath = isSelected
                                   ? IconPath.typeTestStatus(
-                                  TypeTestButtonStatus.selected.name)
+                                      TypeTestButtonStatus.selected.name)
                                   : (score == 3
-                                  ? IconPath.typeTestUnselectedSM
-                                  : IconPath.typeTestStatus(
-                                  TypeTestButtonStatus.unselected.name));
+                                      ? IconPath.typeTestUnselectedSM
+                                      : IconPath.typeTestStatus(
+                                          TypeTestButtonStatus
+                                              .unselected.name));
 
                               String? label;
                               if (score == 1) {
@@ -125,10 +129,11 @@ class TypeTestScreen extends ConsumerWidget {
                                       height: 12.sp * 16 / 12,
                                       child: label != null
                                           ? Text(
-                                        label,
-                                        style: context.textStyles.caption2
-                                            .copyWith(color: AppColors.gray300),
-                                      )
+                                              label,
+                                              style: context.textStyles.caption2
+                                                  .copyWith(
+                                                      color: AppColors.gray300),
+                                            )
                                           : null),
                                 ],
                               );
@@ -143,15 +148,17 @@ class TypeTestScreen extends ConsumerWidget {
                           child: SizedBox(
                             height: 56.h,
                             child: CustomElevatedButton.secondary(
-                                text: AppStrings.previous,
-                                onPressed: () {
-                                  if (state.currentIndex == 0) {
-                                    context.pop();
-                                  } else {
-                                    viewModel.goPrev();
-                                  }
-                                },
-                                textStyle: context.textStyles.label3),
+                              text: AppStrings.previous,
+                              onPressed: () {
+                                if (state.currentIndex == 0) {
+                                  context.pop();
+                                } else {
+                                  viewModel.goPrev();
+                                }
+                              },
+                              textStyle: context.textStyles.label3,
+                              radius: AppSizes.radiusMD,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -161,16 +168,24 @@ class TypeTestScreen extends ConsumerWidget {
                           child: SizedBox(
                             height: 56.h,
                             child: CustomElevatedButton.primary(
-                                text: viewModel.isLastQuestion ? AppStrings.viewResult : AppStrings.next,
-                                onPressed: viewModel.canGoNext ? () {
-                                  if (viewModel.isLastQuestion) {
-                                    final result = viewModel.calculateResult();
-                                    context.go(RoutePath.typeTestResult, extra: result);
-                                  } else {
-                                    viewModel.goNext();
-                                  }
-                                } : null,
-                                textStyle: context.textStyles.label3),
+                              text: viewModel.isLastQuestion
+                                  ? AppStrings.viewResult
+                                  : AppStrings.next,
+                              onPressed: viewModel.canGoNext
+                                  ? () {
+                                      if (viewModel.isLastQuestion) {
+                                        final result =
+                                            viewModel.calculateResult();
+                                        context.go(RoutePath.typeTestResult,
+                                            extra: result);
+                                      } else {
+                                        viewModel.goNext();
+                                      }
+                                    }
+                                  : null,
+                              textStyle: context.textStyles.label3,
+                              radius: AppSizes.radiusMD,
+                            ),
                           ),
                         ),
                       ],
