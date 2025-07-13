@@ -24,4 +24,6 @@ abstract class IconPath {
   static const String cloud = 'assets/icons/cloud.svg';
 
   static const String bookmarkOutline = 'assets/icons/bookmark_outline.svg';
+  static const String star = 'assets/icons/star.svg';
+  static const String star2 = 'assets/icons/star2.svg';
 }

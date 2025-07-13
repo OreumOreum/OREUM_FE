@@ -8,9 +8,11 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePath.splash,
+  initialLocation: RoutePath.reviewDetail,
   routes: [
     GoRoute(
       path: RoutePath.splash,
@@ -42,6 +44,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.recommend,
       builder: (context, state) => RecommendScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.createReview,
+      builder: (context, state) => CreateReviewScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.reviewDetail,
+      builder: (context, state) => ReviewDetailScreen(),
     ),
   ],
 );

@@ -35,4 +35,13 @@ abstract class AppStrings {
   static String typeRecommend(String type) => '$type을 위한 추천';
   static const String viewAll = '전체보기';
   static const String nearest = '가까운 순';
+  static const String writeReview = '리뷰를 작성해주세요';
+  static const String writeDetailReview = '*방문하신 위치의 자세한 리뷰를 남겨주세요.\n\n보내주신 리뷰는 익명으로 반영되며 오해의 소지가 있는 내용 작성 시 검토 후 비공개 조치될 수 있습니다.';
+  static const String writeRating = '점수를 입력해주세요.';
+  static const String writeReviewButton = '리뷰 작성';
+  static String ratingNumber(int number) => '$number개 리뷰';
+  static const String travelerReview = '여행자 리뷰';
+  static const String doReview = '리뷰 작성하기';
+  static String reviewName(String type) => '익명의 $type';
+  static String reviewDate(String date) => '$date 작성';
 }
