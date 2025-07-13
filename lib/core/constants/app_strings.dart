@@ -48,6 +48,9 @@ abstract class AppStrings {
   static const String sortByNearest = '가까운 순 정렬';
   static const String addPlan = '일정 추가하기';
   static const String save = '저장';
-  static const String viewAll = '전체보기';
   static const String nearest = '가까운 순';
+  static const String doSave = '저장하기';
+  static const String addFolder = '폴더 추가';
+  static const String addFolderButtonText = '폴더 추가하기';
+  static const String addFolderHintText = '폴더 이름을 입력해주세요.';
 }

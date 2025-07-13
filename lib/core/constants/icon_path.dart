@@ -24,8 +24,11 @@ abstract class IconPath {
   static const String cloud = 'assets/icons/cloud.svg';
 
   static const String bookmarkOutline = 'assets/icons/bookmark_outline.svg';
+  static const String bookmarkFill = 'assets/icons/bookmark_fill.svg';
 
   static const String deleteSign = 'assets/icons/delete_sign.svg';
   static const String arrowUpDown = 'assets/icons/arrow_up_down.svg';
   static const String addCircle = 'assets/icons/add_circle.svg';
+
+  static const String exclamationMarkCircle = 'assets/icons/exclamation_mark_circle.svg';
 }

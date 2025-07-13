@@ -79,7 +79,7 @@ class PlannerListTile extends StatelessWidget {
                 BoxShadow(
                   color: AppColors.shadow200.withOpacity(0.25),
                   offset: Offset(0, 4.h),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   spreadRadius: 0,
                 ),
               ]),
@@ -137,7 +137,7 @@ class PlannerListTile extends StatelessWidget {
                 BoxShadow(
                   color: AppColors.shadow200.withOpacity(0.25),
                   offset: Offset(0, 4.h),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   spreadRadius: 0,
                 ),
               ]),
@@ -198,7 +198,7 @@ class PlannerListTile extends StatelessWidget {
                   BoxShadow(
                     color: AppColors.shadow200.withOpacity(0.25),
                     offset: Offset(0, 4.h),
-                    blurRadius: 10,
+                    blurRadius: 10.r,
                     spreadRadius: 0,
                   ),
                 ]),
@@ -261,7 +261,7 @@ class PlannerListTile extends StatelessWidget {
                 BoxShadow(
                   color: AppColors.shadow200.withOpacity(0.25),
                   offset: Offset(0, 4.h),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   spreadRadius: 0,
                 ),
               ]),
