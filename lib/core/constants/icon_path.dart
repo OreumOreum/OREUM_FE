@@ -31,4 +31,8 @@ abstract class IconPath {
   static const String addCircle = 'assets/icons/add_circle.svg';
 
   static const String exclamationMarkCircle = 'assets/icons/exclamation_mark_circle.svg';
+  static const String checkStar = 'assets/icons/check_star.svg';
+
+  static const String play = 'assets/icons/play.svg';
+  static const String pause = 'assets/icons/pause.svg';
 }
