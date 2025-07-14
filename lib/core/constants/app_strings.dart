@@ -49,8 +49,40 @@ abstract class AppStrings {
   static const String addPlan = '일정 추가하기';
   static const String save = '저장';
   static const String nearest = '가까운 순';
+
+  static const String recentSearch = '최근 검색';
+  static const String deleteAll = '전체삭제';
+  static const String appMainText = '오름오름';
+  static const String manageAccount = '계정 관리';
+  static const String saved = '저장됨';
+  static const String appSettings = '앱 설정';
+  static const String locationPermission = '위치 권한';
+  static const String notificationSettings = '알림 설정';
+  static const String customerSupport = '고객 지원';
+  static const String versionInfo = '버전정보';
+  static const String customerCenter = '고객센터/문의';
+  static const String termsAndPolicies = '약관 및 정책';
+  static const String termsOfService = '서비스 이용약관';
+  static const String privacyPolicy = '개인정보 처리방침';
+  static const String logout = '로그아웃';
+  static const String retakeTypeTest = '유형 재검사';
+  static const String viewMyReviews = '내가 쓴 리뷰 보기';
+  static const String deleteAccount = '탈퇴하기';
+  static const String monthlySpot = '이달의 여행지';
+  static const String collectStamp = '여행지를 방문하고 스탬프를 모아보세요';
+  static String monthlySpotCheck(String month) => '$month월에 방문한 이달의 여행지를 확인하세요';
+  static const String remainMonthly = '이달의 여행지 마감까지 ';
+  static const String remainMonthly2 = '남았습니다.';
+  static const String stamp = '스탬프 찍기';
+  static const String spotRank = '여행지 랭킹';
+  static const String rank = '순위';
+  static const String type = '유형';
+  static const String participant = '참여자';
+
+
   static const String doSave = '저장하기';
   static const String addFolder = '폴더 추가';
   static const String addFolderButtonText = '폴더 추가하기';
   static const String addFolderHintText = '폴더 이름을 입력해주세요.';
+
 }
