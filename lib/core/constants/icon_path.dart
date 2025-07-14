@@ -25,10 +25,24 @@ abstract class IconPath {
   static const String cloud = 'assets/icons/cloud.svg';
 
   static const String bookmarkOutline = 'assets/icons/bookmark_outline.svg';
+
   static const String clock = 'assets/icons/clock.svg';
   static const String searchCancel = 'assets/icons/search_cancel.svg';
   static const String expand = 'assets/icons/expand.svg';
   static const String oreumStamp = 'assets/icons/oreum_stamp.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
   static const String spotCheck = 'assets/icons/spot_check.svg';
+
+  static const String bookmarkFill = 'assets/icons/bookmark_fill.svg';
+
+  static const String deleteSign = 'assets/icons/delete_sign.svg';
+  static const String arrowUpDown = 'assets/icons/arrow_up_down.svg';
+  static const String addCircle = 'assets/icons/add_circle.svg';
+
+  static const String exclamationMarkCircle = 'assets/icons/exclamation_mark_circle.svg';
+  static const String checkStar = 'assets/icons/check_star.svg';
+
+  static const String play = 'assets/icons/play.svg';
+  static const String pause = 'assets/icons/pause.svg';
+
 }
