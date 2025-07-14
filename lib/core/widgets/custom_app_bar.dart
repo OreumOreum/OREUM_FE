@@ -30,15 +30,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? buttonText;
   final ActionType? actionType;
   final double? actionIconWidth;
+  final TextEditingController? searchController;
 
-  const CustomAppBar(
-      {super.key,
-      required this.type,
-      this.onActionPressed,
-      this.title,
-      this.buttonText,
-      this.actionType,
-      this.actionIconWidth});
+  const CustomAppBar({
+    super.key,
+    required this.type,
+    this.onActionPressed,
+    this.title,
+    this.buttonText,
+    this.actionType,
+    this.actionIconWidth,
+    this.searchController,
+  });
 
   factory CustomAppBar.logo() => CustomAppBar(
         type: AppBarType.logo,
@@ -70,8 +73,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         onActionPressed: onActionPressed,
       );
 
-  factory CustomAppBar.backWithSearchBar() =>
-      CustomAppBar(type: AppBarType.backWithSearchBar);
+  factory CustomAppBar.backWithSearchBar({required TextEditingController controller}) =>
+      CustomAppBar(type: AppBarType.backWithSearchBar,searchController: controller);
 
   @override
   Widget build(BuildContext context) {
@@ -215,8 +218,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           title: Row(
             children: [
-              Expanded(child: CustomSearchBar()),
-              SizedBox(width: 6.w,)
+              Expanded(
+                  child: CustomSearchBar(
+                controller: searchController!,
+              )),
+              SizedBox(
+                width: 6.w,
+              )
             ],
           ),
         );
