@@ -66,7 +66,7 @@ class TravelCourseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar.backWithButtonAndText(
-            title: '', type: ActionType.dots, onActionPressed: () {}),
+            title: '', onActionPressed: () {}, actionType: ActionType.dots),
         body: Column(
           children: [
             ImageSlider(images: courseImages),

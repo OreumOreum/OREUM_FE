@@ -169,7 +169,7 @@ class CreateReviewScreen extends StatelessWidget {
               child: CustomElevatedButton.primary(
                   text: AppStrings.writeReviewButton,
                   onPressed: () {},
-                  textStyle: context.textStyles.label3),
+                  textStyle: context.textStyles.label3, radius: AppSizes.radiusMD),
             ),
           ),
           SizedBox(
