@@ -13,5 +13,8 @@ abstract class AppColors {
 
   static const Color white = Color(0xFFFFFFFF);
 
-  static const Color shadow = Color(0xFFE2E2E2);
+  static const Color shadow200 = Color(0xFFCDCDCD);
+  static const Color shadow100 = Color(0xFFE2E2E2);
+
+  static const Color barrier = Color(0xFF1F1F1F);
 }

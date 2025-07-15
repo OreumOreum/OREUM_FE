@@ -12,23 +12,27 @@ class CustomElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final TextStyle textStyle;
+  final double radius;
 
   const CustomElevatedButton(
       {super.key,
       required this.text,
       required this.onPressed,
       required this.textStyle,
+        required this.radius,
       this.customElevatedButtonType = CustomElevatedButtonType.primary});
 
   factory CustomElevatedButton.primary({
     required String text,
     required VoidCallback? onPressed,
     required TextStyle textStyle,
+    required double radius
   }) =>
       CustomElevatedButton(
         text: text,
         onPressed: onPressed,
         textStyle: textStyle,
+        radius: radius,
         customElevatedButtonType: CustomElevatedButtonType.primary,
       );
 
@@ -36,11 +40,13 @@ class CustomElevatedButton extends StatelessWidget {
     required String text,
     required VoidCallback? onPressed,
     required TextStyle textStyle,
+    required double radius
   }) =>
       CustomElevatedButton(
         text: text,
         onPressed: onPressed,
         textStyle: textStyle,
+        radius: radius,
         customElevatedButtonType: CustomElevatedButtonType.secondary,
       );
 
@@ -77,10 +83,16 @@ class CustomElevatedButton extends StatelessWidget {
 
     return ElevatedButton(
         style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
-            backgroundColor:
-                _getBackgroundColor(backgroundColor, AppColors.gray100),
-            foregroundColor:
-                _getForegroundColor(foregroundColor, AppColors.gray200)),
+              backgroundColor:
+                  _getBackgroundColor(backgroundColor, AppColors.gray100),
+              foregroundColor:
+                  _getForegroundColor(foregroundColor, AppColors.gray200),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius), // 원하는 radius 값
+                ),
+              ),
+            ),
         onPressed: onPressed,
         child: Text(
           text,

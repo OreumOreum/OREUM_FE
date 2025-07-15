@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -15,6 +16,7 @@ enum AppBarType {
   logoWithButton,
   back,
   backWithButtonAndText,
+  backWithTextButtonAndText,
   backWithSearchBar,
 }
 
@@ -30,15 +32,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? buttonText;
   final ActionType? actionType;
   final double? actionIconWidth;
+  final TextEditingController? searchController;
 
-  const CustomAppBar(
-      {super.key,
-      required this.type,
-      this.onActionPressed,
-      this.title,
-      this.buttonText,
-      this.actionType,
-      this.actionIconWidth});
+  const CustomAppBar({
+    super.key,
+    required this.type,
+    this.onActionPressed,
+    this.title,
+    this.buttonText,
+    this.actionType,
+    this.actionIconWidth,
+    this.searchController,
+  });
 
   factory CustomAppBar.logo() => CustomAppBar(
         type: AppBarType.logo,
@@ -61,17 +66,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   factory CustomAppBar.backWithButtonAndText(
           {required String title,
-          required ActionType type,
+          required ActionType actionType,
           required VoidCallback onActionPressed}) =>
       CustomAppBar(
         type: AppBarType.backWithButtonAndText,
         title: title,
-        actionType: type,
+        actionType: actionType,
         onActionPressed: onActionPressed,
       );
 
-  factory CustomAppBar.backWithSearchBar() =>
-      CustomAppBar(type: AppBarType.backWithSearchBar);
+  factory CustomAppBar.backWithTextButtonAndText(
+          {required String title, required VoidCallback onActionPressed}) =>
+      CustomAppBar(
+        type: AppBarType.backWithTextButtonAndText,
+        title: title,
+        onActionPressed: onActionPressed,
+      );
+
+  factory CustomAppBar.backWithSearchBar({required TextEditingController controller}) =>
+      CustomAppBar(type: AppBarType.backWithSearchBar,searchController: controller);
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +199,50 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         );
+      case AppBarType.backWithTextButtonAndText:
+        return AppBar(
+          automaticallyImplyLeading: false,
+          titleSpacing: -10.w,
+          leading: Row(
+            children: [
+              SizedBox(
+                width: AppSizes.defaultPadding,
+              ),
+              SizedBox(
+                height: AppSizes.iconSM,
+                width: AppSizes.iconSM,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: SvgPicture.asset(
+                    IconPath.backAppBar,
+                    width: 11.r,
+                  ),
+                ),
+              )
+            ],
+          ),
+          title: Text(
+            title!,
+            style: context.textStyles.label3.copyWith(color: AppColors.gray400),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                AppStrings.save,
+                style: context.textStyles.label4
+                    .copyWith(color: AppColors.primary),
+              ),
+            ),
+            SizedBox(
+              width: AppSizes.defaultPadding,
+            ),
+          ],
+        );
       case AppBarType.backWithSearchBar:
         return AppBar(
           automaticallyImplyLeading: false,
@@ -215,8 +272,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           title: Row(
             children: [
-              Expanded(child: CustomSearchBar()),
-              SizedBox(width: 6.w,)
+
+              Expanded(
+                  child: CustomSearchBar(
+                controller: searchController!,
+              )),
+
+              SizedBox(
+                width: 6.w,
+              )
             ],
           ),
         );

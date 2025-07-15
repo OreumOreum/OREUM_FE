@@ -10,11 +10,14 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
+import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+
+import '../widgets/page_gradient_carousel.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -242,10 +245,51 @@ class HomeScreen extends StatelessWidget {
             ),
 
             /// ============================================
+            /// ================= 이달의 여행지 ===================
             SizedBox(
-              height: 24.h,
+              height: 14.h,
             ),
-
+            PagedGradientCarousel(
+              items: [
+                CarouselItem(
+                  background: Image.network(
+                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  title: '섭지코지',
+                  count: '300',
+                  city: '제주도시',
+                ),
+                CarouselItem(
+                  background: Image.network(
+                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  title: '섭지코지',
+                  count: '100',
+                  city: '제주도시',
+                ),
+                CarouselItem(
+                  background: Container(color: Colors.deepOrange),
+                  title: '섭지코지',
+                  count: '20',
+                  city: '제주도시',
+                ),
+                CarouselItem(
+                  background: Image.network(
+                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                    fit: BoxFit.cover,
+                  ),
+                  title: '섭지코지',
+                  count: '40',
+                  city: '제주도시',
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 14.h,
+            ),
+            /// ============================================
             /// ================= 카테고리 ===================
             Padding(
               padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
@@ -345,7 +389,7 @@ class HomeScreen extends StatelessWidget {
 
             /// ============================================
             SizedBox(
-              height: 24.h,
+              height: 14.h,
             ),
 
             /// ================= 코스 추천 =================
@@ -396,41 +440,10 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 24.h,
+              height: 14.h,
             ),
 
             ///============================================
-            /// ================= 이달의 여행지 =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppSizes.defaultPadding),
-                    child: HomeTitleText(
-                        title: AppStrings.travelPickOfMonth,
-                        primaryText: AppStrings.trendingUserType,
-                        subtitle: AppStrings.isTravelBoomingNow),
-                  ),
-                  SizedBox(
-                    height: 14.h,
-                  ),
-                  Container(
-                    height: 116.h,
-                    width: double.infinity,
-                    color: AppColors.gray100,
-                  ),
-                ],
-              ),
-            ),
-
-            ///============================================
-            SizedBox(
-              height: 24.h,
-            ),
-
             /// ================= 타입별 추천 =================
             Padding(
               padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -486,7 +499,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 24.h,
+              height: 14.h,
             ),
 
             ///============================================

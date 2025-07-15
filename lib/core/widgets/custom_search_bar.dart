@@ -9,37 +9,41 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({super.key});
+  final TextEditingController controller;
+  const CustomSearchBar({
+    super.key,
+    required this.controller,
+  });
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
 }
 
 class _CustomSearchBarState extends State<CustomSearchBar> {
-  final TextEditingController _controller = TextEditingController();
+  //final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
+    /*_controller.addListener(() {
       setState(() {}); // 텍스트 변화 감지해서 rebuild
-    });
+    });*/
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    //_controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isTyping = _controller.text.isNotEmpty;
+    final isTyping = widget.controller.text.isNotEmpty;
 
     return TextField(
-      controller: _controller,
+      controller: widget.controller,
       focusNode: _focusNode,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.search,
@@ -67,7 +71,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 constraints: const BoxConstraints(),
                 onPressed: () {
                   if (isTyping) {
-                    _controller.clear();
+                    widget.controller.clear();
                   }
                 },
                 icon: isTyping
