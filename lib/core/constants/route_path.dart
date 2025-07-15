@@ -8,4 +8,5 @@ abstract class RoutePath {
   static const String recommend = '/recommend';
   static const String createReview = '/createReview';
   static const String reviewDetail = '/reviewDetail';
+  static const String travelCourse = '/travelCourse';
 }

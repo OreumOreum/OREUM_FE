@@ -5,6 +5,7 @@ import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
+import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
@@ -52,6 +53,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.reviewDetail,
       builder: (context, state) => ReviewDetailScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.travelCourse,
+      builder: (context, state) => TravelCourseScreen(),
     ),
   ],
 );
