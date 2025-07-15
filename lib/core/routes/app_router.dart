@@ -5,6 +5,8 @@ import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
+import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
+
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
@@ -20,12 +22,14 @@ import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_detail
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_map.dart';
 import 'package:oreum_fe/features/setting/presentation/views/setting_screen.dart';
 import 'package:oreum_fe/features/splash/splash_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../constants/monthly_spot.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePath.splash,
+  initialLocation: RoutePath.reviewDetail,
   routes: [
     GoRoute(
       path: RoutePath.splash,
@@ -86,7 +90,18 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => RecommendScreen(),
     ),
     GoRoute(
-
+      path: RoutePath.createReview,
+      builder: (context, state) => CreateReviewScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.reviewDetail,
+      builder: (context, state) => ReviewDetailScreen(),
+    ),
+    GoRoute(
+      path: RoutePath.travelCourse,
+      builder: (context, state) => TravelCourseScreen(),
+    ),
+    GoRoute(
       path: RoutePath.search,
       builder: (context, state) => SearchScreen(),
     ),
@@ -133,6 +148,5 @@ final GoRouter appRouter = GoRouter(
       path: RoutePath.folderDetail,
       builder: (context, state) => FolderDetailScreen(),
     ),
-
   ],
 );

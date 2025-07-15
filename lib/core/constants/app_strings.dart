@@ -49,7 +49,15 @@ abstract class AppStrings {
   static const String addPlan = '일정 추가하기';
   static const String save = '저장';
   static const String nearest = '가까운 순';
-
+  static const String writeReview = '리뷰를 작성해주세요';
+  static const String writeDetailReview = '*방문하신 위치의 자세한 리뷰를 남겨주세요.\n\n보내주신 리뷰는 익명으로 반영되며 오해의 소지가 있는 내용 작성 시 검토 후 비공개 조치될 수 있습니다.';
+  static const String writeRating = '점수를 입력해주세요.';
+  static const String writeReviewButton = '리뷰 작성';
+  static String ratingNumber(int number) => '$number개 리뷰';
+  static const String travelerReview = '여행자 리뷰';
+  static const String doReview = '리뷰 작성하기';
+  static String reviewName(String type) => '익명의 $type';
+  static String reviewDate(String date) => '$date 작성';
   static const String recentSearch = '최근 검색';
   static const String deleteAll = '전체삭제';
   static const String appMainText = '오름오름';
@@ -78,11 +86,8 @@ abstract class AppStrings {
   static const String rank = '순위';
   static const String type = '유형';
   static const String participant = '참여자';
-
-
   static const String doSave = '저장하기';
   static const String addFolder = '폴더 추가';
   static const String addFolderButtonText = '폴더 추가하기';
   static const String addFolderHintText = '폴더 이름을 입력해주세요.';
-
 }
