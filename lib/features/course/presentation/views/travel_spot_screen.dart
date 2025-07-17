@@ -16,16 +16,16 @@ import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
-class TravelCourseScreen extends StatefulWidget {
+class TravelSpotScreen extends StatefulWidget {
 
-  TravelCourseScreen({super.key,
+  TravelSpotScreen({super.key,
   });
 
   @override
-  State<TravelCourseScreen> createState() => _TravelCourseScreenState();
+  State<TravelSpotScreen> createState() => _TravelSpotScreenState();
 }
 
-class _TravelCourseScreenState extends State<TravelCourseScreen> {
+class _TravelSpotScreenState extends State<TravelSpotScreen> {
   bool isExpanded = false;
 
   final List<Map<String, String>> placeList = [
@@ -151,7 +151,9 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(IconPath.travelCourse),
+                        SvgPicture.asset(IconPath.nature),
+                        SizedBox(width: 12.w),
+                        SvgPicture.asset(IconPath.monthSpot),
                       ],
                     ),
                     SizedBox(height: 14.h),

@@ -19,39 +19,67 @@ import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 
-class CreateReviewScreen extends StatelessWidget {
-  CreateReviewScreen({super.key});
+class CreateReviewScreen extends StatefulWidget {
+  const CreateReviewScreen({super.key});
+
+  @override
+  State<CreateReviewScreen> createState() => _CreateReviewScreenState();
+}
+
+class _CreateReviewScreenState extends State<CreateReviewScreen> {
+  final TextEditingController _textController = TextEditingController();
+  int _characterCount = 0;
+  final int _maxCharacters = 300;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(_updateCharacterCount);
+  }
+
+  @override
+  void dispose() {
+    _textController.removeListener(_updateCharacterCount);
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _updateCharacterCount() {
+    setState(() {
+      _characterCount = _textController.text.length;
+    });
+  }
 
   final List<Map<String, String>> mockPlace2 = [
     {
       'title': '성산일출봉',
       'address': '제주특별자치도 서귀포시 성산읍 성산리 1',
       'thumbnailImage':
-          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '협재해수욕장',
       'address': '제주특별자치도 제주시 한림읍 협재리 2497-1',
       'thumbnailImage':
-          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '한라산국립공원',
       'address': '제주특별자치도 제주시 1100로 2070-61',
       'thumbnailImage':
-          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '천지연폭포',
       'address': '제주특별자치도 서귀포시 천지동 667-7',
       'thumbnailImage':
-          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '카카오박물관',
       'address': '제주특별자치도 제주시 첨단로 242',
       'thumbnailImage':
-          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
   ];
 
@@ -135,16 +163,20 @@ class CreateReviewScreen extends StatelessWidget {
                 color: AppColors.gray100, // 배경색
               ),
               child: TextField(
+                controller: _textController,
+                maxLength: _maxCharacters,
                 maxLines: null,
                 expands: true,
+                cursorColor: AppColors.primary,
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  counterText: '', // 기본 카운터 숨기기
                   hintText: AppStrings.writeDetailReview,
                   hintStyle: context.textStyles.body2
                       .copyWith(color: AppColors.gray200),
                 ),
                 style:
-                    context.textStyles.body2.copyWith(color: AppColors.gray400),
+                context.textStyles.body2.copyWith(color: AppColors.gray400),
               ),
             ),
           ),
@@ -153,7 +185,7 @@ class CreateReviewScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                '0자 / 300자',
+                '$_characterCount자 / $_maxCharacters자',
                 style: context.textStyles.caption1
                     .copyWith(color: AppColors.primary),
               ),
@@ -169,7 +201,8 @@ class CreateReviewScreen extends StatelessWidget {
               child: CustomElevatedButton.primary(
                   text: AppStrings.writeReviewButton,
                   onPressed: () {},
-                  textStyle: context.textStyles.label3),
+                  textStyle: context.textStyles.label3,
+                  radius: AppSizes.radiusMD),
             ),
           ),
           SizedBox(

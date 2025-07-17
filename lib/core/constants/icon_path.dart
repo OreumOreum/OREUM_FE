@@ -47,5 +47,8 @@ abstract class IconPath {
 
   static const String play = 'assets/icons/play.svg';
   static const String pause = 'assets/icons/pause.svg';
+  static const String arrowDown = 'assets/icons/arrow_down.svg';
+  static const String monthSpot = 'assets/icons/month_spot.svg';
+  static const String nature = 'assets/icons/nature.svg';
 
 }
