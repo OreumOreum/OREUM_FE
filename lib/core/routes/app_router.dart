@@ -16,6 +16,7 @@ import 'package:oreum_fe/features/place/presentation/views/planner_list_screen.d
 import 'package:oreum_fe/features/place/presentation/views/tab_screens/planner_detail_tab_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/search_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/my_review_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/account_setting_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_detail.dart';
@@ -25,11 +26,12 @@ import 'package:oreum_fe/features/splash/splash_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 
+import '../../features/course/presentation/views/travel_spot_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../constants/monthly_spot.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePath.reviewDetail,
+  initialLocation: RoutePath.createReview,
   routes: [
     GoRoute(
       path: RoutePath.splash,
@@ -148,5 +150,16 @@ final GoRouter appRouter = GoRouter(
       path: RoutePath.folderDetail,
       builder: (context, state) => FolderDetailScreen(),
     ),
+
+    GoRoute(
+      path: RoutePath.travelSpot,
+      builder: (context, state) => TravelSpotScreen(),
+    ),
+
+    GoRoute(
+      path: RoutePath.myReview,
+      builder: (context, state) => MyReviewScreen(),
+    ),
+
   ],
 );

@@ -13,7 +13,9 @@ abstract class RoutePath {
 
   static const String createReview = '/createReview';
   static const String reviewDetail = '/reviewDetail';
+  static const String myReview = '/myReview';
   static const String travelCourse = '/travelCourse';
+  static const String travelSpot = '/travelSpot';
 
 
   static const String search = '/search';
