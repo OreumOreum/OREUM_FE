@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
+import 'package:oreum_fe/core/constants/app_sizes.dart';
 
 
 class ImageSlider extends StatefulWidget {
@@ -59,7 +60,7 @@ class _ImageSliderState extends State<ImageSlider> {
                     color: currentPage == index
                         ? AppColors.primary
                         : Colors.white,
-                    borderRadius: BorderRadius.circular(6.r),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusXXS),
                   ),
                 );
               }),

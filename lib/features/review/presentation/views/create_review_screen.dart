@@ -18,6 +18,8 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
+import 'package:oreum_fe/core/constants/app_sizes.dart';
+
 
 class CreateReviewScreen extends StatefulWidget {
   const CreateReviewScreen({super.key});
@@ -96,7 +98,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               Column(
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusXS),
                     child: Image.network(
                       mockPlace2[1]['thumbnailImage']!, // 첫 번째 이미지
                       height: 84.r,
@@ -130,7 +132,6 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                     ),
                     unratedColor: AppColors.gray200,
                     onRatingUpdate: (rating) {
-                      // 별점 업데이트 로직
                     },
                   )
                 ],
@@ -153,14 +154,14 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
           ),
           SizedBox(height: 14.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            padding: EdgeInsets.symmetric(),
             child: Container(
               width: double.infinity,
               height: 153.h,
               padding: EdgeInsets.fromLTRB(14.w, 12.h, 14.w, 12.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                color: AppColors.gray100, // 배경색
+                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                color: AppColors.gray100,
               ),
               child: TextField(
                 controller: _textController,
@@ -194,7 +195,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
           ),
           SizedBox(height: 93.h),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
             child: SizedBox(
               height: 56.h,
               width: double.infinity,

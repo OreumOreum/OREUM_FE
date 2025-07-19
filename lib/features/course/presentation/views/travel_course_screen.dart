@@ -5,16 +5,13 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
-import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
-import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
-
-import '../../../home/presentation/widgets/home_title_text.dart';
-import '../../../review/presentation/widgets/review_list_tile.dart';
+import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
+import 'package:oreum_fe/features/review/presentation/widgets/review_list_tile.dart';
 
 class TravelCourseScreen extends StatefulWidget {
 

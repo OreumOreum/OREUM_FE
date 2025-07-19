@@ -31,11 +31,10 @@ class _DetailContainerState extends State<DetailContainer> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // 기존 컨테이너
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.gray200),
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
           ),
           child: Padding(
             padding: EdgeInsets.fromLTRB(24.w, 44.h, 10.w, 12.h),
@@ -43,7 +42,6 @@ class _DetailContainerState extends State<DetailContainer> {
           ),
         ),
 
-        // 일체형 탭바 오버레이
         Positioned(
           top: -19.h,
           left: 24.w,
@@ -52,7 +50,7 @@ class _DetailContainerState extends State<DetailContainer> {
             height: 38.h,
             decoration: BoxDecoration(
               color: AppColors.gray100,
-              borderRadius: BorderRadius.circular(19.r),
+              borderRadius: BorderRadius.circular(AppSizes.radiusXL),
             ),
             child: Row(
               children: [
@@ -71,7 +69,7 @@ class _DetailContainerState extends State<DetailContainer> {
                       ),
                       child: Center(
                         child: Text(
-                          '상세정보',
+                          AppStrings.detailInfo,
                           style: context.textStyles.body2.copyWith(
                             color: selectedTabIndex == 0 ? AppColors.primary : AppColors.gray200,
                           ),
@@ -91,11 +89,11 @@ class _DetailContainerState extends State<DetailContainer> {
                       height: 36.h,
                       decoration: BoxDecoration(
                         color: selectedTabIndex == 1 ? AppColors.white : AppColors.gray100,
-                        borderRadius: BorderRadius.circular(19.r),
+                        borderRadius: BorderRadius.circular(AppSizes.radiusXL),
                       ),
                       child: Center(
                         child: Text(
-                          '지도',
+                          AppStrings.map,
                           style: context.textStyles.body2.copyWith(
                             color: selectedTabIndex == 1 ? AppColors.primary : AppColors.gray200,
                           ),
@@ -126,7 +124,7 @@ class _DetailContainerState extends State<DetailContainer> {
             itemCount: itemCount,
             itemBuilder: (context, index) {
               String detailText = widget.detailList[0]['detail${index + 1}']!;
-              bool isPhoneNumber = detailText.contains('전화번호');
+              bool isPhoneNumber = detailText.contains(AppStrings.phoneNo);
 
               return Padding(
                 padding: EdgeInsets.only(bottom: 8.h),
@@ -148,7 +146,7 @@ class _DetailContainerState extends State<DetailContainer> {
                             GestureDetector(
                               onTap: () => _copyToClipboard('064-728-3988'),
                               child: Text(
-                                '복사',
+                                AppStrings.copy,
                                 style: context.textStyles.body2.copyWith(
                                   color: AppColors.primary,
                                 ),
@@ -165,16 +163,15 @@ class _DetailContainerState extends State<DetailContainer> {
           ),
         ),
 
-        // 확장/축소 버튼
         GestureDetector(
           onTap: () {
             setState(() {
               isExpanded = !isExpanded;
             });
           },
-          child: Icon(
-            isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-            color: AppColors.gray300,
+          child: SvgPicture.asset(
+            isExpanded ? IconPath.arrowUp : IconPath.arrowDown,
+            width: 13.w
           ),
         ),
       ],
@@ -186,7 +183,7 @@ class _DetailContainerState extends State<DetailContainer> {
       children: [
         Row(
           children: [
-            Text('위치 안내',
+            Text(AppStrings.locationInfo,
               style: context.textStyles.body2.copyWith(
                   color: AppColors.gray300
               ),
@@ -205,7 +202,7 @@ class _DetailContainerState extends State<DetailContainer> {
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.gray100,
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
           ),
           child: Center(
             child: Column(
@@ -217,12 +214,6 @@ class _DetailContainerState extends State<DetailContainer> {
                   color: AppColors.gray400,
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  '지도 영역',
-                  style: context.textStyles.body2.copyWith(
-                    color: AppColors.gray400,
-                  ),
-                ),
               ],
             ),
           ),
@@ -235,7 +226,7 @@ class _DetailContainerState extends State<DetailContainer> {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('전화번호가 복사되었습니다'),
+        content: Text(AppStrings.copyPhoneNo),
         duration: Duration(seconds: 2),
       ),
     );

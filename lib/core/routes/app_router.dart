@@ -33,7 +33,7 @@ import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../constants/monthly_spot.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePath.home,
+  initialLocation: RoutePath.myReview,
   observers: [GoTransition.observer],
   routes: [
     GoRoute(

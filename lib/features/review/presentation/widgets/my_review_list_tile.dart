@@ -25,7 +25,7 @@ class MyReviewListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 14.w),
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,6 +35,7 @@ class MyReviewListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RatingBar.builder(
                     initialRating: rating,
@@ -45,17 +46,19 @@ class MyReviewListTile extends StatelessWidget {
                     itemSize: 18.w,
                     itemBuilder: (context, _) => SvgPicture.asset(
                       IconPath.star2,
+                      width: 16.w,
                     ),
                     unratedColor: AppColors.gray200,
                     onRatingUpdate: (rating) {},
                   ),
                   SizedBox(width: 6.w),
-                  Text('4',
+                  Text(rating.toString(),
                     style: context.textStyles.label3
                         .copyWith(color: AppColors.primary),)
                 ],
               ),
-              SvgPicture.asset(IconPath.dots)
+              SvgPicture.asset(IconPath.dots,
+              width: 16.w,)
             ],
           ),
           SizedBox(height: 10.h),

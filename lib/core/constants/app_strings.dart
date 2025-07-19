@@ -97,4 +97,10 @@ abstract class AppStrings {
   static const String plannerBottomAppBar = '일정';
   static const String folderBottomAppBar = '저장됨';
   static const String settingBottomAppBar = '설정';
+  static const String detailInfo = '상세정보';
+  static const String map = '지도';
+  static const String phoneNo = '전화번호';
+  static const String copy = '복사';
+  static const String locationInfo = '위치안내';
+  static const String copyPhoneNo = '전화번호가 복사되었습니다';
 }

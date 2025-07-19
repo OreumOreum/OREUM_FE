@@ -87,7 +87,7 @@ class ReviewDetailScreen extends StatelessWidget {
                 Column(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
+                      borderRadius: BorderRadius.circular(AppSizes.radiusXS),
                       child: Image.network(
                         mockPlace2[1]['thumbnailImage']!, // 첫 번째 이미지
                         height: 84.r,
@@ -146,7 +146,7 @@ class ReviewDetailScreen extends StatelessWidget {
             Divider(height: 2.h, color: AppColors.gray100),
             SizedBox(height: 32.h),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
