@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
+import 'package:go_transitions/go_transitions.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
@@ -31,7 +33,8 @@ import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../constants/monthly_spot.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: RoutePath.createReview,
+  initialLocation: RoutePath.home,
+  observers: [GoTransition.observer],
   routes: [
     GoRoute(
       path: RoutePath.splash,
@@ -56,36 +59,58 @@ final GoRouter appRouter = GoRouter(
         return TypeTestResultScreen(travelType: travelType);
       },
     ),
+    StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) => CustomScaffold(
+              navigationShell: navigationShell,
+            ),
+        branches: [
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: RoutePath.home,
+              builder: (context, state) => HomeScreen(),
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: RoutePath.planner,
+              builder: (context, state) => PlannerListScreen(),
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: RoutePath.folderList,
+              builder: (context, state) => FolderListScreen(),
+            ),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: RoutePath.setting,
+              builder: (context, state) => SettingScreen(),
+            ),
+          ])
+        ]),
     GoRoute(
-      path: RoutePath.home,
-      builder: (context, state) => HomeScreen(),
+      path: '${RoutePath.planner}/edit',
+      builder: (context, state) => PlannerEditScreen(isEdit: false),
+      pageBuilder: GoTransitions.slide.toLeft.withFade.call,
     ),
     GoRoute(
-      path: RoutePath.planner,
-      builder: (context, state) => PlannerListScreen(),
-      routes: [
-        GoRoute(
-          path: 'edit',
-          builder: (context, state) => PlannerEditScreen(isEdit: false),
-        ),
-
-        GoRoute(
-          path: ':id/edit',
-          builder: (context, state) {
-            final String idStr = state.pathParameters['id']!;
-            final int id = int.parse(idStr);
-            return PlannerEditScreen(isEdit: true, plannerId: id);
-          },
-        ),
-        GoRoute(
-          path: ':id',
-          builder: (context, state) {
-            final String idStr = state.pathParameters['id']!;
-            final int id = int.parse(idStr);
-            return PlannerDetailScreen(plannerId: id);
-          },
-        ),
-      ],
+      path: '${RoutePath.planner}/:id/edit',
+      builder: (context, state) {
+        final String idStr = state.pathParameters['id']!;
+        final int id = int.parse(idStr);
+        return PlannerEditScreen(isEdit: true, plannerId: id);
+      },
+      pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+    ),
+    GoRoute(
+      path: '${RoutePath.planner}/:id',
+      builder: (context, state) {
+        final String idStr = state.pathParameters['id']!;
+        final int id = int.parse(idStr);
+        return PlannerDetailScreen(plannerId: id);
+      },
+      pageBuilder: GoTransitions.slide.toLeft.withFade.call,
     ),
     GoRoute(
       path: RoutePath.recommend,
@@ -106,10 +131,6 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: RoutePath.search,
       builder: (context, state) => SearchScreen(),
-    ),
-    GoRoute(
-      path: RoutePath.setting,
-      builder: (context, state) => SettingScreen(),
     ),
     GoRoute(
       path: RoutePath.accountSetting,
@@ -141,25 +162,17 @@ final GoRouter appRouter = GoRouter(
         return MonthlySpotMap(year: year, month: month);
       },
     ),
-
-    GoRoute(
-      path: RoutePath.folderList,
-      builder: (context, state) => FolderListScreen(),
-    ),
     GoRoute(
       path: RoutePath.folderDetail,
       builder: (context, state) => FolderDetailScreen(),
     ),
-
     GoRoute(
       path: RoutePath.travelSpot,
       builder: (context, state) => TravelSpotScreen(),
     ),
-
     GoRoute(
       path: RoutePath.myReview,
       builder: (context, state) => MyReviewScreen(),
     ),
-
   ],
 );

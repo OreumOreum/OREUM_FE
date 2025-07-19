@@ -93,4 +93,8 @@ abstract class AppStrings {
   static const String spotIntro = '여행지 소개';
   static const String showMore = '더보기';
   static const String myReview = '내가 쓴 리뷰';
+  static const String homeBottomAppBar = '홈';
+  static const String plannerBottomAppBar = '일정';
+  static const String folderBottomAppBar = '저장됨';
+  static const String settingBottomAppBar = '설정';
 }
