@@ -19,60 +19,57 @@ class PlannerListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar.back(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 24.h,
-              ),
-              HomeTitleText(
-                title: AppStrings.userCreatedCourseTitle,
-                primaryText: '모험 액티비티형 ',
-                subtitle: AppStrings.userCreatedCourseSubTitle,
-              ),
-              SizedBox(
-                height: 21.h,
-              ),
-              PlannerListTile.create(),
-              SizedBox(
-                height: 18.h,
-              ),
-              PlannerListTile.recommendation(),
-              SizedBox(
-                height: 18.h,
-              ),
-              ListView.separated(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: mockCourse.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String title = mockCourse[index]['title']!;
-                  String subTitle = mockCourse[index]['subTitle']!;
-                  int plannerId = mockCourse[index]['plannerId']!;
-                  return PlannerListTile.iconButton(
-                    title: title,
-                    subTitle: subTitle,
-                    onPressed: () =>
-                        context.push(RoutePath.plannerDetail(plannerId)),
-                    onButtonPressed: () {},
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 18.h,
-                  );
-                },
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-            ],
-          ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 24.h,
+            ),
+            HomeTitleText(
+              title: AppStrings.userCreatedCourseTitle,
+              primaryText: '모험 액티비티형 ',
+              subtitle: AppStrings.userCreatedCourseSubTitle,
+            ),
+            SizedBox(
+              height: 21.h,
+            ),
+            PlannerListTile.create(),
+            SizedBox(
+              height: 18.h,
+            ),
+            PlannerListTile.recommendation(),
+            SizedBox(
+              height: 18.h,
+            ),
+            ListView.separated(
+              shrinkWrap: true,
+              primary: false,
+              itemCount: mockCourse.length,
+              itemBuilder: (BuildContext context, int index) {
+                String title = mockCourse[index]['title']!;
+                String subTitle = mockCourse[index]['subTitle']!;
+                int plannerId = mockCourse[index]['plannerId']!;
+                return PlannerListTile.iconButton(
+                  title: title,
+                  subTitle: subTitle,
+                  onPressed: () =>
+                      context.push(RoutePath.plannerDetail(plannerId)),
+                  onButtonPressed: () {},
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 18.h,
+                );
+              },
+            ),
+            SizedBox(
+              height: 72.h,
+            ),
+          ],
         ),
       ),
     );

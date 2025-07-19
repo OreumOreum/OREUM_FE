@@ -51,4 +51,13 @@ abstract class IconPath {
   static const String monthSpot = 'assets/icons/month_spot.svg';
   static const String nature = 'assets/icons/nature.svg';
 
+  static const String homeActivate = 'assets/icons/home_activate.svg';
+  static const String homeDisable = 'assets/icons/home_disable.svg';
+  static const String plannerActivate = 'assets/icons/planner_activate.svg';
+  static const String plannerDisable = 'assets/icons/planner_disable.svg';
+  static const String folderActivate = 'assets/icons/folder_activate.svg';
+  static const String folderDisable = 'assets/icons/folder_disable.svg';
+  static const String settingActivate = 'assets/icons/setting_activate.svg';
+  static const String settingDisable = 'assets/icons/setting_disable.svg';
+  static const String addFolder = 'assets/icons/add_folder.svg';
 }

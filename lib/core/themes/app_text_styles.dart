@@ -122,4 +122,13 @@ extension AppTextStyles on TextTheme {
       FontVariation('wght', 400),
     ],
   );
+
+  TextStyle get caption3 => TextStyle(
+    letterSpacing: 0,
+    height: 14 / 12,
+    fontSize: 10.sp,
+    fontVariations: const <FontVariation>[
+      FontVariation('wght', 600),
+    ],
+  );
 }

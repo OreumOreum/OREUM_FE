@@ -195,357 +195,363 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar.logo(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// ================= 날씨 ===================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 22.h, horizontal: 24.w),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.weatherTitle,
-                        style: context.textStyles.headLine2
-                            .copyWith(color: AppColors.gray600),
-                      ),
-                      SizedBox(
-                        height: 4.h,
-                      ),
-                      Text(
-                        AppStrings.weatherType('매우 맑을 것'),
-                        style: context.textStyles.body1
-                            .copyWith(color: AppColors.gray300),
-                      ),
-                    ],
-                  ),
-                  Spacer(),
-                  SizedBox(
-                    height: 72.r,
-                    width: 72.r,
-                    child: Center(
-                      child: SvgPicture.asset(
-                        IconPath.cloud,
-                        width: 52.w,
-                      ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// ================= 날씨 ===================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 22.h, horizontal: 24.w),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.weatherTitle,
+                      style: context.textStyles.headLine2
+                          .copyWith(color: AppColors.gray600),
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Text(
+                      AppStrings.weatherType('매우 맑을 것'),
+                      style: context.textStyles.body1
+                          .copyWith(color: AppColors.gray300),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                SizedBox(
+                  height: 72.r,
+                  width: 72.r,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      IconPath.cloud,
+                      width: 52.w,
                     ),
                   ),
-                  Text(
-                    '30°',
-                    style: context.textStyles.headLine2
-                        .copyWith(color: AppColors.primary),
-                  ),
-                ],
-              ),
-            ),
-
-            /// ============================================
-            /// ================= 이달의 여행지 ===================
-            SizedBox(
-              height: 14.h,
-            ),
-            PagedGradientCarousel(
-              items: [
-                CarouselItem(
-                  background: Image.network(
-                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  title: '섭지코지',
-                  count: '300',
-                  city: '제주도시',
                 ),
-                CarouselItem(
-                  background: Image.network(
-                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  title: '섭지코지',
-                  count: '100',
-                  city: '제주도시',
-                ),
-                CarouselItem(
-                  background: Container(color: Colors.deepOrange),
-                  title: '섭지코지',
-                  count: '20',
-                  city: '제주도시',
-                ),
-                CarouselItem(
-                  background: Image.network(
-                    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  title: '섭지코지',
-                  count: '40',
-                  city: '제주도시',
+                Text(
+                  '30°',
+                  style: context.textStyles.headLine2
+                      .copyWith(color: AppColors.primary),
                 ),
               ],
             ),
-            SizedBox(
-              height: 14.h,
-            ),
-            /// ============================================
-            /// ================= 카테고리 ===================
-            Padding(
-              padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w), // 양쪽 14 고정
-                  child: Row(
-                    children:
-                        List.generate(largeCategories.length * 2 - 1, (index) {
-                      if (index.isOdd) {
-                        return SizedBox(width: 14.w); // 아이템 사이 간격
-                      } else {
-                        final category = largeCategories[index ~/ 2];
-                        return GestureDetector(
-                          onTap: () {
-                            print('${category.label} tapped');
-                          },
-                          behavior: HitTestBehavior.translucent,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                height: 52.r,
-                                width: 52.r,
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    category.iconPath,
-                                    width: category.iconWidth,
-                                  ),
+          ),
+
+          /// ============================================
+          /// ================= 이달의 여행지 ===================
+          SizedBox(
+            height: 14.h,
+          ),
+          PagedGradientCarousel(
+            items: [
+              CarouselItem(
+                background: Image.network(
+                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                  fit: BoxFit.cover,
+                ),
+                title: '섭지코지',
+                count: '300',
+                city: '제주도시',
+              ),
+              CarouselItem(
+                background: Image.network(
+                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                  fit: BoxFit.cover,
+                ),
+                title: '섭지코지',
+                count: '100',
+                city: '제주도시',
+              ),
+              CarouselItem(
+                background: Container(color: Colors.deepOrange),
+                title: '섭지코지',
+                count: '20',
+                city: '제주도시',
+              ),
+              CarouselItem(
+                background: Image.network(
+                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+                  fit: BoxFit.cover,
+                ),
+                title: '섭지코지',
+                count: '40',
+                city: '제주도시',
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 14.h,
+          ),
+
+          /// ============================================
+          /// ================= 카테고리 ===================
+          Padding(
+            padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w), // 양쪽 14 고정
+                child: Row(
+                  children:
+                      List.generate(largeCategories.length * 2 - 1, (index) {
+                    if (index.isOdd) {
+                      return SizedBox(width: 14.w); // 아이템 사이 간격
+                    } else {
+                      final category = largeCategories[index ~/ 2];
+                      return GestureDetector(
+                        onTap: () {
+                          print('${category.label} tapped');
+                        },
+                        behavior: HitTestBehavior.translucent,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 52.r,
+                              width: 52.r,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  category.iconPath,
+                                  width: category.iconWidth,
                                 ),
                               ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                category.label,
-                                style: context.textStyles.body2
-                                    .copyWith(color: AppColors.gray400),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    }),
-                  ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              category.label,
+                              style: context.textStyles.body2
+                                  .copyWith(color: AppColors.gray400),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }),
                 ),
               ),
             ),
+          ),
 
-            /// ============================================
-            /// ================= 서치바 ===================
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.w, horizontal: AppSizes.defaultPadding),
-              child: SearchBarButton(),
+          /// ============================================
+          /// ================= 서치바 ===================
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: 16.w, horizontal: AppSizes.defaultPadding),
+            child: SearchBarButton(),
+          ),
+
+          /// ============================================
+          /// ================= 여행지 추천 =================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: SizedBox(
+              height: 46.sp + 159.h,
+
+              ///동적 높이 허용하는 Row + SingleChildView로 변경
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding:
+                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                itemCount: mockPlace.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String title = mockPlace[index]['title']!;
+                  String type = mockPlace[index]['type']!;
+                  String category = mockPlace[index]['category']!;
+                  String thumbnailImage = mockPlace[index]['thumbnailImage']!;
+                  return PlaceCard(
+                    title: title,
+                    type: type,
+                    category: category,
+                    thumbnailImage: thumbnailImage,
+                    onPressed: () {},
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(width: 8.w);
+                },
+              ),
             ),
+          ),
 
-            /// ============================================
-            /// ================= 여행지 추천 =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: SizedBox(
-                height: 46.sp + 159.h,
+          /// ============================================
+          /// ================= 추천 버튼 =================
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: 14.h, horizontal: AppSizes.defaultPadding),
+            child: SplitRoundedButton(),
+          ),
 
-                ///동적 높이 허용하는 Row + SingleChildView로 변경
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
+          /// ============================================
+          SizedBox(
+            height: 14.h,
+          ),
+
+          /// ================= 코스 추천 =================
+          Padding(
+            padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                  itemCount: mockPlace.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    String title = mockPlace[index]['title']!;
-                    String type = mockPlace[index]['type']!;
-                    String category = mockPlace[index]['category']!;
-                    String thumbnailImage = mockPlace[index]['thumbnailImage']!;
-                    return PlaceCard(
-                      title: title,
-                      type: type,
-                      category: category,
-                      thumbnailImage: thumbnailImage,
-                      onPressed: () {},
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(width: 8.w);
-                  },
+                  child: HomeTitleText(
+                      title: AppStrings.personalizedCourseRecommendation,
+                      primaryText: '모험 액티비티형',
+                      subtitle: AppStrings.typeCourseRecommendation),
                 ),
-              ),
-            ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                SizedBox(
+                  height: 220.r + 14.h + 66.sp,
 
-            /// ============================================
-            /// ================= 추천 버튼 =================
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 14.h, horizontal: AppSizes.defaultPadding),
-              child: SplitRoundedButton(),
-            ),
-
-            /// ============================================
-            SizedBox(
-              height: 14.h,
-            ),
-
-            /// ================= 코스 추천 =================
-            Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppSizes.defaultPadding),
-                    child: HomeTitleText(
-                        title: AppStrings.personalizedCourseRecommendation,
-                        primaryText: '모험 액티비티형',
-                        subtitle: AppStrings.typeCourseRecommendation),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  SizedBox(
-                    height: 220.r + 14.h + 66.sp,
-
-                    ///동적 높이 허용하는 Row + SingleChildView로 변경
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      itemCount: mockCourse.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String title = mockCourse[index]['title']!;
-                        String subTitle = mockCourse[index]['subTitle']!;
-                        String thumbnailImage =
-                            mockCourse[index]['thumbnailImage']!;
-
-                        return CourseCard(
-                            title: title,
-                            subTitle: subTitle,
-                            thumbnailImage: thumbnailImage,
-                            onPressed: () {});
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 9.w,
-                        );
-                      },
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 14.h,
-            ),
-
-            ///============================================
-            /// ================= 타입별 추천 =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSizes.defaultPadding,
-                    ),
-                    child: HomeTitleText(
-                        title: AppStrings.typeRecommend('모험 액티비티형'),
-                        primaryText: '모험 액티비티형',
-                        subtitle: AppStrings.typePlaceRecommendation),
-                  ),
-                  SizedBox(
-                    height: 14.h,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    itemCount: 3,
+                  ///동적 높이 허용하는 Row + SingleChildView로 변경
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
+                    itemCount: mockCourse.length,
                     itemBuilder: (BuildContext context, int index) {
-                      String title = mockPlace2[index]['title']!;
-                      String address = mockPlace2[index]['address']!;
+                      String title = mockCourse[index]['title']!;
+                      String subTitle = mockCourse[index]['subTitle']!;
                       String thumbnailImage =
-                          mockPlace2[index]['thumbnailImage']!;
-                      return PlaceListTile(
-                          thumbnailImage: thumbnailImage,
+                          mockCourse[index]['thumbnailImage']!;
+
+                      return CourseCard(
                           title: title,
-                          address: address);
+                          subTitle: subTitle,
+                          thumbnailImage: thumbnailImage,
+                          onPressed: () {});
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 9.w,
+                      );
                     },
                   ),
-                  Divider(
-                    height: 1.h,
-                    thickness: 1.h,
-                    color: AppColors.gray100,
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 14.h,
+          ),
+
+          ///============================================
+          /// ================= 타입별 추천 =================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSizes.defaultPadding,
                   ),
-                  SizedBox(
-                    height: 18.h,
-                  ),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        AppStrings.viewAll,
-                        style: context.textStyles.body1
-                            .copyWith(color: AppColors.gray200),
-                      ),
+                  child: HomeTitleText(
+                      title: AppStrings.typeRecommend('모험 액티비티형'),
+                      primaryText: '모험 액티비티형',
+                      subtitle: AppStrings.typePlaceRecommendation),
+                ),
+                SizedBox(
+                  height: 14.h,
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: EdgeInsets.zero,
+                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index) {
+                    String title = mockPlace2[index]['title']!;
+                    String address = mockPlace2[index]['address']!;
+                    String thumbnailImage =
+                        mockPlace2[index]['thumbnailImage']!;
+                    return PlaceListTile(
+                        thumbnailImage: thumbnailImage,
+                        title: title,
+                        address: address);
+                  },
+                ),
+                Divider(
+                  height: 1.h,
+                  thickness: 1.h,
+                  color: AppColors.gray100,
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      AppStrings.viewAll,
+                      style: context.textStyles.body1
+                          .copyWith(color: AppColors.gray200),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 14.h,
-            ),
+          ),
+          SizedBox(
+            height: 14.h,
+          ),
 
-            ///============================================
-            /// ================= 이런 여행지는 어때요? =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
+          ///============================================
+          /// ================= 이런 여행지는 어때요? =================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  child: HomeTitleText(
+                      title: AppStrings.travelSuggestionTitle,
+                      primaryText: '모험 액티비티형',
+                      subtitle: AppStrings.destinationRecommendToUser),
+                ),
+                SizedBox(
+                  height: 14.h,
+                ),
+                SizedBox(
+                  height: 120.h,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(
                         horizontal: AppSizes.defaultPadding),
-                    child: HomeTitleText(
-                        title: AppStrings.travelSuggestionTitle,
-                        primaryText: '모험 액티비티형',
-                        subtitle: AppStrings.destinationRecommendToUser),
+                    itemCount: placeImages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String thumbnailImage =
+                          placeImages[index]['thumbnailImage']!;
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          AppSizes.radiusXS,
+                        ),
+                        child: Image.network(thumbnailImage,
+                            height: 120.h, width: 163.w, fit: BoxFit.cover),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 8.w,
+                      );
+                    },
                   ),
-                  SizedBox(
-                    height: 14.h,
-                  ),
-                  SizedBox(
-                    height: 120.h,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                      itemCount: placeImages.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        String thumbnailImage = placeImages[index]['thumbnailImage']!;
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(AppSizes.radiusXS,),
-                          child: Image.network(thumbnailImage, height: 120.h, width: 163.w, fit: BoxFit.cover),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(width: 8.w,);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 16.h,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 72.h,
+          ),
+        ],
       ),
     );
   }
