@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -9,13 +10,17 @@ import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/features/auth/presentation/viewmodels/auth_view_model.dart';
+import 'package:oreum_fe/features/auth/presentation/viewmodels/states/auth_state.dart';
 import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authViewModelProvider);
+    final authViewModel = ref.read(authViewModelProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar.logoCenter(),
       body: Padding(
@@ -57,7 +62,9 @@ class AuthScreen extends StatelessWidget {
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () {},
+                    onPressed: () {
+                      authViewModel.loginWithKakao();
+                    },
                     icon: SvgPicture.asset(
                       IconPath.kakao,
                       width: 52.r,
@@ -81,7 +88,9 @@ class AuthScreen extends StatelessWidget {
                   IconButton(
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () {},
+                    onPressed: () {
+                      authViewModel.loginWithGoogle();
+                    },
                     icon: SvgPicture.asset(
                       IconPath.google,
                       width: 52.r,

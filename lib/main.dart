@@ -1,34 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/themes/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/routes/app_router.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await dotenv.load(fileName: '.env');
+  String kakaoAppKey = await dotenv.get('KAKAO_NATIVE_APP_KEY');
+  print(await KakaoSdk.origin);
+  try {
+    KakaoSdk.init(nativeAppKey: kakaoAppKey);
+  } catch (e) {
+    print('Kakao SDK 초기화 실패: $e');
+  }
   runApp(
     ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final GoRouter goRouter = ref.watch(appRouterProvider);
+
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
-    Size designSize = screenWidth > 600 ?  const Size(768, 1024) :  const Size(393, 852);
+    Size designSize =
+        screenWidth > 600 ? const Size(768, 1024) : const Size(393, 852);
     return ScreenUtilInit(
       designSize: designSize,
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
-          routerConfig: appRouter,
+          routerConfig: goRouter,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.kThemeData,
         );
