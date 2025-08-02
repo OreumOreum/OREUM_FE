@@ -37,7 +37,7 @@ class DioInterceptor extends InterceptorsWrapper {
 
   @override
   onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.i(response.data);
+    logger.i('Reponse Data: ${response.data}');
     return super.onResponse(response, handler);
   }
 

@@ -10,4 +10,6 @@ abstract class ApiPath {
   static const String test = '/api/v1/member/test';
   static const String skipTest = '/api/v1/member/skip/test';
   static const String category = '/api/v1/member/me/category';
+
+  static const String course = '/v1/course';
 }

@@ -64,7 +64,7 @@ GoRouter appRouter(AppRouterRef ref) {
             if (hasUserType == false) {
               return RoutePath.home;
             } else {
-              return RoutePath.typeTestStart;
+              return RoutePath.home;
             }
           }
           return null;

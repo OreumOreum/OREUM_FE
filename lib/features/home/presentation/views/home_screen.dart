@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -10,17 +11,26 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
+import 'package:oreum_fe/features/course/data/models/course_response.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 
+import '../viewmodels/states/home_state.dart';
 import '../widgets/page_gradient_carousel.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final List<LargeCategory> largeCategories = LargeCategory.values;
 
@@ -194,7 +204,26 @@ class HomeScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(homeViewModelProvider.notifier).initializeHome();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(homeViewModelProvider);
+
+    if (state.status == HomeStatus.loading) {
+      return const CircularProgressIndicator(); //로티
+    }
+
+    if (state.status == HomeStatus.error) {
+      return Text('error: ${state.errorMessage}');
+    }
+
+    List<CourseResponse> courses = state.courses;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -408,10 +437,10 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: Row(
-                    children: List.generate(mockCourse.length, (index) {
-                      String title = mockCourse[index]['title']!;
-                      String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage = mockCourse[index]['thumbnailImage']!;
+                    children: List.generate(courses.length, (index) {
+                      String title = courses[index].title;
+                      String subTitle = courses[index].title;
+                      String thumbnailImage = courses[index].originImage;
 
                       return Row(
                         children: [
@@ -421,7 +450,7 @@ class HomeScreen extends StatelessWidget {
                             thumbnailImage: thumbnailImage,
                             onPressed: () {},
                           ),
-                          if (index != mockCourse.length - 1)
+                          if (index != courses.length - 1)
                             SizedBox(width: 9.w), // separator 역할
                         ],
                       );
