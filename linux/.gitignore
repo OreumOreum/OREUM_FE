@@ -1,1 +1,4 @@
 flutter/ephemeral
+
+*.env
+/android/app/google-services.json

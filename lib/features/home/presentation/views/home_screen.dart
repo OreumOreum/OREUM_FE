@@ -349,31 +349,29 @@ class HomeScreen extends StatelessWidget {
           /// ================= 여행지 추천 =================
           Padding(
             padding: EdgeInsets.symmetric(vertical: 24.h),
-            child: SizedBox(
-              height: 46.sp + 159.h,
-
-              ///동적 높이 허용하는 Row + SingleChildView로 변경
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                itemCount: mockPlace.length,
-                itemBuilder: (BuildContext context, int index) {
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              child: Row(
+                children: List.generate(mockPlace.length, (index) {
                   String title = mockPlace[index]['title']!;
                   String type = mockPlace[index]['type']!;
                   String category = mockPlace[index]['category']!;
                   String thumbnailImage = mockPlace[index]['thumbnailImage']!;
-                  return PlaceCard(
-                    title: title,
-                    type: type,
-                    category: category,
-                    thumbnailImage: thumbnailImage,
-                    onPressed: () {},
+                  return Row(
+                    children: [
+                      PlaceCard(
+                        title: title,
+                        type: type,
+                        category: category,
+                        thumbnailImage: thumbnailImage,
+                        onPressed: () {},
+                      ),
+                      if (index != mockPlace.length - 1)
+                        SizedBox(width: 8.w), // separator 역할
+                    ],
                   );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(width: 8.w);
-                },
+                }),
               ),
             ),
           ),
@@ -398,43 +396,38 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
-                      title: AppStrings.personalizedCourseRecommendation,
-                      primaryText: '모험 액티비티형',
-                      subtitle: AppStrings.typeCourseRecommendation),
+                    title: AppStrings.personalizedCourseRecommendation,
+                    primaryText: '모험 액티비티형',
+                    subtitle: AppStrings.typeCourseRecommendation,
+                  ),
                 ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                SizedBox(
-                  height: 220.r + 14.h + 66.sp,
-
-                  ///동적 높이 허용하는 Row + SingleChildView로 변경
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 14.w),
-                    itemCount: mockCourse.length,
-                    itemBuilder: (BuildContext context, int index) {
+                SizedBox(height: 10.h),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
+                  child: Row(
+                    children: List.generate(mockCourse.length, (index) {
                       String title = mockCourse[index]['title']!;
                       String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage =
-                          mockCourse[index]['thumbnailImage']!;
+                      String thumbnailImage = mockCourse[index]['thumbnailImage']!;
 
-                      return CourseCard(
-                          title: title,
-                          subTitle: subTitle,
-                          thumbnailImage: thumbnailImage,
-                          onPressed: () {});
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: 9.w,
+                      return Row(
+                        children: [
+                          CourseCard(
+                            title: title,
+                            subTitle: subTitle,
+                            thumbnailImage: thumbnailImage,
+                            onPressed: () {},
+                          ),
+                          if (index != mockCourse.length - 1)
+                            SizedBox(width: 9.w), // separator 역할
+                        ],
                       );
-                    },
+                    }),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -510,39 +503,36 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
-                      title: AppStrings.travelSuggestionTitle,
-                      primaryText: '모험 액티비티형',
-                      subtitle: AppStrings.destinationRecommendToUser),
+                    title: AppStrings.travelSuggestionTitle,
+                    primaryText: '모험 액티비티형',
+                    subtitle: AppStrings.destinationRecommendToUser,
+                  ),
                 ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                SizedBox(
-                  height: 120.h,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppSizes.defaultPadding),
-                    itemCount: placeImages.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String thumbnailImage =
-                          placeImages[index]['thumbnailImage']!;
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          AppSizes.radiusXS,
-                        ),
-                        child: Image.network(thumbnailImage,
-                            height: 120.h, width: 163.w, fit: BoxFit.cover),
+                SizedBox(height: 14.h),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  child: Row(
+                    children: List.generate(placeImages.length, (index) {
+                      String thumbnailImage = placeImages[index]['thumbnailImage']!;
+                      return Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                            child: Image.network(
+                              thumbnailImage,
+                              height: 120.h,
+                              width: 163.w,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          if (index != placeImages.length - 1)
+                            SizedBox(width: 8.w),
+                        ],
                       );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: 8.w,
-                      );
-                    },
+                    }),
                   ),
                 ),
               ],
