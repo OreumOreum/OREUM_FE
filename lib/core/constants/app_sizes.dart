@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 abstract class AppSizes {
   static final double defaultPadding = 14.w;
 
+  static final double radiusXXS = 2.r;
   static final double radiusXS = 8.r;
   static final double radiusSM = 12.r;
   static final double radiusMD = 14.r;

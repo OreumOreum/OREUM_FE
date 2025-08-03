@@ -15,7 +15,7 @@ abstract class RoutePath {
   static const String reviewDetail = '/reviewDetail';
   static const String myReview = '/myReview';
   static const String travelCourse = '/travelCourse';
-  static const String travelSpot = '/travelSpot';
+  static const String placeDetail = '/placeDetail';
 
 
   static const String search = '/search';
@@ -28,6 +28,10 @@ abstract class RoutePath {
 
   static const String folderList = '/folderList';
   static const String folderDetail = '/folderDetail';
+
+
+  static const String deleteReviewBottomSheet = '/deleteReviewBottomSheet';
+  static const String placeDetailAddBottomSheet = '/placeDetailAddBottomSheet';
 
 
 }

@@ -34,7 +34,7 @@ class _DetailContainerState extends State<DetailContainer> {
         // 기존 컨테이너
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: AppColors.gray200),
+            border: Border.all(color: AppColors.gray100),
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Padding(

@@ -97,4 +97,8 @@ abstract class AppStrings {
   static const String plannerBottomAppBar = '일정';
   static const String folderBottomAppBar = '저장됨';
   static const String settingBottomAppBar = '설정';
+  static const String deleteReview = '리뷰 삭제';
+  static const String isSaved = '저장됨';
+  static const String folder = '폴더';
+  static const String allSave = '모든 저장';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -6,26 +7,29 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
+import 'package:oreum_fe/features/place/data/models/place_response.dart';
+import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
 
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
-class TravelSpotScreen extends StatefulWidget {
+class PlaceDetailScreen extends ConsumerStatefulWidget {
 
-  TravelSpotScreen({super.key,
+  PlaceDetailScreen({super.key,
   });
 
   @override
-  State<TravelSpotScreen> createState() => _TravelSpotScreenState();
+  ConsumerState<PlaceDetailScreen> createState() => _PlaceDetailScreenState();
 }
 
-class _TravelSpotScreenState extends State<TravelSpotScreen> {
+class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
   bool isExpanded = false;
 
   final List<Map<String, String>> placeList = [
@@ -133,10 +137,40 @@ class _TravelSpotScreenState extends State<TravelSpotScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(placeDetailViewModelProvider.notifier).initializePlaceDetail('1'); //일단 하드하게
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    final state = ref.watch(placeDetailViewModelProvider);
+
+    if (state.status == UiStatus.loading) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: CircularProgressIndicator(), //로티
+        ),
+      );
+    }
+
+    if (state.status == UiStatus.error) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Center(
+          child: Text('error: ${state.errorMessage}'),
+        ),
+      );
+    }
+
+    PlaceResponse place = state.place!;
+
     return Scaffold(
-        appBar: CustomAppBar.backWithButtonAndText(
-            title: '', onActionPressed: () {}, actionType: ActionType.dots),
+        appBar: CustomAppBar.back(),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -160,7 +194,7 @@ class _TravelSpotScreenState extends State<TravelSpotScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(courseList[0]['title']!,
+                        Text(place.title,
                             style: context.textStyles.headLine3
                                 .copyWith(color: AppColors.gray500)),
                         SizedBox(
@@ -179,7 +213,7 @@ class _TravelSpotScreenState extends State<TravelSpotScreen> {
                       ],
                     ),
                     SizedBox(height: 2.h),
-                    Text(courseList[0]['address']!,
+                    Text(place.address,
                         style: context.textStyles.body1
                             .copyWith(color: AppColors.gray400)),
                     SizedBox(height: 6.h),
@@ -187,11 +221,11 @@ class _TravelSpotScreenState extends State<TravelSpotScreen> {
                       children: [
                         SvgPicture.asset(IconPath.star2),
                         SizedBox(width: 2.w),
-                        Text(courseList[0]['rating']!,
+                        Text(place.averageRate.toString(),
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200)),
                         SizedBox(width: 2.w),
-                        Text(courseList[0]['reviewNumber']!,
+                        Text(place.reviewCount.toString(),
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200))
                       ],
@@ -199,16 +233,20 @@ class _TravelSpotScreenState extends State<TravelSpotScreen> {
                     SizedBox(height: 63.h),
                     DetailContainer(detailList: detailList),
                     SizedBox(height: 56.h),
+
+                    ///여행지 소개 부분
                     Text(AppStrings.spotIntro,
                         style: context.textStyles.label3
                             .copyWith(color: AppColors.gray500)),
                     SizedBox(height: 8.h),
                     Text(
-                      detailList[0]['detail6']!,
+                      detailList[0]['detail6']!, //여기 바로 불러옴
                       style: context.textStyles.body2.copyWith(color: AppColors.gray400),
                       maxLines: isExpanded ? null : 3,
                       overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                     ),
+
+
                     SizedBox(height: 18.h),
                     Divider(height: 1.h, color: AppColors.gray100),
                     SizedBox(height: 8.h),

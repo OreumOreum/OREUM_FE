@@ -48,6 +48,7 @@ abstract class IconPath {
   static const String play = 'assets/icons/play.svg';
   static const String pause = 'assets/icons/pause.svg';
   static const String arrowDown = 'assets/icons/arrow_down.svg';
+  static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String monthSpot = 'assets/icons/month_spot.svg';
   static const String nature = 'assets/icons/nature.svg';
 
@@ -60,4 +61,8 @@ abstract class IconPath {
   static const String settingActivate = 'assets/icons/setting_activate.svg';
   static const String settingDisable = 'assets/icons/setting_disable.svg';
   static const String addFolder = 'assets/icons/add_folder.svg';
+
+  static const String trashCan = 'assets/icons/trash_can.svg';
+  static const String saveCheck = 'assets/icons/save_check.svg';
+  static const String savePlus = 'assets/icons/save_plus.svg';
 }

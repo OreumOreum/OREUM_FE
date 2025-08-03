@@ -32,7 +32,7 @@ import 'package:oreum_fe/features/review/presentation/views/create_review_screen
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/course/presentation/views/travel_spot_screen.dart';
+import '../../features/place/presentation/views/place_detail_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
 import '../constants/monthly_spot.dart';
@@ -208,8 +208,8 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => FolderDetailScreen(),
       ),
       GoRoute(
-        path: RoutePath.travelSpot,
-        builder: (context, state) => TravelSpotScreen(),
+        path: RoutePath.placeDetail,
+        builder: (context, state) => PlaceDetailScreen(),
       ),
       GoRoute(
         path: RoutePath.myReview,
