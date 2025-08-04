@@ -24,7 +24,7 @@ class MonthlySpotRanking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const TravelType myTravelType = TravelType.activity;
+    const TravelType myTravelType = TravelType.ACTIVITY;
     final List<SpotRankInfo> dummyRanking = [
       const SpotRankInfo(rank: 1, categoryType: 'ACTIVITY', visitCount: 15),
       const SpotRankInfo(rank: 2, categoryType: 'NATURE', visitCount: 10),
@@ -55,7 +55,7 @@ class MonthlySpotRanking extends StatelessWidget {
       final lowerValue = value.toLowerCase();
       return TravelType.values.firstWhere(
         (e) => e.name == lowerValue,
-        orElse: () => TravelType.activity,
+        orElse: () => TravelType.ACTIVITY,
       );
     }
 

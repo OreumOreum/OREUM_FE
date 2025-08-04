@@ -4,13 +4,16 @@ import 'package:oreum_fe/core/data/models/auth_token_response.dart';
 import 'package:oreum_fe/features/auth/data/models/access_token_request.dart';
 import 'package:oreum_fe/features/auth/data/models/id_token_request.dart';
 import 'package:oreum_fe/features/auth/data/models/type_check_response.dart';
+import 'package:oreum_fe/features/auth/data/models/type_request.dart';
 
 class AuthService {
   final Dio _dio;
+
   AuthService(this._dio);
 
   Future<AuthTokenResponse> loginWithKakao(String accessToken) async {
-    final AccessTokenRequest accessTokenRequest = AccessTokenRequest(accessToken: accessToken);
+    final AccessTokenRequest accessTokenRequest =
+        AccessTokenRequest(accessToken: accessToken);
     Response response = await _dio.post(
       ApiPath.loginWithKakao,
       data: accessTokenRequest.toJson(),
@@ -40,5 +43,14 @@ class AuthService {
     );
 
     return TypeCheckResponse.fromJson(response.data);
+  }
+
+  Future<void> skipTypeTest() async {
+    await _dio.get(ApiPath.skipTest);
+  }
+
+  Future<void> submitTypeTestResult(String type) async {
+    final TypeRequest typeRequest = TypeRequest(categoryType: type);
+    await _dio.patch(ApiPath.category, data: typeRequest.toJson());
   }
 }

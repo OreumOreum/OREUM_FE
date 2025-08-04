@@ -28,15 +28,18 @@ class TypeTestScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(typeTestProvider);
-    final viewModel = ref.read(typeTestProvider.notifier);
+    final state = ref.watch(typeTestViewModelProvider);
+    final viewModel = ref.read(typeTestViewModelProvider.notifier);
 
     final currentQuestion = state.questions[state.currentIndex];
 
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
         buttonText: AppStrings.skip,
-        onActionPressed: () {},
+        onActionPressed: () async {
+          await viewModel.skipTypeTest();
+          context.go(RoutePath.home);
+        },
       ),
       body: SafeArea(
         child: Column(
@@ -174,10 +177,11 @@ class TypeTestScreen extends ConsumerWidget {
                               onPressed: viewModel.canGoNext
                                   ? () {
                                       if (viewModel.isLastQuestion) {
-                                        final result =
+                                        final type =
                                             viewModel.calculateResult();
+                                        viewModel.submitTypeTestResult(type.name);
                                         context.go(RoutePath.typeTestResult,
-                                            extra: result);
+                                            extra: type);
                                       } else {
                                         viewModel.goNext();
                                       }

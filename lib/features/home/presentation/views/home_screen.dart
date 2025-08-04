@@ -408,6 +408,7 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(mockCourse.length, (index) {
                       String title = mockCourse[index]['title']!;
                       String subTitle = mockCourse[index]['subTitle']!;
