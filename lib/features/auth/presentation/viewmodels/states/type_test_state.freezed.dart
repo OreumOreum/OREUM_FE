@@ -18,6 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TypeTestState {
   List<TypeQuestion> get questions => throw _privateConstructorUsedError;
   int get currentIndex => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
+  UiStatus get status => throw _privateConstructorUsedError;
+  TravelType? get type => throw _privateConstructorUsedError;
 
   /// Create a copy of TypeTestState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +35,12 @@ abstract class $TypeTestStateCopyWith<$Res> {
           TypeTestState value, $Res Function(TypeTestState) then) =
       _$TypeTestStateCopyWithImpl<$Res, TypeTestState>;
   @useResult
-  $Res call({List<TypeQuestion> questions, int currentIndex});
+  $Res call(
+      {List<TypeQuestion> questions,
+      int currentIndex,
+      String errorMessage,
+      UiStatus status,
+      TravelType? type});
 }
 
 /// @nodoc
@@ -52,6 +60,9 @@ class _$TypeTestStateCopyWithImpl<$Res, $Val extends TypeTestState>
   $Res call({
     Object? questions = null,
     Object? currentIndex = null,
+    Object? errorMessage = null,
+    Object? status = null,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       questions: null == questions
@@ -62,6 +73,18 @@ class _$TypeTestStateCopyWithImpl<$Res, $Val extends TypeTestState>
           ? _value.currentIndex
           : currentIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TravelType?,
     ) as $Val);
   }
 }
@@ -74,7 +97,12 @@ abstract class _$$TypeTestStateImplCopyWith<$Res>
       __$$TypeTestStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<TypeQuestion> questions, int currentIndex});
+  $Res call(
+      {List<TypeQuestion> questions,
+      int currentIndex,
+      String errorMessage,
+      UiStatus status,
+      TravelType? type});
 }
 
 /// @nodoc
@@ -92,6 +120,9 @@ class __$$TypeTestStateImplCopyWithImpl<$Res>
   $Res call({
     Object? questions = null,
     Object? currentIndex = null,
+    Object? errorMessage = null,
+    Object? status = null,
+    Object? type = freezed,
   }) {
     return _then(_$TypeTestStateImpl(
       questions: null == questions
@@ -102,6 +133,18 @@ class __$$TypeTestStateImplCopyWithImpl<$Res>
           ? _value.currentIndex
           : currentIndex // ignore: cast_nullable_to_non_nullable
               as int,
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TravelType?,
     ));
   }
 }
@@ -110,7 +153,11 @@ class __$$TypeTestStateImplCopyWithImpl<$Res>
 
 class _$TypeTestStateImpl implements _TypeTestState {
   const _$TypeTestStateImpl(
-      {required final List<TypeQuestion> questions, required this.currentIndex})
+      {required final List<TypeQuestion> questions,
+      required this.currentIndex,
+      this.errorMessage = '',
+      this.status = UiStatus.idle,
+      this.type})
       : _questions = questions;
 
   final List<TypeQuestion> _questions;
@@ -123,10 +170,18 @@ class _$TypeTestStateImpl implements _TypeTestState {
 
   @override
   final int currentIndex;
+  @override
+  @JsonKey()
+  final String errorMessage;
+  @override
+  @JsonKey()
+  final UiStatus status;
+  @override
+  final TravelType? type;
 
   @override
   String toString() {
-    return 'TypeTestState(questions: $questions, currentIndex: $currentIndex)';
+    return 'TypeTestState(questions: $questions, currentIndex: $currentIndex, errorMessage: $errorMessage, status: $status, type: $type)';
   }
 
   @override
@@ -137,12 +192,21 @@ class _$TypeTestStateImpl implements _TypeTestState {
             const DeepCollectionEquality()
                 .equals(other._questions, _questions) &&
             (identical(other.currentIndex, currentIndex) ||
-                other.currentIndex == currentIndex));
+                other.currentIndex == currentIndex) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_questions), currentIndex);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_questions),
+      currentIndex,
+      errorMessage,
+      status,
+      type);
 
   /// Create a copy of TypeTestState
   /// with the given fields replaced by the non-null parameter values.
@@ -156,12 +220,21 @@ class _$TypeTestStateImpl implements _TypeTestState {
 abstract class _TypeTestState implements TypeTestState {
   const factory _TypeTestState(
       {required final List<TypeQuestion> questions,
-      required final int currentIndex}) = _$TypeTestStateImpl;
+      required final int currentIndex,
+      final String errorMessage,
+      final UiStatus status,
+      final TravelType? type}) = _$TypeTestStateImpl;
 
   @override
   List<TypeQuestion> get questions;
   @override
   int get currentIndex;
+  @override
+  String get errorMessage;
+  @override
+  UiStatus get status;
+  @override
+  TravelType? get type;
 
   /// Create a copy of TypeTestState
   /// with the given fields replaced by the non-null parameter values.

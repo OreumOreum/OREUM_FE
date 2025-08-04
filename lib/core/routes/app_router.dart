@@ -5,6 +5,7 @@ import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
@@ -41,7 +42,7 @@ part 'app_router.g.dart';
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(AppRouterRef ref) {
-  final loginNotifier = ref.watch(loginNotifierProvider);
+  final LoginNotifier loginNotifier = ref.watch(loginNotifierProvider);
   final userTypeNotifier = ref.watch(userTypeNotifierProvider);
 
   return GoRouter(
@@ -55,20 +56,29 @@ GoRouter appRouter(AppRouterRef ref) {
       switch (currentLoginState) {
         case LoginState.initializing:
           ref.read(splashViewModelProvider);
+          print('로그인 스테이트: ${LoginState.initializing}');
           if (state.matchedLocation != RoutePath.splash) {
             return RoutePath.splash;
           }
         case LoginState.loggedIn:
+          if (hasUserType == null) {
+            return null;
+          }
+
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
+            logger.i(hasUserType);
             if (hasUserType == false) {
+              logger.i('1');
               return RoutePath.home;
             } else {
+              logger.i('2');
               return RoutePath.typeTestStart;
             }
           }
           return null;
         case LoginState.loggedOut:
+          print('로그인 스테이트: ${LoginState.loggedOut}');
           if (state.matchedLocation != RoutePath.auth) {
             return RoutePath.auth;
           }

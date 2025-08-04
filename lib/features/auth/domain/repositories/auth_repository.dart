@@ -5,4 +5,6 @@ abstract class AuthRepository {
   Future<AuthToken> loginWithKakao(String accessToken);
   Future<AuthToken> loginWithGoogle(String idToken);
   Future<TypeCheckResponse> checkTypeExist();
+  Future<void> skipTypeTest();
+  Future<void> submitTypeTestResult(String type);
 }
