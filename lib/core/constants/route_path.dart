@@ -27,7 +27,8 @@ abstract class RoutePath {
   static const String monthlySpotRanking = '/monthlySpotRanking';
 
   static const String folderList = '/folderList';
-  static const String folderDetail = '/folderDetail';
+  static String folderDetail(String id) => '/$folderDetailBase/$id';
+  static const String folderDetailBase = 'folderDetail';
 
 
 }

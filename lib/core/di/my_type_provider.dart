@@ -15,7 +15,7 @@ class MyTravelType extends _$MyTravelType {
 
     final myType = TravelType.values.firstWhere(
           (e) => e.name.toLowerCase() == categoryString.toLowerCase(),
-      orElse: () => TravelType.activity,
+      orElse: () => TravelType.ACTIVITY,
     );
 
     return myType;

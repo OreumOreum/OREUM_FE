@@ -171,5 +171,44 @@ final checkExistTypeUseCaseProvider =
 // ignore: unused_element
 typedef CheckExistTypeUseCaseRef
     = AutoDisposeProviderRef<CheckExistTypeUseCase>;
+String _$skipTypeTestUseCaseHash() =>
+    r'1f2f470c21b57caf1c30b0ac132ae09911ff511b';
+
+/// See also [skipTypeTestUseCase].
+@ProviderFor(skipTypeTestUseCase)
+final skipTypeTestUseCaseProvider =
+    AutoDisposeProvider<SkipTypeTestUseCase>.internal(
+  skipTypeTestUseCase,
+  name: r'skipTypeTestUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$skipTypeTestUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SkipTypeTestUseCaseRef = AutoDisposeProviderRef<SkipTypeTestUseCase>;
+String _$submitTypeTestResultUseCaseHash() =>
+    r'3929eebbdc96dd76a277289a30acc204a52b36e8';
+
+/// See also [submitTypeTestResultUseCase].
+@ProviderFor(submitTypeTestResultUseCase)
+final submitTypeTestResultUseCaseProvider =
+    AutoDisposeProvider<SubmitTypeTestResultUseCase>.internal(
+  submitTypeTestResultUseCase,
+  name: r'submitTypeTestResultUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$submitTypeTestResultUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SubmitTypeTestResultUseCaseRef
+    = AutoDisposeProviderRef<SubmitTypeTestResultUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

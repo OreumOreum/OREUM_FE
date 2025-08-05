@@ -12,6 +12,8 @@ import 'package:oreum_fe/features/auth/domain/repositories/google_auth_repositor
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_type_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/google_login_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/kakao_login_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/skip_type_test_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/submit_type_test_result_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_providers.g.dart';
@@ -70,4 +72,16 @@ GoogleLoginUseCase googleLoginUseCase(GoogleLoginUseCaseRef ref) {
 CheckExistTypeUseCase checkExistTypeUseCase(CheckExistTypeUseCaseRef ref) {
   final authRepo = ref.watch(authRepositoryProvider);
   return CheckExistTypeUseCase(authRepo);
+}
+
+@riverpod
+SkipTypeTestUseCase skipTypeTestUseCase(SkipTypeTestUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  return SkipTypeTestUseCase(authRepo);
+}
+
+@riverpod
+SubmitTypeTestResultUseCase submitTypeTestResultUseCase(SubmitTypeTestResultUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  return SubmitTypeTestResultUseCase(authRepo);
 }

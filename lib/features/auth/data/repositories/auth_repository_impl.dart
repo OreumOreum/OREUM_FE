@@ -24,4 +24,14 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<TypeCheckResponse> checkTypeExist() {
     return _authService.checkExistType();
   }
+
+  @override
+  Future<void> skipTypeTest() {
+    return _authService.skipTypeTest();
+  }
+
+  @override
+  Future<void> submitTypeTestResult(String type) {
+    return _authService.submitTypeTestResult(type);
+  }
 }

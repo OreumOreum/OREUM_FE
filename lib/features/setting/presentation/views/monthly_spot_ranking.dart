@@ -72,10 +72,9 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
     final myTypeVisitCount = state.myTypeVisitCount;
 
     TravelType getTravelTypeFromString(String value) {
-      final lowerValue = value.toLowerCase();
       return TravelType.values.firstWhere(
-        (e) => e.name.toLowerCase() == lowerValue,
-        orElse: () => TravelType.activity,
+        (e) => e.name == value,
+        orElse: () => TravelType.ACTIVITY,
       );
     }
 

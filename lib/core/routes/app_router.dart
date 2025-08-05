@@ -5,12 +5,16 @@ import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/di/login_notifier.dart';
+import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
+import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
 
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
@@ -35,6 +39,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/course/presentation/views/travel_spot_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
+import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
 
@@ -42,7 +47,7 @@ part 'app_router.g.dart';
 
 @Riverpod(keepAlive: true)
 GoRouter appRouter(AppRouterRef ref) {
-  final loginNotifier = ref.watch(loginNotifierProvider);
+  final LoginNotifier loginNotifier = ref.watch(loginNotifierProvider);
   final userTypeNotifier = ref.watch(userTypeNotifierProvider);
 
   return GoRouter(
@@ -56,20 +61,29 @@ GoRouter appRouter(AppRouterRef ref) {
       switch (currentLoginState) {
         case LoginState.initializing:
           ref.read(splashViewModelProvider);
+          print('로그인 스테이트: ${LoginState.initializing}');
           if (state.matchedLocation != RoutePath.splash) {
             return RoutePath.splash;
           }
         case LoginState.loggedIn:
+          if (hasUserType == null) {
+            return null;
+          }
+
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
+            logger.i(hasUserType);
             if (hasUserType == false) {
+              logger.i('1');
               return RoutePath.home;
             } else {
-              return RoutePath.home;
+              logger.i('2');
+              return RoutePath.typeTestStart;
             }
           }
           return null;
         case LoginState.loggedOut:
+          print('로그인 스테이트: ${LoginState.loggedOut}');
           if (state.matchedLocation != RoutePath.auth) {
             return RoutePath.auth;
           }
@@ -103,8 +117,8 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) => CustomScaffold(
-            navigationShell: navigationShell,
-          ),
+                navigationShell: navigationShell,
+              ),
           branches: [
             StatefulShellBranch(routes: [
               GoRoute(
@@ -203,13 +217,19 @@ GoRouter appRouter(AppRouterRef ref) {
           final spots = args['spots'] as List<SpotMonthResponse>;
           final int? placeId = args['placeId'];
 
-
-          return MonthlySpotMap(year: year, month: month, spots: spots,initialSelectedPlaceId: placeId,);
+          return MonthlySpotMap(year: year, month: month, spots: spots,);
         },
       ),
       GoRoute(
-        path: RoutePath.folderDetail,
-        builder: (context, state) => FolderDetailScreen(),
+        path: '/${RoutePath.folderDetailBase}/:id',
+        builder: (context, state) {
+          final folderId = state.pathParameters['id']!;
+          final FolderDetailArg args = state.extra as FolderDetailArg;
+          return FolderDetailScreen(
+              folderId: folderId,
+              folderName: args.folderName,
+              isDefault: args.isDefault);
+        },
       ),
       GoRoute(
         path: RoutePath.travelSpot,

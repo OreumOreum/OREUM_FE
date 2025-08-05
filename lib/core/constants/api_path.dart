@@ -17,4 +17,6 @@ abstract class ApiPath {
   static String spotRanking(String spotId) => '/api/v1/spots/$spotId/ranking';
 
   static const String myInfo = '/api/v1/member/me';
+  static const String folder = '/v1/folder';
+  static String folderDetail(String folderId) => '/v1/folder/$folderId';
 }

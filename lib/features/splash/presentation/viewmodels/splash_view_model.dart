@@ -20,6 +20,7 @@ class SplashViewModel extends _$SplashViewModel {
   }
 
   Future<LoginState> _checkLoginStatus() async {
+    print('체크 스테이터스 시작');
 
     final SecureStorageRepositoryImpl secureStorageRepositoryImpl =
     ref.read(secureStorageRepositoryProvider);
