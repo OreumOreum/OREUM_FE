@@ -10,4 +10,7 @@ abstract class ApiPath {
   static const String test = '/api/v1/member/test';
   static const String skipTest = '/api/v1/member/skip/test';
   static const String category = '/api/v1/member/me/category';
+
+  static const String folder = '/v1/folder';
+  static String folderDetail(String folderId) => '/v1/folder/$folderId';
 }

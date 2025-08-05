@@ -9,7 +9,7 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class FolderDetailListTile extends StatelessWidget {
   final String title;
-  final String thumbnailImage;
+  final String? thumbnailImage;
 
   const FolderDetailListTile(
       {super.key, required this.title, required this.thumbnailImage});
@@ -31,8 +31,8 @@ class FolderDetailListTile extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                  child: Image.network(
-                    thumbnailImage,
+                  child: thumbnailImage == null ? Container(color: AppColors.gray100,) : Image.network(
+                    thumbnailImage!,
                     width: double.infinity,
                     height: double.infinity,
                     fit: BoxFit.cover,
