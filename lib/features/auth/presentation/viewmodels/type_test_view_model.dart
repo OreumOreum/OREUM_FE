@@ -122,7 +122,7 @@ class TypeTestViewModel extends _$TypeTestViewModel {
     SkipTypeTestUseCase skipTypeTestUseCase = ref.read(skipTypeTestUseCaseProvider);
     await skipTypeTestUseCase.call();
   }
-  
+
   Future<void> submitTypeTestResult(String type) async {
     SubmitTypeTestResultUseCase submitTypeTestResultUseCase = ref.read(submitTypeTestResultUseCaseProvider);
     await submitTypeTestResultUseCase.call(type);

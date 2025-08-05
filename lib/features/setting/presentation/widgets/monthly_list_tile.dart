@@ -1,27 +1,32 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/features/spot/data/models/spot_response.dart';
 
-import '../../../../core/constants/destination.dart';
 import '../../../../core/constants/icon_path.dart';
 
 class MonthlyListTile extends StatelessWidget {
   final String month;
-  final List<Destination> destinations;
+  // 1. 파라미터가 List<Destination>에서 List<SpotResponse>로 변경됨
+  final List<SpotResponse> spots;
 
   const MonthlyListTile({
     super.key,
     required this.month,
-    required this.destinations,
+    required this.spots, // 생성자도 함께 변경
   });
 
   @override
   Widget build(BuildContext context) {
+    // 2. 방문한 order들만 Set으로 만들어 빠른 조회를 가능하게 함
+    final visitedOrders = spots.map((spot) => spot.order).toSet();
+
+    // 3. 항상 표시될 4개의 고정된 위치 텍스트
+    const fixedCircles = ['서귀포시', '서귀포시', '제주시', '제주시'];
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
       child: Row(
@@ -44,7 +49,7 @@ class MonthlyListTile extends StatelessWidget {
           Text(
             '$month월',
             style: context.textStyles.label3.copyWith(
-              color: AppColors.primary, //월 색
+              color: AppColors.primary,
             ),
           ),
           SizedBox(
@@ -52,34 +57,21 @@ class MonthlyListTile extends StatelessWidget {
           ),
           Expanded(
             child: Row(
-              // MainAxisAlignment.spaceBetween를 사용하여 원들을 균등하게 배치합니다.
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: destinations.map((destination) {
-                // isVisited와 sigunguCode 값에 따라 텍스트와 색상을 결정하는 로직
+              children: List.generate(4, (index) {
+                final bool isVisited = visitedOrders.contains(index);
+
                 Widget circleContent;
                 Color borderColor;
                 double borderWidth;
-                if (destination.isVisited) {
-                  // 방문했다면 '오름오름' 텍스트와 주황색을 사용
 
+                if (isVisited) {
                   borderColor = AppColors.primary;
                   borderWidth = 3.r;
-                  circleContent = SvgPicture.asset(
-                    IconPath.oreumStamp,
-
-                  );
+                  circleContent = SvgPicture.asset(IconPath.oreumStamp);
                 } else {
-                  String displayText;
-                  switch (destination.sigunguCode) {
-                    case '3':
-                      displayText = '서귀포시';
-                      break;
-                    case '4':
-                      displayText = '제주시';
-                      break;
-                    default:
-                      displayText = ''; // 알 수 없는 코드일 경우 빈 텍스트
-                  }
+                  // 방문하지 않았다면 고정된 텍스트 표시
+                  final String displayText = fixedCircles[index];
                   borderColor = AppColors.gray200;
                   borderWidth = 2.r;
                   circleContent = Text(
@@ -93,7 +85,6 @@ class MonthlyListTile extends StatelessWidget {
                   );
                 }
 
-                // 각 여행지(destination)에 대해 원 위젯을 생성합니다.
                 return Container(
                   width: 60.r,
                   height: 60.r,
@@ -101,7 +92,7 @@ class MonthlyListTile extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Colors.transparent,
                     border: Border.all(
-                      color: borderColor, // 테두리색
+                      color: borderColor,
                       width: borderWidth,
                     ),
                   ),
@@ -109,7 +100,7 @@ class MonthlyListTile extends StatelessWidget {
                     child: circleContent,
                   ),
                 );
-              }).toList(), // map의 결과는 Iterable이므로 List로 변환합니다.
+              }),
             ),
           ),
         ],

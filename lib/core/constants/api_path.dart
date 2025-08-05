@@ -11,6 +11,12 @@ abstract class ApiPath {
   static const String skipTest = '/api/v1/member/skip/test';
   static const String category = '/api/v1/member/me/category';
 
+  static String spotStampYear(String year) => '/api/v1/spots/stamp/$year';
+  static String spotStampYearMonth(String year, String month) => '/api/v1/spots/stamp/$year/$month';
+  static String spotVisit(String spotId) => '/api/v1/spots/$spotId/visit';
+  static String spotRanking(String spotId) => '/api/v1/spots/$spotId/ranking';
+
+  static const String myInfo = '/api/v1/member/me';
   static const String folder = '/v1/folder';
   static String folderDetail(String folderId) => '/v1/folder/$folderId';
 }

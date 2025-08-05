@@ -8,13 +8,11 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
+import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/themes/app_theme.dart';
+import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/routes/app_router.dart';
-import 'core/storage/secure_storage_repository_impl.dart';
-import 'core/utils/custom_logger.dart';
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
