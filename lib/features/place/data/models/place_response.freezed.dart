@@ -25,11 +25,13 @@ mixin _$PlaceResponse {
   String get middleCategory => throw _privateConstructorUsedError;
   String get largeCategory => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
+  String get originImage => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
   int get sigunguCode => throw _privateConstructorUsedError;
   String? get overview => throw _privateConstructorUsedError;
   double get mapX => throw _privateConstructorUsedError;
   double get mapY => throw _privateConstructorUsedError;
-  int get averageRate => throw _privateConstructorUsedError;
+  double get averageRate => throw _privateConstructorUsedError;
   int get reviewCount => throw _privateConstructorUsedError;
   bool get isSpot => throw _privateConstructorUsedError;
   bool get isSaved => throw _privateConstructorUsedError;
@@ -56,11 +58,13 @@ abstract class $PlaceResponseCopyWith<$Res> {
       String middleCategory,
       String largeCategory,
       String address,
+      String originImage,
+      String contentTypeId,
       int sigunguCode,
       String? overview,
       double mapX,
       double mapY,
-      int averageRate,
+      double averageRate,
       int reviewCount,
       bool isSpot,
       bool isSaved});
@@ -86,6 +90,8 @@ class _$PlaceResponseCopyWithImpl<$Res, $Val extends PlaceResponse>
     Object? middleCategory = null,
     Object? largeCategory = null,
     Object? address = null,
+    Object? originImage = null,
+    Object? contentTypeId = null,
     Object? sigunguCode = null,
     Object? overview = freezed,
     Object? mapX = null,
@@ -116,6 +122,14 @@ class _$PlaceResponseCopyWithImpl<$Res, $Val extends PlaceResponse>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      originImage: null == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       sigunguCode: null == sigunguCode
           ? _value.sigunguCode
           : sigunguCode // ignore: cast_nullable_to_non_nullable
@@ -135,7 +149,7 @@ class _$PlaceResponseCopyWithImpl<$Res, $Val extends PlaceResponse>
       averageRate: null == averageRate
           ? _value.averageRate
           : averageRate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       reviewCount: null == reviewCount
           ? _value.reviewCount
           : reviewCount // ignore: cast_nullable_to_non_nullable
@@ -166,11 +180,13 @@ abstract class _$$PlaceResponseImplCopyWith<$Res>
       String middleCategory,
       String largeCategory,
       String address,
+      String originImage,
+      String contentTypeId,
       int sigunguCode,
       String? overview,
       double mapX,
       double mapY,
-      int averageRate,
+      double averageRate,
       int reviewCount,
       bool isSpot,
       bool isSaved});
@@ -194,6 +210,8 @@ class __$$PlaceResponseImplCopyWithImpl<$Res>
     Object? middleCategory = null,
     Object? largeCategory = null,
     Object? address = null,
+    Object? originImage = null,
+    Object? contentTypeId = null,
     Object? sigunguCode = null,
     Object? overview = freezed,
     Object? mapX = null,
@@ -224,6 +242,14 @@ class __$$PlaceResponseImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
+      originImage: null == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       sigunguCode: null == sigunguCode
           ? _value.sigunguCode
           : sigunguCode // ignore: cast_nullable_to_non_nullable
@@ -243,7 +269,7 @@ class __$$PlaceResponseImplCopyWithImpl<$Res>
       averageRate: null == averageRate
           ? _value.averageRate
           : averageRate // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       reviewCount: null == reviewCount
           ? _value.reviewCount
           : reviewCount // ignore: cast_nullable_to_non_nullable
@@ -269,6 +295,8 @@ class _$PlaceResponseImpl implements _PlaceResponse {
       required this.middleCategory,
       required this.largeCategory,
       required this.address,
+      required this.originImage,
+      required this.contentTypeId,
       required this.sigunguCode,
       this.overview,
       required this.mapX,
@@ -292,6 +320,10 @@ class _$PlaceResponseImpl implements _PlaceResponse {
   @override
   final String address;
   @override
+  final String originImage;
+  @override
+  final String contentTypeId;
+  @override
   final int sigunguCode;
   @override
   final String? overview;
@@ -300,7 +332,7 @@ class _$PlaceResponseImpl implements _PlaceResponse {
   @override
   final double mapY;
   @override
-  final int averageRate;
+  final double averageRate;
   @override
   final int reviewCount;
   @override
@@ -310,7 +342,7 @@ class _$PlaceResponseImpl implements _PlaceResponse {
 
   @override
   String toString() {
-    return 'PlaceResponse(title: $title, smallCategory: $smallCategory, middleCategory: $middleCategory, largeCategory: $largeCategory, address: $address, sigunguCode: $sigunguCode, overview: $overview, mapX: $mapX, mapY: $mapY, averageRate: $averageRate, reviewCount: $reviewCount, isSpot: $isSpot, isSaved: $isSaved)';
+    return 'PlaceResponse(title: $title, smallCategory: $smallCategory, middleCategory: $middleCategory, largeCategory: $largeCategory, address: $address, originImage: $originImage, contentTypeId: $contentTypeId, sigunguCode: $sigunguCode, overview: $overview, mapX: $mapX, mapY: $mapY, averageRate: $averageRate, reviewCount: $reviewCount, isSpot: $isSpot, isSaved: $isSaved)';
   }
 
   @override
@@ -326,6 +358,10 @@ class _$PlaceResponseImpl implements _PlaceResponse {
             (identical(other.largeCategory, largeCategory) ||
                 other.largeCategory == largeCategory) &&
             (identical(other.address, address) || other.address == address) &&
+            (identical(other.originImage, originImage) ||
+                other.originImage == originImage) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId) &&
             (identical(other.sigunguCode, sigunguCode) ||
                 other.sigunguCode == sigunguCode) &&
             (identical(other.overview, overview) ||
@@ -349,6 +385,8 @@ class _$PlaceResponseImpl implements _PlaceResponse {
       middleCategory,
       largeCategory,
       address,
+      originImage,
+      contentTypeId,
       sigunguCode,
       overview,
       mapX,
@@ -381,11 +419,13 @@ abstract class _PlaceResponse implements PlaceResponse {
       required final String middleCategory,
       required final String largeCategory,
       required final String address,
+      required final String originImage,
+      required final String contentTypeId,
       required final int sigunguCode,
       final String? overview,
       required final double mapX,
       required final double mapY,
-      required final int averageRate,
+      required final double averageRate,
       required final int reviewCount,
       required final bool isSpot,
       required final bool isSaved}) = _$PlaceResponseImpl;
@@ -404,6 +444,10 @@ abstract class _PlaceResponse implements PlaceResponse {
   @override
   String get address;
   @override
+  String get originImage;
+  @override
+  String get contentTypeId;
+  @override
   int get sigunguCode;
   @override
   String? get overview;
@@ -412,7 +456,7 @@ abstract class _PlaceResponse implements PlaceResponse {
   @override
   double get mapY;
   @override
-  int get averageRate;
+  double get averageRate;
   @override
   int get reviewCount;
   @override

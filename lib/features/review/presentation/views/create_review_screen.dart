@@ -192,7 +192,7 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               SizedBox(width: 18.w)
             ],
           ),
-          SizedBox(height: 93.h),
+          Spacer(),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: SizedBox(

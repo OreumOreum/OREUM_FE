@@ -140,7 +140,7 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ImageSlider(images: courseImages),
+              ImageSlider(images: ''),
               Padding(
                 padding:
                 EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),

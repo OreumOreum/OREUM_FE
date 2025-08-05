@@ -4,7 +4,7 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 
 
 class ImageSlider extends StatefulWidget {
-  final List<String> images;
+  final String images;
   final double? height;
 
   const ImageSlider({

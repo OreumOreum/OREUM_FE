@@ -19,6 +19,7 @@ mixin _$PlaceDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   PlaceResponse? get place => throw _privateConstructorUsedError;
+  List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +34,11 @@ abstract class $PlaceDetailStateCopyWith<$Res> {
           PlaceDetailState value, $Res Function(PlaceDetailState) then) =
       _$PlaceDetailStateCopyWithImpl<$Res, PlaceDetailState>;
   @useResult
-  $Res call({UiStatus status, String errorMessage, PlaceResponse? place});
+  $Res call(
+      {UiStatus status,
+      String errorMessage,
+      PlaceResponse? place,
+      List<ReviewResponse> reviews});
 
   $PlaceResponseCopyWith<$Res>? get place;
 }
@@ -56,6 +61,7 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
     Object? status = null,
     Object? errorMessage = null,
     Object? place = freezed,
+    Object? reviews = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -70,6 +76,10 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
           ? _value.place
           : place // ignore: cast_nullable_to_non_nullable
               as PlaceResponse?,
+      reviews: null == reviews
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewResponse>,
     ) as $Val);
   }
 
@@ -96,7 +106,11 @@ abstract class _$$PlaceDetailStateImplCopyWith<$Res>
       __$$PlaceDetailStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UiStatus status, String errorMessage, PlaceResponse? place});
+  $Res call(
+      {UiStatus status,
+      String errorMessage,
+      PlaceResponse? place,
+      List<ReviewResponse> reviews});
 
   @override
   $PlaceResponseCopyWith<$Res>? get place;
@@ -118,6 +132,7 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? errorMessage = null,
     Object? place = freezed,
+    Object? reviews = null,
   }) {
     return _then(_$PlaceDetailStateImpl(
       status: null == status
@@ -132,6 +147,10 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
           ? _value.place
           : place // ignore: cast_nullable_to_non_nullable
               as PlaceResponse?,
+      reviews: null == reviews
+          ? _value._reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewResponse>,
     ));
   }
 }
@@ -140,7 +159,11 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
 
 class _$PlaceDetailStateImpl implements _PlaceDetailState {
   const _$PlaceDetailStateImpl(
-      {this.status = UiStatus.idle, this.errorMessage = '', this.place});
+      {this.status = UiStatus.idle,
+      this.errorMessage = '',
+      this.place,
+      final List<ReviewResponse> reviews = const []})
+      : _reviews = reviews;
 
   @override
   @JsonKey()
@@ -150,10 +173,18 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
   final String errorMessage;
   @override
   final PlaceResponse? place;
+  final List<ReviewResponse> _reviews;
+  @override
+  @JsonKey()
+  List<ReviewResponse> get reviews {
+    if (_reviews is EqualUnmodifiableListView) return _reviews;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reviews);
+  }
 
   @override
   String toString() {
-    return 'PlaceDetailState(status: $status, errorMessage: $errorMessage, place: $place)';
+    return 'PlaceDetailState(status: $status, errorMessage: $errorMessage, place: $place, reviews: $reviews)';
   }
 
   @override
@@ -164,11 +195,13 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            (identical(other.place, place) || other.place == place));
+            (identical(other.place, place) || other.place == place) &&
+            const DeepCollectionEquality().equals(other._reviews, _reviews));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, errorMessage, place);
+  int get hashCode => Object.hash(runtimeType, status, errorMessage, place,
+      const DeepCollectionEquality().hash(_reviews));
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -184,7 +217,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
   const factory _PlaceDetailState(
       {final UiStatus status,
       final String errorMessage,
-      final PlaceResponse? place}) = _$PlaceDetailStateImpl;
+      final PlaceResponse? place,
+      final List<ReviewResponse> reviews}) = _$PlaceDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -192,6 +226,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
   String get errorMessage;
   @override
   PlaceResponse? get place;
+  @override
+  List<ReviewResponse> get reviews;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.

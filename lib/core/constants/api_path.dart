@@ -14,4 +14,6 @@ abstract class ApiPath {
   static const String course = '/v1/course';
 
   static String place(String placeId) => '/v1/place/$placeId';
+
+  static String review(String placeId) => '/v1/place/review/$placeId';
 }

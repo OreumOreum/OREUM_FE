@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
+import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../../../core/constants/ui_status.dart';
 
@@ -11,5 +12,6 @@ class PlaceDetailState with _$PlaceDetailState{
     @Default(UiStatus.idle) UiStatus status,
     @Default('') String errorMessage,
     PlaceResponse? place,
+    @Default([]) List<ReviewResponse> reviews,
   }) = _PlaceDetailState;
 }

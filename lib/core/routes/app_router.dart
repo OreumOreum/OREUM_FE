@@ -62,9 +62,9 @@ GoRouter appRouter(AppRouterRef ref) {
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
             if (hasUserType == false) {
-              return RoutePath.home;
+              return RoutePath.placeDetail;
             } else {
-              return RoutePath.home;
+              return RoutePath.placeDetail;
             }
           }
           return null;

@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
@@ -16,13 +17,14 @@ import 'package:oreum_fe/features/course/presentation/widgets/detail_container.d
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
+import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
 class PlaceDetailScreen extends ConsumerStatefulWidget {
-
-  PlaceDetailScreen({super.key,
+  PlaceDetailScreen({
+    super.key,
   });
 
   @override
@@ -37,25 +39,25 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
       'title': '제주항 선터수',
       'address': '제주시 삼동 310-45',
       'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '김녕 해수욕장',
       'address': '제주시 구좌읍 김녕해안로 237',
       'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '삼지교',
       'address': '제주 서귀포시 삼성리 교회',
       'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '서귀포 올레시장',
       'address': '제주 서귀포시 서호동 340',
       'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
   ];
 
@@ -67,7 +69,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
       'detail4': '주차시설    가능',
       'detail5': '냄비유무    있음',
       'detail6':
-      '하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침'
+          '하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침'
     }
   ];
 
@@ -91,28 +93,28 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
       'type': '모험 액티비티형',
       'date': '2025.06.26',
       'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
+          '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
       'rating': '4'
     },
     {
       'type': '모험 액티비티형',
       'date': '2025.06.26',
       'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
+          '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
       'rating': '4'
     },
     {
       'type': '모험 액티비티형',
       'date': '2025.06.26',
       'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
+          '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
       'rating': '4'
     },
     {
       'type': '모험 액티비티형',
       'date': '2025.06.26',
       'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
+          '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
       'rating': '4'
     },
   ];
@@ -120,33 +122,56 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
   final List<Map<String, String>> placeImages = [
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
   ];
+
+  String? _getContentTypeIcon(String contentTypeId) {
+    final type = ContentTypeId.fromContentTypeId(contentTypeId);
+    switch (type) {
+      case ContentTypeId.attraction:
+        return IconPath.flags(ContentTypeId.attraction.name);
+      case ContentTypeId.culture:
+        return IconPath.flags(ContentTypeId.culture.name);
+      case ContentTypeId.event:
+        return IconPath.flags(ContentTypeId.event.name);
+      case ContentTypeId.reports:
+        return IconPath.flags(ContentTypeId.reports.name);
+      case ContentTypeId.stay:
+        return IconPath.flags(ContentTypeId.stay.name);
+      case ContentTypeId.shopping:
+        return IconPath.flags(ContentTypeId.shopping.name);
+      case ContentTypeId.restaurant:
+        return IconPath.flags(ContentTypeId.restaurant.name);
+      default:
+        return null;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(placeDetailViewModelProvider.notifier).initializePlaceDetail('1'); //일단 하드하게
+      ref
+          .read(placeDetailViewModelProvider.notifier)
+          .initializePlaceDetail('1'); //일단 하드하게
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
     final state = ref.watch(placeDetailViewModelProvider);
 
     if (state.status == UiStatus.loading) {
@@ -168,16 +193,17 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     }
 
     PlaceResponse place = state.place!;
+    List<ReviewResponse> reviews = state.reviews;
 
     return Scaffold(
         appBar: CustomAppBar.back(),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ImageSlider(images: courseImages),
+              ImageSlider(images: place.originImage),
               Padding(
                 padding:
-                EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -185,9 +211,15 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SvgPicture.asset(IconPath.nature),
-                        SizedBox(width: 12.w),
-                        SvgPicture.asset(IconPath.monthSpot),
+                        if (_getContentTypeIcon(place.contentTypeId) !=
+                            null) ...[
+                          SvgPicture.asset(
+                              _getContentTypeIcon(place.contentTypeId)!,
+                              height: 26.h),
+                          if (place.isSpot) SizedBox(width: 12.w),
+                        ],
+                        if (place.isSpot)
+                          SvgPicture.asset(IconPath.monthSpot, height: 26.h),
                       ],
                     ),
                     SizedBox(height: 14.h),
@@ -225,7 +257,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200)),
                         SizedBox(width: 2.w),
-                        Text(place.reviewCount.toString(),
+                        Text('(${place.reviewCount.toString()})',
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200))
                       ],
@@ -240,12 +272,14 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                             .copyWith(color: AppColors.gray500)),
                     SizedBox(height: 8.h),
                     Text(
-                      detailList[0]['detail6']!, //여기 바로 불러옴
-                      style: context.textStyles.body2.copyWith(color: AppColors.gray400),
+                      place.overview != null ? place.overview! : '', //여기 바로 불러옴
+                      style: context.textStyles.body2
+                          .copyWith(color: AppColors.gray400),
                       maxLines: isExpanded ? null : 3,
-                      overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                      overflow: isExpanded
+                          ? TextOverflow.visible
+                          : TextOverflow.ellipsis,
                     ),
-
 
                     SizedBox(height: 18.h),
                     Divider(height: 1.h, color: AppColors.gray100),
@@ -259,11 +293,9 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 isExpanded = !isExpanded;
                               });
                             },
-                            child: Text(
-                                isExpanded ? '접기' : AppStrings.showMore,
-                                style: context.textStyles.body1.copyWith(color: AppColors.gray200)
-                            )
-                        ),
+                            child: Text(isExpanded ? '접기' : AppStrings.showMore,
+                                style: context.textStyles.body1
+                                    .copyWith(color: AppColors.gray200))),
                       ],
                     ),
                     SizedBox(height: 48.h),
@@ -283,8 +315,6 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                         ),
                       ],
                     ),
-
-
                   ],
                 ),
               ),
@@ -297,13 +327,12 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   primary: false,
-                  itemCount: 4,
+                  itemCount: reviews.length,
                   itemBuilder: (BuildContext context, int index) {
-                    String type = mockReview[index]['type']!;
-                    String date = mockReview[index]['date']!;
-                    String content =
-                    mockReview[index]['content']!;
-                    double rating = double.parse(mockReview[index]['rating']!);
+                    String type = '익명의 ${reviews[index].type}';
+                    String date = reviews[index].createdAt.toString();
+                    String content = reviews[index].content;
+                    double rating = reviews[index].rate;
                     return ReviewListTile(
                         type: type,
                         date: date,
@@ -312,20 +341,21 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 8.h,),
+              SizedBox(
+                height: 8.h,
+              ),
               Divider(height: 1.h, color: AppColors.gray100),
-              SizedBox(height: 18.h,),
-
+              SizedBox(
+                height: 18.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
                       onPressed: () {},
-                      child: Text(
-                          '전체보기',
-                          style: context.textStyles.body1.copyWith(color: AppColors.gray200)
-                      )
-                  ),
+                      child: Text('전체보기',
+                          style: context.textStyles.body1
+                              .copyWith(color: AppColors.gray200))),
                 ],
               ),
               SizedBox(height: 48.h),
@@ -349,17 +379,24 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                       height: 120.h,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppSizes.defaultPadding),
                         itemCount: placeImages.length,
                         itemBuilder: (BuildContext context, int index) {
-                          String thumbnailImage = placeImages[index]['thumbnailImage']!;
+                          String thumbnailImage =
+                              placeImages[index]['thumbnailImage']!;
                           return ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSizes.radiusXS,),
-                            child: Image.network(thumbnailImage, height: 120.h, width: 163.w, fit: BoxFit.cover),
+                            borderRadius: BorderRadius.circular(
+                              AppSizes.radiusXS,
+                            ),
+                            child: Image.network(thumbnailImage,
+                                height: 120.h, width: 163.w, fit: BoxFit.cover),
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(width: 8.w,);
+                          return SizedBox(
+                            width: 8.w,
+                          );
                         },
                       ),
                     ),
