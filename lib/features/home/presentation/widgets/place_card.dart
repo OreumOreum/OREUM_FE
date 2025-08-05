@@ -30,31 +30,28 @@ class PlaceCard extends StatelessWidget {
         bottomLeft: Radius.circular(AppSizes.radiusXS),
         bottomRight: Radius.circular(AppSizes.radiusXS),
       ),
-      child: SizedBox(
-        width: 250.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            HomeTitleText(
-              title: title,
-              primaryText: type,
-              subtitle: AppStrings.placeCardSubTitle(category),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          HomeTitleText(
+            title: title,
+            primaryText: type,
+            subtitle: AppStrings.placeCardSubTitle(category),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+            child: Image.network(
+              thumbnailImage,
+              height: 145.h,
+              width: 250.w,
+              fit: BoxFit.cover,
             ),
-            SizedBox(
-              height: 10.h,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-              child: Image.network(
-                thumbnailImage,
-                height: 145.h,
-                width: 250.w,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

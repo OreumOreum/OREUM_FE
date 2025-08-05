@@ -17,17 +17,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return;
-
-      context.pushReplacement(RoutePath.home);
-
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   Future.delayed(const Duration(seconds: 2), () {
+  //     if (!mounted) return;
+  //
+  //     context.pushReplacement(RoutePath.auth);
+  //
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

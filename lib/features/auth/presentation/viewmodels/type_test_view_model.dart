@@ -25,9 +25,9 @@ final _initialQuestions = <TypeQuestion>[
   TypeQuestion(questionText: '현지 로컬 음식은 꼭 먹어봐야 한다고 생각한다.', type: TravelType.food),
 
   /// 포레스트 힐러
-  TypeQuestion(questionText: '복잡한 도시보다 자연에서 쉬는 것이 더 좋다.', type: TravelType.nature),
-  TypeQuestion(questionText: '조용한 풍경 속에서 사진 찍는 것을 즐긴다.', type: TravelType.nature),
-  TypeQuestion(questionText: '여행은 ‘쉼’이 가장 중요하다고 생각한다.', type: TravelType.nature),
+  TypeQuestion(questionText: '복잡한 도시보다 자연에서 쉬는 것이 더 좋다.', type: TravelType.forest),
+  TypeQuestion(questionText: '조용한 풍경 속에서 사진 찍는 것을 즐긴다.', type: TravelType.forest),
+  TypeQuestion(questionText: '여행은 ‘쉼’이 가장 중요하다고 생각한다.', type: TravelType.forest),
 
   ///컬처 시커
   TypeQuestion(questionText: '여행지를 가면 박물관이나 전시를 꼭 간다.', type: TravelType.culture),
@@ -94,7 +94,7 @@ class TypeTestViewModel extends StateNotifier<TypeTestState> {
       TravelType.activity,
       TravelType.mood,
       TravelType.food,
-      TravelType.nature,
+      TravelType.forest,
       TravelType.culture,
       TravelType.social,
     ];
