@@ -60,4 +60,10 @@ abstract class IconPath {
   static const String settingActivate = 'assets/icons/setting_activate.svg';
   static const String settingDisable = 'assets/icons/setting_disable.svg';
   static const String addFolder = 'assets/icons/add_folder.svg';
+
+  static const String trashCan = 'assets/icons/trash_can.svg';
+  static const String pencil = 'assets/icons/pencil.svg';
+  static const String arrowRight = 'assets/icons/arrow_right.svg';
+
+  static const String divider = 'assets/icons/divider.svg';
 }

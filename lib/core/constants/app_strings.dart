@@ -89,6 +89,7 @@ abstract class AppStrings {
   static const String doSave = '저장하기';
   static const String addFolder = '폴더 추가';
   static const String addFolderButtonText = '폴더 추가하기';
+  static const String editFolderButtonText = '폴더 수정하기';
   static const String addFolderHintText = '폴더 이름을 입력해주세요.';
   static const String spotIntro = '여행지 소개';
   static const String showMore = '더보기';
@@ -97,4 +98,7 @@ abstract class AppStrings {
   static const String plannerBottomAppBar = '일정';
   static const String folderBottomAppBar = '저장됨';
   static const String settingBottomAppBar = '설정';
+  static const String changeName = '이름 변경';
+  static const String deleteFolder = '폴더 삭제';
+  static const String editFolder = '폴더 수정';
 }

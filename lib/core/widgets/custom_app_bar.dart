@@ -15,6 +15,7 @@ enum AppBarType {
   logoCenter,
   logoWithButton,
   back,
+  backWithText,
   backWithButtonAndText,
   backWithTextButtonAndText,
   backWithSearchBar,
@@ -64,6 +65,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   factory CustomAppBar.back() => CustomAppBar(type: AppBarType.back);
 
+  factory CustomAppBar.backWithText({
+    required String title,
+  }) =>
+      CustomAppBar(
+        type: AppBarType.backWithText,
+        title: title,
+      );
+
   factory CustomAppBar.backWithButtonAndText(
           {required String title,
           required ActionType actionType,
@@ -83,8 +92,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         onActionPressed: onActionPressed,
       );
 
-  factory CustomAppBar.backWithSearchBar({required TextEditingController controller}) =>
-      CustomAppBar(type: AppBarType.backWithSearchBar,searchController: controller);
+  factory CustomAppBar.backWithSearchBar(
+          {required TextEditingController controller}) =>
+      CustomAppBar(
+          type: AppBarType.backWithSearchBar, searchController: controller);
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +162,37 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ],
+          ),
+        );
+      case AppBarType.backWithText:
+        return AppBar(
+          automaticallyImplyLeading: false,
+          titleSpacing: -10.w,
+          leading: Row(
+            children: [
+              SizedBox(
+                width: AppSizes.defaultPadding,
+              ),
+              SizedBox(
+                height: AppSizes.iconSM,
+                width: AppSizes.iconSM,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  onPressed: () {
+                    context.pop();
+                  },
+                  icon: SvgPicture.asset(
+                    IconPath.backAppBar,
+                    width: 11.r,
+                  ),
+                ),
+              )
+            ],
+          ),
+          title: Text(
+            title!,
+            style: context.textStyles.label3.copyWith(color: AppColors.gray400),
           ),
         );
       case AppBarType.backWithButtonAndText:
@@ -272,12 +314,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           title: Row(
             children: [
-
               Expanded(
                   child: CustomSearchBar(
                 controller: searchController!,
               )),
-
               SizedBox(
                 width: 6.w,
               )

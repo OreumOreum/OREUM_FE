@@ -12,6 +12,7 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_result_scree
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
+import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
 
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
@@ -112,8 +113,8 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) => CustomScaffold(
-            navigationShell: navigationShell,
-          ),
+                navigationShell: navigationShell,
+              ),
           branches: [
             StatefulShellBranch(routes: [
               GoRoute(
@@ -214,8 +215,15 @@ GoRouter appRouter(AppRouterRef ref) {
         },
       ),
       GoRoute(
-        path: RoutePath.folderDetail,
-        builder: (context, state) => FolderDetailScreen(),
+        path: '/${RoutePath.folderDetailBase}/:id',
+        builder: (context, state) {
+          final folderId = state.pathParameters['id']!;
+          final FolderDetailArg args = state.extra as FolderDetailArg;
+          return FolderDetailScreen(
+              folderId: folderId,
+              folderName: args.folderName,
+              isDefault: args.isDefault);
+        },
       ),
       GoRoute(
         path: RoutePath.travelSpot,
