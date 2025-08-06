@@ -19,4 +19,9 @@ abstract class ApiPath {
   static const String myInfo = '/api/v1/member/me';
   static const String folder = '/v1/folder';
   static String folderDetail(String folderId) => '/v1/folder/$folderId';
+
+  static const String searchPlaces = '/v1/place/search-places';
+
+  static const String planner = '/v1/planner';
+  static plannerDetail(String plannerId) => '/v1/planner/$plannerId';
 }

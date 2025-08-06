@@ -13,14 +13,13 @@ class CourseDetailListTile extends StatelessWidget {
   final String thumbnailImage;
   final int totalItemCount;
 
-  const CourseDetailListTile(
-      {super.key,
-      required this.title,
-      required this.address,
-      required this.category,
-      required this.thumbnailImage,
-      required this.index,
-      required this.totalItemCount});
+  const CourseDetailListTile({super.key,
+    required this.title,
+    required this.address,
+    required this.category,
+    required this.thumbnailImage,
+    required this.index,
+    required this.totalItemCount});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,8 @@ class CourseDetailListTile extends StatelessWidget {
                   backgroundColor: AppColors.primary,
                   child: Text(
                     index.toString(),
-                    style: context.textStyles.label2.copyWith(color: AppColors.white),
+                    style: context.textStyles.label2.copyWith(
+                        color: AppColors.white),
                   ),
                 ),
               ),
@@ -47,33 +47,41 @@ class CourseDetailListTile extends StatelessWidget {
           SizedBox(
             width: 11.h,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category,
-                style: context.textStyles.label1
-                    .copyWith(color: AppColors.primary),
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                title,
-                style: context.textStyles.headLine4
-                    .copyWith(color: AppColors.gray500),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Text(
-                address,
-                style:
-                    context.textStyles.body1.copyWith(color: AppColors.gray400),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  category,
+                  style: context.textStyles.label1
+                      .copyWith(color: AppColors.primary),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Text(
+                  title,
+                  style: context.textStyles.headLine4
+                      .copyWith(color: AppColors.gray500),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Text(
+                  address,
+                  style:
+                  context.textStyles.body1.copyWith(color: AppColors.gray400),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          Spacer(),
+          SizedBox(
+            width: 8.w,
+          ),
           Column(
             children: [
               SizedBox(

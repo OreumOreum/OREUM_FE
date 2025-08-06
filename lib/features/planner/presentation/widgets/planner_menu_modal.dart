@@ -19,21 +19,22 @@ import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_v
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/states/folder_detail_state.dart';
 import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
+import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 
-class FolderMenuModal extends ConsumerStatefulWidget {
-  final String folderId;
+class PlannerMenuModal extends ConsumerStatefulWidget {
+  final String plannerId;
+  final bool isDetail;
 
-  const FolderMenuModal({super.key, required this.folderId});
+  const PlannerMenuModal({super.key, required this.plannerId, required this.isDetail});
 
   @override
-  ConsumerState<FolderMenuModal> createState() => _FolderMenuModalState();
+  ConsumerState<PlannerMenuModal> createState() => _PlannerMenuModalState();
 }
 
-class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
+class _PlannerMenuModalState extends ConsumerState<PlannerMenuModal> {
   @override
   Widget build(BuildContext context) {
-    final folderDetailState = ref.watch(folderDetailViewModelProvider);
-    final folderDetailViewModel = ref.read(folderDetailViewModelProvider.notifier);
+    final plannerListViewModel = ref.read(plannerListViewModelProvider.notifier);
     return SafeArea(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 1.w, sigmaY: 1.h),
@@ -41,7 +42,7 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius:
-                BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+            BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
@@ -62,7 +63,7 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
                 SizedBox(
                   height: 20.h,
                 ),
-                InkWell(
+                /* InkWell(
                   onTap: () {
                     context.pop();
                     showModalBottomSheet(
@@ -70,7 +71,7 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
                         isScrollControlled: true,
                         builder: (context) {
                           return NameEditingModal.folderEdit(
-                              folderId: widget.folderId);
+                              folderId: widget.plannerId);
                         });
                   },
                   child: ModalMenu(
@@ -79,14 +80,16 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
                       icon: IconPath.pencil,
                       iconHeight: 17.r,
                       iconWidth: 17.r),
-                ),
+                ), */
                 InkWell(
                   onTap: () async {
-                    await folderDetailViewModel.deleteMyFolder(widget.folderId);
-                    if(mounted && ref.read(folderDetailViewModelProvider).buttonStatus == UiStatus.success) {
+                    await plannerListViewModel.deletePlanner(widget.plannerId);
+                    if(mounted && ref.read(plannerListViewModelProvider).buttonStatus == UiStatus.success) {
                       context.pop();
-                      context.pop();
-                      CustomToast.showToast(context, '폴더가 삭제 되었습니다.', 16.h);
+                      if(widget.isDetail) {
+                        context.pop();
+                      }
+                      CustomToast.showToast(context, '일정이 삭제 되었습니다.', 16.h);
                     }
                   },
                   child: ModalMenu(
