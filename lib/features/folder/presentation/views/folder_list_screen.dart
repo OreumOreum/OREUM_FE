@@ -20,7 +20,7 @@ import 'package:oreum_fe/features/folder/data/models/folder_response.dart';
 import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/widgets/folder_list_tile.dart';
-import 'package:oreum_fe/features/folder/presentation/widgets/folder_name_modal.dart';
+import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
 
 class FolderListScreen extends ConsumerStatefulWidget {
   const FolderListScreen({super.key});
@@ -89,7 +89,7 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
                           useRootNavigator: true,
                           isScrollControlled: true,
                           builder: (context) {
-                            return FolderNameModal.create();
+                            return NameEditingModal.folderCreate();
                           });
                     },
                     child: Column(

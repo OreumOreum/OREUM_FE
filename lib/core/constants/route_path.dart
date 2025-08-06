@@ -6,9 +6,10 @@ abstract class RoutePath {
   static const String typeTestResult = '/typeTestResult';
   static const String home = '/home';
   static const String planner = '/planner';
-  static String plannerDetail(int id) => '/planner/$id';
+  static String plannerDetail(String id) => '/planner/$id';
   static String plannerDay(int id, int day) => '/planner/$id/day/$day';
   static String plannerEditWithId(String id) => '/planner/$id/edit';
+  static String plannerSearch = '/plannerSearch';
   static const String recommend = '/recommend';
 
   static const String createReview = '/createReview';
@@ -16,7 +17,6 @@ abstract class RoutePath {
   static const String myReview = '/myReview';
   static const String travelCourse = '/travelCourse';
   static const String travelSpot = '/travelSpot';
-
 
   static const String search = '/search';
   static const String setting = '/setting';

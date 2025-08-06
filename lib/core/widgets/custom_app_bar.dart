@@ -273,7 +273,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: onActionPressed,
               child: Text(
                 AppStrings.save,
                 style: context.textStyles.label4

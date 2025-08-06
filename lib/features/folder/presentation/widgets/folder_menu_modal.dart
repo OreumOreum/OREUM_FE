@@ -18,7 +18,7 @@ import 'package:oreum_fe/core/widgets/modal_menu.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/states/folder_detail_state.dart';
-import 'package:oreum_fe/features/folder/presentation/widgets/folder_name_modal.dart';
+import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
 
 class FolderMenuModal extends ConsumerStatefulWidget {
   final String folderId;
@@ -69,7 +69,7 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
-                          return FolderNameModal.edit(
+                          return NameEditingModal.folderEdit(
                               folderId: widget.folderId);
                         });
                   },

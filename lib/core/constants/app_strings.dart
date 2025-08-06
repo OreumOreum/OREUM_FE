@@ -101,4 +101,5 @@ abstract class AppStrings {
   static const String changeName = '이름 변경';
   static const String deleteFolder = '폴더 삭제';
   static const String editFolder = '폴더 수정';
+  static const String addPlanner = '일정 추가';
 }

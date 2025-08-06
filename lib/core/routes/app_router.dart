@@ -17,12 +17,13 @@ import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart'
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
-import 'package:oreum_fe/features/place/presentation/views/planner_detail_screen.dart';
-import 'package:oreum_fe/features/place/presentation/views/planner_edit_screen.dart';
-import 'package:oreum_fe/features/place/presentation/views/planner_list_screen.dart';
-import 'package:oreum_fe/features/place/presentation/views/tab_screens/planner_detail_tab_screen.dart';
+import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
+import 'package:oreum_fe/features/planner/presentation/views/planner_detail_screen.dart';
+import 'package:oreum_fe/features/planner/presentation/views/planner_edit_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
 import 'package:oreum_fe/features/home/presentation/views/search_screen.dart';
+import 'package:oreum_fe/features/planner/presentation/views/planner_list_screen.dart';
+import 'package:oreum_fe/features/planner/presentation/views/planner_search_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/my_review_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/account_setting_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot.dart';
@@ -143,7 +144,10 @@ GoRouter appRouter(AppRouterRef ref) {
           ]),
       GoRoute(
         path: '${RoutePath.planner}/edit',
-        builder: (context, state) => PlannerEditScreen(isEdit: false),
+        builder: (context, state) {
+          final String plannerName = state.extra as String;
+          return PlannerEditScreen(isEdit: false, plannerName: plannerName,);
+        },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
@@ -151,18 +155,29 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) {
           final String idStr = state.pathParameters['id']!;
           final int id = int.parse(idStr);
-          return PlannerEditScreen(isEdit: true, plannerId: id);
+          final extra = state.extra as Map<String, dynamic>;
+          final String plannerName = extra['plannerName'];
+          final List<PlannerEditPlace> editPlaces = extra['editPlaces'];
+          final int initialDay = extra['initialDay'];
+          return PlannerEditScreen(isEdit: true, plannerId: id, plannerName: plannerName, editPlaces: editPlaces, initialDay: initialDay,);
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '${RoutePath.planner}/:id',
         builder: (context, state) {
-          final String idStr = state.pathParameters['id']!;
-          final int id = int.parse(idStr);
-          return PlannerDetailScreen(plannerId: id);
+          final String plannerId = state.pathParameters['id']!;
+          final String plannerName = state.extra as String;
+          return PlannerDetailScreen(plannerId: plannerId, plannerName: plannerName,);
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+      ),
+      GoRoute(
+        path: RoutePath.plannerSearch,
+        builder: (context, state) {
+          final int day = state.extra as int;
+          return PlannerSearchScreen(day: day,);
+        }
       ),
       GoRoute(
         path: RoutePath.recommend,
