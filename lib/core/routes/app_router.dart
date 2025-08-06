@@ -5,6 +5,8 @@ import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/di/login_notifier.dart';
+import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
@@ -38,6 +40,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../features/course/presentation/views/travel_spot_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
+import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
+import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
 
 part 'app_router.g.dart';
@@ -225,8 +229,10 @@ GoRouter appRouter(AppRouterRef ref) {
 
           final int year = args['year']!;
           final int month = args['month']!;
+          final spots = args['spots'] as List<SpotMonthResponse>;
+          final int? placeId = args['placeId'];
 
-          return MonthlySpotMap(year: year, month: month);
+          return MonthlySpotMap(year: year, month: month, spots: spots,);
         },
       ),
       GoRoute(

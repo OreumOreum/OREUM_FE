@@ -35,6 +35,8 @@ abstract class IconPath {
   static const String oreumStamp = 'assets/icons/oreum_stamp.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
   static const String spotCheck = 'assets/icons/spot_check.svg';
+  static const String spotUncheck = 'assets/icons/spot_uncheck.svg';
+  static const String spotWarning = 'assets/icons/warning.svg';
 
   static const String bookmarkFill = 'assets/icons/bookmark_fill.svg';
 

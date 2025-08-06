@@ -11,8 +11,8 @@ class MonthlySpotListTile extends StatelessWidget {
   final String thumbnailImage;
   final String title;
   final String address;
+  final String sigungu;
   final bool isVisit;
-  final int sigunguCode;
 
   const MonthlySpotListTile(
       {super.key,
@@ -20,7 +20,8 @@ class MonthlySpotListTile extends StatelessWidget {
         required this.title,
         required this.address,
         required this.isVisit,
-        required this.sigunguCode,});
+        required this.sigungu,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -35,21 +36,10 @@ class MonthlySpotListTile extends StatelessWidget {
 
       );
     } else {
-      String displayText;
-      switch (sigunguCode) {
-        case 3:
-          displayText = '서귀포시';
-          break;
-        case 4:
-          displayText = '제주시';
-          break;
-        default:
-          displayText = '';
-      }
       borderColor = AppColors.gray200;
       borderWidth = 2.r;
       circleContent = Text(
-        displayText,
+        sigungu,
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
