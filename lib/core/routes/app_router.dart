@@ -10,7 +10,7 @@ import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
-import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
+import 'package:oreum_fe/features/course/presentation/views/course_detail_screen.dart';
 
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
@@ -62,9 +62,9 @@ GoRouter appRouter(AppRouterRef ref) {
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
             if (hasUserType == false) {
-              return RoutePath.placeDetail;
+              return RoutePath.courseDetail;
             } else {
-              return RoutePath.placeDetail;
+              return RoutePath.courseDetail;
             }
           }
           return null;
@@ -166,8 +166,8 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => ReviewDetailScreen(),
       ),
       GoRoute(
-        path: RoutePath.travelCourse,
-        builder: (context, state) => TravelCourseScreen(),
+        path: RoutePath.courseDetail,
+        builder: (context, state) => CourseDetailScreen(),
       ),
       GoRoute(
         path: RoutePath.search,

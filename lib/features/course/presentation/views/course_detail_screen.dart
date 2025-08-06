@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -9,23 +10,26 @@ import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/features/course/data/models/course_detail_response.dart';
+import 'package:oreum_fe/features/course/presentation/viewmodels/course_detail_view_model.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
 
+import '../../../../core/constants/ui_status.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
-class TravelCourseScreen extends StatefulWidget {
+class CourseDetailScreen extends ConsumerStatefulWidget {
 
-  TravelCourseScreen({super.key,
+  CourseDetailScreen({super.key,
   });
 
   @override
-  State<TravelCourseScreen> createState() => _TravelCourseScreenState();
+  ConsumerState<CourseDetailScreen> createState() => _CourseDetailScreenState();
 }
 
-class _TravelCourseScreenState extends State<TravelCourseScreen> {
+class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
   bool isExpanded = false;
 
   final List<Map<String, String>> placeList = [
@@ -133,7 +137,40 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref
+          .read(courseDetailViewModelProvider.notifier)
+          .initializeCourseDetail('1'); //일단 하드하게
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    final state = ref.watch(courseDetailViewModelProvider);
+
+    if (state.status == UiStatus.loading) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: CircularProgressIndicator(), //로티
+        ),
+      );
+    }
+
+    if (state.status == UiStatus.error) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Center(
+          child: Text('error: ${state.errorMessage}'),
+        ),
+      );
+    }
+
+    CourseDetailResponse course = state.courseDetail!;
+
     return Scaffold(
         appBar: CustomAppBar.backWithButtonAndText(
             title: '', onActionPressed: () {}, actionType: ActionType.dots),
@@ -158,7 +195,7 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(courseList[0]['title']!,
+                        Text(course.title,
                             style: context.textStyles.headLine3
                                 .copyWith(color: AppColors.gray500)),
                         SizedBox(
@@ -177,7 +214,7 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
                       ],
                     ),
                     SizedBox(height: 2.h),
-                    Text(courseList[0]['address']!,
+                    Text('제주시', //시군구코드 받아서
                         style: context.textStyles.body1
                             .copyWith(color: AppColors.gray400)),
                     SizedBox(height: 6.h),
@@ -185,11 +222,11 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
                       children: [
                         SvgPicture.asset(IconPath.star2),
                         SizedBox(width: 2.w),
-                        Text(courseList[0]['rating']!,
+                        Text(course.averageRate.toString(),
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200)),
                         SizedBox(width: 2.w),
-                        Text(courseList[0]['reviewNumber']!,
+                        Text('(${course.reviewCount.toString()})',
                             style: context.textStyles.caption1
                                 .copyWith(color: AppColors.gray200))
                       ],
@@ -202,7 +239,7 @@ class _TravelCourseScreenState extends State<TravelCourseScreen> {
                             .copyWith(color: AppColors.gray500)),
                     SizedBox(height: 8.h),
                     Text(
-                      detailList[0]['detail6']!,
+                      course.overview != null ? course.overview! : '',
                       style: context.textStyles.body2.copyWith(color: AppColors.gray400),
                       maxLines: isExpanded ? null : 3,
                       overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
