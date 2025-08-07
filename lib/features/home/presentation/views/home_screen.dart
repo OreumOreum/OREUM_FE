@@ -1,16 +1,26 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
+import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
+import 'package:oreum_fe/features/home/data/services/weather_service.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
+import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
+import 'package:oreum_fe/features/home/domain/entities/weather_info_extension.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
@@ -19,9 +29,14 @@ import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button
 
 import '../widgets/page_gradient_carousel.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final List<LargeCategory> largeCategories = LargeCategory.values;
 
   final List<Map<String, String>> mockPlace = [
@@ -194,7 +209,30 @@ class HomeScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(homeViewModelProvider.notifier).initializeHome();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(homeViewModelProvider);
+
+    if (state.status == UiStatus.loading) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 56.h),
+        child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+      ); //로티
+    }
+
+    if (state.status == UiStatus.error) {
+      return Text('error: ${state.errorMessage}');
+    }
+
+    WeatherInfo? weatherInfo = state.weatherInfo;
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +254,7 @@ class HomeScreen extends StatelessWidget {
                       height: 4.h,
                     ),
                     Text(
-                      AppStrings.weatherType('매우 맑을 것'),
+                      weatherInfo!.description,
                       style: context.textStyles.body1
                           .copyWith(color: AppColors.gray300),
                     ),
@@ -228,15 +266,19 @@ class HomeScreen extends StatelessWidget {
                   width: 72.r,
                   child: Center(
                     child: SvgPicture.asset(
-                      IconPath.cloud,
-                      width: 52.w,
+                      weatherInfo.iconAsset,
+                      width: weatherInfo.iconWidth,
                     ),
                   ),
                 ),
-                Text(
-                  '30°',
-                  style: context.textStyles.headLine2
-                      .copyWith(color: AppColors.primary),
+                Container(
+                  width: 42.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '${weatherInfo.temp}°',
+                    style: context.textStyles.headLine2
+                        .copyWith(color: AppColors.primary),
+                  ),
                 ),
               ],
             ),

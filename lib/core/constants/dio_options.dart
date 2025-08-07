@@ -7,3 +7,10 @@ final BaseOptions dioBaseOptions = BaseOptions(
   receiveTimeout: const Duration(seconds: 10),
   responseType: ResponseType.json,
 );
+
+final BaseOptions weatherDioBaseOptions = BaseOptions(
+  baseUrl: ApiPath.weatherBaseUrl,
+  connectTimeout: const Duration(seconds: 10),
+  receiveTimeout: const Duration(seconds: 10),
+  responseType: ResponseType.json,
+);

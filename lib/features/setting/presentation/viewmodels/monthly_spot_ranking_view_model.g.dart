@@ -7,7 +7,7 @@ part of 'monthly_spot_ranking_view_model.dart';
 // **************************************************************************
 
 String _$monthlySpotRankingViewModelHash() =>
-    r'f38c511c66ff1cfa1644776bbabb87ca440437bb';
+    r'567680ca262b89380782d8d1476533ac98e6a056';
 
 /// See also [MonthlySpotRankingViewModel].
 @ProviderFor(MonthlySpotRankingViewModel)

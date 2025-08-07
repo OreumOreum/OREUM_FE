@@ -68,4 +68,6 @@ abstract class IconPath {
   static const String arrowRight = 'assets/icons/arrow_right.svg';
 
   static const String divider = 'assets/icons/divider.svg';
+
+  static String weatherType(String weather) => 'assets/icons/weather_$weather.svg';
 }

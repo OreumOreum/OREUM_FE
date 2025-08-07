@@ -6,7 +6,7 @@ part of 'my_type_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myTravelTypeHash() => r'7937129ea445eb73f3bc9bad062e198e3f446d78';
+String _$myTravelTypeHash() => r'2e90593a0e42ab0bad4d7d246f0f2d2d4d30016b';
 
 /// See also [MyTravelType].
 @ProviderFor(MyTravelType)
