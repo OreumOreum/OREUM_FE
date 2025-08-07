@@ -20,3 +20,10 @@ Dio dio (DioRef ref) {
 
   return dio;
 }
+
+@Riverpod(keepAlive: true)
+Dio weatherDio (WeatherDioRef ref) {
+  final dio = Dio(weatherDioBaseOptions);
+
+  return dio;
+}

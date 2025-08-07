@@ -181,8 +181,8 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: AppColors.white,
-                                      borderRadius: const BorderRadius.vertical(
-                                          top: Radius.circular(42)),
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(42.r)),
                                     ),
                                     child: spotState.selectedSpot == null
                                         ? _buildSpotList(
@@ -208,13 +208,13 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                                         width: 42.w,
                                         height: 42.h,
                                         child: Container(
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             color: AppColors.white,
                                             shape: BoxShape.circle,
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.black12,
-                                                blurRadius: 5.0,
+                                                blurRadius: 5.r,
                                               )
                                             ],
                                           ),

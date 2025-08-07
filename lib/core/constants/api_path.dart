@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class ApiPath {
   static String baseUrl = dotenv.get('BASE_URL', fallback: null);
+  static String weatherBaseUrl = dotenv.get('WEATHER_BASE_URL', fallback: null);
 
   static const String refresh = '/v1/auth/refresh';
   static const String loginWithKakao = '/v1/auth/login/kakao';
@@ -24,4 +25,7 @@ abstract class ApiPath {
 
   static const String planner = '/v1/planner';
   static plannerDetail(String plannerId) => '/v1/planner/$plannerId';
+
+  static const String getVilageFcst = '/getVilageFcst';
+  static const String getUltraSrtNcst = '/getUltraSrtNcst';
 }

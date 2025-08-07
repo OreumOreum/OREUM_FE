@@ -94,6 +94,9 @@ class CourseDetailListTile extends StatelessWidget {
                   width: 84.r,
                   height: 84.r,
                   fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                    return SizedBox.shrink();
+                  },
                 ),
               )
             ],
