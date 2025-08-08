@@ -6,7 +6,7 @@ part of 'type_test_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$typeTestViewModelHash() => r'c5822e689e56cd36e291a528de73337f17752ce6';
+String _$typeTestViewModelHash() => r'7e809f4a0d63511386ea422534d4c4fed14fd72c';
 
 /// See also [TypeTestViewModel].
 @ProviderFor(TypeTestViewModel)

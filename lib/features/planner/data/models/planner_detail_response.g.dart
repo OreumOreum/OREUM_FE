@@ -16,7 +16,7 @@ _$PlannerDetailResponseImpl _$$PlannerDetailResponseImplFromJson(
       placeId: (json['placeId'] as num).toInt(),
       placeTitle: json['placeTitle'] as String,
       placeAddress: json['placeAddress'] as String,
-      placeThumbnailImage: json['placeThumbnailImage'] as String,
+      placeThumbnailImage: json['placeThumbnailImage'] as String?,
       contentTypeId: json['contentTypeId'] as String,
       mapX: (json['mapX'] as num?)?.toDouble(),
       mapY: (json['mapY'] as num?)?.toDouble(),

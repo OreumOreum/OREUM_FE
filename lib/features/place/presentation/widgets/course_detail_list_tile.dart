@@ -10,7 +10,7 @@ class CourseDetailListTile extends StatelessWidget {
   final String category;
   final String address;
   final String title;
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final int totalItemCount;
 
   const CourseDetailListTile({super.key,
@@ -89,14 +89,18 @@ class CourseDetailListTile extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                child: Image.network(
-                  thumbnailImage,
+                child: thumbnailImage != null ? Image.network(
+                  thumbnailImage!,
                   width: 84.r,
                   height: 84.r,
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                     return SizedBox.shrink();
                   },
+                ) : Container(
+                  width: 84.r,
+                  height: 84.r,
+                  color: AppColors.gray200,
                 ),
               )
             ],
