@@ -35,15 +35,12 @@ import 'package:oreum_fe/features/setting/presentation/views/monthly_spot.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_detail.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_map.dart';
 import 'package:oreum_fe/features/setting/presentation/views/setting_screen.dart';
-import 'package:oreum_fe/features/splash/presentation/views/splash_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/course/presentation/views/travel_spot_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
-import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
-import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
 
@@ -89,10 +86,6 @@ GoRouter appRouter(AppRouterRef ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: RoutePath.splash,
-        builder: (context, state) => const SplashScreen(),
-      ),
       GoRoute(
         path: RoutePath.auth,
         builder: (context, state) => const AuthScreen(),
