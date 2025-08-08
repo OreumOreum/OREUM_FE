@@ -19,22 +19,25 @@ import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_v
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/states/folder_detail_state.dart';
 import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
+import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 
-class PlannerMenuModal extends ConsumerStatefulWidget {
-  final String plannerId;
-  final bool isDetail;
+class PlannerTabModal extends ConsumerStatefulWidget {
+  final int tabLength;
 
-  const PlannerMenuModal({super.key, required this.plannerId, required this.isDetail});
+  const PlannerTabModal(
+      {super.key,
+      required this.tabLength});
 
   @override
-  ConsumerState<PlannerMenuModal> createState() => _PlannerMenuModalState();
+  ConsumerState<PlannerTabModal> createState() => _PlannerTabModalState();
 }
 
-class _PlannerMenuModalState extends ConsumerState<PlannerMenuModal> {
+class _PlannerTabModalState extends ConsumerState<PlannerTabModal> {
   @override
   Widget build(BuildContext context) {
-    final plannerListViewModel = ref.read(plannerListViewModelProvider.notifier);
+    final plannerEditViewModel =
+        ref.read(plannerEditViewModelProvider.notifier);
     return SafeArea(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 1.w, sigmaY: 1.h),
@@ -42,7 +45,7 @@ class _PlannerMenuModalState extends ConsumerState<PlannerMenuModal> {
           decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius:
-            BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+                BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
@@ -63,41 +66,23 @@ class _PlannerMenuModalState extends ConsumerState<PlannerMenuModal> {
                 SizedBox(
                   height: 20.h,
                 ),
-                InkWell(
-                  onTap: () {
-                    context.pop();
-                    showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (context) {
-                          return NameEditingModal.plannerEdit(
-                              plannerId: widget.plannerId);
-                        });
-                  },
-                  child: ModalMenu(
-                      title: AppStrings.changeName,
-                      color: AppColors.gray400,
-                      icon: IconPath.pencil,
-                      iconHeight: 17.r,
-                      iconWidth: 17.r),
-                ),
-                InkWell(
-                  onTap: () async {
-                    await plannerListViewModel.deletePlanner(widget.plannerId);
-                    if(mounted && ref.read(plannerListViewModelProvider).buttonStatus == UiStatus.success) {
-                      context.pop();
-                      if(widget.isDetail) {
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.tabLength,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        plannerEditViewModel.removeTab(index);
                         context.pop();
-                      }
-                      CustomToast.showToast(context, '일정이 삭제 되었습니다.', 16.h);
-                    }
+                      },
+                      child: ModalMenu(
+                          title: '${index + 1}일 차 삭제',
+                          color: AppColors.gray400,
+                          icon: IconPath.trashCan,
+                          iconHeight: 15.r,
+                          iconWidth: 12.r),
+                    );
                   },
-                  child: ModalMenu(
-                      title: AppStrings.deletePlanner,
-                      color: AppColors.gray400,
-                      icon: IconPath.trashCan,
-                      iconHeight: 15.r,
-                      iconWidth: 12.r),
                 ),
                 SizedBox(
                   height: 16.h,

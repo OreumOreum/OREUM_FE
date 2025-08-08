@@ -14,35 +14,49 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
+import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
+import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
+import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 
 enum NameEditStatus {
   folderCreate,
   folderEdit,
   plannerCreate,
+  plannerEdit,
 }
 
 class NameEditingModal extends ConsumerStatefulWidget {
   final NameEditStatus editStatus;
   final String? folderId;
+  final String? plannerId;
 
   const NameEditingModal._({
     super.key,
     required this.editStatus,
     this.folderId,
+    this.plannerId,
   });
 
   factory NameEditingModal.folderCreate() => const NameEditingModal._(
-    editStatus: NameEditStatus.folderCreate,
-  );
+        editStatus: NameEditStatus.folderCreate,
+      );
 
-  factory NameEditingModal.folderEdit({required String folderId}) => NameEditingModal._(
-    editStatus: NameEditStatus.folderEdit,
-    folderId: folderId,
-  );
+  factory NameEditingModal.folderEdit({required String folderId}) =>
+      NameEditingModal._(
+        editStatus: NameEditStatus.folderEdit,
+        folderId: folderId,
+      );
 
   factory NameEditingModal.plannerCreate() => const NameEditingModal._(
-    editStatus: NameEditStatus.plannerCreate,
-  );
+        editStatus: NameEditStatus.plannerCreate,
+      );
+
+  factory NameEditingModal.plannerEdit({required String plannerId}) =>
+      NameEditingModal._(
+        editStatus: NameEditStatus.plannerEdit,
+        plannerId: plannerId,
+      );
+
   bool get isFolderEditMode => folderId != null;
 
   @override
@@ -53,8 +67,14 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
   final TextEditingController _textEditingController = TextEditingController();
 
   bool get isFolderEditMode => widget.editStatus == NameEditStatus.folderEdit;
-  bool get isFolderCreateMode => widget.editStatus == NameEditStatus.folderCreate;
-  bool get isPlannerCreateMode => widget.editStatus == NameEditStatus.plannerCreate;
+
+  bool get isFolderCreateMode =>
+      widget.editStatus == NameEditStatus.folderCreate;
+
+  bool get isPlannerEditode => widget.editStatus == NameEditStatus.plannerEdit;
+
+  bool get isPlannerCreateMode =>
+      widget.editStatus == NameEditStatus.plannerCreate;
 
   String get titleText {
     switch (widget.editStatus) {
@@ -64,6 +84,8 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
         return AppStrings.editFolder;
       case NameEditStatus.plannerCreate:
         return AppStrings.addPlan;
+      case NameEditStatus.plannerEdit:
+        return AppStrings.editPlanner;
     }
   }
 
@@ -75,6 +97,8 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
         return AppStrings.editFolderButtonText;
       case NameEditStatus.plannerCreate:
         return AppStrings.addPlanner;
+      case NameEditStatus.plannerEdit:
+        return AppStrings.editPlannerButtonText;
     }
   }
 
@@ -93,6 +117,11 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
         ref.read(folderDetailViewModelProvider.notifier);
     final isCreateLoading = folderListState.buttonStatus == UiStatus.loading;
     final isEditLoading = folderDetailState.buttonStatus == UiStatus.loading;
+    final plannerListState = ref.watch(plannerListViewModelProvider);
+    final plannerListViewModel =
+        ref.read(plannerListViewModelProvider.notifier);
+    final isPlannerEditLoading =
+        plannerListState.buttonStatus == UiStatus.loading;
 
     return SafeArea(
       child: BackdropFilter(
@@ -113,7 +142,7 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
                   height: 32.h,
                 ),
                 Text(
-                    titleText,
+                  titleText,
                   style: context.textStyles.body1
                       .copyWith(color: AppColors.primary),
                 ),
@@ -133,7 +162,7 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                     ),
-                    hintText: AppStrings.addFolderHintText,
+                    hintText: AppStrings.addHintText,
                     hintStyle: context.textStyles.label3
                         .copyWith(color: AppColors.gray200),
                     focusedBorder: OutlineInputBorder(
@@ -157,31 +186,67 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
                   width: double.infinity,
                   child: CustomElevatedButton(
                       text: buttonText,
-                      onPressed: isCreateLoading || isEditLoading
+                      onPressed: isCreateLoading ||
+                              isEditLoading ||
+                              isPlannerEditLoading
                           ? null
                           : () async {
                               String name = _textEditingController.text.trim();
                               if (name.isNotEmpty) {
                                 switch (widget.editStatus) {
                                   case NameEditStatus.folderCreate:
-                                    await folderListViewModel.createMyFolder(name);
+                                    await folderListViewModel
+                                        .createMyFolder(name);
                                     if (mounted &&
-                                        ref.read(folderListViewModelProvider).buttonStatus == UiStatus.success) {
+                                        ref
+                                                .read(
+                                                    folderListViewModelProvider)
+                                                .buttonStatus ==
+                                            UiStatus.success) {
                                       context.pop();
                                     }
                                     break;
 
                                   case NameEditStatus.folderEdit:
-                                    await folderDetailViewModel.editMyFolder(widget.folderId!, name);
-                                    folderDetailViewModel.updateFolderName(name);
+                                    await folderDetailViewModel.editMyFolder(
+                                        widget.folderId!, name);
+                                    folderDetailViewModel
+                                        .updateFolderName(name);
                                     if (mounted &&
-                                        ref.read(folderDetailViewModelProvider).buttonStatus == UiStatus.success) {
+                                        ref
+                                                .read(
+                                                    folderDetailViewModelProvider)
+                                                .buttonStatus ==
+                                            UiStatus.success) {
                                       context.pop();
                                     }
                                     break;
                                   case NameEditStatus.plannerCreate:
-                                    context.push('${RoutePath.planner}/edit', extra: name);
+                                    context.push(
+                                      '${RoutePath.planner}/edit',
+                                      extra: {
+                                        'plannerName': name,
+                                        'isRecommend': false,
+                                      },
+                                    );
                                     context.pop();
+                                    break;
+                                  case NameEditStatus.plannerEdit:
+                                    await plannerListViewModel.editPlannerName(
+                                        widget.plannerId!, name);
+                                    ref
+                                        .read(plannerDetailViewModelProvider
+                                            .notifier)
+                                        .setPlannerName(name);
+                                    if (mounted &&
+                                        ref
+                                                .read(
+                                                    plannerListViewModelProvider)
+                                                .buttonStatus ==
+                                            UiStatus.success) {
+                                      context.pop();
+                                    }
+                                    break;
                                 }
                               }
                             },

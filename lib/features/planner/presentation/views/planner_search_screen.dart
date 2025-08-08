@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
+import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/themes/app_text_styles.dart';
+import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/debouncer.dart';
 import 'package:oreum_fe/core/utils/throttler.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -120,28 +125,66 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
       );
     }
 
-    return ListView.separated(
-      controller: _scrollController,
-      itemCount: searchPlaceItems.length,
-      padding: EdgeInsets.only(bottom: 16.h),
-      itemBuilder: (context, index) {
-        final item = searchPlaceItems[index];
-        return PlannerSearchListTile(
-          day: widget.day,
-          placeId: item.id.toString(),
-          title: item.title,
-          address: item.address,
-          thumbnailImage: item.thumbnailImage,
-        );
-      },
-      separatorBuilder: (_, __) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 4.h),
-        child: Divider(
-          height: 1.h,
-          thickness: 1.h,
-          color: AppColors.gray100,
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: 18.h, horizontal: AppSizes.defaultPadding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: AppSizes.iconSM,
+                height: AppSizes.iconSM,
+                child: Center(
+                  child: SvgPicture.asset(
+                    IconPath.search,
+                    width: 18.r,
+                    height: 18.r,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 4.w,
+              ),
+              Expanded(
+                child: Text(
+                  '"${_textEditingController.text}" 검색결과',
+                  style:
+                  context.textStyles.body1.copyWith(color: AppColors.gray400),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        Expanded(
+          child: ListView.separated(
+            shrinkWrap: true,
+            controller: _scrollController,
+            itemCount: searchPlaceItems.length,
+            padding: EdgeInsets.only(bottom: 16.h),
+            itemBuilder: (context, index) {
+              final item = searchPlaceItems[index];
+              return PlannerSearchListTile(
+                day: widget.day,
+                placeId: item.id.toString(),
+                title: item.title,
+                address: item.address,
+                thumbnailImage: item.thumbnailImage,
+              );
+            },
+            separatorBuilder: (_, __) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 4.h),
+              child: Divider(
+                height: 1.h,
+                thickness: 1.h,
+                color: AppColors.gray100,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

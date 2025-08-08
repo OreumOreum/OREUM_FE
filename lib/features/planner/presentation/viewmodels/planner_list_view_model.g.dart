@@ -7,7 +7,7 @@ part of 'planner_list_view_model.dart';
 // **************************************************************************
 
 String _$plannerListViewModelHash() =>
-    r'9d93b31ea21ded19d84ffc92b991d93e9f40c7a7';
+    r'bce1e1b1ddb2557ff438aece611ef11f65a1b577';
 
 /// See also [PlannerListViewModel].
 @ProviderFor(PlannerListViewModel)

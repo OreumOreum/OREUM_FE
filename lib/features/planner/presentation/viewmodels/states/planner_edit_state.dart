@@ -11,5 +11,7 @@ class PlannerEditState with _$PlannerEditState {
     @Default([1]) List<int> tabDays,
     @Default(UiStatus.idle) UiStatus status,
     @Default('') String errorMessage,
+    @Default('') String plannerName,
+    @Default('') String recommendPlannerName,
   }) = _PlannerEditState;
 }

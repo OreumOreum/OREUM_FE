@@ -54,5 +54,11 @@ class PlannerDetailViewModel extends _$PlannerDetailViewModel {
       state = state.copyWith(status: UiStatus.error);
     }
   }
+
+  void setPlannerName(String name) {
+    state = state.copyWith(plannerName: name);
+  }
 }
+
+final currentSelectedDayProvider = StateProvider<int>((ref) => 1);
 

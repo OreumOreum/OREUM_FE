@@ -10,6 +10,8 @@ class PlannerEditPlace with _$PlannerEditPlace {
     required int day,
     required int orderIndex,
     required String title,
+    double? mapX,
+    double? mapY,
     @Default('') String? address,
   }) = _PlannerEditPlace;
 

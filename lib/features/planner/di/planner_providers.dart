@@ -4,9 +4,11 @@ import 'package:oreum_fe/features/planner/data/repositories/planner_repository_i
 import 'package:oreum_fe/features/planner/data/services/planner_service.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/create_planner_use_case.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/delete_planner_use_case.dart';
+import 'package:oreum_fe/features/planner/domain/usecases/edit_planner_name_use_case.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/edit_planner_places_use_case.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/get_planner_places_use_case.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/get_planners_use_case.dart';
+import 'package:oreum_fe/features/planner/domain/usecases/get_recommend_planner_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'planner_providers.g.dart';
@@ -51,4 +53,16 @@ EditPlannerPlacesUseCase editPlannerPlacesUseCase (EditPlannerPlacesUseCaseRef r
 DeletePlannerUseCase deletePlannerUseCase (DeletePlannerUseCaseRef ref) {
   final PlannerRepositoryImpl plannerRepositoryImpl = ref.watch(plannerRepositoryImplProvider);
   return DeletePlannerUseCase(plannerRepositoryImpl);
+}
+
+@riverpod
+EditPlannerNameUseCase editPlannerNameUseCase (EditPlannerNameUseCaseRef ref) {
+  final PlannerRepositoryImpl plannerRepositoryImpl = ref.watch(plannerRepositoryImplProvider);
+  return EditPlannerNameUseCase(plannerRepositoryImpl);
+}
+
+@riverpod
+GetRecommendPlannerUseCase getRecommendPlannerUseCase (GetRecommendPlannerUseCaseRef ref) {
+  final PlannerRepositoryImpl plannerRepositoryImpl = ref.watch(plannerRepositoryImplProvider);
+  return GetRecommendPlannerUseCase(plannerRepositoryImpl);
 }

@@ -8,6 +8,7 @@ class PlannerResponse with _$PlannerResponse {
   const factory PlannerResponse({
     required int plannerId,
     required String plannerName,
+    required int day,
   }) = _PlannerResponse;
 
   factory PlannerResponse.fromJson(Map<String, dynamic> json) =>

@@ -93,7 +93,7 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
               itemCount: planners.length,
               itemBuilder: (BuildContext context, int index) {
                 String title = planners[index].plannerName;
-                String subTitle = 'n일간의 여행 코스';
+                String subTitle = '${planners[index].day}일간의 여행 코스';
                 String plannerId = planners[index].plannerId.toString();
                 return PlannerListTile.iconButton(
                   title: title,
@@ -112,7 +112,7 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
               },
             ),
             SizedBox(
-              height: 72.h,
+              height: 16.h,
             ),
           ],
         ),

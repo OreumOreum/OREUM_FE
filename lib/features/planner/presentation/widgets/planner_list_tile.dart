@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
+import 'package:oreum_fe/features/planner/presentation/views/planner_edit_screen.dart';
 
 enum PlaceListType {
   create,
@@ -186,7 +189,9 @@ class PlannerListTile extends StatelessWidget {
                   width: 56.h,
                   child: CustomElevatedButton.primary(
                     text: AppStrings.create,
-                    onPressed: () {},
+                    onPressed: () {
+                      context.push('${RoutePath.planner}/edit', extra: {'plannerName': '오름오름 나만의 추천 여행코스','isRecommend': true});
+                    },
                     textStyle: context.textStyles.label4,
                     radius: AppSizes.radiusXS,
                   ),

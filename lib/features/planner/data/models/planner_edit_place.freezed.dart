@@ -24,6 +24,8 @@ mixin _$PlannerEditPlace {
   int get day => throw _privateConstructorUsedError;
   int get orderIndex => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  double? get mapX => throw _privateConstructorUsedError;
+  double? get mapY => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
 
   /// Serializes this PlannerEditPlace to a JSON map.
@@ -43,7 +45,13 @@ abstract class $PlannerEditPlaceCopyWith<$Res> {
       _$PlannerEditPlaceCopyWithImpl<$Res, PlannerEditPlace>;
   @useResult
   $Res call(
-      {String placeId, int day, int orderIndex, String title, String? address});
+      {String placeId,
+      int day,
+      int orderIndex,
+      String title,
+      double? mapX,
+      double? mapY,
+      String? address});
 }
 
 /// @nodoc
@@ -65,6 +73,8 @@ class _$PlannerEditPlaceCopyWithImpl<$Res, $Val extends PlannerEditPlace>
     Object? day = null,
     Object? orderIndex = null,
     Object? title = null,
+    Object? mapX = freezed,
+    Object? mapY = freezed,
     Object? address = freezed,
   }) {
     return _then(_value.copyWith(
@@ -84,6 +94,14 @@ class _$PlannerEditPlaceCopyWithImpl<$Res, $Val extends PlannerEditPlace>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      mapX: freezed == mapX
+          ? _value.mapX
+          : mapX // ignore: cast_nullable_to_non_nullable
+              as double?,
+      mapY: freezed == mapY
+          ? _value.mapY
+          : mapY // ignore: cast_nullable_to_non_nullable
+              as double?,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -101,7 +119,13 @@ abstract class _$$PlannerEditPlaceImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String placeId, int day, int orderIndex, String title, String? address});
+      {String placeId,
+      int day,
+      int orderIndex,
+      String title,
+      double? mapX,
+      double? mapY,
+      String? address});
 }
 
 /// @nodoc
@@ -121,6 +145,8 @@ class __$$PlannerEditPlaceImplCopyWithImpl<$Res>
     Object? day = null,
     Object? orderIndex = null,
     Object? title = null,
+    Object? mapX = freezed,
+    Object? mapY = freezed,
     Object? address = freezed,
   }) {
     return _then(_$PlannerEditPlaceImpl(
@@ -140,6 +166,14 @@ class __$$PlannerEditPlaceImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      mapX: freezed == mapX
+          ? _value.mapX
+          : mapX // ignore: cast_nullable_to_non_nullable
+              as double?,
+      mapY: freezed == mapY
+          ? _value.mapY
+          : mapY // ignore: cast_nullable_to_non_nullable
+              as double?,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -156,6 +190,8 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
       required this.day,
       required this.orderIndex,
       required this.title,
+      this.mapX,
+      this.mapY,
       this.address = ''});
 
   factory _$PlannerEditPlaceImpl.fromJson(Map<String, dynamic> json) =>
@@ -170,12 +206,16 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
   @override
   final String title;
   @override
+  final double? mapX;
+  @override
+  final double? mapY;
+  @override
   @JsonKey()
   final String? address;
 
   @override
   String toString() {
-    return 'PlannerEditPlace(placeId: $placeId, day: $day, orderIndex: $orderIndex, title: $title, address: $address)';
+    return 'PlannerEditPlace(placeId: $placeId, day: $day, orderIndex: $orderIndex, title: $title, mapX: $mapX, mapY: $mapY, address: $address)';
   }
 
   @override
@@ -188,13 +228,15 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
             (identical(other.orderIndex, orderIndex) ||
                 other.orderIndex == orderIndex) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.mapX, mapX) || other.mapX == mapX) &&
+            (identical(other.mapY, mapY) || other.mapY == mapY) &&
             (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, placeId, day, orderIndex, title, address);
+  int get hashCode => Object.hash(
+      runtimeType, placeId, day, orderIndex, title, mapX, mapY, address);
 
   /// Create a copy of PlannerEditPlace
   /// with the given fields replaced by the non-null parameter values.
@@ -219,6 +261,8 @@ abstract class _PlannerEditPlace implements PlannerEditPlace {
       required final int day,
       required final int orderIndex,
       required final String title,
+      final double? mapX,
+      final double? mapY,
       final String? address}) = _$PlannerEditPlaceImpl;
 
   factory _PlannerEditPlace.fromJson(Map<String, dynamic> json) =
@@ -232,6 +276,10 @@ abstract class _PlannerEditPlace implements PlannerEditPlace {
   int get orderIndex;
   @override
   String get title;
+  @override
+  double? get mapX;
+  @override
+  double? get mapY;
   @override
   String? get address;
 

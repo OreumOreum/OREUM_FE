@@ -11,6 +11,7 @@ _$PlannerResponseImpl _$$PlannerResponseImplFromJson(
     _$PlannerResponseImpl(
       plannerId: (json['plannerId'] as num).toInt(),
       plannerName: json['plannerName'] as String,
+      day: (json['day'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$PlannerResponseImplToJson(
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$PlannerResponseImplToJson(
     <String, dynamic>{
       'plannerId': instance.plannerId,
       'plannerName': instance.plannerName,
+      'day': instance.day,
     };

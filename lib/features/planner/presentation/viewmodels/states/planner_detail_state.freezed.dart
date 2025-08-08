@@ -20,6 +20,7 @@ mixin _$PlannerDetailState {
   String get errorMessage => throw _privateConstructorUsedError;
   List<PlannerDetailResponse> get plannerPlaces =>
       throw _privateConstructorUsedError;
+  String? get plannerName => throw _privateConstructorUsedError;
 
   /// Create a copy of PlannerDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -37,7 +38,8 @@ abstract class $PlannerDetailStateCopyWith<$Res> {
   $Res call(
       {UiStatus status,
       String errorMessage,
-      List<PlannerDetailResponse> plannerPlaces});
+      List<PlannerDetailResponse> plannerPlaces,
+      String? plannerName});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$PlannerDetailStateCopyWithImpl<$Res, $Val extends PlannerDetailState>
     Object? status = null,
     Object? errorMessage = null,
     Object? plannerPlaces = null,
+    Object? plannerName = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -72,6 +75,10 @@ class _$PlannerDetailStateCopyWithImpl<$Res, $Val extends PlannerDetailState>
           ? _value.plannerPlaces
           : plannerPlaces // ignore: cast_nullable_to_non_nullable
               as List<PlannerDetailResponse>,
+      plannerName: freezed == plannerName
+          ? _value.plannerName
+          : plannerName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -87,7 +94,8 @@ abstract class _$$PlannerDetailStateImplCopyWith<$Res>
   $Res call(
       {UiStatus status,
       String errorMessage,
-      List<PlannerDetailResponse> plannerPlaces});
+      List<PlannerDetailResponse> plannerPlaces,
+      String? plannerName});
 }
 
 /// @nodoc
@@ -106,6 +114,7 @@ class __$$PlannerDetailStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? errorMessage = null,
     Object? plannerPlaces = null,
+    Object? plannerName = freezed,
   }) {
     return _then(_$PlannerDetailStateImpl(
       status: null == status
@@ -120,6 +129,10 @@ class __$$PlannerDetailStateImplCopyWithImpl<$Res>
           ? _value._plannerPlaces
           : plannerPlaces // ignore: cast_nullable_to_non_nullable
               as List<PlannerDetailResponse>,
+      plannerName: freezed == plannerName
+          ? _value.plannerName
+          : plannerName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -130,7 +143,8 @@ class _$PlannerDetailStateImpl implements _PlannerDetailState {
   const _$PlannerDetailStateImpl(
       {this.status = UiStatus.idle,
       this.errorMessage = '',
-      final List<PlannerDetailResponse> plannerPlaces = const []})
+      final List<PlannerDetailResponse> plannerPlaces = const [],
+      this.plannerName})
       : _plannerPlaces = plannerPlaces;
 
   @override
@@ -149,8 +163,11 @@ class _$PlannerDetailStateImpl implements _PlannerDetailState {
   }
 
   @override
+  final String? plannerName;
+
+  @override
   String toString() {
-    return 'PlannerDetailState(status: $status, errorMessage: $errorMessage, plannerPlaces: $plannerPlaces)';
+    return 'PlannerDetailState(status: $status, errorMessage: $errorMessage, plannerPlaces: $plannerPlaces, plannerName: $plannerName)';
   }
 
   @override
@@ -162,12 +179,14 @@ class _$PlannerDetailStateImpl implements _PlannerDetailState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
-                .equals(other._plannerPlaces, _plannerPlaces));
+                .equals(other._plannerPlaces, _plannerPlaces) &&
+            (identical(other.plannerName, plannerName) ||
+                other.plannerName == plannerName));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, errorMessage,
-      const DeepCollectionEquality().hash(_plannerPlaces));
+      const DeepCollectionEquality().hash(_plannerPlaces), plannerName);
 
   /// Create a copy of PlannerDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -181,10 +200,10 @@ class _$PlannerDetailStateImpl implements _PlannerDetailState {
 
 abstract class _PlannerDetailState implements PlannerDetailState {
   const factory _PlannerDetailState(
-          {final UiStatus status,
-          final String errorMessage,
-          final List<PlannerDetailResponse> plannerPlaces}) =
-      _$PlannerDetailStateImpl;
+      {final UiStatus status,
+      final String errorMessage,
+      final List<PlannerDetailResponse> plannerPlaces,
+      final String? plannerName}) = _$PlannerDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -192,6 +211,8 @@ abstract class _PlannerDetailState implements PlannerDetailState {
   String get errorMessage;
   @override
   List<PlannerDetailResponse> get plannerPlaces;
+  @override
+  String? get plannerName;
 
   /// Create a copy of PlannerDetailState
   /// with the given fields replaced by the non-null parameter values.

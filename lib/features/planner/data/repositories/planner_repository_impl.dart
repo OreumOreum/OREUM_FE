@@ -1,4 +1,5 @@
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
+import 'package:oreum_fe/features/planner/data/models/planner_recommend_response.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_request.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_response.dart';
 import 'package:oreum_fe/features/planner/data/services/planner_service.dart';
@@ -31,5 +32,15 @@ class PlannerRepositoryImpl implements PlannerRepository {
   @override
   Future<void> deletePlanner(String plannerId) {
     return _plannerService.deletePlanner(plannerId);
+  }
+
+  @override
+  Future<void> editPlannerName(String plannerId, String name) {
+    return _plannerService.editPlannerName(plannerId, name);
+  }
+
+  @override
+  Future<PlannerRecommendResponse> getRecommendPlanner() {
+    return _plannerService.getRecommendPlanner();
   }
 }

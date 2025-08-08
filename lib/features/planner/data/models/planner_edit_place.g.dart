@@ -13,6 +13,8 @@ _$PlannerEditPlaceImpl _$$PlannerEditPlaceImplFromJson(
       day: (json['day'] as num).toInt(),
       orderIndex: (json['orderIndex'] as num).toInt(),
       title: json['title'] as String,
+      mapX: (json['mapX'] as num?)?.toDouble(),
+      mapY: (json['mapY'] as num?)?.toDouble(),
       address: json['address'] as String? ?? '',
     );
 
@@ -23,5 +25,7 @@ Map<String, dynamic> _$$PlannerEditPlaceImplToJson(
       'day': instance.day,
       'orderIndex': instance.orderIndex,
       'title': instance.title,
+      'mapX': instance.mapX,
+      'mapY': instance.mapY,
       'address': instance.address,
     };

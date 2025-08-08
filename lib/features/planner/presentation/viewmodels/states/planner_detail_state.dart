@@ -11,5 +11,6 @@ class PlannerDetailState with _$PlannerDetailState{
     @Default(UiStatus.idle) UiStatus status,
     @Default('') String errorMessage,
     @Default([]) List<PlannerDetailResponse> plannerPlaces,
+    String? plannerName,
 }) = _PlannerDetailState;
 }
