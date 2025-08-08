@@ -140,5 +140,45 @@ final deletePlannerUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DeletePlannerUseCaseRef = AutoDisposeProviderRef<DeletePlannerUseCase>;
+String _$editPlannerNameUseCaseHash() =>
+    r'cddb7e9edbd27b1c32407b5abde0861c21475cac';
+
+/// See also [editPlannerNameUseCase].
+@ProviderFor(editPlannerNameUseCase)
+final editPlannerNameUseCaseProvider =
+    AutoDisposeProvider<EditPlannerNameUseCase>.internal(
+  editPlannerNameUseCase,
+  name: r'editPlannerNameUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$editPlannerNameUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef EditPlannerNameUseCaseRef
+    = AutoDisposeProviderRef<EditPlannerNameUseCase>;
+String _$getRecommendPlannerUseCaseHash() =>
+    r'e43293472520e9bacdea433fa279f7150b27b462';
+
+/// See also [getRecommendPlannerUseCase].
+@ProviderFor(getRecommendPlannerUseCase)
+final getRecommendPlannerUseCaseProvider =
+    AutoDisposeProvider<GetRecommendPlannerUseCase>.internal(
+  getRecommendPlannerUseCase,
+  name: r'getRecommendPlannerUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getRecommendPlannerUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetRecommendPlannerUseCaseRef
+    = AutoDisposeProviderRef<GetRecommendPlannerUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

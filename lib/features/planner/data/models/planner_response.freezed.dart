@@ -22,6 +22,7 @@ PlannerResponse _$PlannerResponseFromJson(Map<String, dynamic> json) {
 mixin _$PlannerResponse {
   int get plannerId => throw _privateConstructorUsedError;
   String get plannerName => throw _privateConstructorUsedError;
+  int get day => throw _privateConstructorUsedError;
 
   /// Serializes this PlannerResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,7 +40,7 @@ abstract class $PlannerResponseCopyWith<$Res> {
           PlannerResponse value, $Res Function(PlannerResponse) then) =
       _$PlannerResponseCopyWithImpl<$Res, PlannerResponse>;
   @useResult
-  $Res call({int plannerId, String plannerName});
+  $Res call({int plannerId, String plannerName, int day});
 }
 
 /// @nodoc
@@ -59,6 +60,7 @@ class _$PlannerResponseCopyWithImpl<$Res, $Val extends PlannerResponse>
   $Res call({
     Object? plannerId = null,
     Object? plannerName = null,
+    Object? day = null,
   }) {
     return _then(_value.copyWith(
       plannerId: null == plannerId
@@ -69,6 +71,10 @@ class _$PlannerResponseCopyWithImpl<$Res, $Val extends PlannerResponse>
           ? _value.plannerName
           : plannerName // ignore: cast_nullable_to_non_nullable
               as String,
+      day: null == day
+          ? _value.day
+          : day // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$PlannerResponseImplCopyWith<$Res>
       __$$PlannerResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int plannerId, String plannerName});
+  $Res call({int plannerId, String plannerName, int day});
 }
 
 /// @nodoc
@@ -99,6 +105,7 @@ class __$$PlannerResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? plannerId = null,
     Object? plannerName = null,
+    Object? day = null,
   }) {
     return _then(_$PlannerResponseImpl(
       plannerId: null == plannerId
@@ -109,6 +116,10 @@ class __$$PlannerResponseImplCopyWithImpl<$Res>
           ? _value.plannerName
           : plannerName // ignore: cast_nullable_to_non_nullable
               as String,
+      day: null == day
+          ? _value.day
+          : day // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -117,7 +128,7 @@ class __$$PlannerResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PlannerResponseImpl implements _PlannerResponse {
   const _$PlannerResponseImpl(
-      {required this.plannerId, required this.plannerName});
+      {required this.plannerId, required this.plannerName, required this.day});
 
   factory _$PlannerResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlannerResponseImplFromJson(json);
@@ -126,10 +137,12 @@ class _$PlannerResponseImpl implements _PlannerResponse {
   final int plannerId;
   @override
   final String plannerName;
+  @override
+  final int day;
 
   @override
   String toString() {
-    return 'PlannerResponse(plannerId: $plannerId, plannerName: $plannerName)';
+    return 'PlannerResponse(plannerId: $plannerId, plannerName: $plannerName, day: $day)';
   }
 
   @override
@@ -140,12 +153,13 @@ class _$PlannerResponseImpl implements _PlannerResponse {
             (identical(other.plannerId, plannerId) ||
                 other.plannerId == plannerId) &&
             (identical(other.plannerName, plannerName) ||
-                other.plannerName == plannerName));
+                other.plannerName == plannerName) &&
+            (identical(other.day, day) || other.day == day));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, plannerId, plannerName);
+  int get hashCode => Object.hash(runtimeType, plannerId, plannerName, day);
 
   /// Create a copy of PlannerResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -167,7 +181,8 @@ class _$PlannerResponseImpl implements _PlannerResponse {
 abstract class _PlannerResponse implements PlannerResponse {
   const factory _PlannerResponse(
       {required final int plannerId,
-      required final String plannerName}) = _$PlannerResponseImpl;
+      required final String plannerName,
+      required final int day}) = _$PlannerResponseImpl;
 
   factory _PlannerResponse.fromJson(Map<String, dynamic> json) =
       _$PlannerResponseImpl.fromJson;
@@ -176,6 +191,8 @@ abstract class _PlannerResponse implements PlannerResponse {
   int get plannerId;
   @override
   String get plannerName;
+  @override
+  int get day;
 
   /// Create a copy of PlannerResponse
   /// with the given fields replaced by the non-null parameter values.

@@ -149,8 +149,14 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: '${RoutePath.planner}/edit',
         builder: (context, state) {
-          final String plannerName = state.extra as String;
-          return PlannerEditScreen(isEdit: false, plannerName: plannerName,);
+          final extra = state.extra as Map<String, dynamic>;
+          final String plannerName = extra['plannerName'];
+          final isRecommend = extra['isRecommend'];
+          return PlannerEditScreen(
+            isEdit: false,
+            isRecommend: isRecommend,
+            plannerName: plannerName,
+          );
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
@@ -163,7 +169,14 @@ GoRouter appRouter(AppRouterRef ref) {
           final String plannerName = extra['plannerName'];
           final List<PlannerEditPlace> editPlaces = extra['editPlaces'];
           final int initialDay = extra['initialDay'];
-          return PlannerEditScreen(isEdit: true, plannerId: id, plannerName: plannerName, editPlaces: editPlaces, initialDay: initialDay,);
+          return PlannerEditScreen(
+            isRecommend: false,
+            isEdit: true,
+            plannerId: id,
+            plannerName: plannerName,
+            editPlaces: editPlaces,
+            initialDay: initialDay,
+          );
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
@@ -172,17 +185,21 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) {
           final String plannerId = state.pathParameters['id']!;
           final String plannerName = state.extra as String;
-          return PlannerDetailScreen(plannerId: plannerId, plannerName: plannerName,);
+          return PlannerDetailScreen(
+            plannerId: plannerId,
+            plannerName: plannerName,
+          );
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
-        path: RoutePath.plannerSearch,
-        builder: (context, state) {
-          final int day = state.extra as int;
-          return PlannerSearchScreen(day: day,);
-        }
-      ),
+          path: RoutePath.plannerSearch,
+          builder: (context, state) {
+            final int day = state.extra as int;
+            return PlannerSearchScreen(
+              day: day,
+            );
+          }),
       GoRoute(
         path: RoutePath.recommend,
         builder: (context, state) => RecommendScreen(),
@@ -232,7 +249,11 @@ GoRouter appRouter(AppRouterRef ref) {
           final spots = args['spots'] as List<SpotMonthResponse>;
           final int? placeId = args['placeId'];
 
-          return MonthlySpotMap(year: year, month: month, spots: spots,);
+          return MonthlySpotMap(
+            year: year,
+            month: month,
+            spots: spots,
+          );
         },
       ),
       GoRoute(

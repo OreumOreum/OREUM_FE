@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -80,13 +81,23 @@ class PlannerDetailTabScreen extends ConsumerWidget {
                 index: index + 1);
           },
           separatorBuilder: (context, index) {
+
+            final place1 = places[index];
+            final place2 = places[index + 1];
+
+            final Distance distance = Distance();
+            final double km = distance.as(
+              LengthUnit.Kilometer,
+              LatLng(place1.mapY!, place1.mapX!),
+              LatLng(place2.mapY!, place2.mapX!),
+            );
+
             return Padding(
               padding: EdgeInsets.symmetric(
                   vertical: 2.h, horizontal: AppSizes.defaultPadding),
               child: Text(
-                '1.8km',
-                style: context.textStyles.label4
-                    .copyWith(color: AppColors.gray200),
+                '${km.toStringAsFixed(1)}km',
+                style: context.textStyles.label4.copyWith(color: AppColors.gray200),
               ),
             );
           },

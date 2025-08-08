@@ -6,9 +6,11 @@ part of 'home_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'f28d428a78dcf74436a7eb9cf0fd2a287e288a31';
+String _$homeViewModelHash() => r'f567ce24867f100e5372af16e51030701b393e2d';
 
-/// See also [HomeViewModel].
+///날씨 상태 Ui따로 고려
+///
+/// Copied from [HomeViewModel].
 @ProviderFor(HomeViewModel)
 final homeViewModelProvider =
     AutoDisposeNotifierProvider<HomeViewModel, HomeState>.internal(

@@ -38,7 +38,7 @@ class PlannerSearchListTile extends ConsumerWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppSizes.radiusXS),
                 color: AppColors.gray100),
-            child: thumbnailImage != ''
+            child: thumbnailImage != null
                 ? ClipRRect(
               borderRadius: BorderRadius.circular(AppSizes.radiusXS),
               child: Image.network(

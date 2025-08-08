@@ -1,9 +1,11 @@
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
+import 'package:oreum_fe/features/planner/data/models/planner_recommend_response.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_request.dart';
 import 'package:oreum_fe/features/planner/di/planner_providers.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/create_planner_use_case.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/edit_planner_places_use_case.dart';
+import 'package:oreum_fe/features/planner/domain/usecases/get_recommend_planner_use_case.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/states/planner_edit_state.dart';
@@ -27,7 +29,8 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
     // 이미 데이터가 있다면 초기화하지 않음
     if (state.plannerPlaces.isNotEmpty) {
       // 기존 데이터를 기반으로 탭 데이터 업데이트
-      final uniqueDays = state.plannerPlaces.map((p) => p.day).toSet().toList()..sort();
+      final uniqueDays = state.plannerPlaces.map((p) => p.day).toSet().toList()
+        ..sort();
       if (uniqueDays.isNotEmpty && !_listsEqual(state.tabDays, uniqueDays)) {
         state = state.copyWith(tabDays: uniqueDays);
       }
@@ -58,9 +61,32 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
   }
 
   void removeTab(int index) {
-    if (state.tabDays.length <= 1) return; // 최소 1개는 유지
-    final newList = [...state.tabDays]..removeAt(index);
-    state = state.copyWith(tabDays: newList);
+    if (state.tabDays.length <= 1) return; // 최소 1개 유지
+
+    final removedDay = state.tabDays[index];
+
+    // 해당 day 삭제
+    final updatedTabDays = [...state.tabDays]..removeAt(index);
+
+    // day를 기준으로 재정렬된 새로운 tabDays (1부터 순서대로)
+    final newTabDays = List.generate(updatedTabDays.length, (i) => i + 1);
+
+    // 기존 tabDays -> 새로운 tabDays 매핑
+    final dayMapping = <int, int>{};
+    for (int i = 0; i < updatedTabDays.length; i++) {
+      dayMapping[updatedTabDays[i]] = newTabDays[i];
+    }
+
+    // plannerPlaces: 제거된 day는 제외하고, 나머지는 day 리매핑
+    final newPlaces = state.plannerPlaces
+        .where((p) => p.day != removedDay)
+        .map((p) => p.copyWith(day: dayMapping[p.day]!))
+        .toList();
+
+    state = state.copyWith(
+      tabDays: newTabDays,
+      plannerPlaces: newPlaces,
+    );
   }
 
   void reorderTabs(int oldIndex, int newIndex) {
@@ -134,9 +160,12 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
       CreatePlannerUseCase createPlannerUseCase =
           ref.watch(createPlannerUseCaseProvider);
 
-      PlannerRequest planner = _mapEditPlacesToPlannerRequest(name: name, editPlaces: state.plannerPlaces);
+      PlannerRequest planner = _mapEditPlacesToPlannerRequest(
+          name: name, editPlaces: state.plannerPlaces);
       await createPlannerUseCase.call(planner);
-      await ref.read(plannerListViewModelProvider.notifier).refreshPlannersInBackground();
+      await ref
+          .read(plannerListViewModelProvider.notifier)
+          .refreshPlannersInBackground();
       state = state.copyWith(status: UiStatus.success);
     } catch (e) {
       state =
@@ -149,12 +178,15 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
     state = state.copyWith(status: UiStatus.loading);
     try {
       EditPlannerPlacesUseCase editPlannerPlacesUseCase =
-      ref.watch(editPlannerPlacesUseCaseProvider);
+          ref.watch(editPlannerPlacesUseCaseProvider);
 
-      PlannerRequest planner = _mapEditPlacesToPlannerRequest(name: name, editPlaces: state.plannerPlaces);
+      PlannerRequest planner = _mapEditPlacesToPlannerRequest(
+          name: name, editPlaces: state.plannerPlaces);
       await editPlannerPlacesUseCase.call(plannerId, planner);
       //await ref.read(plannerListViewModelProvider.notifier).refreshPlannersInBackground();
-      await ref.read(plannerDetailViewModelProvider.notifier).refreshPlannerDetailInBackground(plannerId);
+      await ref
+          .read(plannerDetailViewModelProvider.notifier)
+          .refreshPlannerDetailInBackground(plannerId);
       state = state.copyWith(status: UiStatus.success);
     } catch (e) {
       state =
@@ -177,6 +209,47 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
 
     PlannerRequest planner = PlannerRequest(name: name, places: places);
     return planner;
+  }
+
+  Future<void> getRecommendPlanner() async {
+    state = state.copyWith(status: UiStatus.loading);
+    try {
+      print('📡 추천 플래너 API 호출 시작');
+      GetRecommendPlannerUseCase getRecommendPlannerUseCase =
+      ref.read(getRecommendPlannerUseCaseProvider);
+      PlannerRecommendResponse plannerRecommend =
+      await getRecommendPlannerUseCase.call();
+
+      print('✅ API 응답 받음:');
+      print('  - 플래너 이름: ${plannerRecommend.plannerName}');
+      print('  - 받은 장소 수: ${plannerRecommend.placeList.length}');
+
+      List<PlannerEditPlace> editPlaces =
+          toPlannerEditPlaces(plannerRecommend.placeList);
+      state = state.copyWith(
+          status: UiStatus.success,
+          recommendPlannerName: plannerRecommend.plannerName,
+          plannerPlaces: editPlaces);
+    } catch (e) {
+      state =
+          state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  List<PlannerEditPlace> toPlannerEditPlaces(
+      List<PlannerRecommendItem> recommendPlaces) {
+    return recommendPlaces.asMap().entries.map((entry) {
+      final index = entry.key;
+      final item = entry.value;
+
+      return PlannerEditPlace(
+        placeId: item.placeId.toString(),
+        title: item.placeTitle,
+        address: item.placeAddress,
+        day: 1,
+        orderIndex: index,
+      );
+    }).toList();
   }
 }
 

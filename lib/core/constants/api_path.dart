@@ -28,4 +28,7 @@ abstract class ApiPath {
 
   static const String getVilageFcst = '/getVilageFcst';
   static const String getUltraSrtNcst = '/getUltraSrtNcst';
+
+  static plannerName(String plannerId) => '/v1/planner/$plannerId/name';
+  static const plannerRecommend = '/v1/planner/recommend';
 }

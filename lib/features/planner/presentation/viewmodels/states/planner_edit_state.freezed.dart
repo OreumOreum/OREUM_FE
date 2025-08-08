@@ -21,6 +21,8 @@ mixin _$PlannerEditState {
   List<int> get tabDays => throw _privateConstructorUsedError;
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
+  String get plannerName => throw _privateConstructorUsedError;
+  String get recommendPlannerName => throw _privateConstructorUsedError;
 
   /// Create a copy of PlannerEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +41,9 @@ abstract class $PlannerEditStateCopyWith<$Res> {
       {List<PlannerEditPlace> plannerPlaces,
       List<int> tabDays,
       UiStatus status,
-      String errorMessage});
+      String errorMessage,
+      String plannerName,
+      String recommendPlannerName});
 }
 
 /// @nodoc
@@ -61,6 +65,8 @@ class _$PlannerEditStateCopyWithImpl<$Res, $Val extends PlannerEditState>
     Object? tabDays = null,
     Object? status = null,
     Object? errorMessage = null,
+    Object? plannerName = null,
+    Object? recommendPlannerName = null,
   }) {
     return _then(_value.copyWith(
       plannerPlaces: null == plannerPlaces
@@ -79,6 +85,14 @@ class _$PlannerEditStateCopyWithImpl<$Res, $Val extends PlannerEditState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
+      plannerName: null == plannerName
+          ? _value.plannerName
+          : plannerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      recommendPlannerName: null == recommendPlannerName
+          ? _value.recommendPlannerName
+          : recommendPlannerName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -95,7 +109,9 @@ abstract class _$$PlannerEditStateImplCopyWith<$Res>
       {List<PlannerEditPlace> plannerPlaces,
       List<int> tabDays,
       UiStatus status,
-      String errorMessage});
+      String errorMessage,
+      String plannerName,
+      String recommendPlannerName});
 }
 
 /// @nodoc
@@ -115,6 +131,8 @@ class __$$PlannerEditStateImplCopyWithImpl<$Res>
     Object? tabDays = null,
     Object? status = null,
     Object? errorMessage = null,
+    Object? plannerName = null,
+    Object? recommendPlannerName = null,
   }) {
     return _then(_$PlannerEditStateImpl(
       plannerPlaces: null == plannerPlaces
@@ -133,6 +151,14 @@ class __$$PlannerEditStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
+      plannerName: null == plannerName
+          ? _value.plannerName
+          : plannerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      recommendPlannerName: null == recommendPlannerName
+          ? _value.recommendPlannerName
+          : recommendPlannerName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -144,7 +170,9 @@ class _$PlannerEditStateImpl implements _PlannerEditState {
       {final List<PlannerEditPlace> plannerPlaces = const [],
       final List<int> tabDays = const [1],
       this.status = UiStatus.idle,
-      this.errorMessage = ''})
+      this.errorMessage = '',
+      this.plannerName = '',
+      this.recommendPlannerName = ''})
       : _plannerPlaces = plannerPlaces,
         _tabDays = tabDays;
 
@@ -172,10 +200,16 @@ class _$PlannerEditStateImpl implements _PlannerEditState {
   @override
   @JsonKey()
   final String errorMessage;
+  @override
+  @JsonKey()
+  final String plannerName;
+  @override
+  @JsonKey()
+  final String recommendPlannerName;
 
   @override
   String toString() {
-    return 'PlannerEditState(plannerPlaces: $plannerPlaces, tabDays: $tabDays, status: $status, errorMessage: $errorMessage)';
+    return 'PlannerEditState(plannerPlaces: $plannerPlaces, tabDays: $tabDays, status: $status, errorMessage: $errorMessage, plannerName: $plannerName, recommendPlannerName: $recommendPlannerName)';
   }
 
   @override
@@ -188,7 +222,11 @@ class _$PlannerEditStateImpl implements _PlannerEditState {
             const DeepCollectionEquality().equals(other._tabDays, _tabDays) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.plannerName, plannerName) ||
+                other.plannerName == plannerName) &&
+            (identical(other.recommendPlannerName, recommendPlannerName) ||
+                other.recommendPlannerName == recommendPlannerName));
   }
 
   @override
@@ -197,7 +235,9 @@ class _$PlannerEditStateImpl implements _PlannerEditState {
       const DeepCollectionEquality().hash(_plannerPlaces),
       const DeepCollectionEquality().hash(_tabDays),
       status,
-      errorMessage);
+      errorMessage,
+      plannerName,
+      recommendPlannerName);
 
   /// Create a copy of PlannerEditState
   /// with the given fields replaced by the non-null parameter values.
@@ -214,7 +254,9 @@ abstract class _PlannerEditState implements PlannerEditState {
       {final List<PlannerEditPlace> plannerPlaces,
       final List<int> tabDays,
       final UiStatus status,
-      final String errorMessage}) = _$PlannerEditStateImpl;
+      final String errorMessage,
+      final String plannerName,
+      final String recommendPlannerName}) = _$PlannerEditStateImpl;
 
   @override
   List<PlannerEditPlace> get plannerPlaces;
@@ -224,6 +266,10 @@ abstract class _PlannerEditState implements PlannerEditState {
   UiStatus get status;
   @override
   String get errorMessage;
+  @override
+  String get plannerName;
+  @override
+  String get recommendPlannerName;
 
   /// Create a copy of PlannerEditState
   /// with the given fields replaced by the non-null parameter values.
