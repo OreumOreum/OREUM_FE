@@ -31,4 +31,9 @@ class FolderRepositoryImpl implements FolderRepository {
   Future<List<FolderDetailResponse>> getMyFolderPlaces(String folderId) {
     return _folderService.getMyFolderPlaces(folderId);
   }
+
+  @override
+  Future<void> deleteFolderPlace(String folderId, int placeId) {
+    return _folderService.deleteFolderPlace(folderId, placeId);
+  }
 }
