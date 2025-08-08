@@ -74,8 +74,10 @@ class FolderDetailViewModel extends _$FolderDetailViewModel {
     state = state.copyWith(buttonStatus: UiStatus.loading);
     try {
       DeleteFolderPlaceUseCase deleteFolderPlaceUseCase = ref.read(deleteFolderPlaceUseCaseProvider);
+      FolderListViewModel folderListViewModel = ref.read(folderListViewModelProvider.notifier);
       await deleteFolderPlaceUseCase.call(folderId, placeId);
       await refreshMyFolderPlacesBackground(folderId.toString());
+      await folderListViewModel.refreshFoldersInBackground();
       state = state.copyWith(buttonStatus: UiStatus.success);
     } catch (e) {
       state = state.copyWith(buttonStatus: UiStatus.error, errorMessage: e.toString());
