@@ -55,7 +55,7 @@ GoRouter appRouter(AppRouterRef ref) {
   final userTypeNotifier = ref.watch(userTypeNotifierProvider);
 
   return GoRouter(
-    initialLocation: RoutePath.splash,
+    initialLocation: _getInitialLocation(loginNotifier, userTypeNotifier),
     observers: [GoTransition.observer],
     refreshListenable: Listenable.merge([loginNotifier, userTypeNotifier]),
     redirect: (context, state) {
@@ -64,34 +64,23 @@ GoRouter appRouter(AppRouterRef ref) {
 
       switch (currentLoginState) {
         case LoginState.initializing:
-          ref.read(splashViewModelProvider);
-          print('로그인 스테이트: ${LoginState.initializing}');
-          if (state.matchedLocation != RoutePath.splash) {
-            return RoutePath.splash;
-          }
+          return null;
         case LoginState.loggedIn:
           if (hasUserType == null) {
             return null;
           }
-
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
             logger.i(hasUserType);
             if (hasUserType == false) {
-              logger.i('1');
               return RoutePath.home;
             } else {
-              logger.i('2');
               return RoutePath.typeTestStart;
             }
           }
           return null;
         case LoginState.loggedOut:
-          print('로그인 스테이트: ${LoginState.loggedOut}');
-          SecureStorageRepositoryImpl secureStorageRepositoryImpl = ref.read(secureStorageRepositoryProvider);
-          secureStorageRepositoryImpl.deleteAccessToken();
-          secureStorageRepositoryImpl.deleteRefreshToken();
-          ///구글 카카오 애플 로그아웃 넣어야함
+          _handleLogout(ref);
           if (state.matchedLocation != RoutePath.auth) {
             return RoutePath.auth;
           }
@@ -286,4 +275,26 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
     ],
   );
+}
+
+String _getInitialLocation(LoginNotifier loginNotifier, UserTypeNotifier userTypeNotifier) {
+  final loginState = loginNotifier.status;
+  final hasUserType = userTypeNotifier.hasType;
+
+  if (loginState == LoginState.loggedIn) {
+    if (hasUserType == null) {
+      return RoutePath.home; // 기본값
+    }
+    return hasUserType == false ? RoutePath.home : RoutePath.typeTestStart;
+  } else {
+    return RoutePath.auth;
+  }
+}
+
+void _handleLogout(AppRouterRef ref) {
+  SecureStorageRepositoryImpl secureStorageRepositoryImpl =
+  ref.read(secureStorageRepositoryProvider);
+  secureStorageRepositoryImpl.deleteAccessToken();
+  secureStorageRepositoryImpl.deleteRefreshToken();
+  // TODO: 구글 카카오 애플 로그아웃 추가
 }
