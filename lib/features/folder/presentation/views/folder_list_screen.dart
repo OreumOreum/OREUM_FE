@@ -40,6 +40,8 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 600;
     final state = ref.watch(folderListViewModelProvider);
 
     if (state.status == UiStatus.loading) {
@@ -63,11 +65,6 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
               thickness: 1.h,
               color: AppColors.gray100,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.h, horizontal: AppSizes.defaultPadding),
-              child: SearchBarButton(),
-            ),
             SizedBox(
               height: 36.h,
             ),
@@ -75,7 +72,7 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
               padding:
                   EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: StaggeredGrid.count(
-                crossAxisCount: 2,
+                crossAxisCount: isWideScreen ? 4 : 2,
                 crossAxisSpacing: 9.w,
                 mainAxisSpacing: 32.h,
                 children: [

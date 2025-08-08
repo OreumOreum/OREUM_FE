@@ -61,6 +61,8 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(folderDetailViewModelProvider);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 600;
 
     if (state.status == UiStatus.loading) {
       return Scaffold(
@@ -146,7 +148,7 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                       ),
                     )
                   : StaggeredGrid.count(
-                      crossAxisCount: 2,
+                      crossAxisCount: isWideScreen ? 4 : 2,
                       crossAxisSpacing: 9.w,
                       mainAxisSpacing: 32.h,
                       children: List.generate(
