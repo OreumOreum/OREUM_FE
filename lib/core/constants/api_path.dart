@@ -20,6 +20,7 @@ abstract class ApiPath {
   static const String myInfo = '/api/v1/member/me';
   static const String folder = '/v1/folder';
   static String folderDetail(String folderId) => '/v1/folder/$folderId';
+  static String folderPlaceDelete(String folderId) => '/v1/folder/place/$folderId';
 
   static const String searchPlaces = '/v1/place/search-places';
 
@@ -31,4 +32,5 @@ abstract class ApiPath {
 
   static plannerName(String plannerId) => '/v1/planner/$plannerId/name';
   static const plannerRecommend = '/v1/planner/recommend';
+
 }

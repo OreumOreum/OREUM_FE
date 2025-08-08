@@ -34,7 +34,6 @@ class FolderDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -66,9 +65,15 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
     if (state.status == UiStatus.loading) {
       return Scaffold(
         appBar: widget.isDefault
-            ? CustomAppBar.backWithText(title: state.folderName != null ? state.folderName! : widget.folderName,)
+            ? CustomAppBar.backWithText(
+                title: state.folderName != null
+                    ? state.folderName!
+                    : widget.folderName,
+              )
             : CustomAppBar.backWithButtonAndText(
-                title: state.folderName != null ? state.folderName! : widget.folderName,
+                title: state.folderName != null
+                    ? state.folderName!
+                    : widget.folderName,
                 actionType: ActionType.dots,
                 onActionPressed: () {
                   showFolderUpdateModal(context);
@@ -85,7 +90,11 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
     if (state.status == UiStatus.error) {
       return Scaffold(
         appBar: widget.isDefault
-            ? CustomAppBar.backWithText(title: state.folderName != null ? state.folderName! : widget.folderName,)
+            ? CustomAppBar.backWithText(
+                title: state.folderName != null
+                    ? state.folderName!
+                    : widget.folderName,
+              )
             : CustomAppBar.backWithButtonAndText(
                 title: state.folderName!,
                 actionType: ActionType.dots,
@@ -101,9 +110,15 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
 
     return Scaffold(
       appBar: widget.isDefault
-          ? CustomAppBar.backWithText(title: state.folderName != null ? state.folderName! : widget.folderName,)
+          ? CustomAppBar.backWithText(
+              title: state.folderName != null
+                  ? state.folderName!
+                  : widget.folderName,
+            )
           : CustomAppBar.backWithButtonAndText(
-              title: state.folderName != null ? state.folderName! : widget.folderName,
+              title: state.folderName != null
+                  ? state.folderName!
+                  : widget.folderName,
               actionType: ActionType.dots,
               onActionPressed: () {
                 showFolderUpdateModal(context);
@@ -145,7 +160,10 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                               ///단일 여행지 상세보기 네비게이트
                             },
                             child: FolderDetailListTile(
-                                title: title, thumbnailImage: thumbnailImage),
+                                folderId: folderPlaces[index].FolderId,
+                                placeId: folderPlaces[index].placeId,
+                                title: title,
+                                thumbnailImage: thumbnailImage),
                           );
                         },
                       ),

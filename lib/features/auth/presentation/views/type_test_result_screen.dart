@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -111,7 +113,9 @@ class TypeTestResultScreen extends StatelessWidget {
                 width: double.infinity,
                 child: CustomElevatedButton.primary(
                   text: AppStrings.start,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go(RoutePath.home);
+                  },
                   textStyle: context.textStyles.label3,
                   radius: AppSizes.radiusMD,
                 ),

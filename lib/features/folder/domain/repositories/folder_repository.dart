@@ -7,4 +7,5 @@ abstract class FolderRepository {
   Future<void> editMyFolder(String folderId, String name);
   Future<void> deleteMyFolder(String folderId);
   Future<List<FolderDetailResponse>> getMyFolderPlaces(String folderId);
+  Future<void> deleteFolderPlace(String folderId, int placeId);
 }

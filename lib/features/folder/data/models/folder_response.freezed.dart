@@ -149,7 +149,7 @@ class _$FolderResponseImpl implements _FolderResponse {
   const _$FolderResponseImpl(
       {required this.folderId,
       required this.folderName,
-      required final List<String>? originImages,
+      final List<String>? originImages,
       required this.isDefault})
       : _originImages = originImages;
 
@@ -219,7 +219,7 @@ abstract class _FolderResponse implements FolderResponse {
   const factory _FolderResponse(
       {required final int folderId,
       required final String folderName,
-      required final List<String>? originImages,
+      final List<String>? originImages,
       required final bool isDefault}) = _$FolderResponseImpl;
 
   factory _FolderResponse.fromJson(Map<String, dynamic> json) =

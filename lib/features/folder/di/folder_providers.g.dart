@@ -140,5 +140,25 @@ final deleteMyFolderUseCaseProvider =
 // ignore: unused_element
 typedef DeleteMyFolderUseCaseRef
     = AutoDisposeProviderRef<DeleteMyFolderUseCase>;
+String _$deleteFolderPlaceUseCaseHash() =>
+    r'460192be4a9722b454f6a2023a4d0c8398c5f5cc';
+
+/// See also [deleteFolderPlaceUseCase].
+@ProviderFor(deleteFolderPlaceUseCase)
+final deleteFolderPlaceUseCaseProvider =
+    AutoDisposeProvider<DeleteFolderPlaceUseCase>.internal(
+  deleteFolderPlaceUseCase,
+  name: r'deleteFolderPlaceUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deleteFolderPlaceUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DeleteFolderPlaceUseCaseRef
+    = AutoDisposeProviderRef<DeleteFolderPlaceUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

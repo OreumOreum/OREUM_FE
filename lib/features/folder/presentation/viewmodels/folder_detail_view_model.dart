@@ -2,6 +2,7 @@ import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_detail_response.dart';
 import 'package:oreum_fe/features/folder/di/folder_providers.dart';
+import 'package:oreum_fe/features/folder/domain/usecases/delete_folder_place_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_my_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/edit_my_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/get_my_folder_places_use_case.dart';
@@ -24,6 +25,17 @@ class FolderDetailViewModel extends _$FolderDetailViewModel {
       GetMyFolderPlacesUseCase getMyFolderPlacesUseCase = ref.read(getMyFolderPlacesUseCaseProvider);
       List<FolderDetailResponse> folderPlaces = await getMyFolderPlacesUseCase.call(folderId);
       state = state.copyWith(status: UiStatus.success, folderPlaces: folderPlaces);
+    } catch (e) {
+      logger.e(e.toString());
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  Future<void> refreshMyFolderPlacesBackground(String folderId) async {
+    try {
+      GetMyFolderPlacesUseCase getMyFolderPlacesUseCase = ref.read(getMyFolderPlacesUseCaseProvider);
+      List<FolderDetailResponse> folderPlaces = await getMyFolderPlacesUseCase.call(folderId);
+      state = state.copyWith(folderPlaces: folderPlaces);
     } catch (e) {
       logger.e(e.toString());
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
@@ -54,6 +66,20 @@ class FolderDetailViewModel extends _$FolderDetailViewModel {
       state = state.copyWith(buttonStatus: UiStatus.success);
     } catch (e) {
       logger.e(e.toString());
+      state = state.copyWith(buttonStatus: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  Future<void> deleteFolderPlace(int folderId, int placeId) async {
+    state = state.copyWith(buttonStatus: UiStatus.loading);
+    try {
+      DeleteFolderPlaceUseCase deleteFolderPlaceUseCase = ref.read(deleteFolderPlaceUseCaseProvider);
+      FolderListViewModel folderListViewModel = ref.read(folderListViewModelProvider.notifier);
+      await deleteFolderPlaceUseCase.call(folderId, placeId);
+      await refreshMyFolderPlacesBackground(folderId.toString());
+      await folderListViewModel.refreshFoldersInBackground();
+      state = state.copyWith(buttonStatus: UiStatus.success);
+    } catch (e) {
       state = state.copyWith(buttonStatus: UiStatus.error, errorMessage: e.toString());
     }
   }
