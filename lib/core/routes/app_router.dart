@@ -3,15 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
+import 'package:oreum_fe/features/auth/presentation/views/type_test_skip_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
 import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
@@ -85,6 +88,10 @@ GoRouter appRouter(AppRouterRef ref) {
           return null;
         case LoginState.loggedOut:
           print('로그인 스테이트: ${LoginState.loggedOut}');
+          SecureStorageRepositoryImpl secureStorageRepositoryImpl = ref.read(secureStorageRepositoryProvider);
+          secureStorageRepositoryImpl.deleteAccessToken();
+          secureStorageRepositoryImpl.deleteRefreshToken();
+          ///구글 카카오 애플 로그아웃 넣어야함
           if (state.matchedLocation != RoutePath.auth) {
             return RoutePath.auth;
           }
@@ -109,6 +116,8 @@ GoRouter appRouter(AppRouterRef ref) {
         path: RoutePath.typeTest,
         builder: (context, state) => const TypeTestScreen(),
       ),
+      GoRoute(path: RoutePath.typeTestSkip,
+      builder: (context, state) => const TypeTestSkipScreen()),
       GoRoute(
         path: RoutePath.typeTestResult,
         builder: (context, state) {

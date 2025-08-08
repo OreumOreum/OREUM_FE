@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'folder_detail_view_model.dart';
+part of 'travel_type_selection.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$folderDetailViewModelHash() =>
-    r'30ddaea6d7173ce8e332febabc497c7171ae9014';
+String _$travelTypeSelectionHash() =>
+    r'e12b2f62db5dc7a557f4940cda1e669e1b40c75d';
 
-/// See also [FolderDetailViewModel].
-@ProviderFor(FolderDetailViewModel)
-final folderDetailViewModelProvider = AutoDisposeNotifierProvider<
-    FolderDetailViewModel, FolderDetailState>.internal(
-  FolderDetailViewModel.new,
-  name: r'folderDetailViewModelProvider',
+/// See also [TravelTypeSelection].
+@ProviderFor(TravelTypeSelection)
+final travelTypeSelectionProvider =
+    AutoDisposeNotifierProvider<TravelTypeSelection, TravelType?>.internal(
+  TravelTypeSelection.new,
+  name: r'travelTypeSelectionProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$folderDetailViewModelHash,
+      : _$travelTypeSelectionHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$FolderDetailViewModel = AutoDisposeNotifier<FolderDetailState>;
+typedef _$TravelTypeSelection = AutoDisposeNotifier<TravelType?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

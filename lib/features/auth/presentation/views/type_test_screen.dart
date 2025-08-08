@@ -36,9 +36,8 @@ class TypeTestScreen extends ConsumerWidget {
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
         buttonText: AppStrings.skip,
-        onActionPressed: () async {
-          await viewModel.skipTypeTest();
-          context.go(RoutePath.home);
+        onActionPressed: () {
+          context.push(RoutePath.typeTestSkip);
         },
       ),
       body: SafeArea(

@@ -29,6 +29,6 @@ abstract class RoutePath {
   static const String folderList = '/folderList';
   static String folderDetail(String id) => '/$folderDetailBase/$id';
   static const String folderDetailBase = 'folderDetail';
-
+  static const String typeTestSkip = '/typeTestSkip';
 
 }
