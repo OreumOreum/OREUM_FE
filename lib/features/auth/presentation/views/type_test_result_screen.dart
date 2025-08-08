@@ -24,7 +24,9 @@ class TypeTestResultScreen extends StatelessWidget {
     print('travelTypeImage: ${travelType.image}');
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
-          buttonText: AppStrings.retry, onActionPressed: () {}),
+          buttonText: AppStrings.retry, onActionPressed: () {
+            context.go(RoutePath.typeTest);
+      }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.w),

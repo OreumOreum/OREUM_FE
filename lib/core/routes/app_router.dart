@@ -3,15 +3,18 @@ import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
+import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
 import 'package:oreum_fe/features/auth/presentation/views/auth_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_result_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
+import 'package:oreum_fe/features/auth/presentation/views/type_test_skip_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
 import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
 import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
@@ -32,15 +35,12 @@ import 'package:oreum_fe/features/setting/presentation/views/monthly_spot.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_detail.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_map.dart';
 import 'package:oreum_fe/features/setting/presentation/views/setting_screen.dart';
-import 'package:oreum_fe/features/splash/presentation/views/splash_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../features/course/presentation/views/travel_spot_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
-import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
-import '../../features/splash/presentation/viewmodels/splash_view_model.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
 
@@ -52,7 +52,7 @@ GoRouter appRouter(AppRouterRef ref) {
   final userTypeNotifier = ref.watch(userTypeNotifierProvider);
 
   return GoRouter(
-    initialLocation: RoutePath.splash,
+    initialLocation: _getInitialLocation(loginNotifier, userTypeNotifier),
     observers: [GoTransition.observer],
     refreshListenable: Listenable.merge([loginNotifier, userTypeNotifier]),
     redirect: (context, state) {
@@ -61,30 +61,23 @@ GoRouter appRouter(AppRouterRef ref) {
 
       switch (currentLoginState) {
         case LoginState.initializing:
-          ref.read(splashViewModelProvider);
-          print('로그인 스테이트: ${LoginState.initializing}');
-          if (state.matchedLocation != RoutePath.splash) {
-            return RoutePath.splash;
-          }
+          return null;
         case LoginState.loggedIn:
           if (hasUserType == null) {
             return null;
           }
-
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
             logger.i(hasUserType);
             if (hasUserType == false) {
-              logger.i('1');
               return RoutePath.home;
             } else {
-              logger.i('2');
               return RoutePath.typeTestStart;
             }
           }
           return null;
         case LoginState.loggedOut:
-          print('로그인 스테이트: ${LoginState.loggedOut}');
+          _handleLogout(ref);
           if (state.matchedLocation != RoutePath.auth) {
             return RoutePath.auth;
           }
@@ -93,10 +86,6 @@ GoRouter appRouter(AppRouterRef ref) {
       return null;
     },
     routes: [
-      GoRoute(
-        path: RoutePath.splash,
-        builder: (context, state) => const SplashScreen(),
-      ),
       GoRoute(
         path: RoutePath.auth,
         builder: (context, state) => const AuthScreen(),
@@ -109,6 +98,8 @@ GoRouter appRouter(AppRouterRef ref) {
         path: RoutePath.typeTest,
         builder: (context, state) => const TypeTestScreen(),
       ),
+      GoRoute(path: RoutePath.typeTestSkip,
+      builder: (context, state) => const TypeTestSkipScreen()),
       GoRoute(
         path: RoutePath.typeTestResult,
         builder: (context, state) {
@@ -277,4 +268,26 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
     ],
   );
+}
+
+String _getInitialLocation(LoginNotifier loginNotifier, UserTypeNotifier userTypeNotifier) {
+  final loginState = loginNotifier.status;
+  final hasUserType = userTypeNotifier.hasType;
+
+  if (loginState == LoginState.loggedIn) {
+    if (hasUserType == null) {
+      return RoutePath.home; // 기본값
+    }
+    return hasUserType == false ? RoutePath.home : RoutePath.typeTestStart;
+  } else {
+    return RoutePath.auth;
+  }
+}
+
+void _handleLogout(AppRouterRef ref) {
+  SecureStorageRepositoryImpl secureStorageRepositoryImpl =
+  ref.read(secureStorageRepositoryProvider);
+  secureStorageRepositoryImpl.deleteAccessToken();
+  secureStorageRepositoryImpl.deleteRefreshToken();
+  // TODO: 구글 카카오 애플 로그아웃 추가
 }

@@ -218,7 +218,39 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 600;
     final state = ref.watch(homeViewModelProvider);
+    final children = List.generate(largeCategories.length, (index) {
+      final category = largeCategories[index];
+      return GestureDetector(
+        onTap: () {
+          print('${category.label} tapped');
+        },
+        behavior: HitTestBehavior.translucent,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 52.r,
+              width: 52.r,
+              child: Center(
+                child: SvgPicture.asset(
+                  category.iconPath,
+                  width: category.iconWidth,
+                ),
+              ),
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              category.label,
+              style:
+                  context.textStyles.body2.copyWith(color: AppColors.gray400),
+            ),
+          ],
+        ),
+      );
+    });
 
     if (state.status == UiStatus.loading) {
       return Padding(
@@ -334,49 +366,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           /// ================= 카테고리 ===================
           Padding(
             padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w), // 양쪽 14 고정
-                child: Row(
-                  children:
-                      List.generate(largeCategories.length * 2 - 1, (index) {
-                    if (index.isOdd) {
-                      return SizedBox(width: 14.w); // 아이템 사이 간격
-                    } else {
-                      final category = largeCategories[index ~/ 2];
-                      return GestureDetector(
-                        onTap: () {
-                          print('${category.label} tapped');
-                        },
-                        behavior: HitTestBehavior.translucent,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 52.r,
-                              width: 52.r,
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  category.iconPath,
-                                  width: category.iconWidth,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              category.label,
-                              style: context.textStyles.body2
-                                  .copyWith(color: AppColors.gray400),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  }),
-                ),
-              ),
-            ),
+            child: isWideScreen
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // 혹은 spaceAround
+                      children: children,
+                    ),
+                  )
+                : SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
+                      child: Row(
+                        children:
+                            List.generate(children.length * 2 - 1, (index) {
+                          if (index.isOdd) {
+                            return SizedBox(width: 14.w); // 아이템 사이 간격
+                          } else {
+                            return children[index ~/ 2];
+                          }
+                        }),
+                      ),
+                    ),
+                  ),
           ),
 
           /// ============================================
@@ -393,7 +407,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: EdgeInsets.symmetric(vertical: 24.h),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              padding:
+                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: Row(
                 children: List.generate(mockPlace.length, (index) {
                   String title = mockPlace[index]['title']!;
@@ -438,7 +453,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.personalizedCourseRecommendation,
                     primaryText: '모험 액티비티형',
@@ -454,7 +470,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: List.generate(mockCourse.length, (index) {
                       String title = mockCourse[index]['title']!;
                       String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage = mockCourse[index]['thumbnailImage']!;
+                      String thumbnailImage =
+                          mockCourse[index]['thumbnailImage']!;
 
                       return Row(
                         children: [
@@ -546,7 +563,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.travelSuggestionTitle,
                     primaryText: '모험 액티비티형',
@@ -556,14 +574,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 SizedBox(height: 14.h),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: Row(
                     children: List.generate(placeImages.length, (index) {
-                      String thumbnailImage = placeImages[index]['thumbnailImage']!;
+                      String thumbnailImage =
+                          placeImages[index]['thumbnailImage']!;
                       return Row(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                            borderRadius:
+                                BorderRadius.circular(AppSizes.radiusXS),
                             child: Image.network(
                               thumbnailImage,
                               height: 120.h,

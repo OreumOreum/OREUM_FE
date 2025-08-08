@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/features/auth/di/auth_providers.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/skip_type_test_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/submit_type_test_result_use_case.dart';
@@ -124,7 +125,13 @@ class TypeTestViewModel extends _$TypeTestViewModel {
   }
 
   Future<void> submitTypeTestResult(String type) async {
-    SubmitTypeTestResultUseCase submitTypeTestResultUseCase = ref.read(submitTypeTestResultUseCaseProvider);
-    await submitTypeTestResultUseCase.call(type);
+    state = state.copyWith(status: UiStatus.loading);
+    try {
+      SubmitTypeTestResultUseCase submitTypeTestResultUseCase = ref.read(submitTypeTestResultUseCaseProvider);
+      await submitTypeTestResultUseCase.call(type);
+      state = state.copyWith(status: UiStatus.success);
+    } catch (e) {
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
   }
 }

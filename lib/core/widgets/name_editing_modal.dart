@@ -126,137 +126,142 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
     return SafeArea(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 1.w, sigmaY: 1.h),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius:
-                BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 32.h,
-                ),
-                Text(
-                  titleText,
-                  style: context.textStyles.body1
-                      .copyWith(color: AppColors.primary),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                TextField(
-                  controller: _textEditingController,
-                  cursorColor: AppColors.secondary,
-                  style: context.textStyles.label3
-                      .copyWith(color: AppColors.gray500),
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    hintText: AppStrings.addHintText,
-                    hintStyle: context.textStyles.label3
-                        .copyWith(color: AppColors.gray200),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    isDense: true,
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius:
+                  BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 32.h,
                   ),
-                ),
-                Container(
-                  height: 1.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.gray100,
-                    borderRadius: BorderRadius.circular(1.r), // 줄 자체를 둥글게
+                  Text(
+                    titleText,
+                    style: context.textStyles.body1
+                        .copyWith(color: AppColors.primary),
                   ),
-                ),
-                SizedBox(
-                  height: 34.h,
-                ),
-                SizedBox(
-                  height: 56.h,
-                  width: double.infinity,
-                  child: CustomElevatedButton(
-                      text: buttonText,
-                      onPressed: isCreateLoading ||
-                              isEditLoading ||
-                              isPlannerEditLoading
-                          ? null
-                          : () async {
-                              String name = _textEditingController.text.trim();
-                              if (name.isNotEmpty) {
-                                switch (widget.editStatus) {
-                                  case NameEditStatus.folderCreate:
-                                    await folderListViewModel
-                                        .createMyFolder(name);
-                                    if (mounted &&
-                                        ref
-                                                .read(
-                                                    folderListViewModelProvider)
-                                                .buttonStatus ==
-                                            UiStatus.success) {
-                                      context.pop();
-                                    }
-                                    break;
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  TextField(
+                    controller: _textEditingController,
+                    cursorColor: AppColors.secondary,
+                    style: context.textStyles.label3
+                        .copyWith(color: AppColors.gray500),
+                    keyboardType: TextInputType.text,
+                    textInputAction: TextInputAction.done,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: AppStrings.addHintText,
+                      hintStyle: context.textStyles.label3
+                          .copyWith(color: AppColors.gray200),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      isDense: true,
+                    ),
+                  ),
+                  Container(
+                    height: 1.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.gray100,
+                      borderRadius: BorderRadius.circular(1.r), // 줄 자체를 둥글게
+                    ),
+                  ),
+                  SizedBox(
+                    height: 34.h,
+                  ),
+                  SizedBox(
+                    height: 56.h,
+                    width: double.infinity,
+                    child: CustomElevatedButton(
+                        text: buttonText,
+                        onPressed: isCreateLoading ||
+                                isEditLoading ||
+                                isPlannerEditLoading
+                            ? null
+                            : () async {
+                                String name = _textEditingController.text.trim();
+                                if (name.isNotEmpty) {
+                                  switch (widget.editStatus) {
+                                    case NameEditStatus.folderCreate:
+                                      await folderListViewModel
+                                          .createMyFolder(name);
+                                      if (mounted &&
+                                          ref
+                                                  .read(
+                                                      folderListViewModelProvider)
+                                                  .buttonStatus ==
+                                              UiStatus.success) {
+                                        context.pop();
+                                      }
+                                      break;
 
-                                  case NameEditStatus.folderEdit:
-                                    await folderDetailViewModel.editMyFolder(
-                                        widget.folderId!, name);
-                                    folderDetailViewModel
-                                        .updateFolderName(name);
-                                    if (mounted &&
-                                        ref
-                                                .read(
-                                                    folderDetailViewModelProvider)
-                                                .buttonStatus ==
-                                            UiStatus.success) {
+                                    case NameEditStatus.folderEdit:
+                                      await folderDetailViewModel.editMyFolder(
+                                          widget.folderId!, name);
+                                      folderDetailViewModel
+                                          .updateFolderName(name);
+                                      if (mounted &&
+                                          ref
+                                                  .read(
+                                                      folderDetailViewModelProvider)
+                                                  .buttonStatus ==
+                                              UiStatus.success) {
+                                        context.pop();
+                                      }
+                                      break;
+                                    case NameEditStatus.plannerCreate:
+                                      context.push(
+                                        '${RoutePath.planner}/edit',
+                                        extra: {
+                                          'plannerName': name,
+                                          'isRecommend': false,
+                                        },
+                                      );
                                       context.pop();
-                                    }
-                                    break;
-                                  case NameEditStatus.plannerCreate:
-                                    context.push(
-                                      '${RoutePath.planner}/edit',
-                                      extra: {
-                                        'plannerName': name,
-                                        'isRecommend': false,
-                                      },
-                                    );
-                                    context.pop();
-                                    break;
-                                  case NameEditStatus.plannerEdit:
-                                    await plannerListViewModel.editPlannerName(
-                                        widget.plannerId!, name);
-                                    ref
-                                        .read(plannerDetailViewModelProvider
-                                            .notifier)
-                                        .setPlannerName(name);
-                                    if (mounted &&
-                                        ref
-                                                .read(
-                                                    plannerListViewModelProvider)
-                                                .buttonStatus ==
-                                            UiStatus.success) {
-                                      context.pop();
-                                    }
-                                    break;
+                                      break;
+                                    case NameEditStatus.plannerEdit:
+                                      await plannerListViewModel.editPlannerName(
+                                          widget.plannerId!, name);
+                                      ref
+                                          .read(plannerDetailViewModelProvider
+                                              .notifier)
+                                          .setPlannerName(name);
+                                      if (mounted &&
+                                          ref
+                                                  .read(
+                                                      plannerListViewModelProvider)
+                                                  .buttonStatus ==
+                                              UiStatus.success) {
+                                        context.pop();
+                                      }
+                                      break;
+                                  }
                                 }
-                              }
-                            },
-                      textStyle: context.textStyles.label3,
-                      radius: AppSizes.radiusMD),
-                ),
-                SizedBox(
-                  height: 16.h,
-                ),
-              ],
+                              },
+                        textStyle: context.textStyles.label3,
+                        radius: AppSizes.radiusMD),
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

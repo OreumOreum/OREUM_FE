@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,13 +9,15 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
+import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/themes/app_theme.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/di/login_notifier.dart';
 import 'core/routes/app_router.dart';
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: '.env');
   String kakaoAppKey = await dotenv.get('KAKAO_NATIVE_APP_KEY');
@@ -26,24 +29,98 @@ Future main() async {
   } catch (e) {
     print('Kakao SDK 초기화 실패: $e');
   }
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(
     ProviderScope(
       overrides: [
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
-class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+class MyApp extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    AssetLottie(AnimationPath.loading).load();
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    try {
+      await _handleFirstRun();
+      await _checkLoginAndUserType();
+      await _preloadAssets();
+
+    } catch (e) {
+      print('App initialization failed: $e');
+      ref.read(loginNotifierProvider).setLoggedOut();
+    } finally {
+      setState(() => _isInitialized = true);
+      FlutterNativeSplash.remove();
+    }
+  }
+
+  Future<void> _handleFirstRun() async {
+    final sharedPreferencesRepo = ref.read(sharedPreferencesRepositoryProvider);
+    final secureStorageRepo = ref.read(secureStorageRepositoryProvider);
+
+    final bool isFirstRun = await sharedPreferencesRepo.isFirstRun() ?? true;
+
+    if (isFirstRun) {
+      await secureStorageRepo.deleteAll();
+      await sharedPreferencesRepo.setFirstRun(false);
+    }
+  }
+
+  Future<void> _checkLoginAndUserType() async {
+    final secureStorageRepo = ref.read(secureStorageRepositoryProvider);
+    final loginNotifier = ref.read(loginNotifierProvider);
+    final userTypeNotifier = ref.read(userTypeNotifierProvider);
+
+    // 토큰 확인
+    final String? accessToken = await secureStorageRepo.getAccessToken();
+
+    if (accessToken != null) {
+      loginNotifier.setLoggedIn();
+      await userTypeNotifier.checkUserType(); // 이제 ref 사용 가능!
+    } else {
+      loginNotifier.setLoggedOut();
+    }
+  }
+
+  Future<void> _preloadAssets() async {
+    try {
+      // SVG 프리로딩 등
+      await AssetLottie(AnimationPath.loading).load();
+    } catch (e) {
+      print('Asset preloading failed: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final GoRouter goRouter = ref.watch(appRouterProvider);
+
+    if (!_isInitialized) {
+      return MaterialApp(
+        home: Scaffold(
+          backgroundColor: Colors.white,
+          body: Center(
+            child: Lottie.asset(AnimationPath.loading),
+          ),
+        ),
+      );
+    }
 
     Size screenSize = MediaQuery.of(context).size;
     double screenWidth = screenSize.width;
@@ -64,90 +141,3 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}

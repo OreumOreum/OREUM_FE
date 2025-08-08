@@ -63,6 +63,7 @@ dependencies:
   lottie: ^3.3.1
   intl: ^0.20.2
   latlong2: ^0.9.1
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -98,3 +99,18 @@ flutter:
     - family: PretendardVariable
       fonts:
         - asset: assets/fonts/PretendardVariable.ttf
+
+flutter_native_splash:
+  color: "#E9534C"
+  image: assets/images/logo_splash.png
+  android_gravity: center
+  ios_content_mode: center
+  fullscreen: true
+  android: true
+  ios: true
+
+  android_12:
+    color: "#E9534C"
+    image: assets/images/logo_splash_android_12.png
+
+  web: false
