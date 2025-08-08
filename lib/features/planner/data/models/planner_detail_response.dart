@@ -14,7 +14,7 @@ class PlannerDetailResponse with _$PlannerDetailResponse {
     required int placeId,
     required String placeTitle,
     required String placeAddress,
-    required String placeThumbnailImage,
+    String? placeThumbnailImage,
     required String contentTypeId,
     double? mapX,
     double? mapY,

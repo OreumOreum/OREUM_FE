@@ -28,7 +28,7 @@ mixin _$PlannerDetailResponse {
   int get placeId => throw _privateConstructorUsedError;
   String get placeTitle => throw _privateConstructorUsedError;
   String get placeAddress => throw _privateConstructorUsedError;
-  String get placeThumbnailImage => throw _privateConstructorUsedError;
+  String? get placeThumbnailImage => throw _privateConstructorUsedError;
   String get contentTypeId => throw _privateConstructorUsedError;
   double? get mapX => throw _privateConstructorUsedError;
   double? get mapY => throw _privateConstructorUsedError;
@@ -57,7 +57,7 @@ abstract class $PlannerDetailResponseCopyWith<$Res> {
       int placeId,
       String placeTitle,
       String placeAddress,
-      String placeThumbnailImage,
+      String? placeThumbnailImage,
       String contentTypeId,
       double? mapX,
       double? mapY});
@@ -86,7 +86,7 @@ class _$PlannerDetailResponseCopyWithImpl<$Res,
     Object? placeId = null,
     Object? placeTitle = null,
     Object? placeAddress = null,
-    Object? placeThumbnailImage = null,
+    Object? placeThumbnailImage = freezed,
     Object? contentTypeId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
@@ -120,10 +120,10 @@ class _$PlannerDetailResponseCopyWithImpl<$Res,
           ? _value.placeAddress
           : placeAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      placeThumbnailImage: null == placeThumbnailImage
+      placeThumbnailImage: freezed == placeThumbnailImage
           ? _value.placeThumbnailImage
           : placeThumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       contentTypeId: null == contentTypeId
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ abstract class _$$PlannerDetailResponseImplCopyWith<$Res>
       int placeId,
       String placeTitle,
       String placeAddress,
-      String placeThumbnailImage,
+      String? placeThumbnailImage,
       String contentTypeId,
       double? mapX,
       double? mapY});
@@ -184,7 +184,7 @@ class __$$PlannerDetailResponseImplCopyWithImpl<$Res>
     Object? placeId = null,
     Object? placeTitle = null,
     Object? placeAddress = null,
-    Object? placeThumbnailImage = null,
+    Object? placeThumbnailImage = freezed,
     Object? contentTypeId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
@@ -218,10 +218,10 @@ class __$$PlannerDetailResponseImplCopyWithImpl<$Res>
           ? _value.placeAddress
           : placeAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      placeThumbnailImage: null == placeThumbnailImage
+      placeThumbnailImage: freezed == placeThumbnailImage
           ? _value.placeThumbnailImage
           : placeThumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       contentTypeId: null == contentTypeId
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
@@ -249,7 +249,7 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
       required this.placeId,
       required this.placeTitle,
       required this.placeAddress,
-      required this.placeThumbnailImage,
+      this.placeThumbnailImage,
       required this.contentTypeId,
       this.mapX,
       this.mapY});
@@ -272,7 +272,7 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
   @override
   final String placeAddress;
   @override
-  final String placeThumbnailImage;
+  final String? placeThumbnailImage;
   @override
   final String contentTypeId;
   @override
@@ -351,7 +351,7 @@ abstract class _PlannerDetailResponse implements PlannerDetailResponse {
       required final int placeId,
       required final String placeTitle,
       required final String placeAddress,
-      required final String placeThumbnailImage,
+      final String? placeThumbnailImage,
       required final String contentTypeId,
       final double? mapX,
       final double? mapY}) = _$PlannerDetailResponseImpl;
@@ -374,7 +374,7 @@ abstract class _PlannerDetailResponse implements PlannerDetailResponse {
   @override
   String get placeAddress;
   @override
-  String get placeThumbnailImage;
+  String? get placeThumbnailImage;
   @override
   String get contentTypeId;
   @override
