@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'splash_view_model.dart';
+part of 'account_setting_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$splashViewModelHash() => r'df3b8d0839db194b74ae722765f0bd095f2d3fc4';
+String _$accountSettingViewModelHash() =>
+    r'ac06c5b9b7692edc6eb16dc3a9fa1fab6f28f6fe';
 
-/// See also [SplashViewModel].
-@ProviderFor(SplashViewModel)
-final splashViewModelProvider =
-    AutoDisposeAsyncNotifierProvider<SplashViewModel, LoginState>.internal(
-  SplashViewModel.new,
-  name: r'splashViewModelProvider',
+/// See also [AccountSettingViewModel].
+@ProviderFor(AccountSettingViewModel)
+final accountSettingViewModelProvider =
+    AutoDisposeNotifierProvider<AccountSettingViewModel, void>.internal(
+  AccountSettingViewModel.new,
+  name: r'accountSettingViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$splashViewModelHash,
+      : _$accountSettingViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SplashViewModel = AutoDisposeAsyncNotifier<LoginState>;
+typedef _$AccountSettingViewModel = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

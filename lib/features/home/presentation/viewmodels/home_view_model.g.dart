@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'splash_view_model.dart';
+part of 'home_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$splashViewModelHash() => r'df3b8d0839db194b74ae722765f0bd095f2d3fc4';
+String _$homeViewModelHash() => r'8c5bc4649efc74f6f6a02f00391721118a81601b';
 
-/// See also [SplashViewModel].
-@ProviderFor(SplashViewModel)
-final splashViewModelProvider =
-    AutoDisposeAsyncNotifierProvider<SplashViewModel, LoginState>.internal(
-  SplashViewModel.new,
-  name: r'splashViewModelProvider',
+/// See also [HomeViewModel].
+@ProviderFor(HomeViewModel)
+final homeViewModelProvider =
+    AutoDisposeNotifierProvider<HomeViewModel, HomeMonthlySpotState>.internal(
+  HomeViewModel.new,
+  name: r'homeViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$splashViewModelHash,
+      : _$homeViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SplashViewModel = AutoDisposeAsyncNotifier<LoginState>;
+typedef _$HomeViewModel = AutoDisposeNotifier<HomeMonthlySpotState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

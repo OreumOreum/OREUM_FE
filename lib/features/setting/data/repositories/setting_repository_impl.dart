@@ -10,4 +10,8 @@ class SettingRepositoryImpl implements SettingRepository {
   Future<MyInfoResponse> getMyInfo() {
     return _service.getMyInfo();
   }
+  @override
+  Future<void> deleteMyAccount() {
+    return _service.deleteMyAccount();
+  }
 }

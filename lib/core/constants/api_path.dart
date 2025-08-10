@@ -7,16 +7,17 @@ abstract class ApiPath {
   static const String loginWithKakao = '/v1/auth/login/kakao';
   static const String loginWithGoogle = '/v1/auth/login/google';
 
-  static const String test = '/api/v1/member/test';
-  static const String skipTest = '/api/v1/member/skip/test';
-  static const String category = '/api/v1/member/me/category';
+  static const String test = '/v1/member/test';
+  static const String skipTest = '/v1/member/skip/test';
+  static const String category = '/v1/member/me/category';
 
-  static String spotStampYear(String year) => '/api/v1/spots/stamp/$year';
-  static String spotStampYearMonth(String year, String month) => '/api/v1/spots/stamp/$year/$month';
-  static String spotVisit(String spotId) => '/api/v1/spots/$spotId/visit';
-  static String spotRanking(String spotId) => '/api/v1/spots/$spotId/ranking';
+  static String spotStampYear(String year) => '/v1/spots/stamp/$year';
+  static String spotStampYearMonth(String year, String month) => '/v1/spots/stamp/$year/$month';
+  static String spotVisit(String spotId) => '/v1/spots/$spotId/visit';
+  static String spotRanking(String spotId) => '/v1/spots/$spotId/ranking';
+  static const String place = '/v1/place';
 
-  static const String myInfo = '/api/v1/member/me';
+  static const String myInfo = '/v1/member/me';
   static const String folder = '/v1/folder';
   static String folderDetail(String folderId) => '/v1/folder/$folderId';
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -16,12 +18,27 @@ import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
-
+import '../../../../core/constants/route_path.dart';
+import '../../../../core/constants/ui_status.dart';
+import '../../../../core/di/my_type_provider.dart';
+import '../viewmodels/home_view_model.dart';
 import '../widgets/page_gradient_carousel.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(homeViewModelProvider.notifier).fetchMonthlySpots();
+    });
+  }
   final List<LargeCategory> largeCategories = LargeCategory.values;
 
   final List<Map<String, String>> mockPlace = [
@@ -195,6 +212,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeState = ref.watch(homeViewModelProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,43 +265,55 @@ class HomeScreen extends StatelessWidget {
           SizedBox(
             height: 14.h,
           ),
-          PagedGradientCarousel(
-            items: [
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '300',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '100',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Container(color: Colors.deepOrange),
-                title: '섭지코지',
-                count: '20',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '40',
-                city: '제주도시',
-              ),
-            ],
-          ),
+          if (homeState.status == UiStatus.loading || homeState.status == UiStatus.idle)
+            SizedBox(
+              height: 200.h,
+              child: const Center(child: CircularProgressIndicator()),
+            )
+          else if (homeState.status == UiStatus.error)
+            SizedBox(
+              height: 200.h,
+              child: Center(child: Text('Error: ${homeState.errorMessage}')),
+            )
+          else
+            PagedGradientCarousel(
+              onItemTap: (index) {
+                final tappedSpot = homeState.monthlySpots[index];
+                context.push(
+                  RoutePath.monthlySpotMap,
+                  extra: {
+                    'year': homeState.year,
+                    'month': homeState.month,
+                    'placeId': tappedSpot.placeId,
+                    'spots': homeState.monthlySpots,
+                  },
+                );
+              },
+              items: homeState.monthlySpots
+                  .asMap()
+                  .entries
+                  .map((entry) {
+
+                final index = entry.key;
+                final spot = entry.value;
+                final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
+                const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
+                final String city = (index < fixedCities.length) ? fixedCities[index] : '제주';
+
+                return CarouselItem(
+                  background: Image.network(
+                    spot.thumbnailImage ??
+                        'https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Container(color: AppColors.gray200),
+                  ),
+                  title: spot.title,
+                  count: count.toString(),
+                  city: city,
+                );
+              }).toList(),
+            ),
           SizedBox(
             height: 14.h,
           ),
@@ -295,17 +325,20 @@ class HomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w), // 양쪽 14 고정
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 child: Row(
                   children:
                       List.generate(largeCategories.length * 2 - 1, (index) {
                     if (index.isOdd) {
-                      return SizedBox(width: 14.w); // 아이템 사이 간격
+                      return SizedBox(width: 14.w);
                     } else {
                       final category = largeCategories[index ~/ 2];
                       return GestureDetector(
                         onTap: () {
-                          print('${category.label} tapped');
+                          context.push(
+                            RoutePath.recommend,
+                            extra: {'contentTypeId': category.contentTypeId},
+                          );
                         },
                         behavior: HitTestBehavior.translucent,
                         child: Column(

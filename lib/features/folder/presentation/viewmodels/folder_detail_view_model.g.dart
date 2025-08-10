@@ -7,7 +7,7 @@ part of 'folder_detail_view_model.dart';
 // **************************************************************************
 
 String _$folderDetailViewModelHash() =>
-    r'9062d8a9a4113f431bf6d9ff736dd8a584470b9a';
+    r'252d9cde325a723fc24f1c534ca9ff0d9aa21426';
 
 /// See also [FolderDetailViewModel].
 @ProviderFor(FolderDetailViewModel)
