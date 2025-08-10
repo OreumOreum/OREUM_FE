@@ -101,6 +101,9 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
   @override
   void initState() {
     super.initState();
+    print('--- 지도 화면 initState 디버깅 ---');
+    print('전달받은 ID (initialSelectedPlaceId): ${widget.initialSelectedPlaceId}');
+    print('전체 스팟 ID 목록: ${widget.spots.map((s) => s.placeId).toList()}');
     SpotMonthResponse? initialSpot;
 
     if (widget.initialSelectedPlaceId != null) {
@@ -109,11 +112,10 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
               (spot) => spot.placeId == widget.initialSelectedPlaceId,
         );
       } catch (e) {
-        initialSpot = widget.spots.isNotEmpty ? widget.spots.first : null;
+        initialSpot = null;
       }
-    } else {
-      initialSpot = widget.spots.isNotEmpty ? widget.spots.first : null;
     }
+    initialSpot ??= widget.spots.isNotEmpty ? widget.spots.first : null;
     if (initialSpot != null) {
       _initialCameraPosition = CameraPosition(
         target: LatLng(initialSpot.mapY, initialSpot.mapX),
@@ -128,9 +130,11 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
 
     if (initialSpot != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref
-            .read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier)
-            .selectSpot(initialSpot!);
+        if (mounted) {
+          ref
+              .read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier)
+              .selectSpot(initialSpot!);
+        }
       });
     }
   }

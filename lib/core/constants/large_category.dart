@@ -82,4 +82,26 @@ extension LargeCategoryExtension on LargeCategory {
         return 26.r;
     }
   }
+  int get contentTypeId {
+    switch (this) {
+      case LargeCategory.touristAttraction:
+        return 12; // 관광지
+      case LargeCategory.culturalFacility:
+        return 14; // 문화
+      case LargeCategory.festivalEvent:
+        return 15; // 이벤트
+      case LargeCategory.leisureSports:
+        return 28; // 레포츠
+      case LargeCategory.accommodation:
+        return 32; // 숙박
+      case LargeCategory.shopping:
+        return 38; // 쇼핑
+      case LargeCategory.restaurant:
+        return 39; // 음식점
+      case LargeCategory.nature:
+        return 12;
+      case LargeCategory.all:
+        return 0;
+    }
+  }
 }

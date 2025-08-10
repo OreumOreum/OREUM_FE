@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -26,7 +27,10 @@ import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
-
+import '../../../../core/constants/route_path.dart';
+import '../../../../core/constants/ui_status.dart';
+import '../../../../core/di/my_type_provider.dart';
+import '../viewmodels/home_view_model.dart';
 import '../widgets/page_gradient_carousel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -225,7 +229,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       final category = largeCategories[index];
       return GestureDetector(
         onTap: () {
-          print('${category.label} tapped');
+          context.push(
+            RoutePath.recommend,
+            extra: {'contentTypeId': category.contentTypeId},
+          );
         },
         behavior: HitTestBehavior.translucent,
         child: Column(
@@ -265,6 +272,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     WeatherInfo? weatherInfo = state.weatherInfo;
 
+    final homeState = ref.watch(homeViewModelProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,43 +329,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: 14.h,
           ),
-          PagedGradientCarousel(
-            items: [
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '300',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '100',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Container(color: Colors.deepOrange),
-                title: '섭지코지',
-                count: '20',
-                city: '제주도시',
-              ),
-              CarouselItem(
-                background: Image.network(
-                  'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-                  fit: BoxFit.cover,
-                ),
-                title: '섭지코지',
-                count: '40',
-                city: '제주도시',
-              ),
-            ],
-          ),
+          if (homeState.status == UiStatus.loading || homeState.status == UiStatus.idle)
+            SizedBox(
+              height: 200.h,
+              child: const Center(child: CircularProgressIndicator()),
+            )
+          else if (homeState.status == UiStatus.error)
+            SizedBox(
+              height: 200.h,
+              child: Center(child: Text('Error: ${homeState.errorMessage}')),
+            )
+          else
+            PagedGradientCarousel(
+              onItemTap: (index) {
+                final tappedSpot = homeState.monthlySpots[index];
+                context.push(
+                  RoutePath.monthlySpotMap,
+                  extra: {
+                    'year': homeState.year,
+                    'month': homeState.month,
+                    'placeId': tappedSpot.placeId,
+                    'spots': homeState.monthlySpots,
+                  },
+                );
+              },
+              items: homeState.monthlySpots
+                  .asMap()
+                  .entries
+                  .map((entry) {
+
+                final index = entry.key;
+                final spot = entry.value;
+                final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
+                const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
+                final String city = (index < fixedCities.length) ? fixedCities[index] : '제주';
+
+                return CarouselItem(
+                  background: Image.network(
+                    spot.thumbnailImage ??
+                        'https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Container(color: AppColors.gray200),
+                  ),
+                  title: spot.title,
+                  count: count.toString(),
+                  city: city,
+                );
+              }).toList(),
+            ),
           SizedBox(
             height: 14.h,
           ),
@@ -407,8 +427,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: EdgeInsets.symmetric(vertical: 24.h),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: Row(
                 children: List.generate(mockPlace.length, (index) {
                   String title = mockPlace[index]['title']!;
@@ -453,8 +472,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.personalizedCourseRecommendation,
                     primaryText: '모험 액티비티형',
@@ -470,8 +488,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: List.generate(mockCourse.length, (index) {
                       String title = mockCourse[index]['title']!;
                       String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage =
-                          mockCourse[index]['thumbnailImage']!;
+                      String thumbnailImage = mockCourse[index]['thumbnailImage']!;
 
                       return Row(
                         children: [
@@ -563,8 +580,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.travelSuggestionTitle,
                     primaryText: '모험 액티비티형',
@@ -574,17 +590,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 SizedBox(height: 14.h),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: Row(
                     children: List.generate(placeImages.length, (index) {
-                      String thumbnailImage =
-                          placeImages[index]['thumbnailImage']!;
+                      String thumbnailImage = placeImages[index]['thumbnailImage']!;
                       return Row(
                         children: [
                           ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(AppSizes.radiusXS),
+                            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
                             child: Image.network(
                               thumbnailImage,
                               height: 120.h,
