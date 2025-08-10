@@ -10,6 +10,7 @@ class CourseDetailResponse with _$CourseDetailResponse {
     required String middleCategory,
     int? sigunguCode,
     String? overview,
+    String? originImage,
     required double averageRate,
     required int reviewCount,
     @Default([]) List<Place> places,

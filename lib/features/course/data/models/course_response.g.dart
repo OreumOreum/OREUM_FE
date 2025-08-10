@@ -10,8 +10,8 @@ _$CourseResponseImpl _$$CourseResponseImplFromJson(Map<String, dynamic> json) =>
     _$CourseResponseImpl(
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      originImage: json['originImage'] as String,
-      thumbnailImage: json['thumbnailImage'] as String,
+      originImage: json['originImage'] as String?,
+      thumbnailImage: json['thumbnailImage'] as String?,
       category2: json['category2'] as String,
       sigunguCode: (json['sigunguCode'] as num?)?.toInt(),
     );

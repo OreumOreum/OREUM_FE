@@ -25,5 +25,4 @@ class CourseService {
     print(response.data);
     return CourseDetailResponse.fromJson(response.data);
   }
-
 }

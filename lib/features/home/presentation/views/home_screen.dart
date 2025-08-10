@@ -440,7 +440,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: List.generate(courses.length, (index) {
                       String title = courses[index].title;
                       String subTitle = courses[index].title;
-                      String thumbnailImage = courses[index].originImage;
+                      String? thumbnailImage = courses[index].originImage;
 
                       return Row(
                         children: [

@@ -11,8 +11,10 @@ abstract class RoutePath {
   static String plannerEditWithId(String id) => '/planner/$id/edit';
   static const String recommend = '/recommend';
 
-  static const String createReview = '/createReview';
-  static const String reviewDetail = '/reviewDetail';
+  static const String createPlaceReview = '/createReview/place';
+  static const String createCourseReview = '/createReview/course';
+  static const String reviewPlaceDetail = '/reviewPlaceDetail';
+  static const String reviewCourseDetail = '/reviewCourseDetail';
   static const String myReview = '/myReview';
   static const String courseDetail = '/courseDetail';
   static const String placeDetail = '/placeDetail';

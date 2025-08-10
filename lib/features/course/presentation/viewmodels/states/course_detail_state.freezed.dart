@@ -19,6 +19,8 @@ mixin _$CourseDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   CourseDetailResponse? get courseDetail => throw _privateConstructorUsedError;
+  List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
+  TourResponse? get tour => throw _privateConstructorUsedError;
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,9 +38,12 @@ abstract class $CourseDetailStateCopyWith<$Res> {
   $Res call(
       {UiStatus status,
       String errorMessage,
-      CourseDetailResponse? courseDetail});
+      CourseDetailResponse? courseDetail,
+      List<ReviewResponse> reviews,
+      TourResponse? tour});
 
   $CourseDetailResponseCopyWith<$Res>? get courseDetail;
+  $TourResponseCopyWith<$Res>? get tour;
 }
 
 /// @nodoc
@@ -59,6 +64,8 @@ class _$CourseDetailStateCopyWithImpl<$Res, $Val extends CourseDetailState>
     Object? status = null,
     Object? errorMessage = null,
     Object? courseDetail = freezed,
+    Object? reviews = null,
+    Object? tour = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -73,6 +80,14 @@ class _$CourseDetailStateCopyWithImpl<$Res, $Val extends CourseDetailState>
           ? _value.courseDetail
           : courseDetail // ignore: cast_nullable_to_non_nullable
               as CourseDetailResponse?,
+      reviews: null == reviews
+          ? _value.reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewResponse>,
+      tour: freezed == tour
+          ? _value.tour
+          : tour // ignore: cast_nullable_to_non_nullable
+              as TourResponse?,
     ) as $Val);
   }
 
@@ -89,6 +104,20 @@ class _$CourseDetailStateCopyWithImpl<$Res, $Val extends CourseDetailState>
       return _then(_value.copyWith(courseDetail: value) as $Val);
     });
   }
+
+  /// Create a copy of CourseDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TourResponseCopyWith<$Res>? get tour {
+    if (_value.tour == null) {
+      return null;
+    }
+
+    return $TourResponseCopyWith<$Res>(_value.tour!, (value) {
+      return _then(_value.copyWith(tour: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -102,10 +131,14 @@ abstract class _$$CourseDetailStateImplCopyWith<$Res>
   $Res call(
       {UiStatus status,
       String errorMessage,
-      CourseDetailResponse? courseDetail});
+      CourseDetailResponse? courseDetail,
+      List<ReviewResponse> reviews,
+      TourResponse? tour});
 
   @override
   $CourseDetailResponseCopyWith<$Res>? get courseDetail;
+  @override
+  $TourResponseCopyWith<$Res>? get tour;
 }
 
 /// @nodoc
@@ -124,6 +157,8 @@ class __$$CourseDetailStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? errorMessage = null,
     Object? courseDetail = freezed,
+    Object? reviews = null,
+    Object? tour = freezed,
   }) {
     return _then(_$CourseDetailStateImpl(
       status: null == status
@@ -138,6 +173,14 @@ class __$$CourseDetailStateImplCopyWithImpl<$Res>
           ? _value.courseDetail
           : courseDetail // ignore: cast_nullable_to_non_nullable
               as CourseDetailResponse?,
+      reviews: null == reviews
+          ? _value._reviews
+          : reviews // ignore: cast_nullable_to_non_nullable
+              as List<ReviewResponse>,
+      tour: freezed == tour
+          ? _value.tour
+          : tour // ignore: cast_nullable_to_non_nullable
+              as TourResponse?,
     ));
   }
 }
@@ -146,7 +189,12 @@ class __$$CourseDetailStateImplCopyWithImpl<$Res>
 
 class _$CourseDetailStateImpl implements _CourseDetailState {
   const _$CourseDetailStateImpl(
-      {this.status = UiStatus.idle, this.errorMessage = '', this.courseDetail});
+      {this.status = UiStatus.idle,
+      this.errorMessage = '',
+      this.courseDetail,
+      final List<ReviewResponse> reviews = const [],
+      this.tour})
+      : _reviews = reviews;
 
   @override
   @JsonKey()
@@ -156,10 +204,21 @@ class _$CourseDetailStateImpl implements _CourseDetailState {
   final String errorMessage;
   @override
   final CourseDetailResponse? courseDetail;
+  final List<ReviewResponse> _reviews;
+  @override
+  @JsonKey()
+  List<ReviewResponse> get reviews {
+    if (_reviews is EqualUnmodifiableListView) return _reviews;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reviews);
+  }
+
+  @override
+  final TourResponse? tour;
 
   @override
   String toString() {
-    return 'CourseDetailState(status: $status, errorMessage: $errorMessage, courseDetail: $courseDetail)';
+    return 'CourseDetailState(status: $status, errorMessage: $errorMessage, courseDetail: $courseDetail, reviews: $reviews, tour: $tour)';
   }
 
   @override
@@ -171,12 +230,14 @@ class _$CourseDetailStateImpl implements _CourseDetailState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.courseDetail, courseDetail) ||
-                other.courseDetail == courseDetail));
+                other.courseDetail == courseDetail) &&
+            const DeepCollectionEquality().equals(other._reviews, _reviews) &&
+            (identical(other.tour, tour) || other.tour == tour));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, errorMessage, courseDetail);
+  int get hashCode => Object.hash(runtimeType, status, errorMessage,
+      courseDetail, const DeepCollectionEquality().hash(_reviews), tour);
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -192,7 +253,9 @@ abstract class _CourseDetailState implements CourseDetailState {
   const factory _CourseDetailState(
       {final UiStatus status,
       final String errorMessage,
-      final CourseDetailResponse? courseDetail}) = _$CourseDetailStateImpl;
+      final CourseDetailResponse? courseDetail,
+      final List<ReviewResponse> reviews,
+      final TourResponse? tour}) = _$CourseDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -200,6 +263,10 @@ abstract class _CourseDetailState implements CourseDetailState {
   String get errorMessage;
   @override
   CourseDetailResponse? get courseDetail;
+  @override
+  List<ReviewResponse> get reviews;
+  @override
+  TourResponse? get tour;
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.

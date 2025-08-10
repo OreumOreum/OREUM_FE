@@ -13,6 +13,7 @@ _$CourseDetailResponseImpl _$$CourseDetailResponseImplFromJson(
       middleCategory: json['middleCategory'] as String,
       sigunguCode: (json['sigunguCode'] as num?)?.toInt(),
       overview: json['overview'] as String?,
+      originImage: json['originImage'] as String?,
       averageRate: (json['averageRate'] as num).toDouble(),
       reviewCount: (json['reviewCount'] as num).toInt(),
       places: (json['places'] as List<dynamic>?)
@@ -28,6 +29,7 @@ Map<String, dynamic> _$$CourseDetailResponseImplToJson(
       'middleCategory': instance.middleCategory,
       'sigunguCode': instance.sigunguCode,
       'overview': instance.overview,
+      'originImage': instance.originImage,
       'averageRate': instance.averageRate,
       'reviewCount': instance.reviewCount,
       'places': instance.places,

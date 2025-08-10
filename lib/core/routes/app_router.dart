@@ -62,9 +62,9 @@ GoRouter appRouter(AppRouterRef ref) {
           if (state.matchedLocation == RoutePath.splash ||
               state.matchedLocation == RoutePath.auth) {
             if (hasUserType == false) {
-              return RoutePath.courseDetail;
+              return '${RoutePath.courseDetail}/1';
             } else {
-              return RoutePath.courseDetail;
+              return '${RoutePath.courseDetail}/1';
             }
           }
           return null;
@@ -102,8 +102,8 @@ GoRouter appRouter(AppRouterRef ref) {
       ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) => CustomScaffold(
-            navigationShell: navigationShell,
-          ),
+                navigationShell: navigationShell,
+              ),
           branches: [
             StatefulShellBranch(routes: [
               GoRoute(
@@ -158,16 +158,69 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => RecommendScreen(),
       ),
       GoRoute(
-        path: RoutePath.createReview,
-        builder: (context, state) => CreateReviewScreen(),
-      ),
+          path: '${RoutePath.createPlaceReview}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            return CreateReviewScreen.place(
+              id: id,
+            );
+          }),
       GoRoute(
-        path: RoutePath.reviewDetail,
-        builder: (context, state) => ReviewDetailScreen(),
-      ),
+          path: '${RoutePath.createCourseReview}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            return CreateReviewScreen.course(
+              id: id,
+            );
+          }),
       GoRoute(
-        path: RoutePath.courseDetail,
-        builder: (context, state) => CourseDetailScreen(),
+          path: '${RoutePath.reviewPlaceDetail}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+                state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String address = extraData['address'];
+            double rate = extraData['rate'];
+            String? originImage = extraData['originImage'];
+            return ReviewDetailScreen.place(
+              id: id,
+              name: name,
+              address: address,
+              rate: rate,
+              originImage: originImage,
+            );
+          }),
+      GoRoute(
+          path: '${RoutePath.reviewCourseDetail}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+                state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String address = extraData['address'];
+            double rate = extraData['rate'];
+            String? originImage = extraData['originImage'];
+            return ReviewDetailScreen.course(
+              id: id,
+              name: name,
+              address: address,
+              rate: rate,
+              originImage: originImage,
+            );
+          }),
+      GoRoute(
+        path: '${RoutePath.courseDetail}/:id',
+        builder: (context, state) {
+          String courseId = state.pathParameters['id']!;
+          String contentId = state.pathParameters['id']!;
+          String contentTypeId = state.pathParameters['id']!;
+          return CourseDetailScreen(
+            courseId: courseId,
+            contentId: contentId,
+            contentTypeId: contentTypeId,
+          );
+        },
       ),
       GoRoute(
         path: RoutePath.search,
@@ -208,8 +261,17 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => FolderDetailScreen(),
       ),
       GoRoute(
-        path: RoutePath.placeDetail,
-        builder: (context, state) => PlaceDetailScreen(),
+        path: '${RoutePath.placeDetail}/:id',
+        builder: (context, state) {
+          String placeId = state.pathParameters['id']!;
+          String contentId = state.pathParameters['id']!;
+          String contentTypeId = state.pathParameters['id']!;
+          return PlaceDetailScreen(
+            placeId: placeId,
+            contentId: contentId,
+            contentTypeId: contentTypeId,
+          );
+        },
       ),
       GoRoute(
         path: RoutePath.myReview,

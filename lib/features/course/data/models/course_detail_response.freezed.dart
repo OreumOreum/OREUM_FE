@@ -24,6 +24,7 @@ mixin _$CourseDetailResponse {
   String get middleCategory => throw _privateConstructorUsedError;
   int? get sigunguCode => throw _privateConstructorUsedError;
   String? get overview => throw _privateConstructorUsedError;
+  String? get originImage => throw _privateConstructorUsedError;
   double get averageRate => throw _privateConstructorUsedError;
   int get reviewCount => throw _privateConstructorUsedError;
   List<Place> get places => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $CourseDetailResponseCopyWith<$Res> {
       String middleCategory,
       int? sigunguCode,
       String? overview,
+      String? originImage,
       double averageRate,
       int reviewCount,
       List<Place> places});
@@ -74,6 +76,7 @@ class _$CourseDetailResponseCopyWithImpl<$Res,
     Object? middleCategory = null,
     Object? sigunguCode = freezed,
     Object? overview = freezed,
+    Object? originImage = freezed,
     Object? averageRate = null,
     Object? reviewCount = null,
     Object? places = null,
@@ -94,6 +97,10 @@ class _$CourseDetailResponseCopyWithImpl<$Res,
       overview: freezed == overview
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
+              as String?,
+      originImage: freezed == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
               as String?,
       averageRate: null == averageRate
           ? _value.averageRate
@@ -124,6 +131,7 @@ abstract class _$$CourseDetailResponseImplCopyWith<$Res>
       String middleCategory,
       int? sigunguCode,
       String? overview,
+      String? originImage,
       double averageRate,
       int reviewCount,
       List<Place> places});
@@ -146,6 +154,7 @@ class __$$CourseDetailResponseImplCopyWithImpl<$Res>
     Object? middleCategory = null,
     Object? sigunguCode = freezed,
     Object? overview = freezed,
+    Object? originImage = freezed,
     Object? averageRate = null,
     Object? reviewCount = null,
     Object? places = null,
@@ -166,6 +175,10 @@ class __$$CourseDetailResponseImplCopyWithImpl<$Res>
       overview: freezed == overview
           ? _value.overview
           : overview // ignore: cast_nullable_to_non_nullable
+              as String?,
+      originImage: freezed == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
               as String?,
       averageRate: null == averageRate
           ? _value.averageRate
@@ -191,6 +204,7 @@ class _$CourseDetailResponseImpl implements _CourseDetailResponse {
       required this.middleCategory,
       this.sigunguCode,
       this.overview,
+      this.originImage,
       required this.averageRate,
       required this.reviewCount,
       final List<Place> places = const []})
@@ -208,6 +222,8 @@ class _$CourseDetailResponseImpl implements _CourseDetailResponse {
   @override
   final String? overview;
   @override
+  final String? originImage;
+  @override
   final double averageRate;
   @override
   final int reviewCount;
@@ -222,7 +238,7 @@ class _$CourseDetailResponseImpl implements _CourseDetailResponse {
 
   @override
   String toString() {
-    return 'CourseDetailResponse(title: $title, middleCategory: $middleCategory, sigunguCode: $sigunguCode, overview: $overview, averageRate: $averageRate, reviewCount: $reviewCount, places: $places)';
+    return 'CourseDetailResponse(title: $title, middleCategory: $middleCategory, sigunguCode: $sigunguCode, overview: $overview, originImage: $originImage, averageRate: $averageRate, reviewCount: $reviewCount, places: $places)';
   }
 
   @override
@@ -237,6 +253,8 @@ class _$CourseDetailResponseImpl implements _CourseDetailResponse {
                 other.sigunguCode == sigunguCode) &&
             (identical(other.overview, overview) ||
                 other.overview == overview) &&
+            (identical(other.originImage, originImage) ||
+                other.originImage == originImage) &&
             (identical(other.averageRate, averageRate) ||
                 other.averageRate == averageRate) &&
             (identical(other.reviewCount, reviewCount) ||
@@ -252,6 +270,7 @@ class _$CourseDetailResponseImpl implements _CourseDetailResponse {
       middleCategory,
       sigunguCode,
       overview,
+      originImage,
       averageRate,
       reviewCount,
       const DeepCollectionEquality().hash(_places));
@@ -280,6 +299,7 @@ abstract class _CourseDetailResponse implements CourseDetailResponse {
       required final String middleCategory,
       final int? sigunguCode,
       final String? overview,
+      final String? originImage,
       required final double averageRate,
       required final int reviewCount,
       final List<Place> places}) = _$CourseDetailResponseImpl;
@@ -295,6 +315,8 @@ abstract class _CourseDetailResponse implements CourseDetailResponse {
   int? get sigunguCode;
   @override
   String? get overview;
+  @override
+  String? get originImage;
   @override
   double get averageRate;
   @override

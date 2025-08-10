@@ -9,7 +9,7 @@ import 'package:oreum_fe/core/utils/string_utils.dart';
 class CourseCard extends StatelessWidget {
   final String title;
   final String subTitle;
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final VoidCallback onPressed;
 
   const CourseCard(
@@ -43,12 +43,18 @@ class CourseCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-              child: Image.network(
-                thumbnailImage,
-                width: 220.r,
-                height: 220.r,
-                fit: BoxFit.cover,
-              ),
+              child: thumbnailImage == null
+                  ? Container(
+                      color: AppColors.gray200,
+                      height: 220.r,
+                      width: 220.r,
+                    )
+                  : Image.network(
+                      thumbnailImage!,
+                      width: 220.r,
+                      height: 220.r,
+                      fit: BoxFit.cover,
+                    ),
             ),
             SizedBox(
               height: 12.h,
@@ -70,8 +76,10 @@ class CourseCard extends StatelessWidget {
                         maxLines: 2,
                       )..layout(maxWidth: constraints.maxWidth);
 
-                      final int lineCount = textPainter.computeLineMetrics().length;
-                      final TextStyle textStyle = lineCount > 1 ? label4 : label3;
+                      final int lineCount =
+                          textPainter.computeLineMetrics().length;
+                      final TextStyle textStyle =
+                          lineCount > 1 ? label4 : label3;
 
                       return Text(
                         StringUtils().wordBreaks(title),
@@ -86,8 +94,8 @@ class CourseCard extends StatelessWidget {
                   ),
                   Text(
                     subTitle,
-                    style:
-                        context.textStyles.body2.copyWith(color: AppColors.gray400),
+                    style: context.textStyles.body2
+                        .copyWith(color: AppColors.gray400),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

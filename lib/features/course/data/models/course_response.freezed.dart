@@ -22,8 +22,8 @@ CourseResponse _$CourseResponseFromJson(Map<String, dynamic> json) {
 mixin _$CourseResponse {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String get originImage => throw _privateConstructorUsedError;
-  String get thumbnailImage => throw _privateConstructorUsedError;
+  String? get originImage => throw _privateConstructorUsedError;
+  String? get thumbnailImage => throw _privateConstructorUsedError;
   String get category2 => throw _privateConstructorUsedError;
   int? get sigunguCode => throw _privateConstructorUsedError;
 
@@ -46,8 +46,8 @@ abstract class $CourseResponseCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
-      String originImage,
-      String thumbnailImage,
+      String? originImage,
+      String? thumbnailImage,
       String category2,
       int? sigunguCode});
 }
@@ -69,8 +69,8 @@ class _$CourseResponseCopyWithImpl<$Res, $Val extends CourseResponse>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? originImage = null,
-    Object? thumbnailImage = null,
+    Object? originImage = freezed,
+    Object? thumbnailImage = freezed,
     Object? category2 = null,
     Object? sigunguCode = freezed,
   }) {
@@ -83,14 +83,14 @@ class _$CourseResponseCopyWithImpl<$Res, $Val extends CourseResponse>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      thumbnailImage: null == thumbnailImage
+              as String?,
+      thumbnailImage: freezed == thumbnailImage
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       category2: null == category2
           ? _value.category2
           : category2 // ignore: cast_nullable_to_non_nullable
@@ -114,8 +114,8 @@ abstract class _$$CourseResponseImplCopyWith<$Res>
   $Res call(
       {int id,
       String title,
-      String originImage,
-      String thumbnailImage,
+      String? originImage,
+      String? thumbnailImage,
       String category2,
       int? sigunguCode});
 }
@@ -135,8 +135,8 @@ class __$$CourseResponseImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? originImage = null,
-    Object? thumbnailImage = null,
+    Object? originImage = freezed,
+    Object? thumbnailImage = freezed,
     Object? category2 = null,
     Object? sigunguCode = freezed,
   }) {
@@ -149,14 +149,14 @@ class __$$CourseResponseImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      thumbnailImage: null == thumbnailImage
+              as String?,
+      thumbnailImage: freezed == thumbnailImage
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       category2: null == category2
           ? _value.category2
           : category2 // ignore: cast_nullable_to_non_nullable
@@ -175,8 +175,8 @@ class _$CourseResponseImpl implements _CourseResponse {
   const _$CourseResponseImpl(
       {required this.id,
       required this.title,
-      required this.originImage,
-      required this.thumbnailImage,
+      this.originImage,
+      this.thumbnailImage,
       required this.category2,
       this.sigunguCode});
 
@@ -188,9 +188,9 @@ class _$CourseResponseImpl implements _CourseResponse {
   @override
   final String title;
   @override
-  final String originImage;
+  final String? originImage;
   @override
-  final String thumbnailImage;
+  final String? thumbnailImage;
   @override
   final String category2;
   @override
@@ -244,8 +244,8 @@ abstract class _CourseResponse implements CourseResponse {
   const factory _CourseResponse(
       {required final int id,
       required final String title,
-      required final String originImage,
-      required final String thumbnailImage,
+      final String? originImage,
+      final String? thumbnailImage,
       required final String category2,
       final int? sigunguCode}) = _$CourseResponseImpl;
 
@@ -257,9 +257,9 @@ abstract class _CourseResponse implements CourseResponse {
   @override
   String get title;
   @override
-  String get originImage;
+  String? get originImage;
   @override
-  String get thumbnailImage;
+  String? get thumbnailImage;
   @override
   String get category2;
   @override

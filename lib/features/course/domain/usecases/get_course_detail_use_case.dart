@@ -6,8 +6,8 @@ class GetCourseDetailUseCase{
   final CourseRepository _courseRepository;
   GetCourseDetailUseCase(this._courseRepository);
 
-  Future<CourseDetailResponse> call(String courseId) async {
-    final CourseDetailResponse courseDetail = await _courseRepository.getCourseDetail(courseId);
+  Future<CourseDetailResponse> call(String courseId, String contentId, String contentTypeId) async {
+    final CourseDetailResponse courseDetail = await _courseRepository.getCourseDetail(courseId, contentId, contentTypeId);
     return courseDetail;
   }
 }

@@ -1,35 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+import 'package:oreum_fe/features/review/presentation/viewmodels/create_review_view_model.dart';
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 
-class CreateReviewScreen extends StatefulWidget {
-  const CreateReviewScreen({super.key});
-
-  @override
-  State<CreateReviewScreen> createState() => _CreateReviewScreenState();
+enum ReviewType {
+  place,
+  course,
 }
 
-class _CreateReviewScreenState extends State<CreateReviewScreen> {
+class CreateReviewScreen extends ConsumerStatefulWidget {
+  final String id;
+  final ReviewType? type;
+
+  const CreateReviewScreen({super.key, required this.id, this.type});
+
+  @override
+  ConsumerState<CreateReviewScreen> createState() => _CreateReviewScreenState();
+
+  factory CreateReviewScreen.place({
+    required String id,
+  }) =>
+      CreateReviewScreen(
+        id: id,
+        type: ReviewType.place,
+      );
+
+  factory CreateReviewScreen.course({
+    required String id,
+  }) =>
+      CreateReviewScreen(
+        id: id,
+        type: ReviewType.course,
+      );
+}
+
+class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
   final TextEditingController _textController = TextEditingController();
   int _characterCount = 0;
   final int _maxCharacters = 300;
+  double rate = 0;
 
   @override
   void initState() {
@@ -85,6 +116,8 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(createReviewViewModelProvider);
+
     return Scaffold(
       appBar: CustomAppBar.back(),
       body: Column(
@@ -125,13 +158,14 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
                     itemCount: 5,
                     itemSize: 27.w,
                     itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
-                    itemBuilder: (context, _) => SvgPicture.asset(
-                      IconPath.star,
-                    ),
+                    itemBuilder: (context, _) =>
+                        SvgPicture.asset(
+                          IconPath.star,
+                        ),
                     unratedColor: AppColors.gray200,
                     onRatingUpdate: (rating) {
-                      // 별점 업데이트 로직
-                    },
+                      rate = rating;
+                      },
                   )
                 ],
               ),
@@ -200,7 +234,34 @@ class _CreateReviewScreenState extends State<CreateReviewScreen> {
               width: double.infinity,
               child: CustomElevatedButton.primary(
                   text: AppStrings.writeReviewButton,
-                  onPressed: () {},
+                  onPressed: state.status == UiStatus.loading ? null : () async {
+                    String content = _textController.text.trim();
+
+                    if(rate == 0) {
+                      CustomToast.showToast(context, '점수를 입력해주세요.', 56.h);
+                    } else if (content.isEmpty) {
+                      CustomToast.showToast(context, '리뷰 내용을 입력해주세요.', 56.h);
+                    } else {
+                      int id = int.parse(widget.id);
+
+                      // 타입에 따라 분기
+                      if (widget.type == ReviewType.place) {
+                        await ref.read(createReviewViewModelProvider.notifier)
+                            .createPlaceReview(id, rate, content);
+                      } else if (widget.type == ReviewType.course) {
+                        await ref.read(createReviewViewModelProvider.notifier)
+                            .createCourseReview(id, rate, content);  // 이미 구현된 메서드!
+                      }
+
+                      final currentState = ref.read(createReviewViewModelProvider);
+                      if(mounted && currentState.status == UiStatus.success) {
+                        CustomToast.showToast(context, '리뷰가 작성되었습니다.', 56.h);
+                        context.pop();
+                      } else if (mounted && currentState.status == UiStatus.error) {
+                        CustomToast.showToast(context, currentState.errorMessage ?? '리뷰 작성에 실패했습니다.', 56.h);
+                      }
+                    }
+                  },
                   textStyle: context.textStyles.label3,
                   radius: AppSizes.radiusMD),
             ),

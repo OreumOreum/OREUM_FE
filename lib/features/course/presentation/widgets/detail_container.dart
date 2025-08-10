@@ -5,17 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/detail_info_enum.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/features/tour/data/models/tour_response.dart';
+
+import '../../../../core/widgets/custom_toast.dart';
 
 class DetailContainer extends StatefulWidget {
-  final List<Map<String, String>> detailList;
+  final TourResponse? tourData;
+  final String? address; // 지도에서 사용할 주소
 
   const DetailContainer({
     super.key,
-    required this.detailList,
+    this.tourData,
+    this.address,
   });
 
   @override
@@ -113,7 +119,21 @@ class _DetailContainerState extends State<DetailContainer> {
   }
 
   Widget _buildDetailContent() {
-    int itemCount = isExpanded ? 5 : 4;
+    if (widget.tourData == null) {
+      return _buildNoDataContent();
+    }
+
+    // TourResponse에서 모든 데이터를 포맷팅해서 가져오기
+    final formattedInfo = widget.tourData!.getFormattedInfo();
+    final detailEntries = formattedInfo.entries.toList();
+
+    if (detailEntries.isEmpty) {
+      return _buildNoDataContent();
+    }
+
+    // 표시할 항목 수 계산 (확장 여부에 따라)
+    int maxItems = isExpanded ? detailEntries.length : 4;
+    int itemCount = detailEntries.length > maxItems ? maxItems : detailEntries.length;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,19 +145,71 @@ class _DetailContainerState extends State<DetailContainer> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: itemCount,
             itemBuilder: (context, index) {
-              String detailText = widget.detailList[0]['detail${index + 1}']!;
-              bool isPhoneNumber = detailText.contains('전화번호');
+              final entry = detailEntries[index];
+              final label = entry.key;
+              final value = entry.value;
+
+              // 전화번호 패턴 검사 (숫자와 하이픈으로 구성된 패턴)
+              bool isPhoneNumber = _isPhoneNumber(value);
 
               return Padding(
                 padding: EdgeInsets.only(bottom: 8.h),
-                child: Row(
+                child: label.length > 5
+                    ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      label,
+                      style: context.textStyles.body2.copyWith(
+                        color: AppColors.gray300,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            value,
+                            style: context.textStyles.body2.copyWith(
+                              color: AppColors.gray400,
+                            ),
+                          ),
+                        ),
+                        if (isPhoneNumber) ...[
+                          SizedBox(width: 8.w),
+                          GestureDetector(
+                            onTap: () => _copyToClipboard(value),
+                            child: Text(
+                              '복사',
+                              style: context.textStyles.body2.copyWith(
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
+                )
+                    : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 80.w,
+                      child: Text(
+                        label,
+                        style: context.textStyles.body2.copyWith(
+                          color: AppColors.gray300,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Row(
                         children: [
                           Flexible(
                             child: Text(
-                              detailText,
+                              value,
                               style: context.textStyles.body2.copyWith(
                                 color: AppColors.gray400,
                               ),
@@ -146,7 +218,7 @@ class _DetailContainerState extends State<DetailContainer> {
                           if (isPhoneNumber) ...[
                             SizedBox(width: 8.w),
                             GestureDetector(
-                              onTap: () => _copyToClipboard('064-728-3988'),
+                              onTap: () => _copyToClipboard(value),
                               child: Text(
                                 '복사',
                                 style: context.textStyles.body2.copyWith(
@@ -165,19 +237,31 @@ class _DetailContainerState extends State<DetailContainer> {
           ),
         ),
 
-        // 확장/축소 버튼
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
-          },
-          child: Icon(
-            isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-            color: AppColors.gray300,
+        // 확장/축소 버튼 (데이터가 4개보다 많을 때만 표시)
+        if (detailEntries.length > 4)
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                isExpanded = !isExpanded;
+              });
+            },
+            child: Icon(
+              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+              color: AppColors.gray300,
+            ),
           ),
-        ),
       ],
+    );
+  }
+
+  Widget _buildNoDataContent() {
+    return Center(
+      child: Text(
+        '표시할 상세 정보가 없습니다.',
+        style: context.textStyles.body2.copyWith(
+          color: AppColors.gray300,
+        ),
+      ),
     );
   }
 
@@ -186,22 +270,26 @@ class _DetailContainerState extends State<DetailContainer> {
       children: [
         Row(
           children: [
-            Text('위치 안내',
+            Text(
+              '위치 안내',
               style: context.textStyles.body2.copyWith(
-                  color: AppColors.gray300
+                color: AppColors.gray300,
               ),
             ),
             SizedBox(width: 18.w),
-            Text('제주특별자치도 제주시 구좌읍 구좌해안로 237',
-              style: context.textStyles.body2.copyWith(
-                  color: AppColors.gray400
+            Expanded(
+              child: Text(
+                widget.address ?? '주소 정보가 없습니다.',
+                style: context.textStyles.body2.copyWith(
+                  color: AppColors.gray400,
+                ),
               ),
             ),
           ],
         ),
-
+        SizedBox(height: 12.h),
         Container(
-          height: 100.h,
+          height: 120.h,
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.gray100,
@@ -231,13 +319,15 @@ class _DetailContainerState extends State<DetailContainer> {
     );
   }
 
+  // 전화번호 패턴 검사 함수
+  bool _isPhoneNumber(String text) {
+    // 전화번호 패턴: 숫자와 하이픈으로 구성, 최소 8자 이상
+    final phoneRegex = RegExp(r'^[\d\-\(\)\+\s]+$');
+    return phoneRegex.hasMatch(text) && text.length >= 8 && text.contains('-');
+  }
+
   void _copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('전화번호가 복사되었습니다'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+    CustomToast.showToast(context, '전화번호가 복사되었습니다.', 56.h);
   }
 }

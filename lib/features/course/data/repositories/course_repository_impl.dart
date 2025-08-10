@@ -13,7 +13,7 @@ class CourseRepositoryImpl implements CourseRepository{
   }
 
   @override
-  Future<CourseDetailResponse> getCourseDetail(String courseId) {
+  Future<CourseDetailResponse> getCourseDetail(String courseId,String contentId, String contentTypeId) {
     return _courseService.getCourseDetail(courseId);
   }
 

@@ -8,8 +8,8 @@ class CourseResponse with _$CourseResponse {
   const factory CourseResponse({
     required int id,
     required String title,
-    required String originImage,
-    required String thumbnailImage,
+    String? originImage,
+    String? thumbnailImage,
     required String category2,
     int? sigunguCode,
   }) = _CourseResponse;

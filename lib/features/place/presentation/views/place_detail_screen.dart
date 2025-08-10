@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -23,8 +26,15 @@ import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
 class PlaceDetailScreen extends ConsumerStatefulWidget {
+  final String placeId;
+  final String contentId;
+  final String contentTypeId;
+
   PlaceDetailScreen({
     super.key,
+    required this.placeId,
+    required this.contentId,
+    required this.contentTypeId,
   });
 
   @override
@@ -166,7 +176,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     Future.microtask(() {
       ref
           .read(placeDetailViewModelProvider.notifier)
-          .initializePlaceDetail('1'); //일단 하드하게
+          .initializePlaceDetail('1','2850913', '39'); //일단 하드하게
+
     });
   }
 
@@ -197,216 +208,232 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
     return Scaffold(
         appBar: CustomAppBar.back(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              ImageSlider(images: place.originImage),
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        if (_getContentTypeIcon(place.contentTypeId) !=
-                            null) ...[
-                          SvgPicture.asset(
-                              _getContentTypeIcon(place.contentTypeId)!,
-                              height: 26.h),
-                          if (place.isSpot) SizedBox(width: 12.w),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ImageSlider(images: place.originImage),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (_getContentTypeIcon(place.contentTypeId) !=
+                              null) ...[
+                            SvgPicture.asset(
+                                _getContentTypeIcon(place.contentTypeId)!,
+                                height: 26.h),
+                            if (place.isSpot) SizedBox(width: 12.w),
+                          ],
+                          if (place.isSpot)
+                            SvgPicture.asset(IconPath.monthSpot, height: 26.h),
                         ],
-                        if (place.isSpot)
-                          SvgPicture.asset(IconPath.monthSpot, height: 26.h),
-                      ],
-                    ),
-                    SizedBox(height: 14.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(place.title,
-                            style: context.textStyles.headLine3
-                                .copyWith(color: AppColors.gray500)),
-                        SizedBox(
-                          height: 24.r,
-                          width: 24.r,
-                          child: IconButton(
-                            padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: () {},
-                            icon: SvgPicture.asset(
-                              IconPath.bookmarkOutline,
-                              width: 16.r,
+                      ),
+                      SizedBox(height: 14.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(place.title,
+                              style: context.textStyles.headLine3
+                                  .copyWith(color: AppColors.gray500)),
+                          SizedBox(
+                            height: 24.r,
+                            width: 24.r,
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              onPressed: () {},
+                              icon: SvgPicture.asset(
+                                IconPath.bookmarkOutline,
+                                width: 16.r,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(place.address,
-                        style: context.textStyles.body1
-                            .copyWith(color: AppColors.gray400)),
-                    SizedBox(height: 6.h),
-                    Row(
-                      children: [
-                        SvgPicture.asset(IconPath.star2),
-                        SizedBox(width: 2.w),
-                        Text(place.averageRate.toString(),
-                            style: context.textStyles.caption1
-                                .copyWith(color: AppColors.gray200)),
-                        SizedBox(width: 2.w),
-                        Text('(${place.reviewCount.toString()})',
-                            style: context.textStyles.caption1
-                                .copyWith(color: AppColors.gray200))
-                      ],
-                    ),
-                    SizedBox(height: 63.h),
-                    DetailContainer(detailList: detailList),
-                    SizedBox(height: 56.h),
+                        ],
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(place.address,
+                          style: context.textStyles.body1
+                              .copyWith(color: AppColors.gray400)),
+                      SizedBox(height: 6.h),
+                      Row(
+                        children: [
+                          SvgPicture.asset(IconPath.star2),
+                          SizedBox(width: 2.w),
+                          Text(place.averageRate.toStringAsFixed(1),
+                              style: context.textStyles.caption1
+                                  .copyWith(color: AppColors.gray200)),
+                          SizedBox(width: 2.w),
+                          Text('(${place.reviewCount.toString()})',
+                              style: context.textStyles.caption1
+                                  .copyWith(color: AppColors.gray200))
+                        ],
+                      ),
+                      SizedBox(height: 63.h),
+                      DetailContainer(tourData: state.tour,
+                          address: state.place?.address),
+                      SizedBox(height: 56.h),
 
-                    ///여행지 소개 부분
-                    Text(AppStrings.spotIntro,
-                        style: context.textStyles.label3
-                            .copyWith(color: AppColors.gray500)),
-                    SizedBox(height: 8.h),
-                    Text(
-                      place.overview != null ? place.overview! : '', //여기 바로 불러옴
-                      style: context.textStyles.body2
-                          .copyWith(color: AppColors.gray400),
-                      maxLines: isExpanded ? null : 3,
-                      overflow: isExpanded
-                          ? TextOverflow.visible
-                          : TextOverflow.ellipsis,
-                    ),
-
-                    SizedBox(height: 18.h),
-                    Divider(height: 1.h, color: AppColors.gray100),
-                    SizedBox(height: 8.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                              });
-                            },
-                            child: Text(isExpanded ? '접기' : AppStrings.showMore,
-                                style: context.textStyles.body1
-                                    .copyWith(color: AppColors.gray200))),
-                      ],
-                    ),
-                    SizedBox(height: 48.h),
-                    //여기에 넣어야댐
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppStrings.travelerReview,
+                      ///여행지 소개 부분
+                      Text(AppStrings.spotIntro,
                           style: context.textStyles.label3
-                              .copyWith(color: AppColors.gray500),
-                        ),
-                        Text(
-                          AppStrings.doReview,
-                          style: context.textStyles.label4
-                              .copyWith(color: AppColors.primary),
-                        ),
-                      ],
-                    ),
+                              .copyWith(color: AppColors.gray500)),
+                      SizedBox(height: 8.h),
+                      Text(
+                        place.overview != null ? place.overview! : '', //여기 바로 불러옴
+                        style: context.textStyles.body2
+                            .copyWith(color: AppColors.gray400),
+                        maxLines: isExpanded ? null : 3,
+                        overflow: isExpanded
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
+                      ),
+
+                      SizedBox(height: 18.h),
+                      Divider(height: 1.h, color: AppColors.gray100),
+                      SizedBox(height: 8.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Text(isExpanded ? '접기' : AppStrings.showMore,
+                                  style: context.textStyles.body1
+                                      .copyWith(color: AppColors.gray200))),
+                        ],
+                      ),
+                      SizedBox(height: 48.h),
+                      //여기에 넣어야댐
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppStrings.travelerReview,
+                            style: context.textStyles.label3
+                                .copyWith(color: AppColors.gray500),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.push('${RoutePath.createPlaceReview}/1');
+                            },
+                            child: Text(
+                              AppStrings.doReview,
+                              style: context.textStyles.label4
+                                  .copyWith(color: AppColors.primary),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                Divider(height: 1.h, color: AppColors.gray100),
+                SizedBox(height: 6.h),
+                SizedBox(
+                  height: 390.h,
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    primary: false,
+                    itemCount: reviews.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String type = '${reviews[index].type}';
+                      String date = reviews[index].createdAt.toString().split(' ')[0];
+                      String content = reviews[index].content;
+                      double rating = reviews[index].rate;
+                      return ReviewListTile(
+                          type: type,
+                          date: date,
+                          content: content,
+                          rating: rating);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Divider(height: 1.h, color: AppColors.gray100),
+                SizedBox(
+                  height: 18.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          context
+                              .push('${RoutePath.reviewPlaceDetail}/1', extra: {
+                            'name': state.place!.title,
+                            'address': state.place!.address,
+                            'rate': state.place!.averageRate,
+                            'originImage': state.place!.originImage
+                          });
+                        },
+                        child: Text('전체보기',
+                            style: context.textStyles.body1
+                                .copyWith(color: AppColors.gray200))),
                   ],
                 ),
-              ),
-              SizedBox(height: 10.h),
-              Divider(height: 1.h, color: AppColors.gray100),
-              SizedBox(height: 6.h),
-              SizedBox(
-                height: 390.h,
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  primary: false,
-                  itemCount: reviews.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    String type = '익명의 ${reviews[index].type}';
-                    String date = reviews[index].createdAt.toString();
-                    String content = reviews[index].content;
-                    double rating = reviews[index].rate;
-                    return ReviewListTile(
-                        type: type,
-                        date: date,
-                        content: content,
-                        rating: rating);
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 8.h,
-              ),
-              Divider(height: 1.h, color: AppColors.gray100),
-              SizedBox(
-                height: 18.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                      onPressed: () {},
-                      child: Text('전체보기',
-                          style: context.textStyles.body1
-                              .copyWith(color: AppColors.gray200))),
-                ],
-              ),
-              SizedBox(height: 48.h),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 24.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: AppSizes.defaultPadding),
-                      child: HomeTitleText(
-                          title: AppStrings.travelSuggestionTitle,
-                          primaryText: '모험 액티비티형',
-                          subtitle: AppStrings.destinationRecommendToUser),
-                    ),
-                    SizedBox(
-                      height: 14.h,
-                    ),
-                    SizedBox(
-                      height: 120.h,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
+                SizedBox(height: 48.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: AppSizes.defaultPadding),
-                        itemCount: placeImages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          String thumbnailImage =
-                              placeImages[index]['thumbnailImage']!;
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              AppSizes.radiusXS,
-                            ),
-                            child: Image.network(thumbnailImage,
-                                height: 120.h, width: 163.w, fit: BoxFit.cover),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            width: 8.w,
-                          );
-                        },
+                        child: HomeTitleText(
+                            title: AppStrings.travelSuggestionTitle,
+                            primaryText: '모험 액티비티형',
+                            subtitle: AppStrings.destinationRecommendToUser),
                       ),
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 14.h,
+                      ),
+                      SizedBox(
+                        height: 120.h,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AppSizes.defaultPadding),
+                          itemCount: placeImages.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String thumbnailImage =
+                                placeImages[index]['thumbnailImage']!;
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                AppSizes.radiusXS,
+                              ),
+                              child: Image.network(thumbnailImage,
+                                  height: 120.h, width: 163.w, fit: BoxFit.cover),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: 8.w,
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }
