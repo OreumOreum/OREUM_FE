@@ -18,6 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
+  List<SpotMonthResponse> get monthlySpots =>
+      throw _privateConstructorUsedError;
+  Map<int, int> get myTypeVisitCounts => throw _privateConstructorUsedError;
+  int? get year => throw _privateConstructorUsedError;
+  int? get month => throw _privateConstructorUsedError;
   WeatherInfo? get weatherInfo => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
@@ -32,7 +37,14 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({UiStatus status, String errorMessage, WeatherInfo? weatherInfo});
+  $Res call(
+      {UiStatus status,
+      String errorMessage,
+      List<SpotMonthResponse> monthlySpots,
+      Map<int, int> myTypeVisitCounts,
+      int? year,
+      int? month,
+      WeatherInfo? weatherInfo});
 
   $WeatherInfoCopyWith<$Res>? get weatherInfo;
 }
@@ -54,6 +66,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? status = null,
     Object? errorMessage = null,
+    Object? monthlySpots = null,
+    Object? myTypeVisitCounts = null,
+    Object? year = freezed,
+    Object? month = freezed,
     Object? weatherInfo = freezed,
   }) {
     return _then(_value.copyWith(
@@ -65,6 +81,22 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
+      monthlySpots: null == monthlySpots
+          ? _value.monthlySpots
+          : monthlySpots // ignore: cast_nullable_to_non_nullable
+              as List<SpotMonthResponse>,
+      myTypeVisitCounts: null == myTypeVisitCounts
+          ? _value.myTypeVisitCounts
+          : myTypeVisitCounts // ignore: cast_nullable_to_non_nullable
+              as Map<int, int>,
+      year: freezed == year
+          ? _value.year
+          : year // ignore: cast_nullable_to_non_nullable
+              as int?,
+      month: freezed == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as int?,
       weatherInfo: freezed == weatherInfo
           ? _value.weatherInfo
           : weatherInfo // ignore: cast_nullable_to_non_nullable
@@ -95,7 +127,14 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UiStatus status, String errorMessage, WeatherInfo? weatherInfo});
+  $Res call(
+      {UiStatus status,
+      String errorMessage,
+      List<SpotMonthResponse> monthlySpots,
+      Map<int, int> myTypeVisitCounts,
+      int? year,
+      int? month,
+      WeatherInfo? weatherInfo});
 
   @override
   $WeatherInfoCopyWith<$Res>? get weatherInfo;
@@ -116,6 +155,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? errorMessage = null,
+    Object? monthlySpots = null,
+    Object? myTypeVisitCounts = null,
+    Object? year = freezed,
+    Object? month = freezed,
     Object? weatherInfo = freezed,
   }) {
     return _then(_$HomeStateImpl(
@@ -127,6 +170,22 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
+      monthlySpots: null == monthlySpots
+          ? _value._monthlySpots
+          : monthlySpots // ignore: cast_nullable_to_non_nullable
+              as List<SpotMonthResponse>,
+      myTypeVisitCounts: null == myTypeVisitCounts
+          ? _value._myTypeVisitCounts
+          : myTypeVisitCounts // ignore: cast_nullable_to_non_nullable
+              as Map<int, int>,
+      year: freezed == year
+          ? _value.year
+          : year // ignore: cast_nullable_to_non_nullable
+              as int?,
+      month: freezed == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as int?,
       weatherInfo: freezed == weatherInfo
           ? _value.weatherInfo
           : weatherInfo // ignore: cast_nullable_to_non_nullable
@@ -139,7 +198,15 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl(
-      {this.status = UiStatus.idle, this.errorMessage = '', this.weatherInfo});
+      {this.status = UiStatus.idle,
+      this.errorMessage = '',
+      final List<SpotMonthResponse> monthlySpots = const [],
+      final Map<int, int> myTypeVisitCounts = const {},
+      this.year,
+      this.month,
+      this.weatherInfo})
+      : _monthlySpots = monthlySpots,
+        _myTypeVisitCounts = myTypeVisitCounts;
 
   @override
   @JsonKey()
@@ -147,12 +214,35 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final String errorMessage;
+  final List<SpotMonthResponse> _monthlySpots;
+  @override
+  @JsonKey()
+  List<SpotMonthResponse> get monthlySpots {
+    if (_monthlySpots is EqualUnmodifiableListView) return _monthlySpots;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_monthlySpots);
+  }
+
+  final Map<int, int> _myTypeVisitCounts;
+  @override
+  @JsonKey()
+  Map<int, int> get myTypeVisitCounts {
+    if (_myTypeVisitCounts is EqualUnmodifiableMapView)
+      return _myTypeVisitCounts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_myTypeVisitCounts);
+  }
+
+  @override
+  final int? year;
+  @override
+  final int? month;
   @override
   final WeatherInfo? weatherInfo;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, errorMessage: $errorMessage, weatherInfo: $weatherInfo)';
+    return 'HomeState(status: $status, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo)';
   }
 
   @override
@@ -163,13 +253,26 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
+            const DeepCollectionEquality()
+                .equals(other._monthlySpots, _monthlySpots) &&
+            const DeepCollectionEquality()
+                .equals(other._myTypeVisitCounts, _myTypeVisitCounts) &&
+            (identical(other.year, year) || other.year == year) &&
+            (identical(other.month, month) || other.month == month) &&
             (identical(other.weatherInfo, weatherInfo) ||
                 other.weatherInfo == weatherInfo));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, errorMessage, weatherInfo);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      errorMessage,
+      const DeepCollectionEquality().hash(_monthlySpots),
+      const DeepCollectionEquality().hash(_myTypeVisitCounts),
+      year,
+      month,
+      weatherInfo);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -184,12 +287,24 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final UiStatus status,
       final String errorMessage,
+      final List<SpotMonthResponse> monthlySpots,
+      final Map<int, int> myTypeVisitCounts,
+      final int? year,
+      final int? month,
       final WeatherInfo? weatherInfo}) = _$HomeStateImpl;
 
   @override
   UiStatus get status;
   @override
   String get errorMessage;
+  @override
+  List<SpotMonthResponse> get monthlySpots;
+  @override
+  Map<int, int> get myTypeVisitCounts;
+  @override
+  int? get year;
+  @override
+  int? get month;
   @override
   WeatherInfo? get weatherInfo;
 

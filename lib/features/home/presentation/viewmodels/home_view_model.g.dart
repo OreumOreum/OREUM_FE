@@ -6,11 +6,7 @@ part of 'home_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-<<<<<<<< HEAD:lib/features/home/presentation/viewmodels/home_view_model.g.dart
-String _$homeViewModelHash() => r'f567ce24867f100e5372af16e51030701b393e2d';
-========
-String _$splashViewModelHash() => r'df3b8d0839db194b74ae722765f0bd095f2d3fc4';
->>>>>>>> feature/#36:lib/features/splash/presentation/viewmodels/splash_view_model.g.dart
+String _$homeViewModelHash() => r'9fba8dd827967915d838e4fc4197bf88dd6b55dc';
 
 ///날씨 상태 Ui따로 고려
 ///
