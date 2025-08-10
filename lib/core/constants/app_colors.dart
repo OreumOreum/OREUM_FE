@@ -19,4 +19,7 @@ abstract class AppColors {
   static const Color barrier = Color(0xFF1F1F1F);
 
   static const Color tag1 = Color(0xFF4C71E9);
+  static const Color jeju = Color(0xFFFF892A);
+  static const Color seogwipo = Color(0xFF53973A);
+
 }

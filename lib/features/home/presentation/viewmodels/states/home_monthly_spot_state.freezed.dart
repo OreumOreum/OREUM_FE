@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'home_state.dart';
+part of 'home_monthly_spot_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$HomeState {
+mixin _$HomeMonthlySpotState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<SpotMonthResponse> get monthlySpots =>
@@ -23,19 +23,19 @@ mixin _$HomeState {
   Map<int, int> get myTypeVisitCounts => throw _privateConstructorUsedError;
   int? get year => throw _privateConstructorUsedError;
   int? get month => throw _privateConstructorUsedError;
-  WeatherInfo? get weatherInfo => throw _privateConstructorUsedError;
 
-  /// Create a copy of HomeState
+  /// Create a copy of HomeMonthlySpotState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HomeStateCopyWith<HomeState> get copyWith =>
+  $HomeMonthlySpotStateCopyWith<HomeMonthlySpotState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $HomeStateCopyWith<$Res> {
-  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
-      _$HomeStateCopyWithImpl<$Res, HomeState>;
+abstract class $HomeMonthlySpotStateCopyWith<$Res> {
+  factory $HomeMonthlySpotStateCopyWith(HomeMonthlySpotState value,
+          $Res Function(HomeMonthlySpotState) then) =
+      _$HomeMonthlySpotStateCopyWithImpl<$Res, HomeMonthlySpotState>;
   @useResult
   $Res call(
       {UiStatus status,
@@ -43,23 +43,21 @@ abstract class $HomeStateCopyWith<$Res> {
       List<SpotMonthResponse> monthlySpots,
       Map<int, int> myTypeVisitCounts,
       int? year,
-      int? month,
-      WeatherInfo? weatherInfo});
-
-  $WeatherInfoCopyWith<$Res>? get weatherInfo;
+      int? month});
 }
 
 /// @nodoc
-class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
-    implements $HomeStateCopyWith<$Res> {
-  _$HomeStateCopyWithImpl(this._value, this._then);
+class _$HomeMonthlySpotStateCopyWithImpl<$Res,
+        $Val extends HomeMonthlySpotState>
+    implements $HomeMonthlySpotStateCopyWith<$Res> {
+  _$HomeMonthlySpotStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of HomeState
+  /// Create a copy of HomeMonthlySpotState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -70,7 +68,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? myTypeVisitCounts = null,
     Object? year = freezed,
     Object? month = freezed,
-    Object? weatherInfo = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -97,34 +94,16 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
               as int?,
-      weatherInfo: freezed == weatherInfo
-          ? _value.weatherInfo
-          : weatherInfo // ignore: cast_nullable_to_non_nullable
-              as WeatherInfo?,
     ) as $Val);
-  }
-
-  /// Create a copy of HomeState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $WeatherInfoCopyWith<$Res>? get weatherInfo {
-    if (_value.weatherInfo == null) {
-      return null;
-    }
-
-    return $WeatherInfoCopyWith<$Res>(_value.weatherInfo!, (value) {
-      return _then(_value.copyWith(weatherInfo: value) as $Val);
-    });
   }
 }
 
 /// @nodoc
-abstract class _$$HomeStateImplCopyWith<$Res>
-    implements $HomeStateCopyWith<$Res> {
-  factory _$$HomeStateImplCopyWith(
-          _$HomeStateImpl value, $Res Function(_$HomeStateImpl) then) =
-      __$$HomeStateImplCopyWithImpl<$Res>;
+abstract class _$$HomeMonthlySpotStateImplCopyWith<$Res>
+    implements $HomeMonthlySpotStateCopyWith<$Res> {
+  factory _$$HomeMonthlySpotStateImplCopyWith(_$HomeMonthlySpotStateImpl value,
+          $Res Function(_$HomeMonthlySpotStateImpl) then) =
+      __$$HomeMonthlySpotStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -133,22 +112,18 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       List<SpotMonthResponse> monthlySpots,
       Map<int, int> myTypeVisitCounts,
       int? year,
-      int? month,
-      WeatherInfo? weatherInfo});
-
-  @override
-  $WeatherInfoCopyWith<$Res>? get weatherInfo;
+      int? month});
 }
 
 /// @nodoc
-class __$$HomeStateImplCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$HomeStateImpl>
-    implements _$$HomeStateImplCopyWith<$Res> {
-  __$$HomeStateImplCopyWithImpl(
-      _$HomeStateImpl _value, $Res Function(_$HomeStateImpl) _then)
+class __$$HomeMonthlySpotStateImplCopyWithImpl<$Res>
+    extends _$HomeMonthlySpotStateCopyWithImpl<$Res, _$HomeMonthlySpotStateImpl>
+    implements _$$HomeMonthlySpotStateImplCopyWith<$Res> {
+  __$$HomeMonthlySpotStateImplCopyWithImpl(_$HomeMonthlySpotStateImpl _value,
+      $Res Function(_$HomeMonthlySpotStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HomeState
+  /// Create a copy of HomeMonthlySpotState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -159,9 +134,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? myTypeVisitCounts = null,
     Object? year = freezed,
     Object? month = freezed,
-    Object? weatherInfo = freezed,
   }) {
-    return _then(_$HomeStateImpl(
+    return _then(_$HomeMonthlySpotStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -186,25 +160,20 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
               as int?,
-      weatherInfo: freezed == weatherInfo
-          ? _value.weatherInfo
-          : weatherInfo // ignore: cast_nullable_to_non_nullable
-              as WeatherInfo?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$HomeStateImpl implements _HomeState {
-  const _$HomeStateImpl(
+class _$HomeMonthlySpotStateImpl implements _HomeMonthlySpotState {
+  const _$HomeMonthlySpotStateImpl(
       {this.status = UiStatus.idle,
       this.errorMessage = '',
       final List<SpotMonthResponse> monthlySpots = const [],
       final Map<int, int> myTypeVisitCounts = const {},
       this.year,
-      this.month,
-      this.weatherInfo})
+      this.month})
       : _monthlySpots = monthlySpots,
         _myTypeVisitCounts = myTypeVisitCounts;
 
@@ -237,19 +206,17 @@ class _$HomeStateImpl implements _HomeState {
   final int? year;
   @override
   final int? month;
-  @override
-  final WeatherInfo? weatherInfo;
 
   @override
   String toString() {
-    return 'HomeState(status: $status, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo)';
+    return 'HomeMonthlySpotState(status: $status, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HomeStateImpl &&
+            other is _$HomeMonthlySpotStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
@@ -258,9 +225,7 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality()
                 .equals(other._myTypeVisitCounts, _myTypeVisitCounts) &&
             (identical(other.year, year) || other.year == year) &&
-            (identical(other.month, month) || other.month == month) &&
-            (identical(other.weatherInfo, weatherInfo) ||
-                other.weatherInfo == weatherInfo));
+            (identical(other.month, month) || other.month == month));
   }
 
   @override
@@ -271,27 +236,27 @@ class _$HomeStateImpl implements _HomeState {
       const DeepCollectionEquality().hash(_monthlySpots),
       const DeepCollectionEquality().hash(_myTypeVisitCounts),
       year,
-      month,
-      weatherInfo);
+      month);
 
-  /// Create a copy of HomeState
+  /// Create a copy of HomeMonthlySpotState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
-      __$$HomeStateImplCopyWithImpl<_$HomeStateImpl>(this, _$identity);
+  _$$HomeMonthlySpotStateImplCopyWith<_$HomeMonthlySpotStateImpl>
+      get copyWith =>
+          __$$HomeMonthlySpotStateImplCopyWithImpl<_$HomeMonthlySpotStateImpl>(
+              this, _$identity);
 }
 
-abstract class _HomeState implements HomeState {
-  const factory _HomeState(
+abstract class _HomeMonthlySpotState implements HomeMonthlySpotState {
+  const factory _HomeMonthlySpotState(
       {final UiStatus status,
       final String errorMessage,
       final List<SpotMonthResponse> monthlySpots,
       final Map<int, int> myTypeVisitCounts,
       final int? year,
-      final int? month,
-      final WeatherInfo? weatherInfo}) = _$HomeStateImpl;
+      final int? month}) = _$HomeMonthlySpotStateImpl;
 
   @override
   UiStatus get status;
@@ -305,13 +270,11 @@ abstract class _HomeState implements HomeState {
   int? get year;
   @override
   int? get month;
-  @override
-  WeatherInfo? get weatherInfo;
 
-  /// Create a copy of HomeState
+  /// Create a copy of HomeMonthlySpotState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HomeStateImplCopyWith<_$HomeStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$HomeMonthlySpotStateImplCopyWith<_$HomeMonthlySpotStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

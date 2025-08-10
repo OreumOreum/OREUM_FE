@@ -193,7 +193,11 @@ GoRouter appRouter(AppRouterRef ref) {
           }),
       GoRoute(
         path: RoutePath.recommend,
-        builder: (context, state) => RecommendScreen(),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final contentTypeId = extra?['contentTypeId'] as int? ?? 12;
+          return RecommendScreen(contentTypeId: contentTypeId);
+        },
       ),
       GoRoute(
         path: RoutePath.createReview,
@@ -240,11 +244,7 @@ GoRouter appRouter(AppRouterRef ref) {
           final spots = args['spots'] as List<SpotMonthResponse>;
           final int? placeId = args['placeId'];
 
-          return MonthlySpotMap(
-            year: year,
-            month: month,
-            spots: spots,
-          );
+          return MonthlySpotMap(year: year, month: month, spots: spots,initialSelectedPlaceId: placeId);
         },
       ),
       GoRoute(

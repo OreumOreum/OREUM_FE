@@ -24,7 +24,13 @@ class LoginNotifier extends ChangeNotifier {
   void setLoggedOut() {
     updateLoginStatus(LoginState.loggedOut);
   }
+  Future<void> logout() async {
+    // TODO:토큰 삭제
+
+    setLoggedOut();
+  }
 }
+
 
 @Riverpod(keepAlive: true)
 LoginNotifier loginNotifier(LoginNotifierRef ref) {

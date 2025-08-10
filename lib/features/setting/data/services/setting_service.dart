@@ -10,4 +10,11 @@ class SettingService { // MemberService -> SettingService
     final response = await _dio.get(ApiPath.myInfo);
     return MyInfoResponse.fromJson(response.data);
   }
+  Future<void> deleteMyAccount() async {
+    try {
+      await _dio.delete(ApiPath.myInfo);
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
