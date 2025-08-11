@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/data/services/weather_service.dart';
@@ -29,6 +31,7 @@ import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
@@ -379,18 +382,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: 14.h,
           ),
-          if (homeState.status == UiStatus.loading ||
-              homeState.status == UiStatus.idle)
-            SizedBox(
-              height: 200.h,
-              child: const Center(child: CircularProgressIndicator()),
-            )
-          else if (homeState.status == UiStatus.error)
-            SizedBox(
-              height: 200.h,
-              child: Center(child: Text('Error: ${homeState.errorMessage}')),
-            )
-          else
             PagedGradientCarousel(
               onItemTap: (index) {
                 final tappedSpot = homeState.monthlySpots[index];
@@ -413,12 +404,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     (index < fixedCities.length) ? fixedCities[index] : '제주';
 
                 return CarouselItem(
-                  background: Image.network(
-                    spot.thumbnailImage ??
-                        'https://images.unsplash.com/photo-1528181304800-259b08848526?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                  background: (spot.thumbnailImage == null)
+                    ? Container(
+                    color: AppColors.gray100,
+                    child: Image.asset(
+                      ImagePath.imageError,
+                      width: 74.r,
+                    ),
+                  )
+                  : CachedNetworkImage(
+                    cacheManager: CustomCacheManager(),
+                    imageUrl:  spot.thumbnailImage!,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Container(color: AppColors.gray200),
+                    errorWidget: (context, url, error) =>
+                        Container(
+                          color: AppColors.gray100,
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 74.r,
+                          ),
+                        ),
                   ),
                   title: spot.title,
                   count: count.toString(),

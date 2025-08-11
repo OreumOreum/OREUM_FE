@@ -34,7 +34,14 @@ abstract class IconPath {
   static const String expand = 'assets/icons/expand.svg';
   static const String oreumStamp = 'assets/icons/oreum_stamp.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
+
   static const String spotCheck = 'assets/icons/spot_check.svg';
+  static const String spotCheckReverse = 'assets/icons/spot_check_reverse.svg';
+  static const String spotUnCheckReverse = 'assets/icons/spot_uncheck_reverse.svg';
+  static const String spotTriangle = 'assets/icons/spot_triangle.svg';
+  static const String spotUnCheckTriangle = 'assets/icons/spot_uncheck_triangle.svg';
+  static const String spotZoomCheck = 'assets/icons/spot_zoom_check.svg';
+  static const String spotZoomUnCheck = 'assets/icons/spot_uncheck_zoom.svg';
   static const String spotUncheck = 'assets/icons/spot_uncheck.svg';
   static const String spotWarning = 'assets/icons/warning.svg';
 

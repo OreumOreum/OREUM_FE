@@ -7,7 +7,7 @@ part of 'monthly_spot_map_view_model.dart';
 // **************************************************************************
 
 String _$monthlySpotMapViewModelHash() =>
-    r'39f050e0004612a9421d9b2fa52c0b47b3ca6674';
+    r'e8be86e3ee82a43fa75374d5a0b515d0fb58438f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -33,9 +33,11 @@ class _SystemHash {
 abstract class _$MonthlySpotMapViewModel
     extends BuildlessAutoDisposeNotifier<MonthlySpotMapState> {
   late final List<SpotMonthResponse> spots;
+  late final int? initialSelectedPlaceId;
 
   MonthlySpotMapState build({
     required List<SpotMonthResponse> spots,
+    int? initialSelectedPlaceId,
   });
 }
 
@@ -51,9 +53,11 @@ class MonthlySpotMapViewModelFamily extends Family<MonthlySpotMapState> {
   /// See also [MonthlySpotMapViewModel].
   MonthlySpotMapViewModelProvider call({
     required List<SpotMonthResponse> spots,
+    int? initialSelectedPlaceId,
   }) {
     return MonthlySpotMapViewModelProvider(
       spots: spots,
+      initialSelectedPlaceId: initialSelectedPlaceId,
     );
   }
 
@@ -63,6 +67,7 @@ class MonthlySpotMapViewModelFamily extends Family<MonthlySpotMapState> {
   ) {
     return call(
       spots: provider.spots,
+      initialSelectedPlaceId: provider.initialSelectedPlaceId,
     );
   }
 
@@ -87,8 +92,11 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
   /// See also [MonthlySpotMapViewModel].
   MonthlySpotMapViewModelProvider({
     required List<SpotMonthResponse> spots,
+    int? initialSelectedPlaceId,
   }) : this._internal(
-          () => MonthlySpotMapViewModel()..spots = spots,
+          () => MonthlySpotMapViewModel()
+            ..spots = spots
+            ..initialSelectedPlaceId = initialSelectedPlaceId,
           from: monthlySpotMapViewModelProvider,
           name: r'monthlySpotMapViewModelProvider',
           debugGetCreateSourceHash:
@@ -99,6 +107,7 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
           allTransitiveDependencies:
               MonthlySpotMapViewModelFamily._allTransitiveDependencies,
           spots: spots,
+          initialSelectedPlaceId: initialSelectedPlaceId,
         );
 
   MonthlySpotMapViewModelProvider._internal(
@@ -109,9 +118,11 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.spots,
+    required this.initialSelectedPlaceId,
   }) : super.internal();
 
   final List<SpotMonthResponse> spots;
+  final int? initialSelectedPlaceId;
 
   @override
   MonthlySpotMapState runNotifierBuild(
@@ -119,6 +130,7 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
   ) {
     return notifier.build(
       spots: spots,
+      initialSelectedPlaceId: initialSelectedPlaceId,
     );
   }
 
@@ -127,13 +139,16 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
     return ProviderOverride(
       origin: this,
       override: MonthlySpotMapViewModelProvider._internal(
-        () => create()..spots = spots,
+        () => create()
+          ..spots = spots
+          ..initialSelectedPlaceId = initialSelectedPlaceId,
         from: from,
         name: null,
         dependencies: null,
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         spots: spots,
+        initialSelectedPlaceId: initialSelectedPlaceId,
       ),
     );
   }
@@ -146,13 +161,16 @@ class MonthlySpotMapViewModelProvider extends AutoDisposeNotifierProviderImpl<
 
   @override
   bool operator ==(Object other) {
-    return other is MonthlySpotMapViewModelProvider && other.spots == spots;
+    return other is MonthlySpotMapViewModelProvider &&
+        other.spots == spots &&
+        other.initialSelectedPlaceId == initialSelectedPlaceId;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, spots.hashCode);
+    hash = _SystemHash.combine(hash, initialSelectedPlaceId.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -164,6 +182,9 @@ mixin MonthlySpotMapViewModelRef
     on AutoDisposeNotifierProviderRef<MonthlySpotMapState> {
   /// The parameter `spots` of this provider.
   List<SpotMonthResponse> get spots;
+
+  /// The parameter `initialSelectedPlaceId` of this provider.
+  int? get initialSelectedPlaceId;
 }
 
 class _MonthlySpotMapViewModelProviderElement
@@ -174,6 +195,9 @@ class _MonthlySpotMapViewModelProviderElement
   @override
   List<SpotMonthResponse> get spots =>
       (origin as MonthlySpotMapViewModelProvider).spots;
+  @override
+  int? get initialSelectedPlaceId =>
+      (origin as MonthlySpotMapViewModelProvider).initialSelectedPlaceId;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

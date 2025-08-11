@@ -6,12 +6,12 @@ part of 'my_type_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$myTravelTypeHash() => r'2e90593a0e42ab0bad4d7d246f0f2d2d4d30016b';
+String _$myTravelTypeHash() => r'99ebb23b317ebfc18f6b91d58f18bd3a37a2fcf4';
 
 /// See also [MyTravelType].
 @ProviderFor(MyTravelType)
 final myTravelTypeProvider =
-    AsyncNotifierProvider<MyTravelType, TravelType>.internal(
+    NotifierProvider<MyTravelType, MyTravelTypeState>.internal(
   MyTravelType.new,
   name: r'myTravelTypeProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final myTravelTypeProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$MyTravelType = AsyncNotifier<TravelType>;
+typedef _$MyTravelType = Notifier<MyTravelTypeState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

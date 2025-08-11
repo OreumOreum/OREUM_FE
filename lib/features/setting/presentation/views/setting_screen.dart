@@ -9,10 +9,12 @@ import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/montly_badge.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
+import '../../../../core/di/my_type_provider.dart';
 import '../viewmodels/setting_view_model.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
@@ -74,6 +76,10 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
   Widget build(BuildContext context) {
     final settingState = ref.watch(settingViewModelProvider);
     final List<MontlyBadge> myMonthlyBadge = settingState.earnedBadges;
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTrvelProfile = myTravelType!.image;
+    final myTravelTypeLabel = myTravelType!.type;
 
     return SingleChildScrollView(
       child: Column(
@@ -101,7 +107,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '모험 액티비티형', // TODO: 실제 사용자 유형으로 변경
+                      myTravelTypeLabel, // TODO: 실제 사용자 유형으로 변경
                       style: context.textStyles.headLine4
                           .copyWith(color: AppColors.gray600),
                       maxLines: 1,
@@ -303,14 +309,14 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const Spacer(),
-                              Switch(
+                              Switch.adaptive(
+                                activeColor: AppColors.primary,
                                 value: _isLocationEnabled,
                                 onChanged: (value) {
                                   setState(() {
                                     _isLocationEnabled = value;
                                   });
                                 },
-                                activeColor: Colors.blue,
                               ),
                             ],
                           ),

@@ -107,7 +107,9 @@ class _TypeTestSkipScreenState extends ConsumerState<TypeTestSkipScreen> {
                           await ref
                               .read(typeTestViewModelProvider.notifier)
                               .submitTypeTestResult(selectedType.name);
-                          if (mounted) {
+                          ref.read(typeTestViewModelProvider);
+                          final state = ref.watch(typeTestViewModelProvider);
+                          if(mounted && state.status == UiStatus.success) {
                             context.go(RoutePath.home);
                           }
                         } catch (e) {

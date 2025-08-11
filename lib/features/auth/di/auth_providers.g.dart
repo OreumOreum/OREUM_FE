@@ -131,7 +131,7 @@ final appleAuthRepositoryImplProvider =
 // ignore: unused_element
 typedef AppleAuthRepositoryImplRef
     = AutoDisposeProviderRef<AppleAuthRepositoryImpl>;
-String _$appleLoginUseCaseHash() => r'84428b4ec89205fe081f63e0cb12345d7217d464';
+String _$appleLoginUseCaseHash() => r'294f67537fc456250c02173ab3c40212c8d224b0';
 
 /// See also [appleLoginUseCase].
 @ProviderFor(appleLoginUseCase)

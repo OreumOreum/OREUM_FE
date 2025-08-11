@@ -62,121 +62,123 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
 
     return Scaffold(
       appBar: CustomAppBar.back(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppSizes.defaultPadding, vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(AppStrings.monthlySpot, style: context.textStyles.headLine4.copyWith(color: AppColors.gray500)),
-                  SizedBox(height: 4.h),
-                  Text(AppStrings.collectStamp, style: context.textStyles.label4.copyWith(color: AppColors.primary)),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: AppSizes.defaultPadding, vertical: 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(AppStrings.monthlySpot, style: context.textStyles.headLine4.copyWith(color: AppColors.gray500)),
+                    SizedBox(height: 4.h),
+                    Text(AppStrings.collectStamp, style: context.textStyles.label4.copyWith(color: AppColors.primary)),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding, vertical: 14.h),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(monthlyBadge.length, (index) {
-                    final badge = monthlyBadge[index];
-                    return Padding(
-                      padding: EdgeInsets.only(right: index == monthlyBadge.length - 1 ? 0 : 10.w),
-                      child: GestureDetector(
-                        onTap: () => print('${badge.label} tapped'),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: 62.h,
-                              width: 92.w,
-                              child: Center(
-                                child: SvgPicture.asset(badge.iconPath, width: badge.iconWidth, height: badge.iconHeight),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding, vertical: 14.h),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(monthlyBadge.length, (index) {
+                      final badge = monthlyBadge[index];
+                      return Padding(
+                        padding: EdgeInsets.only(right: index == monthlyBadge.length - 1 ? 0 : 10.w),
+                        child: GestureDetector(
+                          onTap: () => print('${badge.label} tapped'),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                height: 62.h,
+                                width: 92.w,
+                                child: Center(
+                                  child: SvgPicture.asset(badge.iconPath, width: badge.iconWidth, height: badge.iconHeight),
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(badge.label, style: context.textStyles.label4.copyWith(color: AppColors.primary)),
-                          ],
+                              SizedBox(height: 4.h),
+                              Text(badge.label, style: context.textStyles.label4.copyWith(color: AppColors.primary)),
+                            ],
+                          ),
                         ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+              SizedBox(height: 14.h),
+
+              // 1. 연도 선택 UI를 고정된 텍스트로 변경
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: AppSizes.defaultPadding, vertical: 14.h),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Text('$currentYear년',
+                      style: context.textStyles.body1.copyWith(color: Colors.white)),
+                ),
+              ),
+
+              Divider(height: 1.h, thickness: 1.h, color: AppColors.gray200),
+
+              Builder(
+                builder: (context) {
+                  final int currentMonth = DateTime.now().month;
+                  final List<int> allMonthsToShow =
+                  List.generate(currentMonth, (index) => index + 1);
+                  allMonthsToShow.sort((a, b) => b.compareTo(a));
+
+                  if (allMonthsToShow.isEmpty) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(32.0),
+                        child: Text('올해의 데이터가 없습니다.'),
                       ),
                     );
-                  }),
-                ),
-              ),
-            ),
-            SizedBox(height: 14.h),
+                  }
 
-            // 1. 연도 선택 UI를 고정된 텍스트로 변경
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppSizes.defaultPadding, vertical: 14.h),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 4.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-                child: Text('$currentYear년',
-                    style: context.textStyles.body1.copyWith(color: Colors.white)),
-              ),
-            ),
+                  return Column(
+                    children: allMonthsToShow.map((month) {
+                      final Color backgroundColor = (month % 2 == 0)
+                          ? AppColors.gray100
+                          : Colors.white;
 
-            Divider(height: 1.h, thickness: 1.h, color: AppColors.gray200),
+                      final List<SpotResponse> monthSpots =
+                          spotsByMonth[month.toString()] ?? [];
 
-            Builder(
-              builder: (context) {
-                final int currentMonth = DateTime.now().month;
-                final List<int> allMonthsToShow =
-                List.generate(currentMonth, (index) => index + 1);
-                allMonthsToShow.sort((a, b) => b.compareTo(a));
-
-                if (allMonthsToShow.isEmpty) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(32.0),
-                      child: Text('올해의 데이터가 없습니다.'),
-                    ),
+                      return GestureDetector(
+                        onTap: () {
+                          context.push(
+                            RoutePath.monthlySpotDetail,
+                            extra: {
+                              'year': currentYear,
+                              'month': month,
+                            },
+                          );
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: Container(
+                          color: backgroundColor,
+                          child: MonthlyListTile(
+                            month: month.toString(),
+                            spots: monthSpots,
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   );
-                }
-
-                return Column(
-                  children: allMonthsToShow.map((month) {
-                    final Color backgroundColor = (month % 2 == 0)
-                        ? AppColors.gray100
-                        : Colors.white;
-
-                    final List<SpotResponse> monthSpots =
-                        spotsByMonth[month.toString()] ?? [];
-
-                    return GestureDetector(
-                      onTap: () {
-                        context.push(
-                          RoutePath.monthlySpotDetail,
-                          extra: {
-                            'year': currentYear,
-                            'month': month,
-                          },
-                        );
-                      },
-                      behavior: HitTestBehavior.opaque,
-                      child: Container(
-                        color: backgroundColor,
-                        child: MonthlyListTile(
-                          month: month.toString(),
-                          spots: monthSpots,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

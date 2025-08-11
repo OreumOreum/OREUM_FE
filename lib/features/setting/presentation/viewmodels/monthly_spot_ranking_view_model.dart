@@ -20,14 +20,15 @@ class MonthlySpotRankingViewModel extends _$MonthlySpotRankingViewModel {
     state = state.copyWith(status: UiStatus.loading);
 
     try {
-      final myTravelType = await ref.read(myTravelTypeProvider.future);
+      final myTypeState = ref.read(myTravelTypeProvider);
+      final myTravelType = myTypeState.myTravelType;
       final usecase = ref.read(getSpotRankingUseCaseProvider);
       final rankingData = await usecase.call(spotId);
 
       int myTypeVisitCount = 0;
       try {
         final myRankInfo = rankingData.firstWhere((info) =>
-            info.categoryType.toLowerCase() == myTravelType.name.toLowerCase());
+            info.categoryType.toLowerCase() == myTravelType?.name.toLowerCase());
         myTypeVisitCount = myRankInfo.visitCount;
       } catch (e) {
         // Just keep the count as 0

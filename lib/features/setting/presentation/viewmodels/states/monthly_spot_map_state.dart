@@ -16,6 +16,7 @@ class MonthlySpotMapState with _$MonthlySpotMapState {
     @Default({}) Set<Circle> circles,
     @Default([]) List<SpotMonthResponse> spots,
     @Default(false) bool isProximity,
+    @Default(15.0) double currentZoom,
     SpotMonthResponse? selectedSpot,
     SpotMonthResponse? proximateSpot,
     GoogleMapController? mapController,

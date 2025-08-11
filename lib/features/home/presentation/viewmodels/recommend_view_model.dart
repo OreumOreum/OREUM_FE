@@ -29,7 +29,8 @@ class RecommendViewModel extends _$RecommendViewModel {
     }
 
     try {
-      final myTravelType = await ref.read(myTravelTypeProvider.future);
+      final myTypeState = ref.read(myTravelTypeProvider);
+      final myTravelType = myTypeState.myTravelType;
       final usecase = ref.read(getPlacesUseCaseProvider);
       final response = await usecase.call(
         contentTypeId: contentTypeId,
