@@ -97,7 +97,6 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
                       thumbnailImage: place.thumbnailImage ?? '',
                       title: place.title,
                       address: place.address.toString(),
-                      distance: '0km' // TODO: 거리 계산 로직 필요
                   ),
                 );
               },

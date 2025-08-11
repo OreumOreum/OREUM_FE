@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
+import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/paged_gradient_carousel_item.dart';
@@ -60,8 +61,6 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
       ...widget.items,
       widget.items.first,
     ];
-
-
 
     _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_fadeController);
 
@@ -147,11 +146,11 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
                     setState(() => _currentPage = index);
 
                     if (index == 0) {
-                      Future.delayed(
-                          const Duration(milliseconds: 800), _jumpToLastPageWithFade);
+                      Future.delayed(const Duration(milliseconds: 800),
+                          _jumpToLastPageWithFade);
                     } else if (index == widget.items.length + 1) {
-                      Future.delayed(
-                          const Duration(milliseconds: 800), _jumpToFirstPageWithFade);
+                      Future.delayed(const Duration(milliseconds: 800),
+                          _jumpToFirstPageWithFade);
                     }
                   },
                   itemBuilder: (context, index) {
@@ -172,6 +171,73 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
               ),
             ),
           ],
+        ),
+        IgnorePointer(
+          ignoring: true,
+          child: AnimatedBuilder(
+            animation: _fadeAnimation,
+            builder: (context, child) {
+              return Opacity(
+                opacity: _fadeAnimation.value,
+                child: Container(color: Colors.white),
+              );
+            },
+          ),
+        ),
+        Positioned(
+          left: screenWidth > 600 ? 490.w : 303.w,
+          bottom: 10.h,
+          child: InkWell(
+            onTap: () {
+              if (isPlay) {
+                _stopAutoPlay();
+              } else {
+                _startAutoPlay();
+              }
+            },
+            child: Container(
+              padding: EdgeInsets.only(
+                  top: 4.h, bottom: 4.h, left: 12.w, right: 14.w),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Row(
+                children: [
+                  isPlay
+                      ? SvgPicture.asset(
+                          IconPath.pause,
+                          width: 7.w,
+                        )
+                      : SvgPicture.asset(
+                          IconPath.play,
+                          width: 7.w,
+                        ),
+                  SizedBox(
+                    width: 8.w,
+                  ),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '${((_currentPage - 1) % widget.items.length) + 1}',
+                          // 이 부분 색상 변경
+                          style: context.textStyles.caption1
+                              .copyWith(color: AppColors.white),
+                        ),
+                        TextSpan(
+                          text: '/${widget.items.length}',
+                          style: context.textStyles.caption1
+                              .copyWith(color: AppColors.gray300),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );

@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
 import '../viewmodels/monthly_spot_map_view_model.dart';
@@ -77,6 +79,7 @@ class ProximityBanner extends StatelessWidget {
     );
   }
 }
+
 class MonthlySpotMap extends ConsumerStatefulWidget {
   final int year;
   final int month;
@@ -109,7 +112,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
     if (widget.initialSelectedPlaceId != null) {
       try {
         initialSpot = widget.spots.firstWhere(
-              (spot) => spot.placeId == widget.initialSelectedPlaceId,
+          (spot) => spot.placeId == widget.initialSelectedPlaceId,
         );
       } catch (e) {
         initialSpot = null;
@@ -132,7 +135,8 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           ref
-              .read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier)
+              .read(
+                  monthlySpotMapViewModelProvider(spots: widget.spots).notifier)
               .selectSpot(initialSpot!);
         }
       });
@@ -142,162 +146,161 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
   @override
   Widget build(BuildContext context) {
     final spotState =
-    ref.watch(monthlySpotMapViewModelProvider(spots: widget.spots));
+        ref.watch(monthlySpotMapViewModelProvider(spots: widget.spots));
     final spotViewModel =
-    ref.read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier);
+        ref.read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier);
 
     return Scaffold(
       appBar: CustomAppBar.back(),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    GoogleMap(
-                      initialCameraPosition: _initialCameraPosition,
-                      onMapCreated: spotViewModel.setMapController,
-                      markers: spotState.markers,
-                      circles: spotState.circles,
-                      myLocationButtonEnabled: false,
-                      myLocationEnabled: true,
-                      onTap: (_) => spotViewModel.clearSelection(),
-                    ),
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final double minSheetHeight = 140.h;
-                        final double minChildSize = constraints.maxHeight > 0
-                            ? minSheetHeight / constraints.maxHeight
-                            : 0.1;
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                  child: Stack(
+                    children: [
+                      GoogleMap(
+                        initialCameraPosition: _initialCameraPosition,
+                        onMapCreated: spotViewModel.setMapController,
+                        markers: spotState.markers,
+                        circles: spotState.circles,
+                        onCameraIdle: spotViewModel.onCameraIdle,
+                        myLocationButtonEnabled: false,
+                        myLocationEnabled: true,
+                        onTap: (_) => spotViewModel.clearSelection(),
+                      ),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final double minSheetHeight = 140.h;
+                          final double minChildSize = constraints.maxHeight > 0
+                              ? minSheetHeight / constraints.maxHeight
+                              : 0.1;
 
-                        return DraggableScrollableSheet(
-                          initialChildSize: minChildSize,
-                          minChildSize: minChildSize,
-                          maxChildSize: 0.7,
-                          builder: (BuildContext context,
-                              ScrollController scrollController) {
-                            return Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned.fill(
-                                  top: 56.h,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColors.white,
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(42.r)),
-                                    ),
-                                    child: spotState.selectedSpot == null
-                                        ? _buildSpotList(
-                                      scrollController,
-                                      spotState.spots,
-                                      spotViewModel,
-                                    )
-                                        : MonthlySpotRanking(
-                                      scrollController: scrollController,
-                                      onBack:
-                                      spotViewModel.clearSelection,
-                                      spots: spotState.selectedSpot!,
+                          return DraggableScrollableSheet(
+                            initialChildSize: minChildSize,
+                            minChildSize: minChildSize,
+                            maxChildSize: 0.7,
+                            builder: (BuildContext context,
+                                ScrollController scrollController) {
+                              return Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned.fill(
+                                    top: 56.h,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.white,
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(42.r)),
+                                      ),
+                                      child: spotState.selectedSpot == null
+                                          ? _buildSpotList(
+                                              scrollController,
+                                              spotState.spots,
+                                              spotViewModel,
+                                            )
+                                          : MonthlySpotRanking(
+                                              scrollController:
+                                                  scrollController,
+                                              onBack:
+                                                  spotViewModel.clearSelection,
+                                              spots: spotState.selectedSpot!,
+                                            ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 14.w,
-                                  child: GestureDetector(
-                                    onTap:
-                                    spotViewModel.centerOnCurrentLocation,
-                                    child: Center(
-                                      child: SizedBox(
-                                        width: 42.w,
-                                        height: 42.h,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppColors.white,
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black12,
-                                                blurRadius: 5.r,
-                                              )
-                                            ],
-                                          ),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              IconPath.myLocation,
-                                              width: 22.r,
-                                              height: 22.r,
+                                  Positioned(
+                                    right: 14.w,
+                                    child: GestureDetector(
+                                      onTap:
+                                          spotViewModel.centerOnCurrentLocation,
+                                      child: Center(
+                                        child: SizedBox(
+                                          width: 42.w,
+                                          height: 42.h,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.black12,
+                                                  blurRadius: 5.r,
+                                                )
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                IconPath.myLocation,
+                                                width: 22.r,
+                                                height: 22.r,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              // 하단 여백
-              Container(
-                height: 70.h,
-                color: Colors.white,
-              ),
-            ],
-          ),
-          Positioned(
-            left: 14.w,
-            right: 14.w,
-            bottom: 42.h,
-            child: SizedBox(
-              height: 58.h,
-              child: ElevatedButton(
-                onPressed: spotViewModel.onStampButtonPressed,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: (spotState.isProximity &&
-                      spotState.proximateSpot != null &&
-                      !spotState.proximateSpot!.visited)
-                      ? AppColors.primary
-                      : Colors.grey,
-                  disabledBackgroundColor: Colors.grey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14.h),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                child: Text(
-                  (spotState.proximateSpot?.visited ?? false)
+                // 하단 여백
+                Container(
+                  height: 46.h,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+            Positioned(
+              left: 14.w,
+              right: 14.w,
+              bottom: 16.h,
+              child: SizedBox(
+                height: 58.h,
+                child: CustomElevatedButton.primary(
+                  onPressed: (spotState.isProximity &&
+                          spotState.proximateSpot != null &&
+                          !spotState.proximateSpot!.visited)
+                      ? spotViewModel.onStampButtonPressed
+                      : null,
+                  text: (spotState.proximateSpot?.visited ?? false)
                       ? '이미 방문한 여행지'
                       : AppStrings.stamp,
-                  style: context.textStyles.label3
-                      .copyWith(color: AppColors.white),
+                  textStyle: context.textStyles.label3
+                    .copyWith(color: (spotState.isProximity &&
+                      spotState.proximateSpot != null &&
+                      !spotState.proximateSpot!.visited)
+                      ? AppColors.white : AppColors.gray200),
+                  radius: AppSizes.radiusMD,
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: 16.h,
-            left: 0,
-            right: 0,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: ProximityBanner(spotState: spotState),
+            Positioned(
+              top: 16.h,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: ProximityBanner(spotState: spotState),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildSpotList(
-      ScrollController scrollController,
-      List<SpotMonthResponse> spots,
-      MonthlySpotMapViewModel viewModel,
-      ) {
+    ScrollController scrollController,
+    List<SpotMonthResponse> spots,
+    MonthlySpotMapViewModel viewModel,
+  ) {
     const fixedDisplayTexts = ['서귀포시', '서귀포시', '제주시', '제주시'];
     return CustomScrollView(
       controller: scrollController,
@@ -328,7 +331,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                     final now = DateTime.now();
                     if (widget.year == now.year && widget.month == now.month) {
                       final lastDayOfMonth =
-                      DateTime(now.year, now.month + 1, 0);
+                          DateTime(now.year, now.month + 1, 0);
                       final remainingDays = lastDayOfMonth.day - now.day;
                       return RichText(
                         text: TextSpan(
@@ -336,13 +339,16 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                           children: <TextSpan>[
                             TextSpan(
                                 text: '이달의 여행지 마감까지 ',
-                                style: const TextStyle(color: AppColors.gray200)),
+                                style:
+                                    const TextStyle(color: AppColors.gray200)),
                             TextSpan(
                                 text: '$remainingDays일',
-                                style: const TextStyle(color: AppColors.primary)),
+                                style:
+                                    const TextStyle(color: AppColors.primary)),
                             TextSpan(
                                 text: ' 남았습니다.',
-                                style: const TextStyle(color: AppColors.gray200)),
+                                style:
+                                    const TextStyle(color: AppColors.gray200)),
                           ],
                         ),
                       );
@@ -373,8 +379,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                 title: spot.title,
                 address: spot.address,
                 isVisit: spot.visited,
-                thumbnailImage:
-                'http://tong.visitkorea.or.kr/cms/resource/05/2850905_image2_1.jpg',
+                thumbnailImage: spot.thumbnailImage,
                 sigungu: fixedDisplayTexts[index],
               ),
             );

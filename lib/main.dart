@@ -9,6 +9,7 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
+import 'package:oreum_fe/core/di/my_type_provider.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/themes/app_theme.dart';
@@ -93,6 +94,9 @@ class _MyAppState extends ConsumerState<MyApp> {
     if (accessToken != null) {
       loginNotifier.setLoggedIn();
       await userTypeNotifier.checkUserType(); // 이제 ref 사용 가능!
+      if(userTypeNotifier.hasType == false){
+        await ref.read(myTravelTypeProvider.notifier).getMyTravelType();
+      }
     } else {
       loginNotifier.setLoggedOut();
     }

@@ -58,7 +58,10 @@ class HomeViewModel extends _$HomeViewModel {
   }
   Future<void> fetchMonthlySpots() async {
     try {
-      final myTravelType = await ref.read(myTravelTypeProvider.future);
+      final myTypeState = ref.read(myTravelTypeProvider);
+      final myTravelType = myTypeState.myTravelType;
+
+      //final myTravelType = await ref.read(myTravelTypeProvider.future);
       final now = DateTime.now();
       final year = now.year;
       final month = now.month;
@@ -83,7 +86,7 @@ class HomeViewModel extends _$HomeViewModel {
         int myTypeVisitCount = 0;
         try {
           final myRankInfo = rankingData.firstWhere(
-                  (rank) => rank.categoryType.toLowerCase() == myTravelType.name.toLowerCase()
+                  (rank) => rank.categoryType.toLowerCase() == myTravelType?.name.toLowerCase()
           );
           myTypeVisitCount = myRankInfo.visitCount;
         } catch (e) {

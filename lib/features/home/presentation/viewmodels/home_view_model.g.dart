@@ -6,7 +6,7 @@ part of 'home_view_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'ff0ce72118100356d3a4c2b5ca19196392a1601b';
+String _$homeViewModelHash() => r'3afaefa4ee9f0af21764f26d2fb200f45dbeacd4';
 
 ///날씨 상태 Ui따로 고려
 ///
