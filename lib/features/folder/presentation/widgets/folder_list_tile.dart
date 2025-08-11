@@ -1,15 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 
 class FolderListTile extends StatelessWidget {
   final String title;
   final List<String>? thumbnailImages;
 
-  const FolderListTile({super.key, required this.title, required this.thumbnailImages});
+  const FolderListTile(
+      {super.key, required this.title, required this.thumbnailImages});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class FolderListTile extends StatelessWidget {
           aspectRatio: 1.0,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.gray200,
+              color: AppColors.gray100,
               borderRadius: BorderRadius.circular(AppSizes.radiusXS),
             ),
             child: _buildContent(),
@@ -48,8 +52,12 @@ class FolderListTile extends StatelessWidget {
     if (thumbnailImages == null || thumbnailImages!.isEmpty) {
       return Container(
         decoration: BoxDecoration(
-          color: AppColors.gray200,
+          color: AppColors.gray100,
           borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+        ),
+        child: Image.asset(
+          ImagePath.imageError,
+          width: 74.r,
         ),
       );
     }
@@ -58,12 +66,17 @@ class FolderListTile extends StatelessWidget {
     if (thumbnailImages!.length < 4) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-        child: Image.network(
-          thumbnailImages![0],
+        child: CachedNetworkImage(
+          imageUrl: thumbnailImages![0],
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
+          cacheManager: CustomCacheManager(),
+          errorWidget: (context, url, error) {
             return Container(
-              color: AppColors.gray200,
+              color: AppColors.gray100,
+              child: Image.asset(
+                ImagePath.imageError,
+                width: 74.r,
+              ),
             );
           },
         ),
@@ -81,12 +94,17 @@ class FolderListTile extends StatelessWidget {
         itemCount: 4,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          return Image.network(
-            thumbnailImages![index],
+          return CachedNetworkImage(
+            imageUrl: thumbnailImages![index],
             fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
+            cacheManager: CustomCacheManager(),
+            errorWidget: (context, error, stackTrace) {
               return Container(
-                color: AppColors.gray200,
+                color: AppColors.gray100,
+                child: Image.asset(
+                  ImagePath.imageError,
+                  width: 74.r,
+                ),
               );
             },
           );

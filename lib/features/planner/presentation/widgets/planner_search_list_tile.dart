@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
@@ -19,11 +20,11 @@ class PlannerSearchListTile extends ConsumerWidget {
 
   const PlannerSearchListTile(
       {super.key,
-        required this.day,
-        required this.placeId,
-        required this.title,
-        required this.address,
-        this.thumbnailImage});
+      required this.day,
+      required this.placeId,
+      required this.title,
+      required this.address,
+      this.thumbnailImage});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -40,16 +41,32 @@ class PlannerSearchListTile extends ConsumerWidget {
                 color: AppColors.gray100),
             child: thumbnailImage != null
                 ? ClipRRect(
-              borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-              child: Image.network(
-                thumbnailImage!,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return SizedBox.shrink();
-                },
-              ),
-            )
-                : SizedBox.shrink(),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                    child: Image.network(
+                      thumbnailImage!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: AppColors.gray100,
+                          child: Center(
+                            child: Image.asset(
+                              ImagePath.imageError,
+                              width: 42.r,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                : Container(
+                    color: AppColors.gray100,
+                    child: Center(
+                      child: Image.asset(
+                        ImagePath.imageError,
+                        width: 42.r,
+                      ),
+                    ),
+                  ),
           ),
           SizedBox(width: 10.w),
           Expanded(
@@ -83,7 +100,9 @@ class PlannerSearchListTile extends ConsumerWidget {
               text: AppStrings.select,
               onPressed: () {
                 print('클릭');
-                ref.read(plannerEditViewModelProvider.notifier).addPlace(day, placeId, title, address);
+                ref
+                    .read(plannerEditViewModelProvider.notifier)
+                    .addPlace(day, placeId, title, address);
                 context.pop();
               },
               textStyle: context.textStyles.label4,

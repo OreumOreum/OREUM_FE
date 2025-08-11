@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/api_path.dart';
 import 'package:oreum_fe/core/data/models/auth_token_response.dart';
 import 'package:oreum_fe/features/auth/data/models/access_token_request.dart';
+import 'package:oreum_fe/features/auth/data/models/authorization_code_request.dart';
 import 'package:oreum_fe/features/auth/data/models/id_token_request.dart';
 import 'package:oreum_fe/features/auth/data/models/type_check_response.dart';
 import 'package:oreum_fe/features/auth/data/models/type_request.dart';
@@ -34,6 +35,20 @@ class AuthService {
         extra: {'skipToken': true},
       ),
     );
+    return AuthTokenResponse.fromJson(response.data);
+  }
+
+  Future<AuthTokenResponse> loginWithApple(String authorizationCode) async {
+    final AuthorizationCodeRequest authorizationCodeRequest =
+        AuthorizationCodeRequest(authorizationCode: authorizationCode);
+    Response response = await _dio.post(
+      ApiPath.loginWithApple,
+      data: authorizationCodeRequest.toJson(),
+      options: Options(
+        extra: {'skipToken': true},
+      ),
+    );
+
     return AuthTokenResponse.fromJson(response.data);
   }
 

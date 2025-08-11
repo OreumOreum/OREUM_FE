@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +12,7 @@ import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/features/auth/data/services/apple_auth_service.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/auth_view_model.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/states/auth_state.dart';
 import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
@@ -23,98 +26,104 @@ class AuthScreen extends ConsumerWidget {
     final authViewModel = ref.read(authViewModelProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar.logoCenter(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 71.h,
-              ),
-              Image.asset(
-                ImagePath.banner,
-                width: 219.w,
-              ),
-              SizedBox(
-                height: 14.h,
-              ),
-              Text(
-                AppStrings.bannerTitle,
-                textAlign: TextAlign.center,
-                style: context.textStyles.headLine2.copyWith(
-                  color: AppColors.gray600,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 71.h,
                 ),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              Text(
-                AppStrings.bannerDescription,
-                style:
-                    context.textStyles.body1.copyWith(color: AppColors.gray300),
-              ),
-              Spacer(),
-              GuideBox(text: AppStrings.socialLoginGuide),
-              SizedBox(height: 14.h),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      authViewModel.loginWithKakao();
-                    },
-                    icon: SvgPicture.asset(
-                      IconPath.kakao,
-                      width: 52.r,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 24.h,
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      IconPath.apple,
-                      width: 52.r,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 24.h,
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      authViewModel.loginWithGoogle();
-                    },
-                    icon: SvgPicture.asset(
-                      IconPath.google,
-                      width: 52.r,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 42.h,
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  AppStrings.socialLoginButtonText,
-                  style: context.textStyles.caption1.copyWith(
-                      color: AppColors.gray200,
-                      decoration: TextDecoration.underline,
-                      decorationColor: AppColors.gray200),
+                Image.asset(
+                  ImagePath.banner,
+                  width: 219.w,
                 ),
-              ),
-              SizedBox(
-                height: 42.h,
-              )
-            ],
+                SizedBox(
+                  height: 14.h,
+                ),
+                Text(
+                  AppStrings.bannerTitle,
+                  textAlign: TextAlign.center,
+                  style: context.textStyles.headLine2.copyWith(
+                    color: AppColors.gray600,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Text(
+                  AppStrings.bannerDescription,
+                  style:
+                      context.textStyles.body1.copyWith(color: AppColors.gray300),
+                ),
+                Spacer(),
+                GuideBox(text: AppStrings.socialLoginGuide),
+                SizedBox(height: 14.h),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        authViewModel.loginWithKakao();
+                      },
+                      icon: SvgPicture.asset(
+                        IconPath.kakao,
+                        width: 52.r,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 24.h,
+                    ),
+                    if (Platform.isIOS) ...[
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          authViewModel.loginWithApple();
+                        },
+                        icon: SvgPicture.asset(
+                          IconPath.apple,
+                          width: 52.r,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 24.h,
+                      ),
+                    ],
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      onPressed: () {
+                        authViewModel.loginWithGoogle();
+                      },
+                      icon: SvgPicture.asset(
+                        IconPath.google,
+                        width: 52.r,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 42.h,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    AppStrings.socialLoginButtonText,
+                    style: context.textStyles.caption1.copyWith(
+                        color: AppColors.gray200,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.gray200),
+                  ),
+                ),
+                SizedBox(
+                  height: 42.h,
+                )
+              ],
+            ),
           ),
         ),
       ),

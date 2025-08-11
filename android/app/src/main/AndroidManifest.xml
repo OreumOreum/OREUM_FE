@@ -4,8 +4,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:label="oreum_fe"
-        android:icon="@mipmap/ic_launcher">
+        android:label="오름오름"
+        android:icon="@mipmap/launcher_icon">
         <!-- 카카오 로그인 커스텀 URL 스킴 설정 -->
         <activity
             android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"

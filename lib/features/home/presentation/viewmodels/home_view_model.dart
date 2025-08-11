@@ -30,50 +30,11 @@ class HomeViewModel extends _$HomeViewModel {
   }
 
   Future<void> initializeHome() async {
-    state = state.copyWith(status: UiStatus.loading);
+    state = state.copyWith(status: UiStatus.loading, weatherStatus: UiStatus.loading);
     try {
-      GetWeatherInfoUseCase getWeatherInfoUseCase =
-      ref.read(getWeatherInfoUseCaseProvider);
-      WeatherInfo weatherInfo = await getWeatherInfoUseCase.call();
-      final myTravelType = await ref.read(myTravelTypeProvider.future);
-      final now = DateTime.now();
-      final year = now.year;
-      final month = now.month;
-      final getMonthSpotUseCase = ref.read(getYearMonthSpotUseCaseProvider);
-      final spots =
-      await getMonthSpotUseCase.call(year.toString(), month.toString());
-      if (spots.isEmpty) {
-        state = state.copyWith(status: UiStatus.success, monthlySpots: []);
-        return;
-      }
-      final getRankingUseCase = ref.read(getSpotRankingUseCaseProvider);
-      final rankingFutures = spots
-          .map((spot) => getRankingUseCase.call(spot.spotId.toString()))
-          .toList();
-      final List<List<SpotRankingResponse>> rankingsForAllSpots =
-      await Future.wait(rankingFutures);
-      final Map<int, int> visitCounts = {};
-      for (int i = 0; i < spots.length; i++) {
-        final spot = spots[i];
-        final rankingData = rankingsForAllSpots[i];
-        int myTypeVisitCount = 0;
-        try {
-          final myRankInfo = rankingData.firstWhere((rank) =>
-          rank.categoryType.toLowerCase() == myTravelType.name.toLowerCase());
-          myTypeVisitCount = myRankInfo.visitCount;
-        } catch (e) {
-          myTypeVisitCount = 0;
-        }
-        visitCounts[spot.spotId] = myTypeVisitCount;
-      }
-      state = state.copyWith(
-        status: UiStatus.success,
-        monthlySpots: spots,
-        myTypeVisitCounts: visitCounts,
-        year: year,
-        month: month,
-      );
-      state = state.copyWith(status: UiStatus.success, weatherInfo: weatherInfo);
+      await refreshWeatherBackground();
+      await fetchMonthlySpots();
+      state = state.copyWith(status: UiStatus.success);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
@@ -83,9 +44,9 @@ class HomeViewModel extends _$HomeViewModel {
     try {
       GetWeatherInfoUseCase getWeatherInfoUseCase = ref.read(getWeatherInfoUseCaseProvider);
       WeatherInfo weatherInfo = await getWeatherInfoUseCase.call();
-      state = state.copyWith(weatherInfo: weatherInfo);
+      state = state.copyWith(weatherStatus: UiStatus.success, weatherInfo: weatherInfo);
     } catch (e) {
-      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+      state = state.copyWith(weatherStatus: UiStatus.error, errorMessage: e.toString());
     }
   }
 
@@ -96,7 +57,6 @@ class HomeViewModel extends _$HomeViewModel {
     });
   }
   Future<void> fetchMonthlySpots() async {
-    state = state.copyWith(status: UiStatus.loading);
     try {
       final myTravelType = await ref.read(myTravelTypeProvider.future);
       final now = DateTime.now();
@@ -107,7 +67,7 @@ class HomeViewModel extends _$HomeViewModel {
       final spots = await getMonthSpotUseCase.call(year.toString(), month.toString());
 
       if (spots.isEmpty) {
-        state = state.copyWith(status: UiStatus.success, monthlySpots: []);
+        state = state.copyWith(monthlySpots: []);
         return;
       }
       final getRankingUseCase = ref.read(getSpotRankingUseCaseProvider);
@@ -132,7 +92,6 @@ class HomeViewModel extends _$HomeViewModel {
         visitCounts[spot.spotId] = myTypeVisitCount;
       }
       state = state.copyWith(
-        status: UiStatus.success,
         monthlySpots: spots,
         myTypeVisitCounts: visitCounts,
         year: year,
