@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -5,6 +6,7 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 
 class CourseDetailListTile extends StatelessWidget {
   final int index;
@@ -90,12 +92,13 @@ class CourseDetailListTile extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                child: thumbnailImage != null ? Image.network(
-                  thumbnailImage!,
+                child: thumbnailImage != null ? CachedNetworkImage(
+                  imageUrl: thumbnailImage!,
                   width: 84.r,
                   height: 84.r,
                   fit: BoxFit.cover,
-                  errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                  cacheManager: CustomCacheManager(),
+                  errorWidget: (context, url, error) {
                     return Container(
                       width: 84.r,
                       height: 84.r,

@@ -80,10 +80,12 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                 onActionPressed: () {
                   showFolderUpdateModal(context);
                 }),
-        body: Padding(
-          padding: EdgeInsets.only(bottom: 56.h),
-          child: Center(
-            child: Lottie.asset(AnimationPath.loading, repeat: true),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 56.h),
+            child: Center(
+              child: Lottie.asset(AnimationPath.loading, repeat: true),
+            ),
           ),
         ),
       );
@@ -125,59 +127,61 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
               onActionPressed: () {
                 showFolderUpdateModal(context);
               }),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Divider(
-              height: 1.h,
-              thickness: 1.h,
-              color: AppColors.gray100,
-            ),
-            SizedBox(
-              height: 36.h,
-            ),
-            Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-              child: folderPlaces.isEmpty
-                  ? Padding(
-                    padding: EdgeInsets.only(top: 16.h),
-                    child: Center(
-                        child: Text(
-                          '아직 관광지가 없습니다.',
-                          style: context.textStyles.headLine1
-                              .copyWith(color: AppColors.gray300),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Divider(
+                height: 1.h,
+                thickness: 1.h,
+                color: AppColors.gray100,
+              ),
+              SizedBox(
+                height: 36.h,
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                child: folderPlaces.isEmpty
+                    ? Padding(
+                      padding: EdgeInsets.only(top: 16.h),
+                      child: Center(
+                          child: Text(
+                            '아직 관광지가 없습니다.',
+                            style: context.textStyles.headLine1
+                                .copyWith(color: AppColors.gray300),
+                          ),
+                        ),
+                    )
+                    : StaggeredGrid.count(
+                        crossAxisCount: isWideScreen ? 4 : 2,
+                        crossAxisSpacing: 9.w,
+                        mainAxisSpacing: 32.h,
+                        children: List.generate(
+                          folderPlaces.length,
+                          (index) {
+                            String title = folderPlaces[index].placeTitle;
+                            String? thumbnailImage =
+                                folderPlaces[index].originImage;
+                            return InkWell(
+                              onTap: () {
+                                ///단일 여행지 상세보기 네비게이트
+                              },
+                              child: FolderDetailListTile(
+                                  folderId: folderPlaces[index].FolderId,
+                                  placeId: folderPlaces[index].placeId,
+                                  title: title,
+                                  thumbnailImage: thumbnailImage),
+                            );
+                          },
                         ),
                       ),
-                  )
-                  : StaggeredGrid.count(
-                      crossAxisCount: isWideScreen ? 4 : 2,
-                      crossAxisSpacing: 9.w,
-                      mainAxisSpacing: 32.h,
-                      children: List.generate(
-                        folderPlaces.length,
-                        (index) {
-                          String title = folderPlaces[index].placeTitle;
-                          String? thumbnailImage =
-                              folderPlaces[index].originImage;
-                          return InkWell(
-                            onTap: () {
-                              ///단일 여행지 상세보기 네비게이트
-                            },
-                            child: FolderDetailListTile(
-                                folderId: folderPlaces[index].FolderId,
-                                placeId: folderPlaces[index].placeId,
-                                title: title,
-                                thumbnailImage: thumbnailImage),
-                          );
-                        },
-                      ),
-                    ),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-          ],
+              ),
+              SizedBox(
+                height: 16.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

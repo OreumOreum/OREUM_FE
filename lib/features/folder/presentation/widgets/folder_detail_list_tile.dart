@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 
 class FolderDetailListTile extends ConsumerWidget {
@@ -44,12 +46,13 @@ class FolderDetailListTile extends ConsumerWidget {
                       ? Container(
                           color: AppColors.gray100,
                         )
-                      : Image.network(
-                          thumbnailImage!,
+                      : CachedNetworkImage(
+                          imageUrl: thumbnailImage!,
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
+                          cacheManager: CustomCacheManager(),
+                          errorWidget: (context, url, error) {
                             return Container(
                               color: AppColors.gray100,
                               child: Image.asset(
