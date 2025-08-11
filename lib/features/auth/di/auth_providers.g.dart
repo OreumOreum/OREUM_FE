@@ -94,6 +94,61 @@ final kakaoLoginUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef KakaoLoginUseCaseRef = AutoDisposeProviderRef<KakaoLoginUseCase>;
+String _$appleAuthServiceHash() => r'f91762cdb2b2f15ece1b07c2a7dc2ddd30362ef8';
+
+/// See also [appleAuthService].
+@ProviderFor(appleAuthService)
+final appleAuthServiceProvider = AutoDisposeProvider<AppleAuthService>.internal(
+  appleAuthService,
+  name: r'appleAuthServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleAuthServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleAuthServiceRef = AutoDisposeProviderRef<AppleAuthService>;
+String _$appleAuthRepositoryImplHash() =>
+    r'e4b774a029c6550603bc119082adf399c59945cd';
+
+/// See also [appleAuthRepositoryImpl].
+@ProviderFor(appleAuthRepositoryImpl)
+final appleAuthRepositoryImplProvider =
+    AutoDisposeProvider<AppleAuthRepositoryImpl>.internal(
+  appleAuthRepositoryImpl,
+  name: r'appleAuthRepositoryImplProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleAuthRepositoryImplHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleAuthRepositoryImplRef
+    = AutoDisposeProviderRef<AppleAuthRepositoryImpl>;
+String _$appleLoginUseCaseHash() => r'84428b4ec89205fe081f63e0cb12345d7217d464';
+
+/// See also [appleLoginUseCase].
+@ProviderFor(appleLoginUseCase)
+final appleLoginUseCaseProvider =
+    AutoDisposeProvider<AppleLoginUseCase>.internal(
+  appleLoginUseCase,
+  name: r'appleLoginUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleLoginUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleLoginUseCaseRef = AutoDisposeProviderRef<AppleLoginUseCase>;
 String _$googleAuthServiceHash() => r'6e46803262ab788c5729083562003937afb01a0c';
 
 /// See also [googleAuthService].

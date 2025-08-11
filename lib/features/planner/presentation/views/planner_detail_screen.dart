@@ -152,10 +152,12 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
           },
           actionType: ActionType.dots,
         ),
-        body: Padding(
-          padding: EdgeInsets.only(bottom: 56.h),
-          child:
-          Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: 56.h),
+            child:
+            Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+          ),
         ),
       );
     }
