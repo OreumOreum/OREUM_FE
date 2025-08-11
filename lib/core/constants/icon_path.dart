@@ -17,8 +17,6 @@ abstract class IconPath {
   static String typeTestStatus(String status) => 'assets/icons/type_test_$status.svg';
   static const String typeTestUnselectedSM ='assets/icons/type_test_unselected_sm.svg';
 
-  ///이미지 만들어지면 열거형.name으로 불러오기
-  static String typeImage(String type) => 'assets/icons/type_$type.svg';
   static String largeCategoryImage(String type) => 'assets/icons/large_category_$type.svg';
   static String montlyBadge(String type) => 'assets/icons/monthly_badge_$type.svg';
   static const String lucky = 'assets/icons/monthly_badge_lucky.svg';

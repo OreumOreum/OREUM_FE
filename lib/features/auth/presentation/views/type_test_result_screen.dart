@@ -59,9 +59,9 @@ class TypeTestResultScreen extends StatelessWidget {
                     SizedBox(
                       height: 18.h,
                     ),
-                    SvgPicture.asset(
+                    Image.asset(
                       travelType.image,
-                      width: 114.w,
+                      width: 191.w,
                     ),
                     SizedBox(
                       height: 24.h,
@@ -71,6 +71,7 @@ class TypeTestResultScreen extends StatelessWidget {
                         horizontal: 74.w,
                       ),
                       child: Text(
+                        textAlign: TextAlign.center,
                         StringUtils().wordBreaks(travelType.shortDescription),
                         style: context.textStyles.body2
                             .copyWith(color: AppColors.primary),

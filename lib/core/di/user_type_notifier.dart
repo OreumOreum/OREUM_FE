@@ -1,15 +1,19 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/features/auth/di/auth_providers.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_type_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import 'my_type_provider.dart';
+
 part 'user_type_notifier.g.dart';
 
 class UserTypeNotifier extends ChangeNotifier {
   final CheckExistTypeUseCase checkExistTypeUseCase;
+  final Ref ref;
 
-  UserTypeNotifier(this.checkExistTypeUseCase);
+  UserTypeNotifier(this.checkExistTypeUseCase, this.ref);
 
   bool? _hasType;
   bool _alreadyChecked = false;
@@ -30,6 +34,9 @@ class UserTypeNotifier extends ChangeNotifier {
     _alreadyChecked = true;
 
     final bool hasType = await checkExistTypeUseCase.call();
+    if (hasType == false) {
+      await ref.read(myTravelTypeProvider.notifier).getMyTravelType();
+    }
     setHasType(hasType);
   }
 
@@ -41,5 +48,5 @@ class UserTypeNotifier extends ChangeNotifier {
 @riverpod
 UserTypeNotifier userTypeNotifier(UserTypeNotifierRef ref) {
   final checkExistTypeUseCase = ref.watch(checkExistTypeUseCaseProvider);
-  return UserTypeNotifier(checkExistTypeUseCase);
+  return UserTypeNotifier(checkExistTypeUseCase, ref);
 }

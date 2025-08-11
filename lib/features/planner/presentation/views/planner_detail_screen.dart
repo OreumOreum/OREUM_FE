@@ -8,10 +8,13 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/features/place/data/models/planner_place.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
+import 'package:oreum_fe/features/planner/presentation/widgets/custom_planner_marker.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/custom_tab_bar.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/planner_menu_modal.dart';
+import 'package:widget_to_marker/widget_to_marker.dart';
 
 import 'tab_screens/planner_detail_tab_screen.dart';
 
@@ -33,6 +36,7 @@ class PlannerDetailScreen extends ConsumerStatefulWidget {
 class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
   GoogleMapController? _mapController;
   late TabController _tabController;
+  Set<Marker> _markers = {};
 
   @override
   void initState() {
@@ -106,6 +110,31 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
     await controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50)); // padding 100 -> 50으로 줄임
   }
 
+  // 마커 생성 함수
+  Future<void> _createMarkers(List<PlannerDetailResponse> places) async {
+    final Set<Marker> newMarkers = {};
+
+    for (int index = 0; index < places.length; index++) {
+      final place = places[index];
+      if (place.mapX != null && place.mapY != null) {
+        final marker = Marker(
+          icon: await CustomPlannerMarker(index: index + 1).toBitmapDescriptor(),
+          markerId: MarkerId(
+            '$index-${place.plannerId}-${place.mapX}-${place.mapY}',
+          ),
+          position: LatLng(place.mapY!, place.mapX!),
+        );
+        newMarkers.add(marker);
+      }
+    }
+
+    if (mounted) {
+      setState(() {
+        _markers = newMarkers;
+      });
+    }
+  }
+
   // 데이터 변경 감지 및 카메라 업데이트
   void _refreshMapIfNeeded() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -120,6 +149,9 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
 
     final notifier = ref.read(plannerDetailViewModelProvider.notifier);
     final places = notifier.getPlacesByDay(day);
+
+    // 마커 업데이트
+    await _createMarkers(places);
 
     final positions = places
         .where((place) => place.mapX != null && place.mapY != null)
@@ -212,13 +244,10 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
                                   .read(plannerDetailViewModelProvider.notifier)
                                   .getPlacesByDay(currentDay);
 
-                              final markers = places.map((place) {
-                                return Marker(
-                                  markerId: MarkerId('${place.plannerId}-${place.mapX}-${place.mapY}'),
-                                  position: LatLng(place.mapY!, place.mapX!),
-                                  infoWindow: InfoWindow(title: place.placeTitle),
-                                );
-                              }).toSet();
+                              // 초기 마커 생성
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                _createMarkers(places);
+                              });
 
                               return GoogleMap(
                                 onMapCreated: (controller) async {
@@ -239,7 +268,7 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
                                       : LatLng(33.5563, 126.7958), // 제주도 중심 좌표
                                   zoom: 16, // 14 -> 16으로 더 가깝게
                                 ),
-                                markers: markers,
+                                markers: _markers, // 상태로 관리되는 마커 사용
                               );
                             },
                           ),
