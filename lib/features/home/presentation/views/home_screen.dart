@@ -261,7 +261,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     });
 
-    if (state.status == UiStatus.loading) {
+    if (state.status == UiStatus.loading ||
+        state.weatherStatus == UiStatus.loading) {
       return Padding(
         padding: EdgeInsets.only(bottom: 56.h),
         child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
@@ -272,58 +273,105 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return Text('error: ${state.errorMessage}');
     }
 
+    final homeState = ref.watch(homeViewModelProvider);
     WeatherInfo? weatherInfo = state.weatherInfo;
 
-    final homeState = ref.watch(homeViewModelProvider);
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// ================= 날씨 ===================
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 22.h, horizontal: 24.w),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppStrings.weatherTitle,
-                      style: context.textStyles.headLine2
-                          .copyWith(color: AppColors.gray600),
-                    ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    Text(
-                      weatherInfo!.description,
-                      style: context.textStyles.body1
-                          .copyWith(color: AppColors.gray300),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                SizedBox(
-                  height: 72.r,
-                  width: 72.r,
-                  child: Center(
-                    child: SvgPicture.asset(
-                      weatherInfo.iconAsset,
-                      width: weatherInfo.iconWidth,
-                    ),
+            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 24.w),
+            child: state.weatherStatus == UiStatus.error
+                ? Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '날씨를 불러오는데 실패했습니다.',
+                            style: context.textStyles.label3
+                                .copyWith(color: AppColors.gray400),
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(homeViewModelProvider.notifier)
+                                  .refreshWeatherBackground();
+                            },
+                            child: Text('다시 시도하기',  style: context.textStyles.label3
+                                .copyWith(color: AppColors.primary),),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        height: 72.r,
+                        width: 72.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            IconPath.weatherType('error'),
+                            width: 72.r,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 42.w,
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '오류',
+                          style: context.textStyles.headLine2
+                              .copyWith(color: AppColors.secondary),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppStrings.weatherTitle,
+                            style: context.textStyles.headLine2
+                                .copyWith(color: AppColors.gray600),
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Text(
+                            weatherInfo!.description,
+                            style: context.textStyles.body1
+                                .copyWith(color: AppColors.gray300),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        height: 72.r,
+                        width: 72.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            weatherInfo.iconAsset,
+                            width: weatherInfo.iconWidth,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 42.w,
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '${weatherInfo.temp}°',
+                          style: context.textStyles.headLine2
+                              .copyWith(color: AppColors.primary),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Container(
-                  width: 42.w,
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    '${weatherInfo.temp}°',
-                    style: context.textStyles.headLine2
-                        .copyWith(color: AppColors.primary),
-                  ),
-                ),
-              ],
-            ),
           ),
 
           /// ============================================
@@ -331,7 +379,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: 14.h,
           ),
-          if (homeState.status == UiStatus.loading || homeState.status == UiStatus.idle)
+          if (homeState.status == UiStatus.loading ||
+              homeState.status == UiStatus.idle)
             SizedBox(
               height: 200.h,
               child: const Center(child: CircularProgressIndicator()),
@@ -355,16 +404,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 );
               },
-              items: homeState.monthlySpots
-                  .asMap()
-                  .entries
-                  .map((entry) {
-
+              items: homeState.monthlySpots.asMap().entries.map((entry) {
                 final index = entry.key;
                 final spot = entry.value;
                 final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
                 const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
-                final String city = (index < fixedCities.length) ? fixedCities[index] : '제주';
+                final String city =
+                    (index < fixedCities.length) ? fixedCities[index] : '제주';
 
                 return CarouselItem(
                   background: Image.network(
@@ -429,7 +475,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: EdgeInsets.symmetric(vertical: 24.h),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              padding:
+                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: Row(
                 children: List.generate(mockPlace.length, (index) {
                   String title = mockPlace[index]['title']!;
@@ -474,7 +521,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.personalizedCourseRecommendation,
                     primaryText: '모험 액티비티형',
@@ -490,7 +538,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: List.generate(mockCourse.length, (index) {
                       String title = mockCourse[index]['title']!;
                       String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage = mockCourse[index]['thumbnailImage']!;
+                      String thumbnailImage =
+                          mockCourse[index]['thumbnailImage']!;
 
                       return Row(
                         children: [
@@ -582,7 +631,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: HomeTitleText(
                     title: AppStrings.travelSuggestionTitle,
                     primaryText: '모험 액티비티형',
@@ -592,14 +642,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 SizedBox(height: 14.h),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                   child: Row(
                     children: List.generate(placeImages.length, (index) {
-                      String thumbnailImage = placeImages[index]['thumbnailImage']!;
+                      String thumbnailImage =
+                          placeImages[index]['thumbnailImage']!;
                       return Row(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                            borderRadius:
+                                BorderRadius.circular(AppSizes.radiusXS),
                             child: Image.network(
                               thumbnailImage,
                               height: 120.h,

@@ -140,13 +140,16 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
               padding:
                   EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
               child: folderPlaces.isEmpty
-                  ? Center(
-                      child: Text(
-                        '폴더에 관광지를 추가해보세요!',
-                        style: context.textStyles.headLine2
-                            .copyWith(color: AppColors.gray200),
+                  ? Padding(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: Center(
+                        child: Text(
+                          '아직 관광지가 없습니다.',
+                          style: context.textStyles.headLine1
+                              .copyWith(color: AppColors.gray300),
+                        ),
                       ),
-                    )
+                  )
                   : StaggeredGrid.count(
                       crossAxisCount: isWideScreen ? 4 : 2,
                       crossAxisSpacing: 9.w,

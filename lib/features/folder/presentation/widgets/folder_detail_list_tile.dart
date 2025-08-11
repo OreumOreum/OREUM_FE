@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
@@ -32,7 +33,7 @@ class FolderDetailListTile extends ConsumerWidget {
           aspectRatio: 1.0,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.gray200,
+              color: AppColors.gray100,
               borderRadius: BorderRadius.circular(AppSizes.radiusXS),
             ),
             child: Stack(
@@ -50,7 +51,11 @@ class FolderDetailListTile extends ConsumerWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              color: AppColors.gray200,
+                              color: AppColors.gray100,
+                              child: Image.asset(
+                                ImagePath.imageError,
+                                width: 74.r,
+                              ),
                             );
                           },
                         ),
