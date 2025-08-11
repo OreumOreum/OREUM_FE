@@ -77,6 +77,7 @@ class _TypeTestSkipScreenState extends ConsumerState<TypeTestSkipScreen> {
                               title: travelType.type,
                               tags: travelType.tags,
                               nickName: travelType.nickname,
+                              profile: travelType.profile,
                               isSelected: isSelected,
                             ),
                           );

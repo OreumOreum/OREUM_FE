@@ -141,7 +141,7 @@ class _AccountSettingScreenState extends ConsumerState<AccountSettingScreen> {
                   height: 14.h,
                 ),
                 GestureDetector(
-                  onTap: () => context.push(RoutePath.typeTestStart),
+                  onTap: () => context.push(RoutePath.typeTest),
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
                     padding:

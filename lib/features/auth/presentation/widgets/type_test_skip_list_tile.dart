@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
@@ -10,12 +11,14 @@ class TypeTestSkipListTile extends StatelessWidget {
   final List<String> tags;
   final String nickName;
   final bool isSelected;
+  final String profile;
 
   const TypeTestSkipListTile(
       {super.key,
       required this.title,
       required this.tags,
       required this.nickName,
+      required this.profile,
       this.isSelected = false});
 
   @override
@@ -65,10 +68,14 @@ class TypeTestSkipListTile extends StatelessWidget {
             ),
             Spacer(),
             SizedBox(
+              height: 72.r,
               width: 72.r,
-              height: 72.h,
               child: CircleAvatar(
-                backgroundColor: AppColors.gray200,
+                backgroundColor: AppColors.gray100,
+                child: Image.asset(
+                  profile,
+                  width: 72.r,
+                ),
               ),
             ),
           ],

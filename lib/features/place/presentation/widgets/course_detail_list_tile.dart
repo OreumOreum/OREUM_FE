@@ -16,13 +16,14 @@ class CourseDetailListTile extends StatelessWidget {
   final String? thumbnailImage;
   final int totalItemCount;
 
-  const CourseDetailListTile({super.key,
-    required this.title,
-    required this.address,
-    required this.category,
-    required this.thumbnailImage,
-    required this.index,
-    required this.totalItemCount});
+  const CourseDetailListTile(
+      {super.key,
+      required this.title,
+      required this.address,
+      required this.category,
+      required this.thumbnailImage,
+      required this.index,
+      required this.totalItemCount});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +39,17 @@ class CourseDetailListTile extends StatelessWidget {
                 width: 24.r,
                 child: CircleAvatar(
                   backgroundColor: AppColors.primary,
-                  child: Text(
-                    index.toString(),
-                    style: context.textStyles.label2.copyWith(
-                        color: AppColors.white),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Padding(
+                      padding: EdgeInsets.all(2.r),
+                      child: Text(
+                        index.toString(),
+                        style: context.textStyles.label2.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -74,8 +82,8 @@ class CourseDetailListTile extends StatelessWidget {
                 ),
                 Text(
                   address,
-                  style:
-                  context.textStyles.body1.copyWith(color: AppColors.gray400),
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray400),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -92,36 +100,38 @@ class CourseDetailListTile extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                child: thumbnailImage != null ? CachedNetworkImage(
-                  imageUrl: thumbnailImage!,
-                  width: 84.r,
-                  height: 84.r,
-                  fit: BoxFit.cover,
-                  cacheManager: CustomCacheManager(),
-                  errorWidget: (context, url, error) {
-                    return Container(
-                      width: 84.r,
-                      height: 84.r,
-                      color: AppColors.gray100,
-                      child: Center(
-                        child: Image.asset(
-                          ImagePath.imageError,
-                          width: 52.r,
+                child: thumbnailImage != null
+                    ? CachedNetworkImage(
+                        imageUrl: thumbnailImage!,
+                        width: 84.r,
+                        height: 84.r,
+                        fit: BoxFit.cover,
+                        cacheManager: CustomCacheManager(),
+                        errorWidget: (context, url, error) {
+                          return Container(
+                            width: 84.r,
+                            height: 84.r,
+                            color: AppColors.gray100,
+                            child: Center(
+                              child: Image.asset(
+                                ImagePath.imageError,
+                                width: 52.r,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        width: 84.r,
+                        height: 84.r,
+                        color: AppColors.gray100,
+                        child: Center(
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 64.r,
+                          ),
                         ),
                       ),
-                    );
-                  },
-                ) : Container(
-                  width: 84.r,
-                  height: 84.r,
-                  color: AppColors.gray100,
-                  child: Center(
-                    child: Image.asset(
-                      ImagePath.imageError,
-                      width: 64.r,
-                    ),
-                  ),
-                ),
               )
             ],
           ),

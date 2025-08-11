@@ -7,7 +7,7 @@ part of 'monthly_spot_map_view_model.dart';
 // **************************************************************************
 
 String _$monthlySpotMapViewModelHash() =>
-    r'e8be86e3ee82a43fa75374d5a0b515d0fb58438f';
+    r'9c7eb46e14437a78e6e8865d9114aa3f54fc580c';
 
 /// Copied from Dart SDK
 class _SystemHash {
