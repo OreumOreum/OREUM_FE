@@ -13,8 +13,6 @@ class MonthlySpotViewModel extends _$MonthlySpotViewModel {
   MonthlySpotState build() {
     return MonthlySpotState();
   }
-
-  // 1. 월 이름과 숫자를 매핑하는 Map을 만듭니다.
   static const Map<String, int> _monthMap = {
     'JANUARY': 1, 'FEBRUARY': 2, 'MARCH': 3, 'APRIL': 4,
     'MAY': 5, 'JUNE': 6, 'JULY': 7, 'AUGUST': 8,
@@ -26,13 +24,9 @@ class MonthlySpotViewModel extends _$MonthlySpotViewModel {
     try {
       final GetYearSpotUseCase getYearSpotUseCase = ref.read(getYearSpotUseCaseProvider);
       List<SpotResponse> spots = await getYearSpotUseCase.call();
-
-      // 2. map을 사용해 spots 리스트의 각 항목을 변환합니다.
       final transformedSpots = spots.map((spot) {
-        // 영어 월을 숫자로 변환합니다 (월 이름이 없는 경우 기본값 1).
         final monthNumber = _monthMap[spot.month.toUpperCase()] ?? 1;
 
-        // copyWith를 사용해 month 필드만 새로운 값(숫자 문자열)으로 교체합니다.
         return spot.copyWith(month: monthNumber.toString());
       }).toList();
       final Map<String, List<SpotResponse>> spotsByMonth = {};
@@ -46,7 +40,6 @@ class MonthlySpotViewModel extends _$MonthlySpotViewModel {
 
       print('변환된 spots: $transformedSpots');
 
-      // 3. 변환된 리스트로 상태를 업데이트합니다.
       state = state.copyWith(status: MonthlySpotStatus.success, spotsByMonth: spotsByMonth);
     } catch (e) {
       state = state.copyWith(status: MonthlySpotStatus.error, errorMessage: e.toString());

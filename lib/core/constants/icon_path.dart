@@ -57,6 +57,8 @@ abstract class IconPath {
   static const String monthSpot = 'assets/icons/month_spot.svg';
   static const String nature = 'assets/icons/nature.svg';
 
+  static String badge(String badgeName) => 'assets/icons/$badgeName.svg';
+
   static const String homeActivate = 'assets/icons/home_activate.svg';
   static const String homeDisable = 'assets/icons/home_disable.svg';
   static const String plannerActivate = 'assets/icons/planner_activate.svg';

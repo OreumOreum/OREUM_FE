@@ -13,6 +13,8 @@ import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
+import '../viewmodels/setting_view_model.dart';
+
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
 
@@ -70,10 +72,8 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> ownedBadgeNamesFromApi = ['lucky', 'travelhunter'];
-    final List<MontlyBadge> myMonthlyBadge = MontlyBadge.values
-        .where((badge) => ownedBadgeNamesFromApi.contains(badge.name))
-        .toList();
+    final settingState = ref.watch(settingViewModelProvider);
+    final List<MontlyBadge> myMonthlyBadge = settingState.earnedBadges;
 
     return SingleChildScrollView(
       child: Column(
@@ -174,10 +174,21 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                   ),
                   SizedBox(
                     height: 14.h,
-                  ),
+                  ),myMonthlyBadge.isEmpty
+                      ? SizedBox(
+                    height: 62.h,
+                    child: const Center(
+                      child: Text(
+                        '아직 획득한 뱃지가 없어요.',
+                        style: TextStyle(color: AppColors.gray300),
+                      ),
+                    ),
+                  )
+                      :
                   Row(
                     children:
                     List.generate(myMonthlyBadge.length * 2 - 1, (index) {
+
                       if (index.isOdd) {
                         return SizedBox(width: 12.w);
                       } else {
@@ -195,7 +206,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                                 width: 92.w,
                                 child: Center(
                                   child: SvgPicture.asset(
-                                    IconPath.search, // TODO: 실제 뱃지 이미지 경로로 변경
+                                    category.iconPath, // TODO: 실제 뱃지 이미지 경로로 변경
                                     width: category.iconWidth,
                                     height: category.iconHeight,
                                   ),

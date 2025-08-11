@@ -17,6 +17,7 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/icon_path.dart';
 import '../../../../core/constants/montly_badge.dart';
+import '../viewmodels/setting_view_model.dart';
 
 class MonthlySpot extends ConsumerStatefulWidget {
   const MonthlySpot({super.key});
@@ -30,9 +31,6 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      // ViewModel이 연도를 인자로 받을 경우, 현재 연도를 전달할 수 있습니다.
-      // final int currentYear = DateTime.now().year;
-      // ref.read(monthlySpotViewModelProvider.notifier).initiallizeMonthlySpot(year: currentYear);
       ref.read(monthlySpotViewModelProvider.notifier).initiallizeMonthlySpot();
     });
   }
@@ -40,6 +38,7 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(monthlySpotViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
     final int currentYear = DateTime.now().year;
 
     if (state.status == MonthlySpotStatus.loading) {
@@ -52,15 +51,7 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
     final Map<String, List<SpotResponse>> spotsByMonth = state.spotsByMonth;
 
 
-    final List<String> ownedBadgeNamesFromApi = ['lucky', 'travelhunter'];
-    final List<MontlyBadge> monthlyBadge = MontlyBadge.values.toList();
-    monthlyBadge.sort((a, b) {
-      final bool aIsOwned = ownedBadgeNamesFromApi.contains(a.name);
-      final bool bIsOwned = ownedBadgeNamesFromApi.contains(b.name);
-      if (aIsOwned && !bIsOwned) return -1;
-      if (!aIsOwned && bIsOwned) return 1;
-      return 0;
-    });
+    final List<MontlyBadge> monthlyBadge = settingState.earnedBadges;
 
     const ColorFilter grayscaleFilter = ColorFilter.matrix(<double>[
       0.2126, 0.7152, 0.0722, 0, 0,
@@ -93,12 +84,11 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(monthlyBadge.length, (index) {
-                    final category = monthlyBadge[index];
-                    final bool isOwned = ownedBadgeNamesFromApi.contains(category.name);
+                    final badge = monthlyBadge[index];
                     return Padding(
                       padding: EdgeInsets.only(right: index == monthlyBadge.length - 1 ? 0 : 10.w),
                       child: GestureDetector(
-                        onTap: () => print('${category.label} tapped'),
+                        onTap: () => print('${badge.label} tapped'),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -106,11 +96,11 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
                               height: 62.h,
                               width: 92.w,
                               child: Center(
-                                child: SvgPicture.asset(IconPath.cloud, width: category.iconWidth, height: category.iconHeight, colorFilter: isOwned ? null : grayscaleFilter),
+                                child: SvgPicture.asset(badge.iconPath, width: badge.iconWidth, height: badge.iconHeight),
                               ),
                             ),
                             SizedBox(height: 4.h),
-                            Text(category.label, style: context.textStyles.body1.copyWith(color: isOwned ? AppColors.primary : AppColors.gray300)),
+                            Text(badge.label, style: context.textStyles.label4.copyWith(color: AppColors.primary)),
                           ],
                         ),
                       ),

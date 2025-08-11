@@ -1,28 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_view_model.dart';
+part of 'search_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeViewModelHash() => r'ff0ce72118100356d3a4c2b5ca19196392a1601b';
+String _$searchViewModelHash() => r'45b03f24d55c35237bfa4bb1fc6040858cd9ac81';
 
-///날씨 상태 Ui따로 고려
-///
-/// Copied from [HomeViewModel].
-@ProviderFor(HomeViewModel)
-final homeViewModelProvider =
-    AutoDisposeNotifierProvider<HomeViewModel, HomeState>.internal(
-  HomeViewModel.new,
-  name: r'homeViewModelProvider',
+/// See also [SearchViewModel].
+@ProviderFor(SearchViewModel)
+final searchViewModelProvider =
+    AutoDisposeNotifierProvider<SearchViewModel, PlannerSearchState>.internal(
+  SearchViewModel.new,
+  name: r'searchViewModelProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$homeViewModelHash,
+      : _$searchViewModelHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$HomeViewModel = AutoDisposeNotifier<HomeState>;
+typedef _$SearchViewModel = AutoDisposeNotifier<PlannerSearchState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
