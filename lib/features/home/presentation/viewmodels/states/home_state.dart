@@ -10,6 +10,7 @@ part 'home_state.freezed.dart';
 class HomeState with _$HomeState {
   const factory HomeState({
     @Default(UiStatus.idle) UiStatus status,
+    @Default(UiStatus.idle) UiStatus weatherStatus,
     @Default('') String errorMessage,
     @Default([]) List<SpotMonthResponse> monthlySpots,
     @Default({}) Map<int, int> myTypeVisitCounts,

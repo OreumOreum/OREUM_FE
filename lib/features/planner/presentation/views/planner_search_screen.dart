@@ -199,37 +199,34 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
         children: [
           SizedBox(
             height: 51.h,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  CustomTabBar(
-                    tabs: folders
-                        .map(
-                          (folder) => Tab(
-                            child: IntrinsicWidth( // 내용에 따라 너비를 유동적으로 조절
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(maxWidth: 122.w), // 최대 너비만 제한
-                                child: Container(
-                                  alignment: Alignment.bottomCenter,
-                                  padding: EdgeInsets.only(bottom: 8.h),
-                                  child: Text(
-                                    folder.folderName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    softWrap: false,
-                                    style: context.textStyles.label4, // 스타일도 꼭 넣어주기
-                                  ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                CustomTabBar(
+                  tabs: folders
+                      .map(
+                        (folder) => Tab(
+                          child: IntrinsicWidth( // 내용에 따라 너비를 유동적으로 조절
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 122.w), // 최대 너비만 제한
+                              child: Container(
+                                alignment: Alignment.bottomCenter,
+                                padding: EdgeInsets.only(bottom: 8.h),
+                                child: Text(
+                                  folder.folderName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: context.textStyles.label4, // 스타일도 꼭 넣어주기
                                 ),
                               ),
                             ),
                           ),
-                        )
-                        .toList(),
-                  ),
-                ],
-              ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
             ),
           ),
           Expanded(

@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   UiStatus get status => throw _privateConstructorUsedError;
+  UiStatus get weatherStatus => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<SpotMonthResponse> get monthlySpots =>
       throw _privateConstructorUsedError;
@@ -39,6 +40,7 @@ abstract class $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {UiStatus status,
+      UiStatus weatherStatus,
       String errorMessage,
       List<SpotMonthResponse> monthlySpots,
       Map<int, int> myTypeVisitCounts,
@@ -65,6 +67,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? status = null,
+    Object? weatherStatus = null,
     Object? errorMessage = null,
     Object? monthlySpots = null,
     Object? myTypeVisitCounts = null,
@@ -76,6 +79,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      weatherStatus: null == weatherStatus
+          ? _value.weatherStatus
+          : weatherStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -129,6 +136,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {UiStatus status,
+      UiStatus weatherStatus,
       String errorMessage,
       List<SpotMonthResponse> monthlySpots,
       Map<int, int> myTypeVisitCounts,
@@ -154,6 +162,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
+    Object? weatherStatus = null,
     Object? errorMessage = null,
     Object? monthlySpots = null,
     Object? myTypeVisitCounts = null,
@@ -165,6 +174,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      weatherStatus: null == weatherStatus
+          ? _value.weatherStatus
+          : weatherStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -199,6 +212,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl(
       {this.status = UiStatus.idle,
+      this.weatherStatus = UiStatus.idle,
       this.errorMessage = '',
       final List<SpotMonthResponse> monthlySpots = const [],
       final Map<int, int> myTypeVisitCounts = const {},
@@ -211,6 +225,9 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final UiStatus status;
+  @override
+  @JsonKey()
+  final UiStatus weatherStatus;
   @override
   @JsonKey()
   final String errorMessage;
@@ -242,7 +259,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(status: $status, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo)';
+    return 'HomeState(status: $status, weatherStatus: $weatherStatus, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo)';
   }
 
   @override
@@ -251,6 +268,8 @@ class _$HomeStateImpl implements _HomeState {
         (other.runtimeType == runtimeType &&
             other is _$HomeStateImpl &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.weatherStatus, weatherStatus) ||
+                other.weatherStatus == weatherStatus) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
@@ -267,6 +286,7 @@ class _$HomeStateImpl implements _HomeState {
   int get hashCode => Object.hash(
       runtimeType,
       status,
+      weatherStatus,
       errorMessage,
       const DeepCollectionEquality().hash(_monthlySpots),
       const DeepCollectionEquality().hash(_myTypeVisitCounts),
@@ -286,6 +306,7 @@ class _$HomeStateImpl implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final UiStatus status,
+      final UiStatus weatherStatus,
       final String errorMessage,
       final List<SpotMonthResponse> monthlySpots,
       final Map<int, int> myTypeVisitCounts,
@@ -295,6 +316,8 @@ abstract class _HomeState implements HomeState {
 
   @override
   UiStatus get status;
+  @override
+  UiStatus get weatherStatus;
   @override
   String get errorMessage;
   @override

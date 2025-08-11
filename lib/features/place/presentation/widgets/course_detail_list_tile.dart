@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
@@ -95,12 +96,28 @@ class CourseDetailListTile extends StatelessWidget {
                   height: 84.r,
                   fit: BoxFit.cover,
                   errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                    return SizedBox.shrink();
+                    return Container(
+                      width: 84.r,
+                      height: 84.r,
+                      color: AppColors.gray100,
+                      child: Center(
+                        child: Image.asset(
+                          ImagePath.imageError,
+                          width: 52.r,
+                        ),
+                      ),
+                    );
                   },
                 ) : Container(
                   width: 84.r,
                   height: 84.r,
-                  color: AppColors.gray200,
+                  color: AppColors.gray100,
+                  child: Center(
+                    child: Image.asset(
+                      ImagePath.imageError,
+                      width: 64.r,
+                    ),
+                  ),
                 ),
               )
             ],
