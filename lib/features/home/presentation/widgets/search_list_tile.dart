@@ -8,14 +8,14 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class SearchListTile extends StatelessWidget {
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final String title;
   final String address;
   final String distance;
 
   const SearchListTile(
       {super.key,
-        required this.thumbnailImage,
+        this.thumbnailImage,
         required this.title,
         required this.address,
         required this.distance});
@@ -29,15 +29,26 @@ class SearchListTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-            child: Image.network(
-              thumbnailImage,
-              height: 84.r,
-              width: 84.r,
-              fit: BoxFit.cover,
-            ),
+          Container(
+            height: 84.r,
+            width: 84.r,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                color: AppColors.gray100),
+            child: thumbnailImage != null
+                ? ClipRRect(
+              borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+              child: Image.network(
+                thumbnailImage!,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return SizedBox.shrink();
+                },
+              ),
+            )
+                : SizedBox.shrink(),
           ),
+
           SizedBox(
             width: 10.w,
           ),

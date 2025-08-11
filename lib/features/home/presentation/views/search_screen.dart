@@ -42,7 +42,11 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: CustomAppBar.backWithSearchBar(controller: _searchController),
       body: SingleChildScrollView(
-        child: isSearch ? AfterSearchWidget(searchQuery: _searchController.text) : BeforeSearchWidget(),
+        child: isSearch ? AfterSearchWidget(searchQuery: _searchController.text) : BeforeSearchWidget(
+          onSearch: (query) {
+            _searchController.text = query;
+          },
+        ),
       )
     );
   }

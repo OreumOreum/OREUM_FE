@@ -127,11 +127,14 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.all(10.r),
-                                      child: SvgPicture.asset(
-                                        category.iconPath,
-                                        width: category.iconWidth,
+                                    SizedBox(
+                                      height: 52.r,
+                                      width: 52.r,
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          category.iconPath,
+                                          width: category.iconWidth,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 4.h),

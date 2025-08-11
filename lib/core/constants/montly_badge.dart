@@ -2,54 +2,65 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 
 enum MontlyBadge {
-  lucky,
-  nice,
-  travelhunter,
+  // 1월
+  badge_jeju_1,
+  badge_seogwipo_1,
+  // 2월
+  badge_jeju_2,
+  badge_seogwipo_2,
+  // 3월
+  badge_jeju_3,
+  badge_seogwipo_3,
+  // 4월
+  badge_jeju_4,
+  badge_seogwipo_4,
+  // 5월
+  badge_jeju_5,
+  badge_seogwipo_5,
+  // 6월
+  badge_jeju_6,
+  badge_seogwipo_6,
+  // 7월
+  badge_jeju_7,
+  badge_seogwipo_7,
+  // 8월
+  badge_jeju_8,
+  badge_seogwipo_8,
+  // 9월
+  badge_jeju_9,
+  badge_seogwipo_9,
+  // 10월
+  badge_jeju_10,
+  badge_seogwipo_10,
+  // 11월
+  badge_jeju_11,
+  badge_seogwipo_11,
+  // 12월
+  badge_jeju_12,
+  badge_seogwipo_12,
 }
 
 extension MontlyBadgeExtension on MontlyBadge {
   String get label {
-    switch (this) {
-      case MontlyBadge.lucky:
-        return '럭키 세븐';
-      case MontlyBadge.nice:
-        return '만나서 반가워';
-      case MontlyBadge.travelhunter:
-        return '여행 헌터';
+    final match = RegExp(r'badge_(jeju|seogwipo)_(\d+)').firstMatch(name);
+    if (match != null) {
+      final region = match.group(1)!;
+      final month = match.group(2)!;
+      final regionLabel = region == 'jeju' ? '제주시' : '서귀포시';
+      return '${month}월 $regionLabel';
     }
+    return '';
   }
 
   String get iconPath {
-    switch (this) {
-      case MontlyBadge.lucky:
-        return IconPath.montlyBadge('lucky');
-      case MontlyBadge.nice:
-        return IconPath.montlyBadge('nice');
-      case MontlyBadge.travelhunter:
-        return IconPath.montlyBadge('travelhunter');
-    }
+    return IconPath.badge(name);
   }
 
   double get iconWidth {
-    switch (this) {
-      case MontlyBadge.lucky:
-        return 78.w;
-      case MontlyBadge.nice:
-        return 80.w;
-      case MontlyBadge.travelhunter:
-        return 73.w;
-
-    }
+    return 92.w;
   }
-  double get iconHeight {
-    switch (this) {
-      case MontlyBadge.lucky:
-        return 62.h;
-      case MontlyBadge.nice:
-        return 62.h;
-      case MontlyBadge.travelhunter:
-        return 62.h;
 
-    }
+  double get iconHeight {
+    return 62.h;
   }
 }

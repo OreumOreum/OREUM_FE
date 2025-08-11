@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+
+import '../constants/route_path.dart';
 
 class SearchBarButton extends StatelessWidget {
   const SearchBarButton({super.key});
@@ -19,7 +22,7 @@ class SearchBarButton extends StatelessWidget {
               backgroundColor: WidgetStatePropertyAll(AppColors.gray100),
             ),
         onPressed: () {
-          ///SearchScreen으로 가는 함수
+          context.push(RoutePath.search);
         },
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),

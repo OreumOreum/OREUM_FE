@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesRepositoryImpl implements LocalStorageRepository {
   static const String _firstRunKey = 'FIRST_RUN';
-
+  static const String _searchHistoryKey = 'SEARCH_HISTORY';
   final SharedPreferences _sharedPreferences;
 
   SharedPreferencesRepositoryImpl(this._sharedPreferences);
@@ -22,4 +22,10 @@ class SharedPreferencesRepositoryImpl implements LocalStorageRepository {
 
   Future<void> setFirstRun(bool value) async => writeBool(_firstRunKey, value);
   Future<bool?> isFirstRun() async => readBool(_firstRunKey);
+  Future<List<String>> getRecentSearches() async {
+    return _sharedPreferences.getStringList(_searchHistoryKey) ?? [];
+  }
+  Future<void> setRecentSearches(List<String> searches) async {
+    await _sharedPreferences.setStringList(_searchHistoryKey, searches);
+  }
 }

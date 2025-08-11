@@ -39,6 +39,12 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
   @override
   void initState() {
     super.initState();
+    print('--- PagedGradientCarousel initState ---');
+    print('전달받은 items 개수: ${widget.items.length}');
+    for (var item in widget.items) {
+      print('아이템: ${item.title}, ${item.city}, ${item.count}');
+    }
+    print('------------------------------------');
 
     _fadeController = AnimationController(
       vsync: this,
