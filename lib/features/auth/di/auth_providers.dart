@@ -2,16 +2,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/di/token_providers.dart';
 import 'package:oreum_fe/core/network/dio_providers.dart';
+import 'package:oreum_fe/core/utils/token_saver.dart';
+import 'package:oreum_fe/features/auth/data/repositories/apple_auth_repository_impl.dart';
 import 'package:oreum_fe/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:oreum_fe/features/auth/data/repositories/google_auth_repository_impl.dart';
 import 'package:oreum_fe/features/auth/data/repositories/kakao_auth_repository_impl.dart';
+import 'package:oreum_fe/features/auth/data/services/apple_auth_service.dart';
 import 'package:oreum_fe/features/auth/data/services/auth_service.dart';
 import 'package:oreum_fe/features/auth/data/services/google_auth_service.dart';
 import 'package:oreum_fe/features/auth/data/services/kakao_auth_service.dart';
+import 'package:oreum_fe/features/auth/domain/repositories/apple_auth_repository.dart';
 import 'package:oreum_fe/features/auth/domain/repositories/google_auth_repository.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/apple_login_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_type_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/google_login_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/kakao_login_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/skip_type_test_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/submit_type_test_result_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_providers.g.dart';
@@ -48,6 +55,26 @@ KakaoLoginUseCase kakaoLoginUseCase(KakaoLoginUseCaseRef ref) {
 }
 
 @riverpod
+AppleAuthService appleAuthService(AppleAuthServiceRef ref) {
+  return AppleAuthService();
+}
+
+@riverpod
+AppleAuthRepositoryImpl appleAuthRepositoryImpl(AppleAuthRepositoryImplRef ref) {
+  final AppleAuthService appleAuthService = ref.watch(appleAuthServiceProvider);
+  return AppleAuthRepositoryImpl(appleAuthService);
+}
+
+@riverpod
+AppleLoginUseCase appleLoginUseCase(AppleLoginUseCaseRef ref) {
+  final AppleAuthRepositoryImpl appleAuthRepositoryImpl = ref.read(appleAuthRepositoryImplProvider);
+  final AuthRepositoryImpl authRepositoryImpl = ref.read(authRepositoryProvider);
+  final TokenSaver tokenSaver = ref.read(tokenSaverProvider);
+
+  return AppleLoginUseCase(appleAuthRepositoryImpl, authRepositoryImpl, tokenSaver);
+}
+
+@riverpod
 GoogleAuthService googleAuthService(GoogleAuthServiceRef ref) {
   return GoogleAuthService();
 }
@@ -70,4 +97,16 @@ GoogleLoginUseCase googleLoginUseCase(GoogleLoginUseCaseRef ref) {
 CheckExistTypeUseCase checkExistTypeUseCase(CheckExistTypeUseCaseRef ref) {
   final authRepo = ref.watch(authRepositoryProvider);
   return CheckExistTypeUseCase(authRepo);
+}
+
+@riverpod
+SkipTypeTestUseCase skipTypeTestUseCase(SkipTypeTestUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  return SkipTypeTestUseCase(authRepo);
+}
+
+@riverpod
+SubmitTypeTestResultUseCase submitTypeTestResultUseCase(SubmitTypeTestResultUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  return SubmitTypeTestResultUseCase(authRepo);
 }

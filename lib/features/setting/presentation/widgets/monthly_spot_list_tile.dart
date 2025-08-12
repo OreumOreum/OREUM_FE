@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,21 +7,25 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
+
+import '../../../../core/constants/image_path.dart';
 
 class MonthlySpotListTile extends StatelessWidget {
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final String title;
   final String address;
+  final String sigungu;
   final bool isVisit;
-  final int sigunguCode;
 
-  const MonthlySpotListTile(
-      {super.key,
-        required this.thumbnailImage,
-        required this.title,
-        required this.address,
-        required this.isVisit,
-        required this.sigunguCode,});
+  const MonthlySpotListTile({
+    super.key,
+    required this.thumbnailImage,
+    required this.title,
+    required this.address,
+    required this.isVisit,
+    required this.sigungu,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +37,12 @@ class MonthlySpotListTile extends StatelessWidget {
       borderWidth = 3.r;
       circleContent = SvgPicture.asset(
         IconPath.oreumStamp,
-
       );
     } else {
-      String displayText;
-      switch (sigunguCode) {
-        case 3:
-          displayText = '서귀포시';
-          break;
-        case 4:
-          displayText = '제주시';
-          break;
-        default:
-          displayText = '';
-      }
       borderColor = AppColors.gray200;
       borderWidth = 2.r;
       circleContent = Text(
-        displayText,
+        sigungu,
         textAlign: TextAlign.center,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
@@ -67,12 +60,36 @@ class MonthlySpotListTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-            child: Image.network(
-              thumbnailImage,
-              height: 64.r,
-              width: 64.r,
-              fit: BoxFit.cover,
-            ),
+            child: (thumbnailImage == null)
+                ? Container(
+                    width: 64.r,
+                    height: 64.r,
+                    color: AppColors.gray100,
+                    child: Center(
+                      child: Image.asset(
+                        ImagePath.imageError,
+                        width: 42.r,
+                      ),
+                    ),
+                  )
+                : CachedNetworkImage(
+                    cacheManager: CustomCacheManager(),
+                    imageUrl: thumbnailImage!,
+                    height: 64.r,
+                    width: 64.r,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) => Container(
+                      width: 64.r,
+                      height: 64.r,
+                      color: AppColors.gray100,
+                      child: Center(
+                        child: Image.asset(
+                          ImagePath.imageError,
+                          width: 42.r,
+                        ),
+                      ),
+                    ),
+                  ),
           ),
           SizedBox(
             width: 10.w,
@@ -94,8 +111,8 @@ class MonthlySpotListTile extends StatelessWidget {
                 ),
                 Text(
                   address,
-                  style:
-                  context.textStyles.body1.copyWith(color: AppColors.gray400),
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray400),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

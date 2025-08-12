@@ -21,7 +21,23 @@ class AuthRepositoryImpl implements AuthRepository{
   }
 
   @override
+  Future<AuthToken> loginWithApple(String authorizationCode) async {
+    final AuthTokenResponse authTokenResponse = await _authService.loginWithApple(authorizationCode);
+    return authTokenResponse.toEntity();
+  }
+
+  @override
   Future<TypeCheckResponse> checkTypeExist() {
     return _authService.checkExistType();
+  }
+
+  @override
+  Future<void> skipTypeTest() {
+    return _authService.skipTypeTest();
+  }
+
+  @override
+  Future<void> submitTypeTestResult(String type) {
+    return _authService.submitTypeTestResult(type);
   }
 }

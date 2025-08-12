@@ -6,9 +6,10 @@ abstract class RoutePath {
   static const String typeTestResult = '/typeTestResult';
   static const String home = '/home';
   static const String planner = '/planner';
-  static String plannerDetail(int id) => '/planner/$id';
+  static String plannerDetail(String id) => '/planner/$id';
   static String plannerDay(int id, int day) => '/planner/$id/day/$day';
   static String plannerEditWithId(String id) => '/planner/$id/edit';
+  static String plannerSearch = '/plannerSearch';
   static const String recommend = '/recommend';
 
   static const String createPlaceReview = '/createReview/place';
@@ -19,7 +20,6 @@ abstract class RoutePath {
   static const String courseDetail = '/courseDetail';
   static const String placeDetail = '/placeDetail';
 
-
   static const String search = '/search';
   static const String setting = '/setting';
   static const String accountSetting = '/accountSetting';
@@ -29,8 +29,9 @@ abstract class RoutePath {
   static const String monthlySpotRanking = '/monthlySpotRanking';
 
   static const String folderList = '/folderList';
-  static const String folderDetail = '/folderDetail';
-
+  static String folderDetail(String id) => '/$folderDetailBase/$id';
+  static const String folderDetailBase = 'folderDetail';
+  static const String typeTestSkip = '/typeTestSkip';
 
   static const String deleteReviewBottomSheet = '/deleteReviewBottomSheet';
   static const String placeDetailAddBottomSheet = '/placeDetailAddBottomSheet';

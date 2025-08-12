@@ -1,97 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/recent_search_view_model.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/recent_search_list_tile.dart';
 
-class BeforeSearchWidget extends StatelessWidget {
-  BeforeSearchWidget({super.key});
+import 'recent_search_list_tile.dart';
 
-  final List<Map<String, String>> recentTravelSearches = [
-    {'title': '제주도 동쪽 숙소 추천'},
-    {'title': '부산 해운대 근처 맛집'},
-    {'title': '강릉 1박 2일 여행 코스'},
-    {'title': '일본 오사카 항공권 최저가'},
-    {'title': '경주 황리단길 가볼 만한 곳'},
-    {'title': '베트남 다낭 리조트 순위'},
-    {'title': '서울 근교 당일치기 계곡'},
-    {'title': '스위스 인터라켄 패러글라이딩'},
-    {'title': '여수 밤바다 야경 명소'},
-    {'title': '속초 중앙시장 먹거리 리스트'},
-    {'title': '제주도 동쪽 숙소 추천'},
-    {'title': '부산 해운대 근처 맛집'},
-    {'title': '강릉 1박 2일 여행 코스'},
-    {'title': '일본 오사카 항공권 최저가'},
-    {'title': '경주 황리단길 가볼 만한 곳'},
-    {'title': '베트남 다낭 리조트 순위'},
-    {'title': '서울 근교 당일치기 계곡'},
-    {'title': '스위스 인터라켄 패러글라이딩'},
-    {'title': '여수 밤바다 야경 명소'},
-    {'title': '속초 중앙시장 먹거리 리스트'},
-    {'title': '제주도 동쪽 숙소 추천'},
-    {'title': '부산 해운대 근처 맛집'},
-    {'title': '강릉 1박 2일 여행 코스'},
-    {'title': '일본 오사카 항공권 최저가'},
-    {'title': '경주 황리단길 가볼 만한 곳'},
-    {'title': '베트남 다낭 리조트 순위'},
-    {'title': '서울 근교 당일치기 계곡'},
-    {'title': '스위스 인터라켄 패러글라이딩'},
-    {'title': '여수 밤바다 야경 명소'},
-    {'title': '속초 중앙시장 먹거리 리스트'},
-  ];
+class BeforeSearchWidget extends ConsumerWidget {
+  final Function(String query) onSearch; // 검색어 탭 시 검색 실행을 위한 콜백
+
+  const BeforeSearchWidget({super.key, required this.onSearch});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final recentSearches = ref.watch(recentSearchViewModelProvider);
+    final viewModel = ref.read(recentSearchViewModelProvider.notifier);
+
     return Column(
       children: [
-        SizedBox(
-          height: 18.h,
-        ),
+        SizedBox(height: 18.h),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
           child: Row(
             children: [
               Text(AppStrings.recentSearch,
-                  style: context.textStyles.label4
-                      .copyWith(color: AppColors.gray500)),
-              Spacer(),
+                  style: context.textStyles.label4.copyWith(color: AppColors.gray500)),
+              const Spacer(),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.deleteAll();
+                },
                 child: Text(
                   AppStrings.deleteAll,
-                  style: context.textStyles.body1
-                      .copyWith(color: AppColors.gray300),
+                  style: context.textStyles.body1.copyWith(color: AppColors.gray300),
                 ),
               ),
             ],
           ),
         ),
-        SizedBox(
-          height: 20.h,
-        ),
-        ListView.separated(
-          primary: false,
-          shrinkWrap: true,
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-          itemCount: recentTravelSearches.length,
-          itemBuilder: (BuildContext context, int index) {
-            String title = recentTravelSearches[index]['title']!;
-            return RecentSearchListTile(
-              title: title,
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(
-              height: 16.h,
-            );
-          },
-        ),
-        SizedBox(
-          height: 16.h,
-        ),
+        SizedBox(height: 20.h),
+
+        if (recentSearches.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 40.0),
+            child: Center(
+              child: Text('최근 검색 기록이 없습니다.', style: TextStyle(color: AppColors.gray300)),
+            ),
+          )
+        else
+          ListView.separated(
+            primary: false,
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+            itemCount: recentSearches.length,
+            itemBuilder: (BuildContext context, int index) {
+              final title = recentSearches[index];
+              return RecentSearchListTile(
+                title: title,
+                onTap: () => onSearch(title),
+                onDelete: () => viewModel.deleteSearch(title),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(height: 16.h);
+            },
+          ),
+        SizedBox(height: 16.h),
       ],
     );
   }

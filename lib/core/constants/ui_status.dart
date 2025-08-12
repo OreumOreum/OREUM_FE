@@ -1,3 +1,6 @@
-enum UiStatus {
-  idle, loading, success, error
+enum UiStatus{
+  idle,
+  loading,
+  success,
+  error
 }

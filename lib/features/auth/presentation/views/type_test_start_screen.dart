@@ -20,7 +20,9 @@ class TypeTestStartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
-          buttonText: AppStrings.skip, onActionPressed: () {}),
+          buttonText: AppStrings.skip, onActionPressed: () {
+            context.push(RoutePath.typeTestSkip);
+      }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),

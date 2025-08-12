@@ -27,3 +27,10 @@ Dio tourDio (TourDioRef ref) {
   final dio = Dio(tourDioBaseOptions);
   return dio;
 }
+
+@Riverpod(keepAlive: true)
+Dio weatherDio (WeatherDioRef ref) {
+  final dio = Dio(weatherDioBaseOptions);
+
+  return dio;
+}

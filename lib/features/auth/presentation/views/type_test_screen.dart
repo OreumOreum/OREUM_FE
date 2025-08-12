@@ -18,6 +18,8 @@ import 'package:oreum_fe/features/auth/presentation/widgets/custom_percent_indic
 import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
+import '../../../../core/constants/ui_status.dart';
+
 enum TypeTestButtonStatus {
   selected,
   unselected,
@@ -28,15 +30,17 @@ class TypeTestScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(typeTestProvider);
-    final viewModel = ref.read(typeTestProvider.notifier);
+    final state = ref.watch(typeTestViewModelProvider);
+    final viewModel = ref.read(typeTestViewModelProvider.notifier);
 
     final currentQuestion = state.questions[state.currentIndex];
 
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
         buttonText: AppStrings.skip,
-        onActionPressed: () {},
+        onActionPressed: () {
+          context.push(RoutePath.typeTestSkip);
+        },
       ),
       body: SafeArea(
         child: Column(
@@ -171,13 +175,19 @@ class TypeTestScreen extends ConsumerWidget {
                               text: viewModel.isLastQuestion
                                   ? AppStrings.viewResult
                                   : AppStrings.next,
-                              onPressed: viewModel.canGoNext
-                                  ? () {
+                              onPressed: viewModel.canGoNext || state.status == UiStatus.loading
+                                  ? () async {
                                       if (viewModel.isLastQuestion) {
-                                        final result =
+                                        final type =
                                             viewModel.calculateResult();
-                                        context.go(RoutePath.typeTestResult,
-                                            extra: result);
+                                        await viewModel
+                                            .submitTypeTestResult(type.name);
+                                        ref.read(typeTestViewModelProvider);
+                                        final state = ref.watch(typeTestViewModelProvider);
+                                        if(state.status == UiStatus.success) {
+                                          context.go(RoutePath.typeTestResult,
+                                              extra: type);
+                                        }
                                       } else {
                                         viewModel.goNext();
                                       }

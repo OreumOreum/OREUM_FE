@@ -17,8 +17,6 @@ abstract class IconPath {
   static String typeTestStatus(String status) => 'assets/icons/type_test_$status.svg';
   static const String typeTestUnselectedSM ='assets/icons/type_test_unselected_sm.svg';
 
-  ///이미지 만들어지면 열거형.name으로 불러오기
-  static String typeImage(String type) => 'assets/icons/type_$type.svg';
   static String largeCategoryImage(String type) => 'assets/icons/large_category_$type.svg';
   static String montlyBadge(String type) => 'assets/icons/monthly_badge_$type.svg';
   static const String lucky = 'assets/icons/monthly_badge_lucky.svg';
@@ -34,7 +32,16 @@ abstract class IconPath {
   static const String expand = 'assets/icons/expand.svg';
   static const String oreumStamp = 'assets/icons/oreum_stamp.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
+
   static const String spotCheck = 'assets/icons/spot_check.svg';
+  static const String spotCheckReverse = 'assets/icons/spot_check_reverse.svg';
+  static const String spotUnCheckReverse = 'assets/icons/spot_uncheck_reverse.svg';
+  static const String spotTriangle = 'assets/icons/spot_triangle.svg';
+  static const String spotUnCheckTriangle = 'assets/icons/spot_uncheck_triangle.svg';
+  static const String spotZoomCheck = 'assets/icons/spot_zoom_check.svg';
+  static const String spotZoomUnCheck = 'assets/icons/spot_uncheck_zoom.svg';
+  static const String spotUncheck = 'assets/icons/spot_uncheck.svg';
+  static const String spotWarning = 'assets/icons/warning.svg';
 
   static const String bookmarkFill = 'assets/icons/bookmark_fill.svg';
 
@@ -45,12 +52,18 @@ abstract class IconPath {
   static const String exclamationMarkCircle = 'assets/icons/exclamation_mark_circle.svg';
   static const String checkStar = 'assets/icons/check_star.svg';
 
+  static const String recommendViewAll = 'assets/icons/recommend_view_all.svg';
+  static const String recommendJeju = 'assets/icons/recommend_view_jeju.svg';
+  static const String recommendSeogwipo = 'assets/icons/recommend_view_seogwipo.svg';
+
   static const String play = 'assets/icons/play.svg';
   static const String pause = 'assets/icons/pause.svg';
   static const String arrowDown = 'assets/icons/arrow_down.svg';
   static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String monthSpot = 'assets/icons/month_spot.svg';
   static const String nature = 'assets/icons/nature.svg';
+
+  static String badge(String badgeName) => 'assets/icons/$badgeName.svg';
 
   static const String homeActivate = 'assets/icons/home_activate.svg';
   static const String homeDisable = 'assets/icons/home_disable.svg';
@@ -63,6 +76,12 @@ abstract class IconPath {
   static const String addFolder = 'assets/icons/add_folder.svg';
 
   static const String trashCan = 'assets/icons/trash_can.svg';
+  static const String pencil = 'assets/icons/pencil.svg';
+
+  static const String divider = 'assets/icons/divider.svg';
+
+  static String weatherType(String weather) => 'assets/icons/weather_$weather.svg';
+
   static const String saveCheck = 'assets/icons/save_check.svg';
   static const String savePlus = 'assets/icons/save_plus.svg';
 

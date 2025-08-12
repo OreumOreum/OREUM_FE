@@ -1,21 +1,26 @@
-// lib/widgets/paged_gradient_carousel/paged_gradient_carousel.dart
+// lib/features/home/presentation/widgets/page_gradient_carousel.dart
 
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
-import 'package:oreum_fe/core/constants/app_sizes.dart';
-import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/paged_gradient_carousel_item.dart';
 
+import '../../../../core/constants/icon_path.dart';
+
 class PagedGradientCarousel extends StatefulWidget {
   final List<CarouselItem> items;
+  final void Function(int index)? onItemTap;
 
-  const PagedGradientCarousel({required this.items, super.key});
+  const PagedGradientCarousel({
+    required this.items,
+    this.onItemTap,
+    super.key,
+  });
 
   @override
   State<PagedGradientCarousel> createState() => _PagedGradientCarouselState();
@@ -35,17 +40,27 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
   @override
   void initState() {
     super.initState();
+    print('--- PagedGradientCarousel initState ---');
+    print('전달받은 items 개수: ${widget.items.length}');
+    for (var item in widget.items) {
+      print('아이템: ${item.title}, ${item.city}, ${item.count}');
+    }
+    print('------------------------------------');
+
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    if (widget.items.isEmpty) {
+      _loopedItems = [];
+      return;
+    }
 
     _loopedItems = [
       widget.items.last,
       ...widget.items,
       widget.items.first,
     ];
-
-    _fadeController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
 
     _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_fadeController);
 
@@ -67,20 +82,17 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
   }
 
   void _startAutoPlay() {
+    if (widget.items.isEmpty) return;
     isPlay = true;
     _autoPlayTimer?.cancel();
     _autoPlayTimer =
         Timer.periodic(const Duration(seconds: 8), (_) => _nextPage());
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   void _stopAutoPlay() {
     isPlay = false;
-    setState(() {
-
-    });
+    setState(() {});
     _autoPlayTimer?.cancel();
   }
 
@@ -92,10 +104,10 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
   }
 
   Future<void> _jumpToFirstPageWithFade() async {
-    await _fadeController.forward(); // 흰색 덮기 (페이드 인)
-    _pageController?.jumpToPage(1); // 실제 첫 페이지로 이동
+    await _fadeController.forward();
+    _pageController?.jumpToPage(1);
     setState(() => _currentPage = 1);
-    await _fadeController.reverse(); // 흰색 걷기 (페이드 아웃)
+    await _fadeController.reverse();
   }
 
   Future<void> _jumpToLastPageWithFade() async {
@@ -107,8 +119,14 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    if (widget.items.isEmpty) {
+      return SizedBox(
+        height: 176.h,
+        child: const Center(child: Text('표시할 여행지가 없습니다.')),
+      );
+    }
 
+    final screenWidth = MediaQuery.of(context).size.width;
     _pageController ??= _createPageController(screenWidth);
 
     return Stack(
@@ -116,8 +134,9 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
         Column(
           children: [
             GestureDetector(
-              onTapDown: (_) => _stopAutoPlay(),
-              onTapUp: (_) => _startAutoPlay(),
+              onPanDown: (_) => _stopAutoPlay(),
+              onPanCancel: () => _startAutoPlay(),
+              onPanEnd: (_) => _startAutoPlay(),
               child: SizedBox(
                 height: 176.h,
                 child: PageView.builder(
@@ -127,16 +146,25 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
                     setState(() => _currentPage = index);
 
                     if (index == 0) {
-                      _jumpToLastPageWithFade();
+                      Future.delayed(const Duration(milliseconds: 800),
+                          _jumpToLastPageWithFade);
                     } else if (index == widget.items.length + 1) {
-                      _jumpToFirstPageWithFade();
+                      Future.delayed(const Duration(milliseconds: 800),
+                          _jumpToFirstPageWithFade);
                     }
                   },
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      child:
-                          PagedGradientCarouselItem(item: _loopedItems[index]),
+                    return GestureDetector(
+                      onTap: () {
+                        if (index > 0 && index < _loopedItems.length - 1) {
+                          widget.onItemTap?.call(index - 1);
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5.w),
+                        child: PagedGradientCarouselItem(
+                            item: _loopedItems[index]),
+                      ),
                     );
                   },
                 ),
@@ -144,8 +172,6 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
             ),
           ],
         ),
-
-        // 화이트 페이드 오버레이
         IgnorePointer(
           ignoring: true,
           child: AnimatedBuilder(
@@ -158,7 +184,6 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
             },
           ),
         ),
-        // 인디케이터
         Positioned(
           left: screenWidth > 600 ? 490.w : 303.w,
           bottom: 10.h,

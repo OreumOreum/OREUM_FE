@@ -94,6 +94,61 @@ final kakaoLoginUseCaseProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef KakaoLoginUseCaseRef = AutoDisposeProviderRef<KakaoLoginUseCase>;
+String _$appleAuthServiceHash() => r'f91762cdb2b2f15ece1b07c2a7dc2ddd30362ef8';
+
+/// See also [appleAuthService].
+@ProviderFor(appleAuthService)
+final appleAuthServiceProvider = AutoDisposeProvider<AppleAuthService>.internal(
+  appleAuthService,
+  name: r'appleAuthServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleAuthServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleAuthServiceRef = AutoDisposeProviderRef<AppleAuthService>;
+String _$appleAuthRepositoryImplHash() =>
+    r'e4b774a029c6550603bc119082adf399c59945cd';
+
+/// See also [appleAuthRepositoryImpl].
+@ProviderFor(appleAuthRepositoryImpl)
+final appleAuthRepositoryImplProvider =
+    AutoDisposeProvider<AppleAuthRepositoryImpl>.internal(
+  appleAuthRepositoryImpl,
+  name: r'appleAuthRepositoryImplProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleAuthRepositoryImplHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleAuthRepositoryImplRef
+    = AutoDisposeProviderRef<AppleAuthRepositoryImpl>;
+String _$appleLoginUseCaseHash() => r'294f67537fc456250c02173ab3c40212c8d224b0';
+
+/// See also [appleLoginUseCase].
+@ProviderFor(appleLoginUseCase)
+final appleLoginUseCaseProvider =
+    AutoDisposeProvider<AppleLoginUseCase>.internal(
+  appleLoginUseCase,
+  name: r'appleLoginUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$appleLoginUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AppleLoginUseCaseRef = AutoDisposeProviderRef<AppleLoginUseCase>;
 String _$googleAuthServiceHash() => r'6e46803262ab788c5729083562003937afb01a0c';
 
 /// See also [googleAuthService].
@@ -171,5 +226,44 @@ final checkExistTypeUseCaseProvider =
 // ignore: unused_element
 typedef CheckExistTypeUseCaseRef
     = AutoDisposeProviderRef<CheckExistTypeUseCase>;
+String _$skipTypeTestUseCaseHash() =>
+    r'1f2f470c21b57caf1c30b0ac132ae09911ff511b';
+
+/// See also [skipTypeTestUseCase].
+@ProviderFor(skipTypeTestUseCase)
+final skipTypeTestUseCaseProvider =
+    AutoDisposeProvider<SkipTypeTestUseCase>.internal(
+  skipTypeTestUseCase,
+  name: r'skipTypeTestUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$skipTypeTestUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SkipTypeTestUseCaseRef = AutoDisposeProviderRef<SkipTypeTestUseCase>;
+String _$submitTypeTestResultUseCaseHash() =>
+    r'3929eebbdc96dd76a277289a30acc204a52b36e8';
+
+/// See also [submitTypeTestResultUseCase].
+@ProviderFor(submitTypeTestResultUseCase)
+final submitTypeTestResultUseCaseProvider =
+    AutoDisposeProvider<SubmitTypeTestResultUseCase>.internal(
+  submitTypeTestResultUseCase,
+  name: r'submitTypeTestResultUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$submitTypeTestResultUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef SubmitTypeTestResultUseCaseRef
+    = AutoDisposeProviderRef<SubmitTypeTestResultUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

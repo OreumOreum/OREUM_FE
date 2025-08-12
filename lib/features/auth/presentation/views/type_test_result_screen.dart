@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -22,7 +24,9 @@ class TypeTestResultScreen extends StatelessWidget {
     print('travelTypeImage: ${travelType.image}');
     return Scaffold(
       appBar: CustomAppBar.logoWithButton(
-          buttonText: AppStrings.retry, onActionPressed: () {}),
+          buttonText: AppStrings.retry, onActionPressed: () {
+            context.go(RoutePath.typeTest);
+      }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.w),
@@ -55,9 +59,9 @@ class TypeTestResultScreen extends StatelessWidget {
                     SizedBox(
                       height: 18.h,
                     ),
-                    SvgPicture.asset(
+                    Image.asset(
                       travelType.image,
-                      width: 114.w,
+                      width: 191.w,
                     ),
                     SizedBox(
                       height: 24.h,
@@ -67,6 +71,7 @@ class TypeTestResultScreen extends StatelessWidget {
                         horizontal: 74.w,
                       ),
                       child: Text(
+                        textAlign: TextAlign.center,
                         StringUtils().wordBreaks(travelType.shortDescription),
                         style: context.textStyles.body2
                             .copyWith(color: AppColors.primary),
@@ -111,7 +116,9 @@ class TypeTestResultScreen extends StatelessWidget {
                 width: double.infinity,
                 child: CustomElevatedButton.primary(
                   text: AppStrings.start,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go(RoutePath.home);
+                  },
                   textStyle: context.textStyles.label3,
                   radius: AppSizes.radiusMD,
                 ),

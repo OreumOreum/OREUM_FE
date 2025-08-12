@@ -1,16 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 
 class CourseDetailListTile extends StatelessWidget {
   final int index;
   final String category;
   final String address;
   final String title;
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final int totalItemCount;
 
   const CourseDetailListTile(
@@ -36,9 +39,17 @@ class CourseDetailListTile extends StatelessWidget {
                 width: 24.r,
                 child: CircleAvatar(
                   backgroundColor: AppColors.primary,
-                  child: Text(
-                    index.toString(),
-                    style: context.textStyles.label2.copyWith(color: AppColors.white),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Padding(
+                      padding: EdgeInsets.all(2.r),
+                      child: Text(
+                        index.toString(),
+                        style: context.textStyles.label2.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -47,33 +58,41 @@ class CourseDetailListTile extends StatelessWidget {
           SizedBox(
             width: 11.h,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                category,
-                style: context.textStyles.label1
-                    .copyWith(color: AppColors.primary),
-              ),
-              SizedBox(
-                height: 4.h,
-              ),
-              Text(
-                title,
-                style: context.textStyles.headLine4
-                    .copyWith(color: AppColors.gray500),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Text(
-                address,
-                style:
-                    context.textStyles.body1.copyWith(color: AppColors.gray400),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  category,
+                  style: context.textStyles.label1
+                      .copyWith(color: AppColors.primary),
+                ),
+                SizedBox(
+                  height: 4.h,
+                ),
+                Text(
+                  title,
+                  style: context.textStyles.headLine4
+                      .copyWith(color: AppColors.gray500),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Text(
+                  address,
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray400),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          Spacer(),
+          SizedBox(
+            width: 8.w,
+          ),
           Column(
             children: [
               SizedBox(
@@ -81,12 +100,38 @@ class CourseDetailListTile extends StatelessWidget {
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                child: Image.network(
-                  thumbnailImage,
-                  width: 84.r,
-                  height: 84.r,
-                  fit: BoxFit.cover,
-                ),
+                child: thumbnailImage != null
+                    ? CachedNetworkImage(
+                        imageUrl: thumbnailImage!,
+                        width: 84.r,
+                        height: 84.r,
+                        fit: BoxFit.cover,
+                        cacheManager: CustomCacheManager(),
+                        errorWidget: (context, url, error) {
+                          return Container(
+                            width: 84.r,
+                            height: 84.r,
+                            color: AppColors.gray100,
+                            child: Center(
+                              child: Image.asset(
+                                ImagePath.imageError,
+                                width: 52.r,
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : Container(
+                        width: 84.r,
+                        height: 84.r,
+                        color: AppColors.gray100,
+                        child: Center(
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 64.r,
+                          ),
+                        ),
+                      ),
               )
             ],
           ),

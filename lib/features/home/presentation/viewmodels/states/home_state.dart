@@ -1,18 +1,23 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 
+import '../../../../spot/data/models/spot_month_response.dart';
 import '../../../../course/data/models/course_response.dart';
 
 part 'home_state.freezed.dart';
 
-enum HomeStatus {
-  idle, loading, success, error
-}
-
 @freezed
-class HomeState with _$HomeState{
+class HomeState with _$HomeState {
   const factory HomeState({
-    @Default(HomeStatus.idle) HomeStatus status,
+    @Default(UiStatus.idle) UiStatus status,
+    @Default(UiStatus.idle) UiStatus weatherStatus,
     @Default('') String errorMessage,
+    @Default([]) List<SpotMonthResponse> monthlySpots,
+    @Default({}) Map<int, int> myTypeVisitCounts,
+    int? year,
+    int? month,
+    WeatherInfo? weatherInfo,
     @Default([]) List<CourseResponse> courses,
 }) = _HomeState;
 }

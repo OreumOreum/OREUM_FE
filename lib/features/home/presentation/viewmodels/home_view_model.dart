@@ -1,28 +1,114 @@
 import 'package:oreum_fe/features/course/data/models/course_response.dart';
 import 'package:oreum_fe/features/course/di/course_providers.dart';
 import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_case.dart';
+import 'dart:async';
+
+import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/features/home/di/weather_providers.dart';
+import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
+import 'package:oreum_fe/features/home/domain/use_cases/get_weather_info_use_case.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_state.dart';
+import 'package:intl/intl.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_monthly_spot_state.dart';
+import 'package:oreum_fe/features/spot/data/models/spot_ranking_response.dart';
+import 'package:oreum_fe/features/spot/di/spot_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../../../../core/constants/ui_status.dart';
+import '../../../../core/di/my_type_provider.dart';
 
 part 'home_view_model.g.dart';
 
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
+  Timer? _weatherTimer;
   @override
   HomeState build() {
-    return HomeState();
+    _startWeatherTimer();
+    ref.onDispose(() {
+      _weatherTimer?.cancel();
+    });
+    return HomeState(status: UiStatus.loading);
   }
 
   Future<void> initializeHome() async {
-    state = state.copyWith(status: HomeStatus.loading);
+    state = state.copyWith(status: UiStatus.loading, weatherStatus: UiStatus.loading);
     try {
+      await refreshWeatherBackground();
+      await fetchMonthlySpots();
       final GetCourseListUseCase getCourseListUseCase = ref.read(getCourseListUseCaseProvider);
       List<CourseResponse> courses = await getCourseListUseCase.call();
-      state = state.copyWith(status: HomeStatus.success, courses: courses);
+      state = state.copyWith(status: UiStatus.success,courses: courses);
+    } catch (e) {
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
-    catch(e){
-      state = state.copyWith(status: HomeStatus.error, errorMessage: e.toString());
-      print('errorMessage: ${e.toString()}');
+  }
+
+  Future<void> refreshWeatherBackground() async {
+    try {
+      GetWeatherInfoUseCase getWeatherInfoUseCase = ref.read(getWeatherInfoUseCaseProvider);
+      WeatherInfo weatherInfo = await getWeatherInfoUseCase.call();
+      state = state.copyWith(weatherStatus: UiStatus.success, weatherInfo: weatherInfo);
+    } catch (e) {
+      state = state.copyWith(weatherStatus: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  void _startWeatherTimer() {
+    _weatherTimer?.cancel();
+    _weatherTimer = Timer.periodic(Duration(hours: 1), (_) {
+      refreshWeatherBackground();
+    });
+  }
+  Future<void> fetchMonthlySpots() async {
+    try {
+      final myTypeState = ref.read(myTravelTypeProvider);
+      final myTravelType = myTypeState.myTravelType;
+
+      //final myTravelType = await ref.read(myTravelTypeProvider.future);
+      final now = DateTime.now();
+      final year = now.year;
+      final month = now.month;
+      final getMonthSpotUseCase = ref.read(getYearMonthSpotUseCaseProvider);
+
+      final spots = await getMonthSpotUseCase.call(year.toString(), month.toString());
+
+      if (spots.isEmpty) {
+        state = state.copyWith(monthlySpots: []);
+        return;
+      }
+      final getRankingUseCase = ref.read(getSpotRankingUseCaseProvider);
+      final rankingFutures = spots
+          .map((spot) => getRankingUseCase.call(spot.spotId.toString()))
+          .toList();
+      final List<List<SpotRankingResponse>> rankingsForAllSpots =
+      await Future.wait(rankingFutures);
+      final Map<int, int> visitCounts = {};
+      for (int i = 0; i < spots.length; i++) {
+        final spot = spots[i];
+        final rankingData = rankingsForAllSpots[i];
+        int myTypeVisitCount = 0;
+        try {
+          final myRankInfo = rankingData.firstWhere(
+                  (rank) => rank.categoryType.toLowerCase() == myTravelType?.name.toLowerCase()
+          );
+          myTypeVisitCount = myRankInfo.visitCount;
+        } catch (e) {
+          myTypeVisitCount = 0;
+        }
+        visitCounts[spot.spotId] = myTypeVisitCount;
+      }
+      state = state.copyWith(
+        monthlySpots: spots,
+        myTypeVisitCounts: visitCounts,
+        year: year,
+        month: month,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        status: UiStatus.error,
+        errorMessage: e.toString(),
+      );
     }
   }
 }

@@ -1,35 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oreum_fe/core/constants/app_colors.dart';
+import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/montly_badge.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
-import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_sizes.dart';
-import '../../../../core/constants/icon_path.dart';
-import '../../../../core/constants/montly_badge.dart';
+import '../../../../core/di/my_type_provider.dart';
+import '../viewmodels/setting_view_model.dart';
 
-class SettingScreen extends StatefulWidget {
+class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
 
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
+  ConsumerState<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen> {
+class _SettingScreenState extends ConsumerState<SettingScreen> {
   bool _isLocationEnabled = true;
   bool _isNotificationEnabled = false;
 
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Center(
+            child: Text(
+              '로그아웃',
+              style: context.textStyles.headLine4.copyWith(color: AppColors.primary),
+            ),
+          ),
+          content: SizedBox(
+            width: 300.w, // 원하는 너비로 조절
+            child: Text(
+              '정말 로그아웃 하시겠습니까?',
+              textAlign: TextAlign.center,
+              style: context.textStyles.body2.copyWith(color: AppColors.gray300),
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          actions: <Widget>[
+            TextButton(
+              child: Text('취소', style: context.textStyles.label3.copyWith(color: AppColors.gray400)),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: Text('로그아웃', style: context.textStyles.label3.copyWith(color: AppColors.primary)),
+              onPressed: () {
+                ref.read(loginNotifierProvider).logout();
+              },
+            ),
+          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          titlePadding: EdgeInsets.only(top: 24.h, bottom: 8.h),
+          contentPadding: EdgeInsets.only(bottom: 24.h, left: 24.w, right: 24.w),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> ownedBadgeNamesFromApi = ['lucky', 'travelhunter'];
-    final List<MontlyBadge> myMonthlyBadge = MontlyBadge.values
-        .where((badge) => ownedBadgeNamesFromApi.contains(badge.name))
-        .toList();
+    final settingState = ref.watch(settingViewModelProvider);
+    final List<MontlyBadge> myMonthlyBadge = settingState.earnedBadges;
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTrvelProfile = myTravelType!.image;
+    final myTravelTypeLabel = myTravelType!.type;
 
     return SingleChildScrollView(
       child: Column(
@@ -44,7 +94,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   height: 74.r,
                   child: Center(
                     child: SvgPicture.asset(
-                      IconPath.search,
+                      IconPath.search, // TODO: 실제 프로필 이미지 경로로 변경
                       width: 18.r,
                       height: 18.r,
                     ),
@@ -57,7 +107,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '모험 액티비티형',
+                      myTravelTypeLabel, // TODO: 실제 사용자 유형으로 변경
                       style: context.textStyles.headLine4
                           .copyWith(color: AppColors.gray600),
                       maxLines: 1,
@@ -75,7 +125,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 TextButton(
                   onPressed: () => context.push(RoutePath.accountSetting),
                   child: Row(
@@ -115,7 +165,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       TextButton(
                         onPressed: () => context.push(RoutePath.monthlySpot),
                         child: Text(
@@ -130,12 +180,23 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   SizedBox(
                     height: 14.h,
-                  ),
+                  ),myMonthlyBadge.isEmpty
+                      ? SizedBox(
+                    height: 62.h,
+                    child: const Center(
+                      child: Text(
+                        '아직 획득한 뱃지가 없어요.',
+                        style: TextStyle(color: AppColors.gray300),
+                      ),
+                    ),
+                  )
+                      :
                   Row(
                     children:
-                        List.generate(myMonthlyBadge.length * 2 - 1, (index) {
+                    List.generate(myMonthlyBadge.length * 2 - 1, (index) {
+
                       if (index.isOdd) {
-                        return SizedBox(width: 12.w); // 아이템 사이 간격
+                        return SizedBox(width: 12.w);
                       } else {
                         final category = myMonthlyBadge[index ~/ 2];
                         return GestureDetector(
@@ -151,7 +212,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 width: 92.w,
                                 child: Center(
                                   child: SvgPicture.asset(
-                                    IconPath.search,
+                                    category.iconPath, // TODO: 실제 뱃지 이미지 경로로 변경
                                     width: category.iconWidth,
                                     height: category.iconHeight,
                                   ),
@@ -170,7 +231,6 @@ class _SettingScreenState extends State<SettingScreen> {
           SizedBox(
             height: 18.h,
           ),
-          //
           Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
             child: Column(
@@ -183,7 +243,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   behavior: HitTestBehavior.opaque,
                   child: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 10.h),
+                    EdgeInsets.symmetric(horizontal: 4.w, vertical: 10.h),
                     child: Row(
                       children: [
                         Text(
@@ -193,7 +253,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Spacer(),
+                        const Spacer(),
                         SizedBox(
                           width: 24.r,
                           height: 24.r,
@@ -236,7 +296,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
                       child: Column(
                         children: [
                           Row(
@@ -248,15 +308,15 @@ class _SettingScreenState extends State<SettingScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Spacer(),
-                              Switch(
+                              const Spacer(),
+                              Switch.adaptive(
+                                activeColor: AppColors.primary,
                                 value: _isLocationEnabled,
                                 onChanged: (value) {
                                   setState(() {
                                     _isLocationEnabled = value;
                                   });
                                 },
-                                activeColor: Colors.blue,
                               ),
                             ],
                           ),
@@ -273,7 +333,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
                       child: Row(
                         children: [
                           Text(
@@ -283,7 +343,7 @@ class _SettingScreenState extends State<SettingScreen> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Switch(
                             value: _isNotificationEnabled,
                             onChanged: (value) {
@@ -324,7 +384,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
                       child: Column(
                         children: [
                           Row(
@@ -336,7 +396,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
                                 '0.0.0',
                                 style: context.textStyles.body2
@@ -371,7 +431,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width: 24.r,
                               height: 24.r,
@@ -421,30 +481,26 @@ class _SettingScreenState extends State<SettingScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 6.w, vertical: 10.h),
-                        child: Column(
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  AppStrings.termsOfService,
-                                  style: context.textStyles.body1
-                                      .copyWith(color: AppColors.gray400),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                            Text(
+                              AppStrings.termsOfService,
+                              style: context.textStyles.body1
+                                  .copyWith(color: AppColors.gray400),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Spacer(),
+                            SizedBox(
+                              width: 24.r,
+                              height: 24.r,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  IconPath.expand,
+                                  width: 7.w,
+                                  height: 12.h,
                                 ),
-                                Spacer(),
-                                SizedBox(
-                                  width: 24.r,
-                                  height: 24.r,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      IconPath.expand,
-                                      width: 7.w,
-                                      height: 12.h,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -472,7 +528,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            Spacer(),
+                            const Spacer(),
                             SizedBox(
                               width: 24.r,
                               height: 24.r,
@@ -502,12 +558,12 @@ class _SettingScreenState extends State<SettingScreen> {
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
                     onTap: () {
-                      print('로그아웃 터치');
+                      _showLogoutDialog(context);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
+                      EdgeInsets.symmetric(horizontal: 6.w, vertical: 10.h),
                       child: Text(
                         AppStrings.logout,
                         style: context.textStyles.body2
