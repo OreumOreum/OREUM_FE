@@ -47,21 +47,23 @@ class DateTimeUtils {
     return DateFormat('HHmm').format(dateTime);
   }
 
-  ///단기 예보 실황 포맷팅 함수
   DateTime getClosestVilageFcstDateTime(DateTime now) {
     final forecastHours = [2, 5, 8, 11, 14, 17, 20, 23];
-
     final DateTime baseTime = now.subtract(const Duration(minutes: 15));
+
+    print('baseTime: ${baseTime.toString()}, 시간: ${baseTime.hour}');
 
     DateTime? selected;
 
     for (final hour in forecastHours.reversed) {
-      final forecastTime = DateTime(baseTime.year, baseTime.month, baseTime.day, hour);
-      if (baseTime.isAtSameMomentAs(forecastTime) || baseTime.isAfter(forecastTime)) {
-        selected = forecastTime;
+      print('비교: ${baseTime.hour} >= $hour = ${baseTime.hour >= hour}');
+      if (baseTime.hour >= hour) {
+        selected = DateTime(baseTime.year, baseTime.month, baseTime.day, hour);
+        print('선택: ${hour}시');
         break;
       }
     }
+
     selected ??= DateTime(baseTime.year, baseTime.month, baseTime.day - 1, 23);
 
     return selected;
