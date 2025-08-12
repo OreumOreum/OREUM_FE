@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
@@ -16,12 +17,22 @@ import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+import 'package:oreum_fe/features/review/data/models/my_review_response.dart';
+import 'package:oreum_fe/features/review/presentation/viewmodels/my_review_view_model.dart';
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/my_review_list_tile.dart';
 
-class MyReviewScreen extends StatelessWidget {
-  MyReviewScreen({super.key});
+import '../../../../core/constants/ui_status.dart';
+
+class MyReviewScreen extends ConsumerStatefulWidget {
+  const MyReviewScreen({super.key});
+
+  @override
+  ConsumerState<MyReviewScreen> createState() => _MyReviewScreenState();
+}
+
+class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
 
   final List<Map<String, String>> mockReview2 = [
     {
@@ -55,7 +66,39 @@ class MyReviewScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref
+          .read(myReviewViewModelProvider.notifier)
+          .initializeMyReview();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(myReviewViewModelProvider);
+
+    if (state.status == UiStatus.loading) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: CircularProgressIndicator(), //로티
+        ),
+      );
+    }
+
+    if (state.status == UiStatus.error) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Center(
+          child: Text('error: ${state.errorMessage}'),
+        ),
+      );
+    }
+
+    List<MyReviewResponse> myReviews = state.myReviews!;
+
     return Scaffold(
       appBar: CustomAppBar.back(),
       body: SingleChildScrollView(
@@ -83,13 +126,13 @@ class MyReviewScreen extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               primary: false,
-              itemCount: 4,
+              itemCount: myReviews.length,
               itemBuilder: (BuildContext context, int index) {
-                String type = mockReview2[index]['type']!;
-                String date = mockReview2[index]['date']!;
+                String type = mockReview2[index]['type']!; //이부분 수정해야함
+                String date = myReviews[index].updatedAt.toString();
                 String content =
-                mockReview2[index]['content']!;
-                double rating = double.parse(mockReview2[index]['rating']!);
+                myReviews[index].content.toString();
+                double rating = myReviews[index].rate;
                 return MyReviewListTile(
                     type: type,
                     date: date,

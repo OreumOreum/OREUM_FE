@@ -12,11 +12,13 @@ abstract class RoutePath {
   static String plannerSearch = '/plannerSearch';
   static const String recommend = '/recommend';
 
-  static const String createReview = '/createReview';
-  static const String reviewDetail = '/reviewDetail';
+  static const String createPlaceReview = '/createReview/place';
+  static const String createCourseReview = '/createReview/course';
+  static const String reviewPlaceDetail = '/reviewPlaceDetail';
+  static const String reviewCourseDetail = '/reviewCourseDetail';
   static const String myReview = '/myReview';
-  static const String travelCourse = '/travelCourse';
-  static const String travelSpot = '/travelSpot';
+  static const String courseDetail = '/courseDetail';
+  static const String placeDetail = '/placeDetail';
 
   static const String search = '/search';
   static const String setting = '/setting';
@@ -30,5 +32,9 @@ abstract class RoutePath {
   static String folderDetail(String id) => '/$folderDetailBase/$id';
   static const String folderDetailBase = 'folderDetail';
   static const String typeTestSkip = '/typeTestSkip';
+
+  static const String deleteReviewBottomSheet = '/deleteReviewBottomSheet';
+  static const String placeDetailAddBottomSheet = '/placeDetailAddBottomSheet';
+
 
 }

@@ -41,6 +41,23 @@ final placeRepositoryImplProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PlaceRepositoryImplRef = AutoDisposeProviderRef<PlaceRepositoryImpl>;
+String _$getPlaceUseCaseHash() => r'60f369051d45e832bc1046a11f7f8729fa568bdb';
+
+/// See also [getPlaceUseCase].
+@ProviderFor(getPlaceUseCase)
+final getPlaceUseCaseProvider = AutoDisposeProvider<GetPlaceUseCase>.internal(
+  getPlaceUseCase,
+  name: r'getPlaceUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getPlaceUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef GetPlaceUseCaseRef = AutoDisposeProviderRef<GetPlaceUseCase>;
 String _$searchPlacesUseCaseHash() =>
     r'8093f896b343d10076ac2f47f510f40bd31e83af';
 

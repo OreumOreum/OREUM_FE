@@ -25,6 +25,7 @@ mixin _$HomeState {
   int? get year => throw _privateConstructorUsedError;
   int? get month => throw _privateConstructorUsedError;
   WeatherInfo? get weatherInfo => throw _privateConstructorUsedError;
+  List<CourseResponse> get courses => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +47,8 @@ abstract class $HomeStateCopyWith<$Res> {
       Map<int, int> myTypeVisitCounts,
       int? year,
       int? month,
-      WeatherInfo? weatherInfo});
+      WeatherInfo? weatherInfo,
+      List<CourseResponse> courses});
 
   $WeatherInfoCopyWith<$Res>? get weatherInfo;
 }
@@ -74,6 +76,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? year = freezed,
     Object? month = freezed,
     Object? weatherInfo = freezed,
+    Object? courses = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -108,6 +111,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.weatherInfo
           : weatherInfo // ignore: cast_nullable_to_non_nullable
               as WeatherInfo?,
+      courses: null == courses
+          ? _value.courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseResponse>,
     ) as $Val);
   }
 
@@ -142,7 +149,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       Map<int, int> myTypeVisitCounts,
       int? year,
       int? month,
-      WeatherInfo? weatherInfo});
+      WeatherInfo? weatherInfo,
+      List<CourseResponse> courses});
 
   @override
   $WeatherInfoCopyWith<$Res>? get weatherInfo;
@@ -169,6 +177,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? year = freezed,
     Object? month = freezed,
     Object? weatherInfo = freezed,
+    Object? courses = null,
   }) {
     return _then(_$HomeStateImpl(
       status: null == status
@@ -203,6 +212,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value.weatherInfo
           : weatherInfo // ignore: cast_nullable_to_non_nullable
               as WeatherInfo?,
+      courses: null == courses
+          ? _value._courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseResponse>,
     ));
   }
 }
@@ -218,9 +231,11 @@ class _$HomeStateImpl implements _HomeState {
       final Map<int, int> myTypeVisitCounts = const {},
       this.year,
       this.month,
-      this.weatherInfo})
+      this.weatherInfo,
+      final List<CourseResponse> courses = const []})
       : _monthlySpots = monthlySpots,
-        _myTypeVisitCounts = myTypeVisitCounts;
+        _myTypeVisitCounts = myTypeVisitCounts,
+        _courses = courses;
 
   @override
   @JsonKey()
@@ -256,10 +271,18 @@ class _$HomeStateImpl implements _HomeState {
   final int? month;
   @override
   final WeatherInfo? weatherInfo;
+  final List<CourseResponse> _courses;
+  @override
+  @JsonKey()
+  List<CourseResponse> get courses {
+    if (_courses is EqualUnmodifiableListView) return _courses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_courses);
+  }
 
   @override
   String toString() {
-    return 'HomeState(status: $status, weatherStatus: $weatherStatus, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo)';
+    return 'HomeState(status: $status, weatherStatus: $weatherStatus, errorMessage: $errorMessage, monthlySpots: $monthlySpots, myTypeVisitCounts: $myTypeVisitCounts, year: $year, month: $month, weatherInfo: $weatherInfo, courses: $courses)';
   }
 
   @override
@@ -279,7 +302,8 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.year, year) || other.year == year) &&
             (identical(other.month, month) || other.month == month) &&
             (identical(other.weatherInfo, weatherInfo) ||
-                other.weatherInfo == weatherInfo));
+                other.weatherInfo == weatherInfo) &&
+            const DeepCollectionEquality().equals(other._courses, _courses));
   }
 
   @override
@@ -292,7 +316,8 @@ class _$HomeStateImpl implements _HomeState {
       const DeepCollectionEquality().hash(_myTypeVisitCounts),
       year,
       month,
-      weatherInfo);
+      weatherInfo,
+      const DeepCollectionEquality().hash(_courses));
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -312,7 +337,8 @@ abstract class _HomeState implements HomeState {
       final Map<int, int> myTypeVisitCounts,
       final int? year,
       final int? month,
-      final WeatherInfo? weatherInfo}) = _$HomeStateImpl;
+      final WeatherInfo? weatherInfo,
+      final List<CourseResponse> courses}) = _$HomeStateImpl;
 
   @override
   UiStatus get status;
@@ -330,6 +356,8 @@ abstract class _HomeState implements HomeState {
   int? get month;
   @override
   WeatherInfo? get weatherInfo;
+  @override
+  List<CourseResponse> get courses;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

@@ -106,4 +106,8 @@ abstract class AppStrings {
   static const String editPlanner = '일정 수정';
   static const String editPlannerButtonText = '일정 수정하기';
 
+  static const String deleteReview = '리뷰 삭제';
+  static const String isSaved = '저장됨';
+  static const String folder = '폴더';
+  static const String allSave = '모든 저장';
 }

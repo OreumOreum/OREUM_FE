@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -16,13 +21,67 @@ import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+import 'package:oreum_fe/features/review/data/models/review_response.dart';
+import 'package:oreum_fe/features/review/presentation/viewmodels/review_detail_view_model.dart';
+import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/review_list_tile.dart';
 
-class ReviewDetailScreen extends StatelessWidget {
-  ReviewDetailScreen({super.key});
+class ReviewDetailScreen extends ConsumerStatefulWidget {
+  final String id;
+  final ReviewType? type;
+  final String name;
+  final String address;
+  final double rate;
+  final String? originImage;
 
+  ReviewDetailScreen(
+      {super.key,
+      required this.id,
+      this.type,
+      required this.name,
+      required this.address,
+      required this.rate,
+      required this.originImage});
+
+  @override
+  ConsumerState<ReviewDetailScreen> createState() => _ReviewDetailScreenState();
+
+  factory ReviewDetailScreen.place({
+    required String id,
+    required String name,
+    required String address,
+    required double rate,
+    required String? originImage,
+  }) =>
+      ReviewDetailScreen(
+        id: id,
+        type: ReviewType.place,
+        name: name,
+        address: address,
+        rate: rate,
+        originImage: originImage,
+      );
+
+  factory ReviewDetailScreen.course({
+    required String id,
+    required String name,
+    required String address,
+    required double rate,
+    required String? originImage,
+  }) =>
+      ReviewDetailScreen(
+        id: id,
+        type: ReviewType.course,
+        name: name,
+        address: address,
+        rate: rate,
+        originImage: originImage,
+      );
+}
+
+class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
   final List<Map<String, String>> mockPlace2 = [
     {
       'title': '성산일출봉',
@@ -74,7 +133,39 @@ class ReviewDetailScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref
+          .read(reviewDetailViewModelProvider.notifier)
+          .getPlaceReviews(widget.id, '0', '20');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final state = ref.watch(reviewDetailViewModelProvider);
+
+    if (state.status == UiStatus.loading) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: CircularProgressIndicator(), //로티
+        ),
+      );
+    }
+
+    if (state.status == UiStatus.error) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Center(
+          child: Text('error: ${state.errorMessage}'),
+        ),
+      );
+    }
+
+    List<ReviewResponse> reviews = state.reviews;
+
     return Scaffold(
       appBar: CustomAppBar.back(),
       body: SingleChildScrollView(
@@ -88,22 +179,35 @@ class ReviewDetailScreen extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        mockPlace2[1]['thumbnailImage']!, // 첫 번째 이미지
-                        height: 84.r,
-                        width: 84.r,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.originImage == null
+                          ? Container(
+                              color: AppColors.gray200,
+                              width: 84.r,
+                              height: 84.r,
+                            )
+                          : Image.network(
+                              widget.originImage!, // 첫 번째 이미지
+                              height: 84.r,
+                              width: 84.r,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  color: AppColors.gray200,
+                                  width: 84.r,
+                                  height: 84.r,
+                                );
+                              },
+                            ),
                     ),
                     SizedBox(height: 14.h),
                     Text(
-                      mockPlace2[1]['title']!,
+                      widget.name,
                       style: context.textStyles.headLine4
                           .copyWith(color: AppColors.gray500),
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      mockPlace2[1]['address']!,
+                      widget.address,
                       style: context.textStyles.body1
                           .copyWith(color: AppColors.gray400),
                     ),
@@ -111,7 +215,7 @@ class ReviewDetailScreen extends StatelessWidget {
                     Row(
                       children: [
                         RatingBar.builder(
-                          initialRating: double.parse(mockPlace2[1]['rating']!),
+                          initialRating: widget.rate,
                           ignoreGestures: true,
                           direction: Axis.horizontal,
                           allowHalfRating: false,
@@ -126,7 +230,7 @@ class ReviewDetailScreen extends StatelessWidget {
                         ),
                         SizedBox(width: 14.w),
                         Text(
-                          mockPlace2[1]['rating']!,
+                          widget.rate.toStringAsFixed(1),
                           style: context.textStyles.headLine1
                               .copyWith(color: AppColors.gray500),
                         ),
@@ -134,7 +238,7 @@ class ReviewDetailScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      AppStrings.ratingNumber(int.parse(mockPlace2[1]['reviewNumber']!)),
+                      AppStrings.ratingNumber(reviews.length),
                       style: context.textStyles.body1
                           .copyWith(color: AppColors.gray400),
                     ),
@@ -155,10 +259,19 @@ class ReviewDetailScreen extends StatelessWidget {
                     style: context.textStyles.label3
                         .copyWith(color: AppColors.gray500),
                   ),
-                  Text(
-                    AppStrings.doReview,
-                    style: context.textStyles.label4
-                        .copyWith(color: AppColors.primary),
+                  TextButton(
+                    onPressed: () {
+                      if (widget.type == ReviewType.place) {
+                        context.push('${RoutePath.createPlaceReview}/${widget.id}');
+                      } else {
+
+                      }
+                    },
+                    child: Text(
+                      AppStrings.doReview,
+                      style: context.textStyles.label4
+                          .copyWith(color: AppColors.primary),
+                    ),
                   ),
                 ],
               ),
@@ -169,18 +282,14 @@ class ReviewDetailScreen extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               primary: false,
-              itemCount: 4,
+              itemCount: reviews.length,
               itemBuilder: (BuildContext context, int index) {
-                String type = mockReview[index]['type']!;
-                String date = mockReview[index]['date']!;
-                String content =
-                mockReview[index]['content']!;
-                double rating = double.parse(mockReview[index]['rating']!);
+                String type = reviews[index].type ?? '타입 없음';
+                String date = reviews[index].createdAt.toString().split(' ')[0];
+                String content = reviews[index].content;
+                double rating = reviews[index].rate;
                 return ReviewListTile(
-                    type: type,
-                date: date,
-                content: content,
-                rating: rating);
+                    type: type, date: date, content: content, rating: rating);
               },
             ),
           ],

@@ -11,16 +11,15 @@ class PlaceCard extends StatelessWidget {
   final String title;
   final String type;
   final String category;
-  final String thumbnailImage;
+  final String? thumbnailImage;
   final VoidCallback onPressed;
 
-  const PlaceCard(
-      {super.key,
-      required this.title,
-      required this.type,
-      required this.category,
-      required this.thumbnailImage,
-      required this.onPressed});
+  const PlaceCard({super.key,
+    required this.title,
+    required this.type,
+    required this.category,
+    required this.thumbnailImage,
+    required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +43,11 @@ class PlaceCard extends StatelessWidget {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-            child: Image.network(
-              thumbnailImage,
+            child: thumbnailImage == null
+                ? Container(
+                color: AppColors.gray200, height: 145.h, width: 250.w,)
+                : Image.network(
+              thumbnailImage!,
               height: 145.h,
               width: 250.w,
               fit: BoxFit.cover,

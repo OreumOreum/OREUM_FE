@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/dio_options.dart';
+import 'package:oreum_fe/core/constants/tour_dio_base_options.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/token_providers.dart';
@@ -18,6 +19,12 @@ Dio dio (DioRef ref) {
   dio.interceptors.clear();
   dio.interceptors.add(DioInterceptor(storageRepo, loginNotifier, tokenSaver));
 
+  return dio;
+}
+
+@Riverpod(keepAlive: true)
+Dio tourDio (TourDioRef ref) {
+  final dio = Dio(tourDioBaseOptions);
   return dio;
 }
 

@@ -22,6 +22,22 @@ final dioProvider = Provider<Dio>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DioRef = ProviderRef<Dio>;
+String _$tourDioHash() => r'703d7affaee39106c1a64a4b6d2b267fb7f36e2e';
+
+/// See also [tourDio].
+@ProviderFor(tourDio)
+final tourDioProvider = Provider<Dio>.internal(
+  tourDio,
+  name: r'tourDioProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$tourDioHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef TourDioRef = ProviderRef<Dio>;
 String _$weatherDioHash() => r'85863b1dec8c58d45775b4f59f560489d5f42a4d';
 
 /// See also [weatherDio].

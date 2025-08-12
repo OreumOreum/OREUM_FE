@@ -16,8 +16,8 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_result_scree
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_skip_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
-import 'package:oreum_fe/features/course/presentation/views/travel_course_screen.dart';
 import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
+import 'package:oreum_fe/features/course/presentation/views/course_detail_screen.dart';
 
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
@@ -39,7 +39,7 @@ import 'package:oreum_fe/features/review/presentation/views/create_review_screen
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/course/presentation/views/travel_spot_screen.dart';
+import '../../features/planner/presentation/views/place_detail_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
@@ -204,18 +204,75 @@ GoRouter appRouter(AppRouterRef ref) {
         },
       ),
       GoRoute(
-        path: RoutePath.createReview,
-        builder: (context, state) => CreateReviewScreen(),
+          path: '${RoutePath.createPlaceReview}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            return CreateReviewScreen.place(
+              id: id,
+            );
+          },
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+          ),
+      GoRoute(
+          path: '${RoutePath.createCourseReview}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            return CreateReviewScreen.course(
+              id: id,
+            );
+          },
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
+      GoRoute(
+          path: '${RoutePath.reviewPlaceDetail}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+                state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String address = extraData['address'];
+            double rate = extraData['rate'];
+            String? originImage = extraData['originImage'];
+            return ReviewDetailScreen.place(
+              id: id,
+              name: name,
+              address: address,
+              rate: rate,
+              originImage: originImage,
+            );
+          },
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
+      GoRoute(
+          path: '${RoutePath.reviewCourseDetail}/:id',
+          builder: (context, state) {
+            String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+                state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String address = extraData['address'];
+            double rate = extraData['rate'];
+            String? originImage = extraData['originImage'];
+            return ReviewDetailScreen.course(
+              id: id,
+              name: name,
+              address: address,
+              rate: rate,
+              originImage: originImage,
+            );
+          },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
-        path: RoutePath.reviewDetail,
-        builder: (context, state) => ReviewDetailScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
-      ),
-      GoRoute(
-        path: RoutePath.travelCourse,
-        builder: (context, state) => TravelCourseScreen(),
+        path: '${RoutePath.courseDetail}/:id',
+        builder: (context, state) {
+          String courseId = state.pathParameters['id']!;
+          String contentId = state.pathParameters['id']!;
+          String contentTypeId = state.pathParameters['id']!;
+          return CourseDetailScreen(
+            courseId: courseId,
+            contentId: contentId,
+            contentTypeId: contentTypeId,
+          );
+        },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
@@ -272,8 +329,21 @@ GoRouter appRouter(AppRouterRef ref) {
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
-        path: RoutePath.travelSpot,
-        builder: (context, state) => TravelSpotScreen(),
+        path: '${RoutePath.placeDetail}/:id',
+        builder: (context, state) {
+          String placeId = state.pathParameters['id']!;
+
+
+          String contentId = state.pathParameters['id']!;
+          String contentTypeId = state.pathParameters['id']!;
+
+
+          return PlaceDetailScreen(
+            placeId: placeId,
+            contentId: contentId,
+            contentTypeId: contentTypeId,
+          );
+        },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(

@@ -50,7 +50,7 @@ class ReviewListTile extends StatelessWidget {
                     onRatingUpdate: (rating) {},
                   ),
                   SizedBox(width: 6.w),
-                  Text('4',
+                  Text(rating.toInt().toString(),
                   style: context.textStyles.label3
         .copyWith(color: AppColors.primary),)
                 ],

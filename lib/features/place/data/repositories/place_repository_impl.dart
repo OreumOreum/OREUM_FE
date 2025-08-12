@@ -1,6 +1,7 @@
-import 'package:oreum_fe/features/place/data/models/search_place_response.dart';
-import 'package:oreum_fe/features/place/data/services/place_service.dart';
-import 'package:oreum_fe/features/place/domain/repositories/place_repository.dart';
+import '../../domain/repositories/place_repository.dart';
+import '../models/place_response.dart';
+import '../models/search_place_response.dart';
+import '../services/place_service.dart';
 
 class PlaceRepositoryImpl implements PlaceRepository {
   final PlaceService _placeService;
@@ -8,6 +9,10 @@ class PlaceRepositoryImpl implements PlaceRepository {
   PlaceRepositoryImpl(this._placeService);
 
   @override
+  Future<PlaceResponse> getPlace(String placeId) {
+    return _placeService.getPlace(placeId);
+  }
+
   Future<SearchPlaceResponse> searchPlaces(
       String keyword, int page, int size,
       {int? sigunguCode}) {

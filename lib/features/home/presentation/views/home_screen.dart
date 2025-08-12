@@ -22,15 +22,19 @@ import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/data/services/weather_service.dart';
+import 'package:oreum_fe/features/course/data/models/course_response.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info_extension.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
+
+import '../viewmodels/states/home_state.dart';
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
@@ -278,6 +282,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     final homeState = ref.watch(homeViewModelProvider);
     WeatherInfo? weatherInfo = state.weatherInfo;
+    List<CourseResponse> courses = state.courses;
 
     return SingleChildScrollView(
       child: Column(
@@ -540,11 +545,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 14.w),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(mockCourse.length, (index) {
-                      String title = mockCourse[index]['title']!;
-                      String subTitle = mockCourse[index]['subTitle']!;
-                      String thumbnailImage =
-                          mockCourse[index]['thumbnailImage']!;
+                    children: List.generate(courses.length, (index) {
+                      String title = courses[index].title;
+                      String subTitle = courses[index].title;
+                      String? thumbnailImage = courses[index].originImage;
 
                       return Row(
                         children: [
@@ -554,7 +558,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             thumbnailImage: thumbnailImage,
                             onPressed: () {},
                           ),
-                          if (index != mockCourse.length - 1)
+                          if (index != courses.length - 1)
                             SizedBox(width: 9.w), // separator 역할
                         ],
                       );

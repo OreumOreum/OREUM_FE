@@ -59,6 +59,7 @@ abstract class IconPath {
   static const String play = 'assets/icons/play.svg';
   static const String pause = 'assets/icons/pause.svg';
   static const String arrowDown = 'assets/icons/arrow_down.svg';
+  static const String arrowRight = 'assets/icons/arrow_right.svg';
   static const String monthSpot = 'assets/icons/month_spot.svg';
   static const String nature = 'assets/icons/nature.svg';
 
@@ -76,9 +77,14 @@ abstract class IconPath {
 
   static const String trashCan = 'assets/icons/trash_can.svg';
   static const String pencil = 'assets/icons/pencil.svg';
-  static const String arrowRight = 'assets/icons/arrow_right.svg';
 
   static const String divider = 'assets/icons/divider.svg';
 
   static String weatherType(String weather) => 'assets/icons/weather_$weather.svg';
+
+  static const String saveCheck = 'assets/icons/save_check.svg';
+  static const String savePlus = 'assets/icons/save_plus.svg';
+
+  static String flags (String flag) => 'assets/icons/$flag.svg';
+
 }

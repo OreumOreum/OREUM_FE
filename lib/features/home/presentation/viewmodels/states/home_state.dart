@@ -3,6 +3,7 @@ import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 
 import '../../../../spot/data/models/spot_month_response.dart';
+import '../../../../course/data/models/course_response.dart';
 
 part 'home_state.freezed.dart';
 
@@ -17,5 +18,6 @@ class HomeState with _$HomeState {
     int? year,
     int? month,
     WeatherInfo? weatherInfo,
+    @Default([]) List<CourseResponse> courses,
 }) = _HomeState;
 }

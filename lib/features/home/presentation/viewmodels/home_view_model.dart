@@ -1,3 +1,6 @@
+import 'package:oreum_fe/features/course/data/models/course_response.dart';
+import 'package:oreum_fe/features/course/di/course_providers.dart';
+import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_case.dart';
 import 'dart:async';
 
 import 'package:oreum_fe/core/constants/ui_status.dart';
@@ -16,7 +19,6 @@ import '../../../../core/di/my_type_provider.dart';
 
 part 'home_view_model.g.dart';
 
-///날씨 상태 Ui따로 고려
 @riverpod
 class HomeViewModel extends _$HomeViewModel {
   Timer? _weatherTimer;
@@ -34,7 +36,9 @@ class HomeViewModel extends _$HomeViewModel {
     try {
       await refreshWeatherBackground();
       await fetchMonthlySpots();
-      state = state.copyWith(status: UiStatus.success);
+      final GetCourseListUseCase getCourseListUseCase = ref.read(getCourseListUseCaseProvider);
+      List<CourseResponse> courses = await getCourseListUseCase.call();
+      state = state.copyWith(status: UiStatus.success,courses: courses);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
