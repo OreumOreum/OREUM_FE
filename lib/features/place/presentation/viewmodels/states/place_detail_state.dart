@@ -11,6 +11,7 @@ part 'place_detail_state.freezed.dart';
 class PlaceDetailState with _$PlaceDetailState{
   const factory PlaceDetailState({
     @Default(UiStatus.idle) UiStatus status,
+    @Default(UiStatus.idle) UiStatus buttonStatus,
     @Default('') String errorMessage,
     PlaceResponse? place,
     @Default([]) List<ReviewResponse> reviews,

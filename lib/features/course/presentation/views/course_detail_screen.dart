@@ -189,7 +189,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ImageSlider(images:course.originImage!),
+                ImageSlider(image:course.originImage!),
                 Padding(
                   padding:
                   EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),

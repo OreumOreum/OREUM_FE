@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PlaceDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
+  UiStatus get buttonStatus => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   PlaceResponse? get place => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ abstract class $PlaceDetailStateCopyWith<$Res> {
   @useResult
   $Res call(
       {UiStatus status,
+      UiStatus buttonStatus,
       String errorMessage,
       PlaceResponse? place,
       List<ReviewResponse> reviews,
@@ -62,6 +64,7 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
   @override
   $Res call({
     Object? status = null,
+    Object? buttonStatus = null,
     Object? errorMessage = null,
     Object? place = freezed,
     Object? reviews = null,
@@ -71,6 +74,10 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -130,6 +137,7 @@ abstract class _$$PlaceDetailStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {UiStatus status,
+      UiStatus buttonStatus,
       String errorMessage,
       PlaceResponse? place,
       List<ReviewResponse> reviews,
@@ -155,6 +163,7 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
+    Object? buttonStatus = null,
     Object? errorMessage = null,
     Object? place = freezed,
     Object? reviews = null,
@@ -164,6 +173,10 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -190,6 +203,7 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
 class _$PlaceDetailStateImpl implements _PlaceDetailState {
   const _$PlaceDetailStateImpl(
       {this.status = UiStatus.idle,
+      this.buttonStatus = UiStatus.idle,
       this.errorMessage = '',
       this.place,
       final List<ReviewResponse> reviews = const [],
@@ -199,6 +213,9 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
   @override
   @JsonKey()
   final UiStatus status;
+  @override
+  @JsonKey()
+  final UiStatus buttonStatus;
   @override
   @JsonKey()
   final String errorMessage;
@@ -218,7 +235,7 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
 
   @override
   String toString() {
-    return 'PlaceDetailState(status: $status, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour)';
+    return 'PlaceDetailState(status: $status, buttonStatus: $buttonStatus, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour)';
   }
 
   @override
@@ -227,6 +244,8 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
         (other.runtimeType == runtimeType &&
             other is _$PlaceDetailStateImpl &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.buttonStatus, buttonStatus) ||
+                other.buttonStatus == buttonStatus) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.place, place) || other.place == place) &&
@@ -235,8 +254,8 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, errorMessage, place,
-      const DeepCollectionEquality().hash(_reviews), tour);
+  int get hashCode => Object.hash(runtimeType, status, buttonStatus,
+      errorMessage, place, const DeepCollectionEquality().hash(_reviews), tour);
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -251,6 +270,7 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
 abstract class _PlaceDetailState implements PlaceDetailState {
   const factory _PlaceDetailState(
       {final UiStatus status,
+      final UiStatus buttonStatus,
       final String errorMessage,
       final PlaceResponse? place,
       final List<ReviewResponse> reviews,
@@ -258,6 +278,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
 
   @override
   UiStatus get status;
+  @override
+  UiStatus get buttonStatus;
   @override
   String get errorMessage;
   @override

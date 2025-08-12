@@ -85,6 +85,6 @@ abstract class IconPath {
   static const String saveCheck = 'assets/icons/save_check.svg';
   static const String savePlus = 'assets/icons/save_plus.svg';
 
-  static String flags (String flag) => 'assets/icons/$flag.svg';
+  static String flags (String flag) => 'assets/icons/flag_$flag.svg';
 
 }

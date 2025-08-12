@@ -39,7 +39,7 @@ import 'package:oreum_fe/features/review/presentation/views/create_review_screen
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/planner/presentation/views/place_detail_screen.dart';
+import '../../features/place/presentation/views/place_detail_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
@@ -70,9 +70,9 @@ GoRouter appRouter(AppRouterRef ref) {
               state.matchedLocation == RoutePath.auth) {
             logger.i(hasUserType);
             if (hasUserType == false) {
-              return RoutePath.home;
+              return '${RoutePath.placeDetail}/1';
             } else {
-              return RoutePath.typeTestStart;
+              return '${RoutePath.placeDetail}/1';
             }
           }
           return null;

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/features/folder/data/repositories/folder_repository_impl.dart';
 import 'package:oreum_fe/features/folder/data/services/folder_service.dart';
+import 'package:oreum_fe/features/folder/domain/usecases/add_default_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/create_my_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_folder_place_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_my_folder_use_case.dart';
@@ -58,4 +59,10 @@ DeleteMyFolderUseCase deleteMyFolderUseCase (DeleteMyFolderUseCaseRef ref) {
 DeleteFolderPlaceUseCase deleteFolderPlaceUseCase (DeleteFolderPlaceUseCaseRef ref) {
   final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
   return DeleteFolderPlaceUseCase(folderRepositoryImpl);
+}
+
+@riverpod
+AddDefaultFolderUseCase addDefaultFolderUseCase (AddDefaultFolderUseCaseRef ref) {
+  final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
+  return AddDefaultFolderUseCase(folderRepositoryImpl);
 }

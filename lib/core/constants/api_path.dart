@@ -21,6 +21,7 @@ abstract class ApiPath {
 
   static const String myInfo = '/v1/member/me';
   static const String folder = '/v1/folder';
+  static const String defaultFolder = '/v1/folder/default';
   static String folderDetail(String folderId) => '/v1/folder/$folderId';
   static String folderPlaceDelete(String folderId) => '/v1/folder/place/$folderId';
 

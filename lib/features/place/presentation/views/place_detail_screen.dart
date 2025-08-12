@@ -15,11 +15,13 @@ import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
+import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bottom_sheet.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../home/presentation/widgets/home_title_text.dart';
@@ -176,8 +178,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     Future.microtask(() {
       ref
           .read(placeDetailViewModelProvider.notifier)
-          .initializePlaceDetail('1','2850913', '39'); //일단 하드하게
-
+          .initializePlaceDetail('1', '2850913', '39'); //일단 하드하게
     });
   }
 
@@ -212,7 +213,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                ImageSlider(images: place.originImage),
+                ImageSlider(image: place.originImage),
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
@@ -247,7 +248,32 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
-                              onPressed: () {},
+                              onPressed: () async {
+                                if (place.isSaved) {
+                                } else {
+                                  await ref
+                                      .read(
+                                          placeDetailViewModelProvider.notifier)
+                                      .addDefaultFolder(1);
+                                  if (mounted &&
+                                      state.buttonStatus == UiStatus.success) {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return PlaceDetailAddBottomSheet(
+                                          title: place.title,
+                                          originImage: place.originImage,
+                                          id: 1,
+                                        );
+                                      },
+                                    );
+                                  } else if (mounted &&
+                                      state.buttonStatus == UiStatus.error) {
+                                    CustomToast.showToast(
+                                        context, '저장을 실패하였습니다.', 56.h);
+                                  }
+                                }
+                              },
                               icon: SvgPicture.asset(
                                 IconPath.bookmarkOutline,
                                 width: 16.r,
@@ -275,8 +301,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                         ],
                       ),
                       SizedBox(height: 63.h),
-                      DetailContainer(tourData: state.tour,
-                          address: state.place?.address),
+                      DetailContainer(
+                          tourData: state.tour, address: state.place?.address),
                       SizedBox(height: 56.h),
 
                       ///여행지 소개 부분
@@ -285,7 +311,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               .copyWith(color: AppColors.gray500)),
                       SizedBox(height: 8.h),
                       Text(
-                        place.overview != null ? place.overview! : '', //여기 바로 불러옴
+                        place.overview != null ? place.overview! : '',
+                        //여기 바로 불러옴
                         style: context.textStyles.body2
                             .copyWith(color: AppColors.gray400),
                         maxLines: isExpanded ? null : 3,
@@ -306,7 +333,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                   isExpanded = !isExpanded;
                                 });
                               },
-                              child: Text(isExpanded ? '접기' : AppStrings.showMore,
+                              child: Text(
+                                  isExpanded ? '접기' : AppStrings.showMore,
                                   style: context.textStyles.body1
                                       .copyWith(color: AppColors.gray200))),
                         ],
@@ -348,7 +376,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     itemCount: reviews.length,
                     itemBuilder: (BuildContext context, int index) {
                       String type = '${reviews[index].type}';
-                      String date = reviews[index].createdAt.toString().split(' ')[0];
+                      String date =
+                          reviews[index].createdAt.toString().split(' ')[0];
                       String content = reviews[index].content;
                       double rating = reviews[index].rate;
                       return ReviewListTile(
@@ -416,7 +445,9 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 AppSizes.radiusXS,
                               ),
                               child: Image.network(thumbnailImage,
-                                  height: 120.h, width: 163.w, fit: BoxFit.cover),
+                                  height: 120.h,
+                                  width: 163.w,
+                                  fit: BoxFit.cover),
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {

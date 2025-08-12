@@ -50,4 +50,8 @@ class FolderService {
     await _dio.delete(ApiPath.folderPlaceDelete(folderId),
         data: FolderPlaceRequest(placeId: placeId).toJson());
   }
+
+  Future<void> addDefaultFolder(int placeId) async {
+    await _dio.post(ApiPath.defaultFolder, data: FolderPlaceRequest(placeId: placeId).toJson());
+  }
 }
