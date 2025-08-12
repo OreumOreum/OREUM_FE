@@ -36,11 +36,35 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
   late final Throttler _throttler;
   final ScrollController _scrollController = ScrollController();
 
+  void _scrollListener() {
+    if (_scrollController.position.isScrollingNotifier.value ) {
+      FocusScope.of(context).unfocus();
+    }
+
+    _debouncer.run(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 100) {
+        final searchState = ref.read(plannerSearchViewModelProvider);
+
+        if (searchState.isLastPage ||
+            searchState.status == UiStatus.loading ||
+            searchState.paginationStatus == UiStatus.loading) {
+          return;
+        }
+
+        final keyword = searchState.keyword;
+        if (keyword.isNotEmpty) {
+          ref.read(plannerSearchViewModelProvider.notifier).loadNextPage();
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _debouncer = Debouncer(delay: Duration(milliseconds: 500));
+    _debouncer = Debouncer(delay: Duration(milliseconds: 300));
     _textEditingController = TextEditingController();
 
     String previousKeyword = '';
@@ -58,28 +82,29 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
       });
     });
 
-    _throttler = Throttler(duration: Duration(milliseconds: 300));
-    _scrollController.addListener(() {
-      FocusScope.of(context).unfocus();
-
-      _throttler.run(() {
-        if (_scrollController.position.pixels >=
-            _scrollController.position.maxScrollExtent - 100) {
-          final searchState = ref.read(plannerSearchViewModelProvider);
-
-          if (searchState.isLastPage ||
-              searchState.status == UiStatus.loading ||
-              searchState.paginationStatus == UiStatus.loading) {
-            return;
-          }
-
-          final keyword = searchState.keyword;
-          if (keyword.isNotEmpty) {
-            ref.read(plannerSearchViewModelProvider.notifier).loadNextPage();
-          }
-        }
-      });
-    });
+    // _throttler = Throttler(duration: Duration(milliseconds: 300));
+    // _scrollController.addListener(() {
+    //   FocusScope.of(context).unfocus();
+    //
+    //   _throttler.run(() {
+    //     if (_scrollController.position.pixels >=
+    //         _scrollController.position.maxScrollExtent - 100) {
+    //       final searchState = ref.read(plannerSearchViewModelProvider);
+    //
+    //       if (searchState.isLastPage ||
+    //           searchState.status == UiStatus.loading ||
+    //           searchState.paginationStatus == UiStatus.loading) {
+    //         return;
+    //       }
+    //
+    //       final keyword = searchState.keyword;
+    //       if (keyword.isNotEmpty) {
+    //         ref.read(plannerSearchViewModelProvider.notifier).loadNextPage();
+    //       }
+    //     }
+    //   });
+    // });
+    _scrollController.addListener(_scrollListener);
 
     Future.microtask(() {
       ref.read(folderListViewModelProvider.notifier).getMyFolders();
@@ -90,6 +115,7 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
   void dispose() {
     _debouncer.dispose();
     _textEditingController.dispose();
+    _scrollController.removeListener(_scrollListener);
     super.dispose();
   }
 
@@ -102,15 +128,21 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
     final isSearching = searchState.isSearching;
     final searchPlaceItems = searchState.searchPlace?.content ?? [];
 
-    return Center(
-      child: Scaffold(
-        appBar: CustomAppBar.backWithSearchBar(
-          controller: _textEditingController,
-        ),
-        body: SafeArea(
-          child: isSearching
-              ? _buildSearchResultList(searchState, searchPlaceItems)
-              : _buildTabView(folders),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Center(
+        child: Scaffold(
+          appBar: CustomAppBar.backWithSearchBar(
+            controller: _textEditingController,
+          ),
+          body: SafeArea(
+            child: isSearching
+                ? _buildSearchResultList(searchState, searchPlaceItems)
+                : _buildTabView(folders),
+          ),
         ),
       ),
     );
@@ -189,9 +221,6 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
   }
 
   Widget _buildTabView(List folders) {
-    if (folders.isEmpty) {
-      return Center(child: CircularProgressIndicator());
-    }
 
     return DefaultTabController(
       length: folders.length,
