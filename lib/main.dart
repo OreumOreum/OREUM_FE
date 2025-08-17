@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,8 +22,19 @@ import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/di/login_notifier.dart';
 import 'core/routes/app_router.dart';
+import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    initializeMapRenderer();
+  }
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await dotenv.load(fileName: '.env');
   String kakaoAppKey = await dotenv.get('KAKAO_NATIVE_APP_KEY');
@@ -42,6 +56,35 @@ Future main() async {
       child: MyApp(),
     ),
   );
+}
+
+Completer<AndroidMapRenderer?>? _initializedRendererCompleter;
+
+/// Initializes map renderer to the `latest` renderer type for Android platform.
+///
+/// The renderer must be requested before creating GoogleMap instances,
+/// as the renderer can be initialized only once per application context.
+Future<AndroidMapRenderer?> initializeMapRenderer() async {
+  if (_initializedRendererCompleter != null) {
+    return _initializedRendererCompleter!.future;
+  }
+
+  final Completer<AndroidMapRenderer?> completer =
+  Completer<AndroidMapRenderer?>();
+  _initializedRendererCompleter = completer;
+
+  final GoogleMapsFlutterPlatform mapsImplementation =
+      GoogleMapsFlutterPlatform.instance;
+  if (mapsImplementation is GoogleMapsFlutterAndroid) {
+    unawaited(mapsImplementation
+        .initializeWithRenderer(AndroidMapRenderer.latest)
+        .then((AndroidMapRenderer initializedRenderer) =>
+        completer.complete(initializedRenderer)));
+  } else {
+    completer.complete(null);
+  }
+
+  return completer.future;
 }
 
 class MyApp extends ConsumerStatefulWidget {
@@ -74,6 +117,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   Future<void> _handleFirstRun() async {
+    logger.i('handleFirstRun Start');
     final sharedPreferencesRepo = ref.read(sharedPreferencesRepositoryProvider);
     final secureStorageRepo = ref.read(secureStorageRepositoryProvider);
 
@@ -83,9 +127,11 @@ class _MyAppState extends ConsumerState<MyApp> {
       await secureStorageRepo.deleteAll();
       await sharedPreferencesRepo.setFirstRun(false);
     }
+    logger.i('handleFirstRun End');
   }
 
   Future<void> _checkLoginAndUserType() async {
+    logger.i('checkLoginAndUserType Start');
     final secureStorageRepo = ref.read(secureStorageRepositoryProvider);
     final loginNotifier = ref.read(loginNotifierProvider);
     final userTypeNotifier = ref.read(userTypeNotifierProvider);
@@ -102,15 +148,18 @@ class _MyAppState extends ConsumerState<MyApp> {
     } else {
       loginNotifier.setLoggedOut();
     }
+    logger.i('checkLoginAndUserType End');
   }
 
   Future<void> _preloadAssets() async {
+    logger.i('preloadAssets Start');
     try {
       // SVG 프리로딩 등
       await AssetLottie(AnimationPath.loading).load();
     } catch (e) {
       print('Asset preloading failed: $e');
     }
+    logger.i('preloadAssets End');
   }
 
   @override

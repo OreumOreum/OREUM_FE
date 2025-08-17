@@ -20,6 +20,7 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/data/services/weather_service.dart';
 import 'package:oreum_fe/features/course/data/models/course_response.dart';
@@ -277,7 +278,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Text('error: ${state.errorMessage}');
+      return ErrorRetryWidget(
+        onPressed: () {
+          ref.read(homeViewModelProvider.notifier).initializeHome();
+        },
+      );
     }
 
     final homeState = ref.watch(homeViewModelProvider);
@@ -311,8 +316,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   .read(homeViewModelProvider.notifier)
                                   .refreshWeatherBackground();
                             },
-                            child: Text('다시 시도하기',  style: context.textStyles.label3
-                                .copyWith(color: AppColors.primary),),
+                            child: Text(
+                              '다시 시도하기',
+                              style: context.textStyles.label3
+                                  .copyWith(color: AppColors.primary),
+                            ),
                           ),
                         ],
                       ),
@@ -387,55 +395,54 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           SizedBox(
             height: 14.h,
           ),
-            PagedGradientCarousel(
-              onItemTap: (index) {
-                final tappedSpot = homeState.monthlySpots[index];
-                context.push(
-                  RoutePath.monthlySpotMap,
-                  extra: {
-                    'year': homeState.year,
-                    'month': homeState.month,
-                    'placeId': tappedSpot.placeId,
-                    'spots': homeState.monthlySpots,
-                  },
-                );
-              },
-              items: homeState.monthlySpots.asMap().entries.map((entry) {
-                final index = entry.key;
-                final spot = entry.value;
-                final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
-                const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
-                final String city =
-                    (index < fixedCities.length) ? fixedCities[index] : '제주';
+          PagedGradientCarousel(
+            onItemTap: (index) {
+              final tappedSpot = homeState.monthlySpots[index];
+              context.push(
+                RoutePath.monthlySpotMap,
+                extra: {
+                  'year': homeState.year,
+                  'month': homeState.month,
+                  'placeId': tappedSpot.placeId,
+                  'spots': homeState.monthlySpots,
+                },
+              );
+            },
+            items: homeState.monthlySpots.asMap().entries.map((entry) {
+              final index = entry.key;
+              final spot = entry.value;
+              final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
+              const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
+              final String city =
+                  (index < fixedCities.length) ? fixedCities[index] : '제주';
 
-                return CarouselItem(
-                  background: (spot.thumbnailImage == null)
+              return CarouselItem(
+                background: (spot.thumbnailImage == null)
                     ? Container(
-                    color: AppColors.gray100,
-                    child: Image.asset(
-                      ImagePath.imageError,
-                      width: 74.r,
-                    ),
-                  )
-                  : CachedNetworkImage(
-                    cacheManager: CustomCacheManager(),
-                    imageUrl:  spot.thumbnailImage!,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, url, error) =>
-                        Container(
+                        color: AppColors.gray100,
+                        child: Image.asset(
+                          ImagePath.imageError,
+                          width: 74.r,
+                        ),
+                      )
+                    : CachedNetworkImage(
+                        cacheManager: CustomCacheManager(),
+                        imageUrl: spot.thumbnailImage!,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Container(
                           color: AppColors.gray100,
                           child: Image.asset(
                             ImagePath.imageError,
                             width: 74.r,
                           ),
                         ),
-                  ),
-                  title: spot.title,
-                  count: count.toString(),
-                  city: city,
-                );
-              }).toList(),
-            ),
+                      ),
+                title: spot.title,
+                count: count.toString(),
+                city: city,
+              );
+            }).toList(),
+          ),
           SizedBox(
             height: 14.h,
           ),

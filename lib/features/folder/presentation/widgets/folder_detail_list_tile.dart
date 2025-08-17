@@ -45,6 +45,10 @@ class FolderDetailListTile extends ConsumerWidget {
                   child: thumbnailImage == null
                       ? Container(
                           color: AppColors.gray100,
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 74.r,
+                          ),
                         )
                       : CachedNetworkImage(
                           imageUrl: thumbnailImage!,

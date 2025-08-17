@@ -12,6 +12,7 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_toast.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/core/widgets/modal_menu.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_detail_response.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
@@ -105,7 +106,16 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                 onActionPressed: () {
                   showFolderUpdateModal(context);
                 }),
-        body: Text('Error: ${state.errorMessage}'),
+        body: ErrorRetryWidget(
+          onPressed: () {
+            ref
+                .read(folderDetailViewModelProvider.notifier)
+                .getMyFolderPlaces(widget.folderId);
+            ref
+                .read(folderDetailViewModelProvider.notifier)
+                .initFolderName(widget.folderName);
+          },
+        ),
       );
     }
 
@@ -144,15 +154,15 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                     EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
                 child: folderPlaces.isEmpty
                     ? Padding(
-                      padding: EdgeInsets.only(top: 16.h),
-                      child: Center(
+                        padding: EdgeInsets.only(top: 16.h),
+                        child: Center(
                           child: Text(
                             '아직 관광지가 없습니다.',
                             style: context.textStyles.headLine1
                                 .copyWith(color: AppColors.gray300),
                           ),
                         ),
-                    )
+                      )
                     : StaggeredGrid.count(
                         crossAxisCount: isWideScreen ? 4 : 2,
                         crossAxisSpacing: 9.w,

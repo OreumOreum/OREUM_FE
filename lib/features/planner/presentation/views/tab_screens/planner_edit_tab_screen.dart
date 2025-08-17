@@ -63,15 +63,6 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                   style: context.textStyles.headLine4
                       .copyWith(color: AppColors.gray500),
                 ),
-                Spacer(),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    AppStrings.sortByNearest,
-                    style: context.textStyles.body1
-                        .copyWith(color: AppColors.gray400),
-                  ),
-                ),
               ],
             ),
             SizedBox(height: 24.h),
