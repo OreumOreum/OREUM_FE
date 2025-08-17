@@ -14,6 +14,7 @@ import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/monthly_spot_ranking_view_model.dart';
 
 class MonthlySpotRanking extends ConsumerStatefulWidget {
@@ -60,15 +61,13 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
     }
 
     if (state.status == UiStatus.error) {
-      return CustomScrollView(
-        controller: widget.scrollController,
-        slivers: [
-          _buildStaticHeader(context),
-          SliverFillRemaining(
-            child: Center(child: Text('Error: ${state.errorMessage}')),
-          ),
-        ],
-      );
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          ref
+              .read(monthlySpotRankingViewModelProvider.notifier)
+              .fetchRanking(spotId: widget.spots.spotId.toString());
+        },
+      ));
     }
     final myTravelType = state.myTravelType;
     final myTypeVisitCount = state.myTypeVisitCount;

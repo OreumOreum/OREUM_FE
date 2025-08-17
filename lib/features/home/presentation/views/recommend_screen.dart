@@ -22,6 +22,7 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/recommend_view_model.dart';
 import '../viewmodels/states/recommend_state.dart';
 
@@ -107,11 +108,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               ),
               InkWell(
                 onTap: () {
-                  viewModel.setSortOption(SortOption.review, widget.regionFilter, currentTypeId, widget.type);
+                  viewModel.setSortOption(SortOption.review,
+                      widget.regionFilter, currentTypeId, widget.type);
                   Navigator.pop(context);
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -140,11 +143,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               ),
               InkWell(
                 onTap: () {
-                  viewModel.setSortOption(SortOption.DESC, widget.regionFilter, currentTypeId, widget.type);
+                  viewModel.setSortOption(SortOption.DESC, widget.regionFilter,
+                      currentTypeId, widget.type);
                   Navigator.pop(context);
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -249,8 +254,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                                 category.contentTypeId;
 
                             return GestureDetector(
-                              onTap: () => viewModel
-                                  .setContentTypeId(widget.regionFilter, category.contentTypeId,widget.type),
+                              onTap: () => viewModel.setContentTypeId(
+                                  widget.regionFilter,
+                                  category.contentTypeId,
+                                  widget.type),
                               behavior: HitTestBehavior.translucent,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -322,7 +329,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           onTap: () => viewModel.setFilter(
                               RegionFilter.all,
                               state.selectedContentTypeId ??
-                                  widget.contentTypeId, widget.type),
+                                  widget.contentTypeId,
+                              widget.type),
                         ),
                         SizedBox(width: 9.w),
                         _buildFilterButton(
@@ -333,7 +341,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           onTap: () => viewModel.setFilter(
                               RegionFilter.jeju,
                               state.selectedContentTypeId ??
-                                  widget.contentTypeId, widget.type),
+                                  widget.contentTypeId,
+                              widget.type),
                         ),
                         SizedBox(width: 9.w),
                         _buildFilterButton(
@@ -345,7 +354,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           onTap: () => viewModel.setFilter(
                               RegionFilter.seogwipo,
                               state.selectedContentTypeId ??
-                                  widget.contentTypeId, widget.type),
+                                  widget.contentTypeId,
+                              widget.type),
                         ),
                       ],
                     ),
@@ -362,8 +372,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 ),
               )
             else if (state.status == UiStatus.error)
-              SliverFillRemaining(
-                  child: Center(child: Text(state.errorMessage)))
+
+              Center(child: ErrorRetryWidget(
+                onPressed: () {
+                  ref.read(recommendViewModelProvider.notifier).fetchPlaces(
+                      widget.contentTypeId, widget.type, widget.regionFilter);
+                },
+              ))
             else if (state.filteredPlaces.isEmpty)
               const SliverFillRemaining(
                   child: Center(child: Text('표시할 장소가 없습니다.')))
@@ -410,11 +425,9 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     required double width,
   }) {
     Color color;
-    Color textColor;
     String iconPath;
 
     if (isSelected) {
-      textColor = AppColors.white;
       if (label == '제주시') {
         color = AppColors.jeju;
         iconPath = ImagePath.tangerine;
@@ -426,13 +439,15 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
         iconPath = ImagePath.all;
       }
     } else {
-      color = AppColors.gray200;
-      textColor = AppColors.gray400;
+      //color = AppColors.gray200;
       if (label == '제주시') {
+        color = AppColors.jeju.withOpacity(0.5);
         iconPath = ImagePath.tangerine;
       } else if (label == '서귀포시') {
+        color = AppColors.seogwipo.withOpacity(0.5);
         iconPath = ImagePath.mountain;
       } else {
+        color = AppColors.primary.withOpacity(0.5);
         iconPath = ImagePath.all;
       }
     }
