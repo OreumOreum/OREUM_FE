@@ -15,6 +15,7 @@ import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/monthly_spot_map_view_model.dart';
 import '../viewmodels/states/monthly_spot_map_state.dart';
 import '../widgets/monthly_spot_list_tile.dart';
@@ -158,6 +159,13 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
         padding: EdgeInsets.only(bottom: 56.h),
         child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
       );
+    }
+    if (spotState.status == UiStatus.error) {
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          spotViewModel.retryLoadingMarkers();
+        },
+      ));
     }
     final bool isPermissionGranted =
         spotState.permissionStatus == LocationPermission.always ||

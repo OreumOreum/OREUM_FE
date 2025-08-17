@@ -12,6 +12,7 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/utils/debouncer.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../../../planner/presentation/viewmodels/planner_search_view_model.dart';
 import '../viewmodels/recent_search_view_model.dart';
 import 'search_list_tile.dart';
@@ -86,7 +87,11 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
             child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
           )
         else if (state.status == UiStatus.error)
-          Center(child: Text(state.errorMessage))
+          Center(child: ErrorRetryWidget(
+            onPressed: () {
+              ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
+            },
+          ))
         else if (state.searchPlace == null || state.searchPlace!.content.isEmpty)
             const Center(child: Text('검색 결과가 없습니다.'))
           else

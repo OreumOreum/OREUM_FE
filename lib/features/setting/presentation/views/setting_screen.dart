@@ -22,6 +22,7 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/utils/custom_tab_launcher.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/setting_view_model.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
@@ -191,6 +192,14 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
         padding: EdgeInsets.only(bottom: 56.h),
         child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
       );
+    }
+    else if (settingState.status == UiStatus.error || myTypeState.status == UiStatus.error) {
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          ref.invalidate(settingViewModelProvider);
+          ref.invalidate(myTravelTypeProvider);
+        },
+      ));
     }
     return SafeArea(
       child: SingleChildScrollView(

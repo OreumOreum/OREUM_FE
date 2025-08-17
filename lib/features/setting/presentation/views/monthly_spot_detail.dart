@@ -19,6 +19,7 @@ import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/constants/icon_path.dart';
 import '../../../../core/constants/route_path.dart';
+import '../../../../core/widgets/error_widget.dart';
 
 class MonthlySpotDetail extends ConsumerStatefulWidget {
   final int year;
@@ -54,7 +55,14 @@ class _MonthlySpotDetailState extends ConsumerState<MonthlySpotDetail> {
       return Scaffold(body: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)));
     }
     if (state.status == UiStatus.error) {
-      return Scaffold(body: Center(child: Text('error: ${state.errorMessage}')));
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          ref.read(monthlySpotDetailViewModelProvider.notifier).initiallizeMonthlySpot(
+            widget.year.toString(),
+            widget.month.toString(),
+          );
+        },
+      ));
     }
 
     final List<SpotMonthResponse> spotsByMonth = state.spotsByMonth;

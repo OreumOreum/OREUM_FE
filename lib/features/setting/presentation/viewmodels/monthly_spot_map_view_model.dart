@@ -90,14 +90,13 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
   @override
   MonthlySpotMapState build({
     required List<SpotMonthResponse> spots,
-    int? initialSelectedPlaceId, // View에서 사용하므로 유지
+    int? initialSelectedPlaceId,
   }) {
     ref.onDispose(() {
       _positionStreamSubscription?.cancel();
     });
 
-    // build가 끝난 직후에 비동기 마커 생성을 시작합니다.
-    Future.microtask(() => _updateCustomMarkers());
+    Future.microtask(() => retryLoadingMarkers());
 
     _startListeningToLocation();
 
@@ -112,6 +111,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     }
 
     return MonthlySpotMapState(
+      status: UiStatus.loading,
       spots: spots,
       markers: {}, // 초기에는 빈 마커 Set
       circles: _createInitialCircles(spots),
@@ -119,7 +119,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     );
   }
 
-  Future<void> _updateCustomMarkers() async {
+  Future<void> retryLoadingMarkers() async {
     state = state.copyWith(status: UiStatus.loading);
 
     try {
@@ -161,7 +161,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     if (shouldUpdate) {
       // 새로운 줌 레벨로 상태를 업데이트하고, 마커를 다시 생성
       state = state.copyWith(currentZoom: newZoom);
-      await _updateCustomMarkers();
+      await retryLoadingMarkers();
     }
   }
   /// 원(Circle)만 생성하는 함수
@@ -282,7 +282,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
       state = state.copyWith(status: UiStatus.success, spots: updatedSpots, proximateSpot: updatedProximateSpot);
 
       // 스탬프 성공 후 마커 모양을 다시 그리도록 호출
-      await _updateCustomMarkers();
+      await retryLoadingMarkers();
     } catch (e) {
       state =
           state.copyWith(status: UiStatus.error, errorMessage: e.toString());
