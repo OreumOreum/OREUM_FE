@@ -31,6 +31,9 @@ class MyTravelType extends _$MyTravelType {
       state = state.copyWith(status:UiStatus.success, myTravelType:myType);
     } catch (e) {}
   }
+  void resetMyType(){
+    state = state.copyWith(myTravelType: null);
+  }
 }
 
 @freezed

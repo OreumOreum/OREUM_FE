@@ -222,6 +222,7 @@ mixin _$Place {
   bool get isSaved => throw _privateConstructorUsedError;
   String? get contentId => throw _privateConstructorUsedError;
   String? get contentTypeId => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
 
   /// Serializes this Place to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -245,7 +246,8 @@ abstract class $PlaceCopyWith<$Res> {
       int sigunguCode,
       bool isSaved,
       String? contentId,
-      String? contentTypeId});
+      String? contentTypeId,
+      String? address});
 }
 
 /// @nodoc
@@ -271,6 +273,7 @@ class _$PlaceCopyWithImpl<$Res, $Val extends Place>
     Object? isSaved = null,
     Object? contentId = freezed,
     Object? contentTypeId = freezed,
+    Object? address = freezed,
   }) {
     return _then(_value.copyWith(
       placeId: null == placeId
@@ -305,6 +308,10 @@ class _$PlaceCopyWithImpl<$Res, $Val extends Place>
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -324,7 +331,8 @@ abstract class _$$PlaceImplCopyWith<$Res> implements $PlaceCopyWith<$Res> {
       int sigunguCode,
       bool isSaved,
       String? contentId,
-      String? contentTypeId});
+      String? contentTypeId,
+      String? address});
 }
 
 /// @nodoc
@@ -348,6 +356,7 @@ class __$$PlaceImplCopyWithImpl<$Res>
     Object? isSaved = null,
     Object? contentId = freezed,
     Object? contentTypeId = freezed,
+    Object? address = freezed,
   }) {
     return _then(_$PlaceImpl(
       placeId: null == placeId
@@ -382,6 +391,10 @@ class __$$PlaceImplCopyWithImpl<$Res>
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -397,7 +410,8 @@ class _$PlaceImpl implements _Place {
       required this.sigunguCode,
       required this.isSaved,
       this.contentId,
-      this.contentTypeId});
+      this.contentTypeId,
+      this.address});
 
   factory _$PlaceImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlaceImplFromJson(json);
@@ -419,10 +433,12 @@ class _$PlaceImpl implements _Place {
   final String? contentId;
   @override
   final String? contentTypeId;
+  @override
+  final String? address;
 
   @override
   String toString() {
-    return 'Place(placeId: $placeId, title: $title, originImage: $originImage, thumbnailImage: $thumbnailImage, sigunguCode: $sigunguCode, isSaved: $isSaved, contentId: $contentId, contentTypeId: $contentTypeId)';
+    return 'Place(placeId: $placeId, title: $title, originImage: $originImage, thumbnailImage: $thumbnailImage, sigunguCode: $sigunguCode, isSaved: $isSaved, contentId: $contentId, contentTypeId: $contentTypeId, address: $address)';
   }
 
   @override
@@ -442,13 +458,14 @@ class _$PlaceImpl implements _Place {
             (identical(other.contentId, contentId) ||
                 other.contentId == contentId) &&
             (identical(other.contentTypeId, contentTypeId) ||
-                other.contentTypeId == contentTypeId));
+                other.contentTypeId == contentTypeId) &&
+            (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, placeId, title, originImage,
-      thumbnailImage, sigunguCode, isSaved, contentId, contentTypeId);
+      thumbnailImage, sigunguCode, isSaved, contentId, contentTypeId, address);
 
   /// Create a copy of Place
   /// with the given fields replaced by the non-null parameter values.
@@ -475,7 +492,8 @@ abstract class _Place implements Place {
       required final int sigunguCode,
       required final bool isSaved,
       final String? contentId,
-      final String? contentTypeId}) = _$PlaceImpl;
+      final String? contentTypeId,
+      final String? address}) = _$PlaceImpl;
 
   factory _Place.fromJson(Map<String, dynamic> json) = _$PlaceImpl.fromJson;
 
@@ -496,6 +514,8 @@ abstract class _Place implements Place {
   String? get contentId;
   @override
   String? get contentTypeId;
+  @override
+  String? get address;
 
   /// Create a copy of Place
   /// with the given fields replaced by the non-null parameter values.

@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -12,6 +14,7 @@ import 'package:oreum_fe/features/setting/presentation/viewmodels/states/monthly
 import 'package:oreum_fe/features/setting/presentation/widgets/monthly_list_tile.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_response.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -41,8 +44,8 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
     final settingState = ref.watch(settingViewModelProvider);
     final int currentYear = DateTime.now().year;
 
-    if (state.status == MonthlySpotStatus.loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (state.status == MonthlySpotStatus.loading || settingState.status == UiStatus.loading) {
+      return Scaffold(body: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)));
     }
     if (state.status == MonthlySpotStatus.error) {
       return Scaffold(body: Center(child: Text('error: ${state.errorMessage}')));
@@ -97,7 +100,7 @@ class _MonthlySpotState extends ConsumerState<MonthlySpot> {
                                 height: 62.h,
                                 width: 92.w,
                                 child: Center(
-                                  child: SvgPicture.asset(badge.iconPath, width: badge.iconWidth, height: badge.iconHeight),
+                                  child: Image.asset(badge.iconPath, width: badge.iconWidth, height: badge.iconHeight),
                                 ),
                               ),
                               SizedBox(height: 4.h),

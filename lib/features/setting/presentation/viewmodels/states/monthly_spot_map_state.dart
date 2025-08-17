@@ -17,6 +17,7 @@ class MonthlySpotMapState with _$MonthlySpotMapState {
     @Default([]) List<SpotMonthResponse> spots,
     @Default(false) bool isProximity,
     @Default(15.0) double currentZoom,
+    @Default(LocationPermission.denied) LocationPermission permissionStatus,
     SpotMonthResponse? selectedSpot,
     SpotMonthResponse? proximateSpot,
     GoogleMapController? mapController,

@@ -19,7 +19,6 @@ class AccountSettingViewModel extends _$AccountSettingViewModel {
       final usecase = ref.read(deleteMyAccountUseCaseProvider);
       await usecase.call();
       await ref.read(loginNotifierProvider).logout();
-
       Fluttertoast.showToast(msg: '회원 탈퇴가 완료되었습니다.');
 
     } catch (e) {

@@ -8,7 +8,13 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class SplitRoundedButton extends StatelessWidget {
-  const SplitRoundedButton({super.key});
+  final VoidCallback? onJejuTap;
+  final VoidCallback? onSeogwipoTap;
+  const SplitRoundedButton({
+    super.key,
+    this.onJejuTap,
+    this.onSeogwipoTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,7 @@ class SplitRoundedButton extends StatelessWidget {
                 topLeft: Radius.circular(AppSizes.radiusXS),
                 bottomLeft: Radius.circular(AppSizes.radiusXS),
               ),
-              onTap: () {},
+              onTap: onJejuTap,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -61,7 +67,7 @@ class SplitRoundedButton extends StatelessWidget {
                 topRight: Radius.circular(AppSizes.radiusXS),
                 bottomRight: Radius.circular(AppSizes.radiusXS),
               ),
-              onTap: () {},
+              onTap: onSeogwipoTap,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

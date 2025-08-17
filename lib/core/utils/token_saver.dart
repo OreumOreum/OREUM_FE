@@ -10,4 +10,10 @@ class TokenSaver {
     await _storage.saveAccessToken(authToken.accessToken);
     await _storage.saveRefreshToken(authToken.refreshToken);
   }
+  Future<void> deleteTokens() async {
+    await _storage.deleteAccessToken();
+    await _storage.deleteRefreshToken();
+
+
+  }
 }
