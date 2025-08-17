@@ -16,8 +16,8 @@ import '../../../../core/utils/custom_logger.dart';
 
 part 'planner_edit_view_model.g.dart';
 
-@riverpod
-class PlannerEditViewModel extends _$PlannerEditViewModel {
+@Riverpod(keepAlive: false)
+class PlannerEditViewModel extends _$PlannerEditViewModel  {
   @override
   PlannerEditState build() {
     return PlannerEditState();
@@ -166,7 +166,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
       await ref
           .read(plannerListViewModelProvider.notifier)
           .refreshPlannersInBackground();
-      state = state.copyWith(status: UiStatus.success);
+      state = state.copyWith(status: UiStatus.success, plannerPlaces: []);
     } catch (e) {
       state =
           state.copyWith(status: UiStatus.error, errorMessage: e.toString());
@@ -187,7 +187,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel {
       await ref
           .read(plannerDetailViewModelProvider.notifier)
           .refreshPlannerDetailInBackground(plannerId);
-      state = state.copyWith(status: UiStatus.success);
+      state = state.copyWith(status: UiStatus.success, plannerPlaces: []);
     } catch (e) {
       state =
           state.copyWith(status: UiStatus.error, errorMessage: e.toString());

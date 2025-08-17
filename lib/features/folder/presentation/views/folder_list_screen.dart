@@ -15,6 +15,7 @@ import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_response.dart';
 import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
@@ -52,7 +53,11 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Text('error: ${state.errorMessage}');
+      return ErrorRetryWidget(
+        onPressed: () {
+          ref.read(folderListViewModelProvider.notifier).getMyFolders();
+        },
+      );
     }
     List<FolderResponse> folders = state.folders;
 

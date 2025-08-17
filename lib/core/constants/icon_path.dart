@@ -87,4 +87,5 @@ abstract class IconPath {
 
   static String flags (String flag) => 'assets/icons/$flag.svg';
 
+  static const String copy = 'assets/icons/copy.svg';
 }

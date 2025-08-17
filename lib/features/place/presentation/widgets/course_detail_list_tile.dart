@@ -128,7 +128,7 @@ class CourseDetailListTile extends StatelessWidget {
                         child: Center(
                           child: Image.asset(
                             ImagePath.imageError,
-                            width: 64.r,
+                            width: 52.r,
                           ),
                         ),
                       ),

@@ -11,7 +11,9 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/email_sander.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/email_error_dialog.dart';
 import 'package:oreum_fe/features/auth/data/services/apple_auth_service.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/auth_view_model.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/states/auth_state.dart';
@@ -110,7 +112,9 @@ class AuthScreen extends ConsumerWidget {
                   height: 42.h,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    EmailSander().sendEmail(context);
+                  },
                   child: Text(
                     AppStrings.socialLoginButtonText,
                     style: context.textStyles.caption1.copyWith(
