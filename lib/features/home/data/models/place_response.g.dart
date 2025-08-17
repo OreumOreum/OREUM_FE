@@ -31,6 +31,7 @@ _$PlaceImpl _$$PlaceImplFromJson(Map<String, dynamic> json) => _$PlaceImpl(
       isSaved: json['isSaved'] as bool,
       contentId: json['contentId'] as String?,
       contentTypeId: json['contentTypeId'] as String?,
+      address: json['address'] as String?,
     );
 
 Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
@@ -43,4 +44,5 @@ Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
       'isSaved': instance.isSaved,
       'contentId': instance.contentId,
       'contentTypeId': instance.contentTypeId,
+      'address': instance.address,
     };

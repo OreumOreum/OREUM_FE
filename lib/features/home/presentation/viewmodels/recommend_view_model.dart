@@ -13,18 +13,22 @@ class RecommendViewModel extends _$RecommendViewModel {
   RecommendState build() {
     return const RecommendState();
   }
-  Future<void> fetchPlaces(int contentTypeId) async {
+  Future<void> fetchPlaces(int contentTypeId, bool type, RegionFilter regionFilter) async {
+    final String sortString = state.selectedSortOption == SortOption.review
+        ? 'review'
+        : 'DESC';
     state = state.copyWith(
       status: UiStatus.loading,
       currentPage: 0,
       filteredPlaces: [],
       selectedContentTypeId: contentTypeId,
+      selectedFilter: regionFilter,
     );
 
     int? sigunguCode;
-    if (state.selectedFilter == RegionFilter.jeju) {
+    if (regionFilter == RegionFilter.jeju) {
       sigunguCode = 4;
-    } else if (state.selectedFilter == RegionFilter.seogwipo) {
+    } else if (regionFilter == RegionFilter.seogwipo) {
       sigunguCode = 3;
     }
 
@@ -32,11 +36,18 @@ class RecommendViewModel extends _$RecommendViewModel {
       final myTypeState = ref.read(myTravelTypeProvider);
       final myTravelType = myTypeState.myTravelType;
       final usecase = ref.read(getPlacesUseCaseProvider);
+      final pageable = {'page': 0, 'size': 20, 'sort': sortString};
+      print('--- 🕵️ API 요청: fetchPlaces ---');
+      print('contentTypeId: $contentTypeId');
+      print('sigunguCode: $sigunguCode');
+      print('type: $type');
+      print('pageable: $pageable');
+      print('-----------------------------');
       final response = await usecase.call(
         contentTypeId: contentTypeId,
         sigunguCode: sigunguCode,
-        type: true,
-        pageable: {'page': 0, 'size': 20, 'sort': 'review'},
+        type: type,
+        pageable: {'page': 0, 'size': 20, 'sort': sortString},
       );
       state = state.copyWith(
         status: UiStatus.success,
@@ -50,7 +61,10 @@ class RecommendViewModel extends _$RecommendViewModel {
     }
   }
 
-  Future<void> fetchNextPage(int contentTypeId) async {
+  Future<void> fetchNextPage(int contentTypeId, bool type, RegionFilter regionFilter) async {
+    final String sortString = state.selectedSortOption == SortOption.review
+        ? 'review'
+        : 'DESC';
     if (state.isLastPage || state.isLoadingNextPage) return;
 
     state = state.copyWith(isLoadingNextPage: true);
@@ -62,11 +76,18 @@ class RecommendViewModel extends _$RecommendViewModel {
 
     try {
       final usecase = ref.read(getPlacesUseCaseProvider);
+      final pageable = {'page': nextPage, 'size': 20, 'sort': sortString};
+      print('--- 🕵️ API 요청: fetchNextPage  ---');
+      print('contentTypeId: $contentTypeId');
+      print('sigunguCode: $sigunguCode');
+      print('type: $type');
+      print('pageable: $pageable');
+      print('-----------------------------');
       final response = await usecase.call(
         contentTypeId: contentTypeId,
         sigunguCode: sigunguCode,
-        type: true,
-        pageable: {'page': nextPage, 'size': 20, 'sort': 'review'},
+        type: type,
+        pageable: {'page': nextPage, 'size': 20, 'sort': sortString},
       );
 
       state = state.copyWith(
@@ -80,14 +101,18 @@ class RecommendViewModel extends _$RecommendViewModel {
       print('다음 페이지 로딩 실패: $e');
     }
   }
-  void setFilter(RegionFilter filter, int contentTypeId) {
+  void setFilter(RegionFilter filter, int contentTypeId, bool type) {
     if (state.selectedFilter == filter) return;
     state = state.copyWith(selectedFilter: filter);
-    fetchPlaces(contentTypeId);
+    fetchPlaces(contentTypeId, type, filter);
   }
-  void setContentTypeId(int contentTypeId) {
+  void setContentTypeId(RegionFilter filter, int contentTypeId, bool type) {
     if (state.selectedContentTypeId == contentTypeId) return;
-    // state.selectedContentTypeId는 fetchPlaces 내부에서 업데이트됩니다.
-    fetchPlaces(contentTypeId);
+    fetchPlaces(contentTypeId, type, filter);
+  }
+  void setSortOption(SortOption option, RegionFilter filter, int contentTypeId, bool type) {
+    if (state.selectedSortOption == option) return;
+    state = state.copyWith(selectedSortOption: option);
+    fetchPlaces(contentTypeId, type, filter);
   }
 }

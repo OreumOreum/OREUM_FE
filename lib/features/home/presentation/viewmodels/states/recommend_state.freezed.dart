@@ -24,6 +24,7 @@ mixin _$RecommendState {
   int get currentPage => throw _privateConstructorUsedError;
   bool get isLastPage => throw _privateConstructorUsedError;
   bool get isLoadingNextPage => throw _privateConstructorUsedError;
+  SortOption get selectedSortOption => throw _privateConstructorUsedError;
   int? get selectedContentTypeId => throw _privateConstructorUsedError;
   TravelType? get myTravelType => throw _privateConstructorUsedError;
 
@@ -49,6 +50,7 @@ abstract class $RecommendStateCopyWith<$Res> {
       int currentPage,
       bool isLastPage,
       bool isLoadingNextPage,
+      SortOption selectedSortOption,
       int? selectedContentTypeId,
       TravelType? myTravelType});
 }
@@ -76,6 +78,7 @@ class _$RecommendStateCopyWithImpl<$Res, $Val extends RecommendState>
     Object? currentPage = null,
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
+    Object? selectedSortOption = null,
     Object? selectedContentTypeId = freezed,
     Object? myTravelType = freezed,
   }) {
@@ -112,6 +115,10 @@ class _$RecommendStateCopyWithImpl<$Res, $Val extends RecommendState>
           ? _value.isLoadingNextPage
           : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedSortOption: null == selectedSortOption
+          ? _value.selectedSortOption
+          : selectedSortOption // ignore: cast_nullable_to_non_nullable
+              as SortOption,
       selectedContentTypeId: freezed == selectedContentTypeId
           ? _value.selectedContentTypeId
           : selectedContentTypeId // ignore: cast_nullable_to_non_nullable
@@ -141,6 +148,7 @@ abstract class _$$RecommendStateImplCopyWith<$Res>
       int currentPage,
       bool isLastPage,
       bool isLoadingNextPage,
+      SortOption selectedSortOption,
       int? selectedContentTypeId,
       TravelType? myTravelType});
 }
@@ -166,6 +174,7 @@ class __$$RecommendStateImplCopyWithImpl<$Res>
     Object? currentPage = null,
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
+    Object? selectedSortOption = null,
     Object? selectedContentTypeId = freezed,
     Object? myTravelType = freezed,
   }) {
@@ -202,6 +211,10 @@ class __$$RecommendStateImplCopyWithImpl<$Res>
           ? _value.isLoadingNextPage
           : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedSortOption: null == selectedSortOption
+          ? _value.selectedSortOption
+          : selectedSortOption // ignore: cast_nullable_to_non_nullable
+              as SortOption,
       selectedContentTypeId: freezed == selectedContentTypeId
           ? _value.selectedContentTypeId
           : selectedContentTypeId // ignore: cast_nullable_to_non_nullable
@@ -226,6 +239,7 @@ class _$RecommendStateImpl implements _RecommendState {
       this.currentPage = 0,
       this.isLastPage = false,
       this.isLoadingNextPage = false,
+      this.selectedSortOption = SortOption.review,
       this.selectedContentTypeId,
       this.myTravelType})
       : _originalPlaces = originalPlaces,
@@ -268,13 +282,16 @@ class _$RecommendStateImpl implements _RecommendState {
   @JsonKey()
   final bool isLoadingNextPage;
   @override
+  @JsonKey()
+  final SortOption selectedSortOption;
+  @override
   final int? selectedContentTypeId;
   @override
   final TravelType? myTravelType;
 
   @override
   String toString() {
-    return 'RecommendState(status: $status, errorMessage: $errorMessage, originalPlaces: $originalPlaces, filteredPlaces: $filteredPlaces, selectedFilter: $selectedFilter, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage, selectedContentTypeId: $selectedContentTypeId, myTravelType: $myTravelType)';
+    return 'RecommendState(status: $status, errorMessage: $errorMessage, originalPlaces: $originalPlaces, filteredPlaces: $filteredPlaces, selectedFilter: $selectedFilter, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage, selectedSortOption: $selectedSortOption, selectedContentTypeId: $selectedContentTypeId, myTravelType: $myTravelType)';
   }
 
   @override
@@ -297,6 +314,8 @@ class _$RecommendStateImpl implements _RecommendState {
                 other.isLastPage == isLastPage) &&
             (identical(other.isLoadingNextPage, isLoadingNextPage) ||
                 other.isLoadingNextPage == isLoadingNextPage) &&
+            (identical(other.selectedSortOption, selectedSortOption) ||
+                other.selectedSortOption == selectedSortOption) &&
             (identical(other.selectedContentTypeId, selectedContentTypeId) ||
                 other.selectedContentTypeId == selectedContentTypeId) &&
             (identical(other.myTravelType, myTravelType) ||
@@ -314,6 +333,7 @@ class _$RecommendStateImpl implements _RecommendState {
       currentPage,
       isLastPage,
       isLoadingNextPage,
+      selectedSortOption,
       selectedContentTypeId,
       myTravelType);
 
@@ -337,6 +357,7 @@ abstract class _RecommendState implements RecommendState {
       final int currentPage,
       final bool isLastPage,
       final bool isLoadingNextPage,
+      final SortOption selectedSortOption,
       final int? selectedContentTypeId,
       final TravelType? myTravelType}) = _$RecommendStateImpl;
 
@@ -356,6 +377,8 @@ abstract class _RecommendState implements RecommendState {
   bool get isLastPage;
   @override
   bool get isLoadingNextPage;
+  @override
+  SortOption get selectedSortOption;
   @override
   int? get selectedContentTypeId;
   @override

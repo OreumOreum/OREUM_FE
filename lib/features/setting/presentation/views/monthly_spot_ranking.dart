@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -11,6 +12,7 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../viewmodels/monthly_spot_ranking_view_model.dart';
 
@@ -50,8 +52,8 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
         controller: widget.scrollController,
         slivers: [
           _buildStaticHeader(context),
-          const SliverFillRemaining(
-            child: Center(child: CircularProgressIndicator()),
+           SliverFillRemaining(
+            child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
           ),
         ],
       );

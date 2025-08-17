@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/utils/debouncer.dart';
 import '../../../planner/presentation/viewmodels/planner_search_view_model.dart';
 import '../viewmodels/recent_search_view_model.dart';
 import 'search_list_tile.dart';
@@ -25,9 +28,11 @@ class AfterSearchWidget extends ConsumerStatefulWidget {
 }
 
 class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
+  late final Debouncer _debouncer;
   @override
   void initState() {
     super.initState();
+    _debouncer = Debouncer(delay: const Duration(milliseconds: 300));
     Future.microtask(() {
       ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
     });
@@ -37,12 +42,18 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
   void didUpdateWidget(covariant AfterSearchWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.searchQuery != widget.searchQuery) {
-      Future.microtask(() {
-        ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
+      _debouncer.run(() {
+        if (mounted) {
+          ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
+        }
       });
     }
   }
-
+  @override
+  void dispose() {
+    _debouncer.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannerSearchViewModelProvider);
@@ -70,9 +81,9 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
         ),
 
         if (state.status == UiStatus.loading)
-          const Padding(
+           Padding(
             padding: EdgeInsets.all(32.0),
-            child: Center(child: CircularProgressIndicator()),
+            child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
           )
         else if (state.status == UiStatus.error)
           Center(child: Text(state.errorMessage))

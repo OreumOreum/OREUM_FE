@@ -19,6 +19,7 @@ class PagedGradientCarouselItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String iconPath = item.isVisited ? IconPath.spotCheck : IconPath.spotUncheck;
     return ClipRRect(
       borderRadius: BorderRadius.circular(AppSizes.radiusSM),
       child: SizedBox(
@@ -61,9 +62,14 @@ class PagedGradientCarouselItem extends StatelessWidget {
                       SizedBox(
                         width: 2.w,
                       ),
-                      SvgPicture.asset(
-                        IconPath.checkStar,
+                      SizedBox(
                         width: 18.r,
+                        height: 18.r,
+                        child: SvgPicture.asset(
+                          iconPath,
+                          width: 18.r,
+                          height: 18.r,
+                        ),
                       ),
                       Spacer(),
                       Text(

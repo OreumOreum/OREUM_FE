@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -17,6 +18,7 @@ import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
@@ -25,10 +27,14 @@ import '../viewmodels/states/recommend_state.dart';
 
 class RecommendScreen extends ConsumerStatefulWidget {
   final int contentTypeId;
+  final RegionFilter regionFilter;
+  final bool type;
 
   const RecommendScreen({
     super.key,
     required this.contentTypeId,
+    required this.regionFilter,
+    required this.type,
   });
 
   @override
@@ -45,7 +51,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     Future.microtask(() {
       ref
           .read(recommendViewModelProvider.notifier)
-          .fetchPlaces(widget.contentTypeId);
+          .fetchPlaces(widget.contentTypeId, widget.type, widget.regionFilter);
     });
   }
 
@@ -59,14 +65,121 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
   void _scrollListener() {
     if (_scrollController.position.pixels >
         _scrollController.position.maxScrollExtent - 300) {
-      // 다음 페이지 로딩 시에도 contentTypeId 전달
+      final currentTypeId =
+          ref.read(recommendViewModelProvider).selectedContentTypeId ??
+              widget.contentTypeId;
       ref
           .read(recommendViewModelProvider.notifier)
-          .fetchNextPage(widget.contentTypeId);
+          .fetchNextPage(currentTypeId, widget.type, widget.regionFilter);
     }
   }
 
   final List<LargeCategory> largeCategories = LargeCategory.values;
+
+  void _showSortOptions(BuildContext context) {
+    final viewModel = ref.read(recommendViewModelProvider.notifier);
+    final currentState = ref.read(recommendViewModelProvider);
+    final currentSortOption = currentState.selectedSortOption;
+    final currentTypeId =
+        currentState.selectedContentTypeId ?? widget.contentTypeId;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                child: Container(
+                  width: 42.w,
+                  height: 4.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.gray200,
+                    borderRadius: BorderRadius.circular(2.r),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  viewModel.setSortOption(SortOption.review, widget.regionFilter, currentTypeId, widget.type);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  child: Row(
+                    children: [
+                      Text(
+                        '리뷰 좋은순',
+                        style: context.textStyles.body1.copyWith(
+                          color: currentSortOption == SortOption.review
+                              ? AppColors.primary
+                              : AppColors.gray500,
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 24.r,
+                        height: 24.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            IconPath.expand,
+                            width: 7.w,
+                            height: 12.h,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  viewModel.setSortOption(SortOption.DESC, widget.regionFilter, currentTypeId, widget.type);
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  child: Row(
+                    children: [
+                      Text(
+                        '가나다순',
+                        style: context.textStyles.body1.copyWith(
+                          color: currentSortOption == SortOption.DESC
+                              ? AppColors.primary
+                              : AppColors.gray500,
+                        ),
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                        width: 24.r,
+                        height: 24.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            IconPath.expand,
+                            width: 7.w,
+                            height: 12.h,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 16.h,
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,15 +188,25 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final myTypeState = ref.read(myTravelTypeProvider);
     final myTravelType = myTypeState.myTravelType;
     final myTravelTypeLabel = myTravelType!.type;
+    final sortLabel =
+        state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
     final categoryLabel = LargeCategory.values
         .firstWhere(
           (cat) =>
-      cat.contentTypeId ==
-          (state.selectedContentTypeId ?? widget.contentTypeId),
-      orElse: () => LargeCategory.touristAttraction,
-    )
+              cat.contentTypeId ==
+              (state.selectedContentTypeId ?? widget.contentTypeId),
+          orElse: () => LargeCategory.touristAttraction,
+        )
         .label;
-
+    String titleText;
+    String primaryText;
+    if (widget.type == true) {
+      titleText = AppStrings.typeRecommend(myTravelTypeLabel);
+      primaryText = myTravelTypeLabel;
+    } else {
+      titleText = '전체 여행지를 추천해드려요';
+      primaryText = '사람';
+    }
     return Scaffold(
       appBar: CustomAppBar.back(),
       body: SafeArea(
@@ -96,11 +219,11 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 children: [
                   SizedBox(height: 24.h),
                   Padding(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppSizes.defaultPadding),
                     child: HomeTitleText(
-                        title: AppStrings.typeRecommend(myTravelTypeLabel),
-                        primaryText: myTravelTypeLabel,
+                        title: titleText,
+                        primaryText: primaryText,
                         subtitle: AppStrings.typePlaceRecommendation),
                   ),
                   SizedBox(height: 14.h),
@@ -118,55 +241,54 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         child: Row(
                             children: List.generate(
                                 largeCategories.length * 2 - 1, (index) {
-                              if (index.isOdd) {
-                                return SizedBox(width: 14.w);
-                              } else {
-                                final category = largeCategories[index ~/ 2];
-                                final isSelected = state.selectedContentTypeId ==
-                                    category.contentTypeId;
+                          if (index.isOdd) {
+                            return SizedBox(width: 14.w);
+                          } else {
+                            final category = largeCategories[index ~/ 2];
+                            final isSelected = state.selectedContentTypeId ==
+                                category.contentTypeId;
 
-                                return GestureDetector(
-                                  onTap: () =>
-                                      viewModel.setContentTypeId(
-                                      category.contentTypeId),
-                                  behavior: HitTestBehavior.translucent,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                        height: 52.r,
-                                        width: 52.r,
-                                        child: Center(
-                                          child: SvgPicture.asset(
-                                            category.iconPath,
-                                            width: category.iconWidth,
-                                          ),
-                                        ),
+                            return GestureDetector(
+                              onTap: () => viewModel
+                                  .setContentTypeId(widget.regionFilter, category.contentTypeId,widget.type),
+                              behavior: HitTestBehavior.translucent,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 52.r,
+                                    width: 52.r,
+                                    child: Center(
+                                      child: SvgPicture.asset(
+                                        category.iconPath,
+                                        width: category.iconWidth,
                                       ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        category.label,
-                                        style: context.textStyles.body2.copyWith(
-                                          color: isSelected
-                                              ? AppColors.primary
-                                              : AppColors.gray400,
-                                          fontWeight: isSelected
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                );
-                              }
-                            })),
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    category.label,
+                                    style: context.textStyles.body2.copyWith(
+                                      color: isSelected
+                                          ? AppColors.primary
+                                          : AppColors.gray400,
+                                      fontWeight: isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        })),
                       ),
                     ),
                   ),
                   SizedBox(height: 32.h),
                   Padding(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppSizes.defaultPadding),
                     child: Row(
                       children: [
                         Text(
@@ -176,9 +298,9 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         ),
                         const Spacer(),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => _showSortOptions(context),
                           child: Text(
-                            '리뷰 좋은순',
+                            sortLabel,
                             style: context.textStyles.body1
                                 .copyWith(color: AppColors.gray300),
                           ),
@@ -188,8 +310,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   ),
                   SizedBox(height: 14.h),
                   Padding(
-                    padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppSizes.defaultPadding),
                     child: Row(
                       children: [
                         _buildFilterButton(
@@ -197,10 +319,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           label: '전체',
                           width: 12.r,
                           isSelected: state.selectedFilter == RegionFilter.all,
-                          onTap: () =>
-                              viewModel.setFilter(
-                                  RegionFilter.all, state.selectedContentTypeId ??
-                                  widget.contentTypeId),
+                          onTap: () => viewModel.setFilter(
+                              RegionFilter.all,
+                              state.selectedContentTypeId ??
+                                  widget.contentTypeId, widget.type),
                         ),
                         SizedBox(width: 9.w),
                         _buildFilterButton(
@@ -208,11 +330,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           context: context,
                           label: '제주시',
                           isSelected: state.selectedFilter == RegionFilter.jeju,
-                          onTap: () =>
-                              viewModel.setFilter(
-                                  RegionFilter.jeju,
-                                  state.selectedContentTypeId ??
-                                      widget.contentTypeId),
+                          onTap: () => viewModel.setFilter(
+                              RegionFilter.jeju,
+                              state.selectedContentTypeId ??
+                                  widget.contentTypeId, widget.type),
                         ),
                         SizedBox(width: 9.w),
                         _buildFilterButton(
@@ -220,12 +341,11 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           context: context,
                           label: '서귀포시',
                           isSelected:
-                          state.selectedFilter == RegionFilter.seogwipo,
-                          onTap: () =>
-                              viewModel.setFilter(
-                                  RegionFilter.seogwipo,
-                                  state.selectedContentTypeId ??
-                                      widget.contentTypeId),
+                              state.selectedFilter == RegionFilter.seogwipo,
+                          onTap: () => viewModel.setFilter(
+                              RegionFilter.seogwipo,
+                              state.selectedContentTypeId ??
+                                  widget.contentTypeId, widget.type),
                         ),
                       ],
                     ),
@@ -235,39 +355,44 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               ),
             ),
             if (state.status == UiStatus.loading && !state.isLoadingNextPage)
+              SliverFillRemaining(
+                child: Center(
+                  child: Lottie.asset(AnimationPath.loading,
+                      repeat: true, width: 150.w),
+                ),
+              )
+            else if (state.status == UiStatus.error)
+              SliverFillRemaining(
+                  child: Center(child: Text(state.errorMessage)))
+            else if (state.filteredPlaces.isEmpty)
               const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()))
+                  child: Center(child: Text('표시할 장소가 없습니다.')))
             else
-              if (state.status == UiStatus.error)
-                SliverFillRemaining(
-                    child: Center(child: Text(state.errorMessage)))
-              else
-                if (state.filteredPlaces.isEmpty)
-                  const SliverFillRemaining(
-                      child: Center(child: Text('표시할 장소가 없습니다.')))
-                else
-                  SliverList.separated(
-                    itemCount: state.filteredPlaces.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final place = state.filteredPlaces[index];
-                      return PlaceListTile(
-                          thumbnailImage: place.thumbnailImage ?? '',
-                          title: place.title,
-                          address: 'place.address');
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider(
-                        height: 1.h,
-                        thickness: 1.h,
-                        color: AppColors.gray100,
-                      );
-                    },
-                  ),
+              SliverList.separated(
+                itemCount: state.filteredPlaces.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final place = state.filteredPlaces[index];
+                  return PlaceListTile(
+                      thumbnailImage: place.thumbnailImage ?? '',
+                      title: place.title,
+                      address: place.address ?? '');
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    height: 1.h,
+                    thickness: 1.h,
+                    color: AppColors.gray100,
+                  );
+                },
+              ),
             if (state.isLoadingNextPage)
-              const SliverToBoxAdapter(
+              SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(
+                    child: Lottie.asset(AnimationPath.loading,
+                        repeat: true, width: 150.w),
+                  ),
                 ),
               ),
             SliverToBoxAdapter(child: SizedBox(height: 16.h)),
@@ -289,7 +414,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     String iconPath;
 
     if (isSelected) {
-      textColor = Colors.white;
+      textColor = AppColors.white;
       if (label == '제주시') {
         color = AppColors.jeju;
         iconPath = ImagePath.tangerine;
@@ -331,7 +456,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             ),
             SizedBox(width: 4.w),
             Text(label,
-                style: context.textStyles.body1.copyWith(color: textColor)),
+                style:
+                    context.textStyles.body1.copyWith(color: AppColors.white)),
           ],
         ),
       ),

@@ -24,7 +24,7 @@ if (localProperties['flutter.mapsApiKey'] != null) {
 
 android {
     namespace = "com.example.oreum.oreum_fe"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

@@ -23,6 +23,7 @@ mixin _$MonthlySpotMapState {
   List<SpotMonthResponse> get spots => throw _privateConstructorUsedError;
   bool get isProximity => throw _privateConstructorUsedError;
   double get currentZoom => throw _privateConstructorUsedError;
+  LocationPermission get permissionStatus => throw _privateConstructorUsedError;
   SpotMonthResponse? get selectedSpot => throw _privateConstructorUsedError;
   SpotMonthResponse? get proximateSpot => throw _privateConstructorUsedError;
   GoogleMapController? get mapController => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $MonthlySpotMapStateCopyWith<$Res> {
       List<SpotMonthResponse> spots,
       bool isProximity,
       double currentZoom,
+      LocationPermission permissionStatus,
       SpotMonthResponse? selectedSpot,
       SpotMonthResponse? proximateSpot,
       GoogleMapController? mapController,
@@ -80,6 +82,7 @@ class _$MonthlySpotMapStateCopyWithImpl<$Res, $Val extends MonthlySpotMapState>
     Object? spots = null,
     Object? isProximity = null,
     Object? currentZoom = null,
+    Object? permissionStatus = null,
     Object? selectedSpot = freezed,
     Object? proximateSpot = freezed,
     Object? mapController = freezed,
@@ -114,6 +117,10 @@ class _$MonthlySpotMapStateCopyWithImpl<$Res, $Val extends MonthlySpotMapState>
           ? _value.currentZoom
           : currentZoom // ignore: cast_nullable_to_non_nullable
               as double,
+      permissionStatus: null == permissionStatus
+          ? _value.permissionStatus
+          : permissionStatus // ignore: cast_nullable_to_non_nullable
+              as LocationPermission,
       selectedSpot: freezed == selectedSpot
           ? _value.selectedSpot
           : selectedSpot // ignore: cast_nullable_to_non_nullable
@@ -178,6 +185,7 @@ abstract class _$$MonthlySpotMapStateImplCopyWith<$Res>
       List<SpotMonthResponse> spots,
       bool isProximity,
       double currentZoom,
+      LocationPermission permissionStatus,
       SpotMonthResponse? selectedSpot,
       SpotMonthResponse? proximateSpot,
       GoogleMapController? mapController,
@@ -209,6 +217,7 @@ class __$$MonthlySpotMapStateImplCopyWithImpl<$Res>
     Object? spots = null,
     Object? isProximity = null,
     Object? currentZoom = null,
+    Object? permissionStatus = null,
     Object? selectedSpot = freezed,
     Object? proximateSpot = freezed,
     Object? mapController = freezed,
@@ -243,6 +252,10 @@ class __$$MonthlySpotMapStateImplCopyWithImpl<$Res>
           ? _value.currentZoom
           : currentZoom // ignore: cast_nullable_to_non_nullable
               as double,
+      permissionStatus: null == permissionStatus
+          ? _value.permissionStatus
+          : permissionStatus // ignore: cast_nullable_to_non_nullable
+              as LocationPermission,
       selectedSpot: freezed == selectedSpot
           ? _value.selectedSpot
           : selectedSpot // ignore: cast_nullable_to_non_nullable
@@ -274,6 +287,7 @@ class _$MonthlySpotMapStateImpl implements _MonthlySpotMapState {
       final List<SpotMonthResponse> spots = const [],
       this.isProximity = false,
       this.currentZoom = 15.0,
+      this.permissionStatus = LocationPermission.denied,
       this.selectedSpot,
       this.proximateSpot,
       this.mapController,
@@ -322,6 +336,9 @@ class _$MonthlySpotMapStateImpl implements _MonthlySpotMapState {
   @JsonKey()
   final double currentZoom;
   @override
+  @JsonKey()
+  final LocationPermission permissionStatus;
+  @override
   final SpotMonthResponse? selectedSpot;
   @override
   final SpotMonthResponse? proximateSpot;
@@ -332,7 +349,7 @@ class _$MonthlySpotMapStateImpl implements _MonthlySpotMapState {
 
   @override
   String toString() {
-    return 'MonthlySpotMapState(status: $status, errorMessage: $errorMessage, markers: $markers, circles: $circles, spots: $spots, isProximity: $isProximity, currentZoom: $currentZoom, selectedSpot: $selectedSpot, proximateSpot: $proximateSpot, mapController: $mapController, currentPosition: $currentPosition)';
+    return 'MonthlySpotMapState(status: $status, errorMessage: $errorMessage, markers: $markers, circles: $circles, spots: $spots, isProximity: $isProximity, currentZoom: $currentZoom, permissionStatus: $permissionStatus, selectedSpot: $selectedSpot, proximateSpot: $proximateSpot, mapController: $mapController, currentPosition: $currentPosition)';
   }
 
   @override
@@ -350,6 +367,8 @@ class _$MonthlySpotMapStateImpl implements _MonthlySpotMapState {
                 other.isProximity == isProximity) &&
             (identical(other.currentZoom, currentZoom) ||
                 other.currentZoom == currentZoom) &&
+            (identical(other.permissionStatus, permissionStatus) ||
+                other.permissionStatus == permissionStatus) &&
             (identical(other.selectedSpot, selectedSpot) ||
                 other.selectedSpot == selectedSpot) &&
             (identical(other.proximateSpot, proximateSpot) ||
@@ -370,6 +389,7 @@ class _$MonthlySpotMapStateImpl implements _MonthlySpotMapState {
       const DeepCollectionEquality().hash(_spots),
       isProximity,
       currentZoom,
+      permissionStatus,
       selectedSpot,
       proximateSpot,
       mapController,
@@ -394,6 +414,7 @@ abstract class _MonthlySpotMapState implements MonthlySpotMapState {
       final List<SpotMonthResponse> spots,
       final bool isProximity,
       final double currentZoom,
+      final LocationPermission permissionStatus,
       final SpotMonthResponse? selectedSpot,
       final SpotMonthResponse? proximateSpot,
       final GoogleMapController? mapController,
@@ -413,6 +434,8 @@ abstract class _MonthlySpotMapState implements MonthlySpotMapState {
   bool get isProximity;
   @override
   double get currentZoom;
+  @override
+  LocationPermission get permissionStatus;
   @override
   SpotMonthResponse? get selectedSpot;
   @override
