@@ -8,6 +8,8 @@ import 'package:oreum_fe/features/auth/domain/usecases/kakao_login_use_case.dart
 import 'package:oreum_fe/features/auth/presentation/viewmodels/states/auth_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/di/my_type_provider.dart';
+
 part 'auth_view_model.g.dart';
 
 @riverpod
@@ -27,6 +29,11 @@ class AuthViewModel extends _$AuthViewModel {
 
       final UserTypeNotifier userTypeNotifier = ref.read(userTypeNotifierProvider);
       await userTypeNotifier.checkUserType();
+      ref.read(userTypeNotifierProvider);
+      print('typeState ===== ${userTypeNotifier.hasType}');
+      if(userTypeNotifier.hasType == false){
+        await ref.read(myTravelTypeProvider.notifier).getMyTravelType();
+      }
     } catch (e) {
       state = state.copyWith(status: AuthStatus.error, errorMessage: e.toString());
     }
@@ -42,6 +49,11 @@ class AuthViewModel extends _$AuthViewModel {
 
       final UserTypeNotifier userTypeNotifier = ref.read(userTypeNotifierProvider);
       await userTypeNotifier.checkUserType();
+      ref.read(userTypeNotifierProvider);
+      print('typeState ===== ${userTypeNotifier.hasType}');
+      if(userTypeNotifier.hasType == false){
+        await ref.read(myTravelTypeProvider.notifier).getMyTravelType();
+      }
     } catch (e) {
       state = state.copyWith(status: AuthStatus.error, errorMessage: e.toString());
     }
@@ -57,6 +69,11 @@ class AuthViewModel extends _$AuthViewModel {
       ref.read(loginNotifierProvider).setLoggedIn();
       final UserTypeNotifier userTypeNotifier = ref.read(userTypeNotifierProvider);
       await userTypeNotifier.checkUserType();
+      ref.read(userTypeNotifierProvider);
+      print('typeState ===== ${userTypeNotifier.hasType}');
+      if(userTypeNotifier.hasType == false){
+        await ref.read(myTravelTypeProvider.notifier).getMyTravelType();
+      }
     } catch (e) {
       state = state.copyWith(status: AuthStatus.error, errorMessage:  e.toString());
     }

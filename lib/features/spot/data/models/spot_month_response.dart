@@ -15,6 +15,7 @@ class SpotMonthResponse with _$SpotMonthResponse {
     required double mapY,
     required bool visited,
     String? thumbnailImage,
+    String? originImage,
   }) = _SpotMonthResponse;
 
   factory SpotMonthResponse.fromJson(Map<String, dynamic> json) =>

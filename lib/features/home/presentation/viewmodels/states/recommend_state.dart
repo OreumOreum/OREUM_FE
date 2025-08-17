@@ -7,7 +7,7 @@ import '../../../../../core/constants/ui_status.dart';
 part 'recommend_state.freezed.dart';
 
 enum RegionFilter { all, jeju, seogwipo }
-
+enum SortOption { review, DESC }
 @freezed
 class RecommendState with _$RecommendState {
   const factory RecommendState({
@@ -19,6 +19,7 @@ class RecommendState with _$RecommendState {
     @Default(0) int currentPage,
     @Default(false) bool isLastPage,
     @Default(false) bool isLoadingNextPage,
+    @Default(SortOption.review) SortOption selectedSortOption,
     int? selectedContentTypeId,
     TravelType? myTravelType,
   }) = _RecommendState;

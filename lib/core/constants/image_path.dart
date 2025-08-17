@@ -7,4 +7,5 @@ abstract class ImagePath {
   static String typeImage(String type) => 'assets/images/type_$type.png';
   static String typeProfile(String type) => 'assets/images/profile_$type.png';
   static const error = 'assets/images/error.png';
+  static String badge(String badgeName) => 'assets/images/$badgeName.png';
 }

@@ -18,6 +18,7 @@ _$SpotMonthResponseImpl _$$SpotMonthResponseImplFromJson(
       mapY: (json['mapY'] as num).toDouble(),
       visited: json['visited'] as bool,
       thumbnailImage: json['thumbnailImage'] as String?,
+      originImage: json['originImage'] as String?,
     );
 
 Map<String, dynamic> _$$SpotMonthResponseImplToJson(
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$SpotMonthResponseImplToJson(
       'mapY': instance.mapY,
       'visited': instance.visited,
       'thumbnailImage': instance.thumbnailImage,
+      'originImage': instance.originImage,
     };

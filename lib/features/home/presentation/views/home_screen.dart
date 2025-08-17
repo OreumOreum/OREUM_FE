@@ -41,6 +41,7 @@ import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../viewmodels/home_view_model.dart';
+import '../viewmodels/states/recommend_state.dart';
 import '../widgets/page_gradient_carousel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -241,7 +242,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onTap: () {
           context.push(
             RoutePath.recommend,
-            extra: {'contentTypeId': category.contentTypeId},
+            extra: {'contentTypeId': category.contentTypeId,'type': false, 'initialFilter':RegionFilter.all},
           );
         },
         behavior: HitTestBehavior.translucent,
@@ -416,33 +417,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               final String city =
                   (index < fixedCities.length) ? fixedCities[index] : '제주';
 
-              return CarouselItem(
-                background: (spot.thumbnailImage == null)
+                return CarouselItem(
+                  background: (spot.originImage == null)
                     ? Container(
-                        color: AppColors.gray100,
-                        child: Image.asset(
-                          ImagePath.imageError,
-                          width: 74.r,
-                        ),
-                      )
-                    : CachedNetworkImage(
-                        cacheManager: CustomCacheManager(),
-                        imageUrl: spot.thumbnailImage!,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Container(
+                    color: AppColors.gray100,
+                    child: Image.asset(
+                      ImagePath.imageError,
+                      width: 74.r,
+                    ),
+                  )
+                  : CachedNetworkImage(
+                    cacheManager: CustomCacheManager(),
+                    imageUrl:  spot.originImage!,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) =>
+                        Container(
                           color: AppColors.gray100,
                           child: Image.asset(
                             ImagePath.imageError,
                             width: 74.r,
                           ),
                         ),
-                      ),
-                title: spot.title,
-                count: count.toString(),
-                city: city,
-              );
-            }).toList(),
-          ),
+                  ),
+                  title: spot.title,
+                  count: count.toString(),
+                  city: city,
+                  isVisited: spot.visited,
+                );
+              }).toList(),
+            ),
           SizedBox(
             height: 14.h,
           ),
@@ -523,7 +526,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: 14.h, horizontal: AppSizes.defaultPadding),
-            child: SplitRoundedButton(),
+            child: SplitRoundedButton(
+              onJejuTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.jeju,
+                  },
+                );
+              },
+              onSeogwipoTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.seogwipo,
+                  },
+                );
+              },
+            ),
           ),
 
           /// ============================================
@@ -623,8 +647,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   height: 18.h,
                 ),
                 Center(
-                  child: TextButton(
-                    onPressed: () {},
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push(
+                        RoutePath.recommend,
+                        extra: {'contentTypeId': 0,'type': true, 'initialFilter':RegionFilter.all},
+                      );
+                    },
                     child: Text(
                       AppStrings.viewAll,
                       style: context.textStyles.body1
