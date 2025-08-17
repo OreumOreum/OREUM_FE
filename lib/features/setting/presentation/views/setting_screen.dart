@@ -21,6 +21,7 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
+import '../../../../core/utils/custom_tab_launcher.dart';
 import '../viewmodels/setting_view_model.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
@@ -564,7 +565,11 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('서비스 터치');
+                          launchCustomTab(
+                            context,
+                            url: 'https://butternut-lens-9b9.notion.site/2527f270b082800faff2c6b3d867d95d',
+                            title: '서비스 이용약관',
+                          );
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Padding(
@@ -602,7 +607,11 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('개인정보 터치');
+                          launchCustomTab(
+                            context,
+                            url: 'https://butternut-lens-9b9.notion.site/2097f270b082819d9bdfe6f21f2a4ef4',
+                            title: '모닥불 개인정보 처리방침',
+                          );
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Padding(
