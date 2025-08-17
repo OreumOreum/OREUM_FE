@@ -8,6 +8,7 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/features/place/data/models/planner_place.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
@@ -37,6 +38,107 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
   GoogleMapController? _mapController;
   late TabController _tabController;
   Set<Marker> _markers = {};
+
+  final String _mapStyle = '''
+  [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#f5f2e7" }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#4b4b4b" }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#ffffff" },
+      { "weight": 2 }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#8edce6" }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#007d8f" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#b5e3b2" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#3f7d3a" }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "elementType": "labels.icon",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffd28d" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      { "color": "#f5b45b" }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffeecd" }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#d8f0f0" }
+    ]
+  }
+]
+  ''';
 
   @override
   void initState() {
@@ -198,7 +300,11 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
       return Scaffold(
         appBar: CustomAppBar.backWithText(
             title: state.plannerName ?? widget.plannerName),
-        body: Text('error: ${state.errorMessage}'),
+        body: ErrorRetryWidget(onPressed: () {
+          ref
+              .read(plannerDetailViewModelProvider.notifier)
+              .getPlannerPlace(widget.plannerId);
+        },),
       );
     }
 
@@ -250,6 +356,17 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
                               });
 
                               return GoogleMap(
+                                style: _mapStyle,
+                                scrollGesturesEnabled: true,
+                                zoomGesturesEnabled: true,
+                                zoomControlsEnabled: false,
+                                myLocationButtonEnabled: false,
+                                mapToolbarEnabled: false,
+                                compassEnabled: false,
+                                indoorViewEnabled: false,
+                                trafficEnabled: false,
+                                buildingsEnabled: false,
+
                                 onMapCreated: (controller) async {
                                   _mapController = controller;
 

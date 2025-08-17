@@ -10,6 +10,7 @@ import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_response.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
@@ -57,7 +58,11 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Text('error: ${state.errorMessage}');
+      return ErrorRetryWidget(
+        onPressed: () {
+          ref.read(plannerListViewModelProvider.notifier).getPlanners();
+        },
+      );
     }
 
     List<PlannerResponse> planners = state.planners;
@@ -73,7 +78,9 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
             ),
             HomeTitleText(
               title: AppStrings.userCreatedCourseTitle,
-              primaryText: '모험 액티비티형', ///내 타입 가져와야 됨
+              primaryText: '모험 액티비티형',
+
+              ///내 타입 가져와야 됨
               subtitle: AppStrings.userCreatedCourseSubTitle,
             ),
             SizedBox(
@@ -98,8 +105,8 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
                 return PlannerListTile.iconButton(
                   title: title,
                   subTitle: subTitle,
-                  onPressed: () =>
-                      context.push(RoutePath.plannerDetail(plannerId), extra: title),
+                  onPressed: () => context
+                      .push(RoutePath.plannerDetail(plannerId), extra: title),
                   onButtonPressed: () {
                     showPlannerMenuModal(context, plannerId);
                   },
