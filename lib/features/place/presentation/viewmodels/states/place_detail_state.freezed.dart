@@ -22,6 +22,7 @@ mixin _$PlaceDetailState {
   PlaceResponse? get place => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
   TourResponse? get tour => throw _privateConstructorUsedError;
+  List<Place> get typePlaces => throw _privateConstructorUsedError;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -42,7 +43,8 @@ abstract class $PlaceDetailStateCopyWith<$Res> {
       String errorMessage,
       PlaceResponse? place,
       List<ReviewResponse> reviews,
-      TourResponse? tour});
+      TourResponse? tour,
+      List<Place> typePlaces});
 
   $PlaceResponseCopyWith<$Res>? get place;
   $TourResponseCopyWith<$Res>? get tour;
@@ -69,6 +71,7 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
     Object? place = freezed,
     Object? reviews = null,
     Object? tour = freezed,
+    Object? typePlaces = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -95,6 +98,10 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
           ? _value.tour
           : tour // ignore: cast_nullable_to_non_nullable
               as TourResponse?,
+      typePlaces: null == typePlaces
+          ? _value.typePlaces
+          : typePlaces // ignore: cast_nullable_to_non_nullable
+              as List<Place>,
     ) as $Val);
   }
 
@@ -141,7 +148,8 @@ abstract class _$$PlaceDetailStateImplCopyWith<$Res>
       String errorMessage,
       PlaceResponse? place,
       List<ReviewResponse> reviews,
-      TourResponse? tour});
+      TourResponse? tour,
+      List<Place> typePlaces});
 
   @override
   $PlaceResponseCopyWith<$Res>? get place;
@@ -168,6 +176,7 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
     Object? place = freezed,
     Object? reviews = null,
     Object? tour = freezed,
+    Object? typePlaces = null,
   }) {
     return _then(_$PlaceDetailStateImpl(
       status: null == status
@@ -194,6 +203,10 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
           ? _value.tour
           : tour // ignore: cast_nullable_to_non_nullable
               as TourResponse?,
+      typePlaces: null == typePlaces
+          ? _value._typePlaces
+          : typePlaces // ignore: cast_nullable_to_non_nullable
+              as List<Place>,
     ));
   }
 }
@@ -207,8 +220,10 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
       this.errorMessage = '',
       this.place,
       final List<ReviewResponse> reviews = const [],
-      this.tour})
-      : _reviews = reviews;
+      this.tour,
+      final List<Place> typePlaces = const []})
+      : _reviews = reviews,
+        _typePlaces = typePlaces;
 
   @override
   @JsonKey()
@@ -232,10 +247,18 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
 
   @override
   final TourResponse? tour;
+  final List<Place> _typePlaces;
+  @override
+  @JsonKey()
+  List<Place> get typePlaces {
+    if (_typePlaces is EqualUnmodifiableListView) return _typePlaces;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_typePlaces);
+  }
 
   @override
   String toString() {
-    return 'PlaceDetailState(status: $status, buttonStatus: $buttonStatus, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour)';
+    return 'PlaceDetailState(status: $status, buttonStatus: $buttonStatus, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour, typePlaces: $typePlaces)';
   }
 
   @override
@@ -250,12 +273,21 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
                 other.errorMessage == errorMessage) &&
             (identical(other.place, place) || other.place == place) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
-            (identical(other.tour, tour) || other.tour == tour));
+            (identical(other.tour, tour) || other.tour == tour) &&
+            const DeepCollectionEquality()
+                .equals(other._typePlaces, _typePlaces));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, buttonStatus,
-      errorMessage, place, const DeepCollectionEquality().hash(_reviews), tour);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      buttonStatus,
+      errorMessage,
+      place,
+      const DeepCollectionEquality().hash(_reviews),
+      tour,
+      const DeepCollectionEquality().hash(_typePlaces));
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -274,7 +306,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
       final String errorMessage,
       final PlaceResponse? place,
       final List<ReviewResponse> reviews,
-      final TourResponse? tour}) = _$PlaceDetailStateImpl;
+      final TourResponse? tour,
+      final List<Place> typePlaces}) = _$PlaceDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -288,6 +321,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
   List<ReviewResponse> get reviews;
   @override
   TourResponse? get tour;
+  @override
+  List<Place> get typePlaces;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.

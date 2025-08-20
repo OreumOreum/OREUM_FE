@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,9 @@ import 'package:oreum_fe/features/review/presentation/views/create_review_screen
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/review_list_tile.dart';
+
+import '../../../../core/constants/image_path.dart';
+import '../../../../core/utils/custom_cache_manager.dart';
 
 class ReviewDetailScreen extends ConsumerStatefulWidget {
   final String id;
@@ -136,15 +140,24 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref
-          .read(reviewDetailViewModelProvider.notifier)
-          .getPlaceReviews(widget.id, '0', '20');
+      if (widget.type == ReviewType.place) {
+        ref
+            .read(reviewDetailViewModelProvider.notifier)
+            .getPlaceReviews(widget.id, '0', '20');
+      } else if (widget.type == ReviewType.course) {
+        ref
+            .read(reviewDetailViewModelProvider.notifier)
+            .getCourseReviews(widget.id, '0', '20');
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(reviewDetailViewModelProvider);
+
+    print('전달받은 widget.rate: ${widget.rate}');
+    print('reviews 개수: ${state.reviews.length}');
 
     if (state.status == UiStatus.loading) {
       return Scaffold(
@@ -185,19 +198,24 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
                               width: 84.r,
                               height: 84.r,
                             )
-                          : Image.network(
-                              widget.originImage!, // 첫 번째 이미지
-                              height: 84.r,
-                              width: 84.r,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: AppColors.gray200,
-                                  width: 84.r,
-                                  height: 84.r,
-                                );
-                              },
+                          : CachedNetworkImage(
+                        cacheManager: CustomCacheManager(),
+                        imageUrl: widget.originImage!,
+                        height: 84.r,
+                        width: 84.r,
+                        fit: BoxFit.cover,
+                        errorWidget: (context, url, error) => Container(
+                          height: 84.r,
+                          width: 84.r,
+                          color: AppColors.gray100,
+                          child: Center(
+                            child: Image.asset(
+                              ImagePath.imageError,
+                              width: 52.r,
                             ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 14.h),
                     Text(
@@ -260,11 +278,34 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
                         .copyWith(color: AppColors.gray500),
                   ),
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (widget.type == ReviewType.place) {
-                        context.push('${RoutePath.createPlaceReview}/${widget.id}');
-                      } else {
+                        // 장소 리뷰 작성 화면으로 이동
+                        await context.push('${RoutePath.createPlaceReview}/${widget.id}',extra: {
+                          'name': widget.name,
+                          'address': widget.address,
+                          'originImage': widget.originImage
+                        });
 
+                        // 장소 리뷰 새로고침
+                        if (mounted) {
+                          await ref
+                              .read(reviewDetailViewModelProvider.notifier)
+                              .refreshReviewsBackground(widget.id, '0', '20');
+                        }
+                      } else if (widget.type == ReviewType.course) {
+                        // 코스 리뷰 작성 화면으로 이동
+                        await context.push('${RoutePath.createCourseReview}/${widget.id}',extra: {
+                          'name': widget.name,
+                          'originImage': widget.originImage
+                        });
+
+                        // 코스 리뷰 새로고침
+                        if (mounted) {
+                          await ref
+                              .read(reviewDetailViewModelProvider.notifier)
+                              .refreshCourseReviewsBackground(widget.id, '0', '20');
+                        }
                       }
                     },
                     child: Text(

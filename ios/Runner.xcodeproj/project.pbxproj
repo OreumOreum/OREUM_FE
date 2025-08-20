@@ -13,6 +13,7 @@
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		573FBEC92D05A91A00714635 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 573FBEC82D05A91A00714635 /* GoogleService-Info.plist */; };
 		7426B4302E4B558800A4F21B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7426B42F2E4B558800A4F21B /* GoogleService-Info.plist */; };
+		7426B4332E50BC0600A4F21B /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7426B4322E50BC0600A4F21B /* Secrets.xcconfig */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		8FDA1C09389B778484AD5334 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F3ECFE38AFF6D14D0BA5529 /* Pods_RunnerTests.framework */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -56,6 +57,8 @@
 		573FBEC82D05A91A00714635 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		573FBECA2E48058200714635 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		7426B42F2E4B558800A4F21B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7426B4322E50BC0600A4F21B /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		7426B4342E50BCA800A4F21B /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -129,6 +132,7 @@
 				9740EEB21CF90195004384FC /* Debug.xcconfig */,
 				7AFA3C8E1D35360C0083082E /* Release.xcconfig */,
 				9740EEB31CF90195004384FC /* Generated.xcconfig */,
+				7426B4322E50BC0600A4F21B /* Secrets.xcconfig */,
 			);
 			name = Flutter;
 			sourceTree = "<group>";
@@ -142,6 +146,7 @@
 				331C8082294A63A400263BE5 /* RunnerTests */,
 				8E29279FCCE76691684F9A53 /* Pods */,
 				3864841BDE8DF958BE590558 /* Frameworks */,
+				7426B4342E50BCA800A4F21B /* Secrets.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -268,6 +273,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7426B4332E50BC0600A4F21B /* Secrets.xcconfig in Resources */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				573FBEC92D05A91A00714635 /* GoogleService-Info.plist in Resources */,

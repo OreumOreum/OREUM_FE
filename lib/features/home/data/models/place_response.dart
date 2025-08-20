@@ -28,6 +28,7 @@ class Place with _$Place {
     required bool isSaved,
     String? contentId,
     String? contentTypeId,
+    String? address,
 
 
   }) = _Place;

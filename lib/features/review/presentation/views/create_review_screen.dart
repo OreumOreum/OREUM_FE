@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +26,9 @@ import 'package:oreum_fe/features/review/presentation/viewmodels/create_review_v
 import 'package:oreum_fe/main.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 
+import '../../../../core/constants/image_path.dart';
+import '../../../../core/utils/custom_cache_manager.dart';
+
 enum ReviewType {
   place,
   course,
@@ -32,27 +36,37 @@ enum ReviewType {
 
 class CreateReviewScreen extends ConsumerStatefulWidget {
   final String id;
+  final String name;
+  final String? address;
+  final String? originImage;
   final ReviewType? type;
 
-  const CreateReviewScreen({super.key, required this.id, this.type});
+
+  const CreateReviewScreen({super.key, required this.id, required this.name, this.address, this.originImage, this.type,});
 
   @override
   ConsumerState<CreateReviewScreen> createState() => _CreateReviewScreenState();
 
   factory CreateReviewScreen.place({
-    required String id,
+    required String id, required String name, required String address, String? originImage,
   }) =>
       CreateReviewScreen(
         id: id,
+        name: name,
+        address: address,
+        originImage: originImage,
         type: ReviewType.place,
       );
 
   factory CreateReviewScreen.course({
-    required String id,
+    required String id, required String name, String? originImage
   }) =>
       CreateReviewScreen(
         id: id,
         type: ReviewType.course,
+        name: name,
+        address: null,
+        originImage: originImage,
       );
 }
 
@@ -130,25 +144,40 @@ class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      mockPlace2[1]['thumbnailImage']!, // 첫 번째 이미지
+                    child: CachedNetworkImage(
+                      cacheManager: CustomCacheManager(),
+                      imageUrl: widget.originImage!,
                       height: 84.r,
                       width: 84.r,
                       fit: BoxFit.cover,
+                      errorWidget: (context, url, error) => Container(
+                        height: 84.r,
+                        width: 84.r,
+                        color: AppColors.gray100,
+                        child: Center(
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 52.r,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(height: 14.h),
                   Text(
-                    mockPlace2[1]['title']!,
+                    widget.name,
                     style: context.textStyles.headLine4
                         .copyWith(color: AppColors.gray500),
                   ),
                   SizedBox(height: 2.h),
-                  Text(
-                    mockPlace2[1]['address']!,
-                    style: context.textStyles.body1
-                        .copyWith(color: AppColors.gray400),
-                  ),
+                  if (widget.address != null) ...[
+                    SizedBox(height: 2.h),
+                    Text(
+                      widget.address!,
+                      style: context.textStyles.body1
+                          .copyWith(color: AppColors.gray400),
+                    ),
+                  ],
                   SizedBox(height: 24.h),
                   RatingBar.builder(
                     initialRating: 0,

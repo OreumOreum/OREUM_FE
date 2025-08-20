@@ -26,6 +26,8 @@ mixin _$CourseResponse {
   String? get thumbnailImage => throw _privateConstructorUsedError;
   String get category2 => throw _privateConstructorUsedError;
   int? get sigunguCode => throw _privateConstructorUsedError;
+  String? get contentId => throw _privateConstructorUsedError;
+  String? get contentTypeId => throw _privateConstructorUsedError;
 
   /// Serializes this CourseResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +51,9 @@ abstract class $CourseResponseCopyWith<$Res> {
       String? originImage,
       String? thumbnailImage,
       String category2,
-      int? sigunguCode});
+      int? sigunguCode,
+      String? contentId,
+      String? contentTypeId});
 }
 
 /// @nodoc
@@ -73,6 +77,8 @@ class _$CourseResponseCopyWithImpl<$Res, $Val extends CourseResponse>
     Object? thumbnailImage = freezed,
     Object? category2 = null,
     Object? sigunguCode = freezed,
+    Object? contentId = freezed,
+    Object? contentTypeId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -99,6 +105,14 @@ class _$CourseResponseCopyWithImpl<$Res, $Val extends CourseResponse>
           ? _value.sigunguCode
           : sigunguCode // ignore: cast_nullable_to_non_nullable
               as int?,
+      contentId: freezed == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      contentTypeId: freezed == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -117,7 +131,9 @@ abstract class _$$CourseResponseImplCopyWith<$Res>
       String? originImage,
       String? thumbnailImage,
       String category2,
-      int? sigunguCode});
+      int? sigunguCode,
+      String? contentId,
+      String? contentTypeId});
 }
 
 /// @nodoc
@@ -139,6 +155,8 @@ class __$$CourseResponseImplCopyWithImpl<$Res>
     Object? thumbnailImage = freezed,
     Object? category2 = null,
     Object? sigunguCode = freezed,
+    Object? contentId = freezed,
+    Object? contentTypeId = freezed,
   }) {
     return _then(_$CourseResponseImpl(
       id: null == id
@@ -165,6 +183,14 @@ class __$$CourseResponseImplCopyWithImpl<$Res>
           ? _value.sigunguCode
           : sigunguCode // ignore: cast_nullable_to_non_nullable
               as int?,
+      contentId: freezed == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      contentTypeId: freezed == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -178,7 +204,9 @@ class _$CourseResponseImpl implements _CourseResponse {
       this.originImage,
       this.thumbnailImage,
       required this.category2,
-      this.sigunguCode});
+      this.sigunguCode,
+      this.contentId,
+      this.contentTypeId});
 
   factory _$CourseResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$CourseResponseImplFromJson(json);
@@ -195,10 +223,14 @@ class _$CourseResponseImpl implements _CourseResponse {
   final String category2;
   @override
   final int? sigunguCode;
+  @override
+  final String? contentId;
+  @override
+  final String? contentTypeId;
 
   @override
   String toString() {
-    return 'CourseResponse(id: $id, title: $title, originImage: $originImage, thumbnailImage: $thumbnailImage, category2: $category2, sigunguCode: $sigunguCode)';
+    return 'CourseResponse(id: $id, title: $title, originImage: $originImage, thumbnailImage: $thumbnailImage, category2: $category2, sigunguCode: $sigunguCode, contentId: $contentId, contentTypeId: $contentTypeId)';
   }
 
   @override
@@ -215,13 +247,17 @@ class _$CourseResponseImpl implements _CourseResponse {
             (identical(other.category2, category2) ||
                 other.category2 == category2) &&
             (identical(other.sigunguCode, sigunguCode) ||
-                other.sigunguCode == sigunguCode));
+                other.sigunguCode == sigunguCode) &&
+            (identical(other.contentId, contentId) ||
+                other.contentId == contentId) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, title, originImage,
-      thumbnailImage, category2, sigunguCode);
+      thumbnailImage, category2, sigunguCode, contentId, contentTypeId);
 
   /// Create a copy of CourseResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -247,7 +283,9 @@ abstract class _CourseResponse implements CourseResponse {
       final String? originImage,
       final String? thumbnailImage,
       required final String category2,
-      final int? sigunguCode}) = _$CourseResponseImpl;
+      final int? sigunguCode,
+      final String? contentId,
+      final String? contentTypeId}) = _$CourseResponseImpl;
 
   factory _CourseResponse.fromJson(Map<String, dynamic> json) =
       _$CourseResponseImpl.fromJson;
@@ -264,6 +302,10 @@ abstract class _CourseResponse implements CourseResponse {
   String get category2;
   @override
   int? get sigunguCode;
+  @override
+  String? get contentId;
+  @override
+  String? get contentTypeId;
 
   /// Create a copy of CourseResponse
   /// with the given fields replaced by the non-null parameter values.

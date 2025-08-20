@@ -87,4 +87,6 @@ abstract class IconPath {
 
   static String flags (String flag) => 'assets/icons/flag_$flag.svg';
 
+  static const String mapMarker = 'assets/icons/map_marker.svg';
+
 }

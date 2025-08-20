@@ -1,9 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/features/home/data/models/type_recommend_response.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
+
 
 import '../../../../spot/data/models/spot_month_response.dart';
 import '../../../../course/data/models/course_response.dart';
+import '../../../data/models/category_recommend_response.dart';
+import '../../../data/models/place_response.dart';
 
 part 'home_state.freezed.dart';
 
@@ -19,5 +23,7 @@ class HomeState with _$HomeState {
     int? month,
     WeatherInfo? weatherInfo,
     @Default([]) List<CourseResponse> courses,
+    @Default([]) List<CategoryRecommendResponse> categoryPlaces,
+    @Default([]) List<Place> typePlaces,
 }) = _HomeState;
 }

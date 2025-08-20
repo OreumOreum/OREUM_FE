@@ -50,4 +50,7 @@ abstract class ApiPath {
   static plannerName(String plannerId) => '/v1/planner/$plannerId/name';
   static const plannerRecommend = '/v1/planner/recommend';
 
+  static String folderSaved(int placeId) => '/v1/folder/detail/$placeId';
+
+  static const String categoryRecommend = '/v1/place/category/recommend';
 }

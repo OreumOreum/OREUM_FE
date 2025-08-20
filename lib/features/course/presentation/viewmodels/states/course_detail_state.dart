@@ -5,6 +5,7 @@ import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../../../core/constants/ui_status.dart';
 import '../../../../tour/data/models/tour_response.dart';
+import '../../../data/models/course_response.dart';
 
 part 'course_detail_state.freezed.dart';
 
@@ -16,5 +17,6 @@ class CourseDetailState with _$CourseDetailState{
     CourseDetailResponse? courseDetail ,
     @Default([]) List<ReviewResponse> reviews,
     TourResponse? tour,
+    @Default([]) List<CourseResponse> courses,
   }) = _CourseDetailState;
 }

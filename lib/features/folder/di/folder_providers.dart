@@ -3,13 +3,18 @@ import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/features/folder/data/repositories/folder_repository_impl.dart';
 import 'package:oreum_fe/features/folder/data/services/folder_service.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/add_default_folder_use_case.dart';
+import 'package:oreum_fe/features/folder/domain/usecases/add_place_to_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/create_my_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_folder_place_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_my_folder_use_case.dart';
+import 'package:oreum_fe/features/folder/domain/usecases/delete_place_from_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/edit_my_folder_use_case.dart';
+import 'package:oreum_fe/features/folder/domain/usecases/get_folder_saved_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/get_my_folder_places_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/get_my_folder_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../domain/usecases/delete_default_folder_use_case.dart';
 
 part 'folder_providers.g.dart';
 
@@ -65,4 +70,28 @@ DeleteFolderPlaceUseCase deleteFolderPlaceUseCase (DeleteFolderPlaceUseCaseRef r
 AddDefaultFolderUseCase addDefaultFolderUseCase (AddDefaultFolderUseCaseRef ref) {
   final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
   return AddDefaultFolderUseCase(folderRepositoryImpl);
+}
+
+@riverpod
+DeleteDefaultFolderUseCase deleteDefaultFolderUseCase (DeleteDefaultFolderUseCaseRef ref) {
+  final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
+  return DeleteDefaultFolderUseCase(folderRepositoryImpl);
+}
+
+@riverpod
+GetFolderSavedUseCase getFolderSavedUseCase (GetFolderSavedUseCaseRef ref) {
+  final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
+  return GetFolderSavedUseCase(folderRepositoryImpl);
+}
+
+@riverpod
+AddPlaceToFolderUseCase addPlaceToFolderUseCase (AddPlaceToFolderUseCaseRef ref) {
+  final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
+  return AddPlaceToFolderUseCase(folderRepositoryImpl);
+}
+
+@riverpod
+DeletePlaceFromFolderUseCase deletePlaceFromFolderUseCase (DeletePlaceFromFolderUseCaseRef ref) {
+  final FolderRepositoryImpl folderRepositoryImpl = ref.watch(folderRepositoryImplProvider);
+  return DeletePlaceFromFolderUseCase(folderRepositoryImpl);
 }

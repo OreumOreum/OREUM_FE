@@ -251,8 +251,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       final place = state.filteredPlaces[index];
                       return PlaceListTile(
+                        placeId: place.placeId,
                           thumbnailImage: place.thumbnailImage ?? '',
                           title: place.title,
+                          isSaved: place.isSaved,
                           address: 'place.address');
                     },
                     separatorBuilder: (BuildContext context, int index) {

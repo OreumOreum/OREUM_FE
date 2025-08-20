@@ -14,6 +14,7 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
+import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_add_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
@@ -23,18 +24,21 @@ enum NameEditStatus {
   folderEdit,
   plannerCreate,
   plannerEdit,
+  folderCreatePlaceDetail,
 }
 
 class NameEditingModal extends ConsumerStatefulWidget {
   final NameEditStatus editStatus;
   final String? folderId;
   final String? plannerId;
+  final int? placeId;
 
   const NameEditingModal._({
     super.key,
     required this.editStatus,
     this.folderId,
     this.plannerId,
+    this.placeId,
   });
 
   factory NameEditingModal.folderCreate() => const NameEditingModal._(
@@ -56,6 +60,11 @@ class NameEditingModal extends ConsumerStatefulWidget {
         editStatus: NameEditStatus.plannerEdit,
         plannerId: plannerId,
       );
+
+  factory NameEditingModal.folderCreatePlaceDetail({required int placeId}) => NameEditingModal._(
+    editStatus: NameEditStatus.folderCreatePlaceDetail,
+    placeId: placeId,
+  );
 
   bool get isFolderEditMode => folderId != null;
 
@@ -86,6 +95,8 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
         return AppStrings.addPlan;
       case NameEditStatus.plannerEdit:
         return AppStrings.editPlanner;
+      case NameEditStatus.folderCreatePlaceDetail:
+        return AppStrings.addFolder;
     }
   }
 
@@ -99,6 +110,8 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
         return AppStrings.addPlanner;
       case NameEditStatus.plannerEdit:
         return AppStrings.editPlannerButtonText;
+      case NameEditStatus.folderCreatePlaceDetail:
+        return AppStrings.addFolderButtonText;
     }
   }
 
@@ -115,6 +128,7 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
     final folderDetailState = ref.watch(folderDetailViewModelProvider);
     final folderDetailViewModel =
         ref.read(folderDetailViewModelProvider.notifier);
+    final placeDetailAddViewModel = ref.read(placeDetailAddViewModelProvider.notifier);
     final isCreateLoading = folderListState.buttonStatus == UiStatus.loading;
     final isEditLoading = folderDetailState.buttonStatus == UiStatus.loading;
     final plannerListState = ref.watch(plannerListViewModelProvider);
@@ -247,6 +261,18 @@ class _NameEditingModalState extends ConsumerState<NameEditingModal> {
                                                   .read(
                                                       plannerListViewModelProvider)
                                                   .buttonStatus ==
+                                              UiStatus.success) {
+                                        context.pop();
+                                      }
+                                      break;
+                                    case NameEditStatus.folderCreatePlaceDetail:
+                                      await placeDetailAddViewModel
+                                          .createMyFolderInPlaceDetail(name, widget.placeId!);
+                                      if (mounted &&
+                                          ref
+                                              .read(
+                                              placeDetailAddViewModelProvider)
+                                              .buttonStatus ==
                                               UiStatus.success) {
                                         context.pop();
                                       }

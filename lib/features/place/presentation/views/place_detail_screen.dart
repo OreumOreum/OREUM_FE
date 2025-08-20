@@ -24,7 +24,9 @@ import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_
 import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bottom_sheet.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
+import '../../../home/data/models/place_response.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
+import '../../../home/presentation/widgets/place_list_tile.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 
 class PlaceDetailScreen extends ConsumerStatefulWidget {
@@ -150,6 +152,39 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     },
   ];
 
+  final List<Map<String, String>> mockPlace2 = [
+    {
+      'title': '성산일출봉',
+      'address': '제주특별자치도 서귀포시 성산읍 성산리 1',
+      'thumbnailImage':
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+    },
+    {
+      'title': '협재해수욕장',
+      'address': '제주특별자치도 제주시 한림읍 협재리 2497-1',
+      'thumbnailImage':
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+    },
+    {
+      'title': '한라산국립공원',
+      'address': '제주특별자치도 제주시 1100로 2070-61',
+      'thumbnailImage':
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+    },
+    {
+      'title': '천지연폭포',
+      'address': '제주특별자치도 서귀포시 천지동 667-7',
+      'thumbnailImage':
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+    },
+    {
+      'title': '카카오박물관',
+      'address': '제주특별자치도 제주시 첨단로 242',
+      'thumbnailImage':
+      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+    },
+  ];
+
   String? _getContentTypeIcon(String contentTypeId) {
     final type = ContentTypeId.fromContentTypeId(contentTypeId);
     switch (type) {
@@ -178,7 +213,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     Future.microtask(() {
       ref
           .read(placeDetailViewModelProvider.notifier)
-          .initializePlaceDetail('1', '2850913', '39'); //일단 하드하게
+          .initializePlaceDetail(widget.placeId, widget.contentId, widget.contentTypeId); //일단 하드하게
     });
   }
 
@@ -206,6 +241,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
     PlaceResponse place = state.place!;
     List<ReviewResponse> reviews = state.reviews;
+    List<Place> typePlaces = state.typePlaces;
 
     return Scaffold(
         appBar: CustomAppBar.back(),
@@ -250,6 +286,15 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               constraints: const BoxConstraints(),
                               onPressed: () async {
                                 if (place.isSaved) {
+                                  await ref
+                                      .read(
+                                          placeDetailViewModelProvider.notifier)
+                                      .deleteDefaultFolder(1);
+                                  if (mounted && state.buttonStatus == UiStatus.success) {
+                                    CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
+                                  } else if (mounted && state.buttonStatus == UiStatus.error) {
+                                    CustomToast.showToast(context, '삭제를 실패하였습니다.', 56.h);
+                                  }
                                 } else {
                                   await ref
                                       .read(
@@ -275,7 +320,9 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 }
                               },
                               icon: SvgPicture.asset(
-                                IconPath.bookmarkOutline,
+                                place.isSaved
+                                    ? IconPath.bookmarkFill
+                                    : IconPath.bookmarkOutline,
                                 width: 16.r,
                               ),
                             ),
@@ -302,7 +349,12 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                       ),
                       SizedBox(height: 63.h),
                       DetailContainer(
-                          tourData: state.tour, address: state.place?.address),
+                        tourData: state.tour,
+                        address: place.address,
+                        latitude: place.mapX,
+                        longitude: place.mapY,
+                        isMapTabEnabled: true,
+                      ),
                       SizedBox(height: 56.h),
 
                       ///여행지 소개 부분
@@ -350,8 +402,19 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 .copyWith(color: AppColors.gray500),
                           ),
                           TextButton(
-                            onPressed: () {
-                              context.push('${RoutePath.createPlaceReview}/1');
+                            onPressed: () async {
+                              context.push('${RoutePath.createPlaceReview}/${widget.placeId}',extra: {
+                                'name': state.place!.title,
+                                'address': state.place!.address,
+                                'originImage': state.place!.originImage
+                              });
+
+                              if (mounted) {
+                                await ref
+                                    .read(placeDetailViewModelProvider.notifier)
+                                    .refreshPlaceDetailBackground(widget.placeId);
+                              }
+
                             },
                             child: Text(
                               AppStrings.doReview,
@@ -368,17 +431,16 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                 Divider(height: 1.h, color: AppColors.gray100),
                 SizedBox(height: 6.h),
                 SizedBox(
-                  height: 390.h,
                   child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: reviews.length,
+                    itemCount: reviews.length > 3 ? 3 : reviews.length,
                     itemBuilder: (BuildContext context, int index) {
                       String type = '${reviews[index].type}';
-                      String date =
-                          reviews[index].createdAt.toString().split(' ')[0];
-                      String content = reviews[index].content;
+                      String date = reviews[index].createdAt.toString().split(' ')[0];
+                      String content =
+                          reviews[index].content;
                       double rating = reviews[index].rate;
                       return ReviewListTile(
                           type: type,
@@ -388,31 +450,29 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 8.h,
-                ),
+                SizedBox(height: 8.h,),
                 Divider(height: 1.h, color: AppColors.gray100),
-                SizedBox(
-                  height: 18.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          context
-                              .push('${RoutePath.reviewPlaceDetail}/1', extra: {
-                            'name': state.place!.title,
-                            'address': state.place!.address,
-                            'rate': state.place!.averageRate,
-                            'originImage': state.place!.originImage
-                          });
-                        },
-                        child: Text('전체보기',
-                            style: context.textStyles.body1
-                                .copyWith(color: AppColors.gray200))),
-                  ],
-                ),
+                SizedBox(height: 18.h,),
+
+                if (reviews.length > 3)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            context
+                                .push('${RoutePath.reviewPlaceDetail}/${widget.placeId}', extra: {
+                              'name': state.place!.title,
+                              'address': state.place!.address,
+                              'rate': state.place!.averageRate,
+                              'originImage': state.place!.originImage
+                            });
+                          },
+                          child: Text('전체보기',
+                              style: context.textStyles.body1
+                                  .copyWith(color: AppColors.gray200))),
+                    ],
+                  ),
                 SizedBox(height: 48.h),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 24.h),
@@ -421,47 +481,54 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: AppSizes.defaultPadding),
+                          horizontal: AppSizes.defaultPadding,
+                        ),
                         child: HomeTitleText(
-                            title: AppStrings.travelSuggestionTitle,
+                            title: AppStrings.typeRecommend('모험 액티비티형'),
                             primaryText: '모험 액티비티형',
-                            subtitle: AppStrings.destinationRecommendToUser),
+                            subtitle: AppStrings.typePlaceRecommendation),
                       ),
                       SizedBox(
                         height: 14.h,
                       ),
-                      SizedBox(
-                        height: 120.h,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: AppSizes.defaultPadding),
-                          itemCount: placeImages.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            String thumbnailImage =
-                                placeImages[index]['thumbnailImage']!;
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                AppSizes.radiusXS,
-                              ),
-                              child: Image.network(thumbnailImage,
-                                  height: 120.h,
-                                  width: 163.w,
-                                  fit: BoxFit.cover),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              width: 8.w,
-                            );
-                          },
-                        ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        padding: EdgeInsets.zero,
+                        itemCount: typePlaces.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final place = typePlaces[index];
+                          print('checkcheckplace$place');
+                          String placeId = place.placeId.toString();
+                          String? contentId = place.contentId;
+                          String? contentTypeId = place.contentTypeId;
+
+                          return InkWell(
+                            onTap: ()  {
+                              context.push('${RoutePath.placeDetail}/${placeId}',
+                                  extra: {'contentId' : contentId,
+                                    'contentTypeId' : contentTypeId});
+                            },
+                            child: PlaceListTile(
+                              thumbnailImage: place.thumbnailImage ?? '',
+                              title: place.title,
+                              address: place.address ?? '',
+                              isSaved: place.isSaved,
+                              placeId: place.placeId,
+                            ),
+                          );
+                        },
                       ),
-                      SizedBox(
-                        height: 16.h,
+                      Divider(
+                        height: 1.h,
+                        thickness: 1.h,
+                        color: AppColors.gray100,
                       ),
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 14.h,
                 ),
               ],
             ),
