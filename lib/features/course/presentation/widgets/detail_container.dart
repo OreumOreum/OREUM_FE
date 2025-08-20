@@ -13,6 +13,8 @@ import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/features/tour/data/models/tour_response.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../core/widgets/custom_toast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -75,6 +77,147 @@ class _DetailContainerState extends State<DetailContainer> {
       });
     }
   }
+
+  // 주소 복사 함수
+  void _copyAddressToClipboard() {
+    if (widget.address != null && widget.address!.isNotEmpty) {
+      Clipboard.setData(ClipboardData(text: widget.address!));
+      CustomToast.showToast(context, '주소가 복사되었습니다.', 56.h);
+    } else {
+      CustomToast.showToast(context, '복사할 주소가 없습니다.', 56.h);
+    }
+  }
+
+// 지도 앱 열기 함수 에뮬문제라 안드에서 잘되나 확인
+  void _openMap() async {
+    if (widget.address != null && widget.address!.isNotEmpty) {
+      try {
+        // 주소를 URL 인코딩
+        final encodedAddress = Uri.encodeComponent(widget.address!);
+
+        // 구글맵 웹 URL 생성
+        final googleMapsUrl = 'https://www.google.com/maps/search/?api=1&query=$encodedAddress';
+
+        // URL 파싱
+        final uri = Uri.parse(googleMapsUrl);
+
+        // canLaunchUrl 체크 없이 바로 실행
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication, // 외부 브라우저 강제
+        );
+
+      } catch (e) {
+        print('지도 열기 실패: $e');
+        if (mounted) {
+          CustomToast.showToast(context, '지도를 열 수 없습니다.', 56.h);
+        }
+      }
+    } else {
+      CustomToast.showToast(context, '주소 정보가 없습니다.', 56.h);
+    }
+  }
+
+  final String mapStyle = '''
+  [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#f5f2e7" }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#4b4b4b" }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#ffffff" },
+      { "weight": 2 }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#8edce6" }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#007d8f" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#b5e3b2" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#3f7d3a" }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "elementType": "labels.icon",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffd28d" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      { "color": "#f5b45b" }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffeecd" }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#d8f0f0" }
+    ]
+  }
+]
+  ''';
 
   @override
   Widget build(BuildContext context) {
@@ -374,17 +517,76 @@ class _DetailContainerState extends State<DetailContainer> {
         Container(
           height: 100.h,
           width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: 24.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: _buildGoogleMap(), // 동기 메서드
         ),
+        //이부분에 들어가야함
+        Row(
+          children: [
+            // 주소복사 버튼
+            Expanded(
+              child: GestureDetector(
+                onTap: () => _copyAddressToClipboard(),
+                child: Container(
+                  height: 47.h,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.gray100),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8.r),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(IconPath.addressPaste, width: 10.w,),
+                      SizedBox(width: 2.w),
+                      Text(
+                        '주소 복사',
+                        style: context.textStyles.caption1.copyWith(
+                          color: AppColors.gray200,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // 지도보기 버튼
+            Expanded(
+              child: GestureDetector(
+                onTap: () => _openMap(),
+                child: Container(
+                  height: 47.h,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.gray100),
+                    borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(8.r),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(IconPath.mapIcon, width: 11.w,),
+                      SizedBox(width: 2.w),
+                      Text(
+                        '지도 보기',
+                        style: context.textStyles.caption1.copyWith(
+                          color: AppColors.gray200,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 
-  // 🔥 실제 GoogleMap 위젯 - 동기 방식
   Widget _buildGoogleMap() {
     // 위치 정보가 없으면 기본 UI 표시
     if (widget.latitude == null || widget.longitude == null) {
@@ -419,9 +621,9 @@ class _DetailContainerState extends State<DetailContainer> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.r),
       child: GoogleMap(
+        style: mapStyle,
         onMapCreated: (GoogleMapController controller) async {
           _mapController = controller;
-          // 지도가 생성되면 해당 위치로 카메라 이동
           final position = LatLng(widget.latitude!, widget.longitude!);
           await controller.animateCamera(
             CameraUpdate.newLatLngZoom(position, 16.0),
@@ -441,24 +643,16 @@ class _DetailContainerState extends State<DetailContainer> {
               snippet: widget.address ?? '주소 정보 없음',
             ),
           ),
-        } : {}, // 마커 아이콘이 없으면 빈 Set
-        // PlannerDetailScreen 설정 참고
+        } : {},
         myLocationEnabled: false,
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
-        // 작은 지도에서는 불필요
         mapToolbarEnabled: false,
         liteModeEnabled: false,
-        // 인터랙션 가능한 지도
         scrollGesturesEnabled: true,
-        // 스크롤 제스처 허용
         zoomGesturesEnabled: true,
-        // 줌 제스처 허용
         tiltGesturesEnabled: false,
-        // 기울이기 제스처 비활성화
         rotateGesturesEnabled: false,
-        // 회전 제스처 비활성화
-        // 지도 스타일 설정 (선택사항)
         mapType: MapType.normal,
       ),
     );

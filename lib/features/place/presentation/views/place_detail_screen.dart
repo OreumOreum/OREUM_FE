@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -24,6 +25,7 @@ import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_
 import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bottom_sheet.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../home/data/models/place_response.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../home/presentation/widgets/place_list_tile.dart';
@@ -224,8 +226,11 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     if (state.status == UiStatus.loading) {
       return Scaffold(
         appBar: CustomAppBar.back(),
-        body: const Center(
-          child: CircularProgressIndicator(), //로티
+        body: Padding(
+          padding: EdgeInsets.only(bottom: 56.h),
+          child: Center(
+            child: Lottie.asset(AnimationPath.loading, repeat: true),
+          ),
         ),
       );
     }
@@ -275,9 +280,15 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(place.title,
+                          Expanded(
+                            child: Text(
+                              place.title,
                               style: context.textStyles.headLine3
-                                  .copyWith(color: AppColors.gray500)),
+                                  .copyWith(color: AppColors.gray500),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                           SizedBox(
                             height: 24.r,
                             width: 24.r,
@@ -289,7 +300,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                   await ref
                                       .read(
                                           placeDetailViewModelProvider.notifier)
-                                      .deleteDefaultFolder(1);
+                                      .deleteDefaultFolder(widget.placeId as int);
                                   if (mounted && state.buttonStatus == UiStatus.success) {
                                     CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
                                   } else if (mounted && state.buttonStatus == UiStatus.error) {
@@ -299,7 +310,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                   await ref
                                       .read(
                                           placeDetailViewModelProvider.notifier)
-                                      .addDefaultFolder(1);
+                                      .addDefaultFolder(widget.placeId as int);
                                   if (mounted &&
                                       state.buttonStatus == UiStatus.success) {
                                     showModalBottomSheet(
@@ -348,12 +359,26 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                         ],
                       ),
                       SizedBox(height: 63.h),
-                      DetailContainer(
-                        tourData: state.tour,
-                        address: place.address,
-                        latitude: place.mapX,
-                        longitude: place.mapY,
-                        isMapTabEnabled: true,
+                      Builder(
+                        builder: (context) {
+                          // 🔥 디버깅 로그 추가
+                          print('=== PlaceDetailScreen에서 전달하는 위치 정보 ===');
+                          print('place.title: ${place.title}');
+                          print('place.address: ${place.address}');
+                          print('place.mapX (위도): ${place.mapX}');
+                          print('place.mapY (경도): ${place.mapY}');
+                          print('place.mapX type: ${place.mapX.runtimeType}');
+                          print('place.mapY type: ${place.mapY.runtimeType}');
+                          print('===========================================');
+
+                          return DetailContainer(
+                            tourData: state.tour,
+                            address: place.address,
+                            latitude: place.mapY,
+                            longitude: place.mapX,
+                            isMapTabEnabled: true,
+                          );
+                        },
                       ),
                       SizedBox(height: 56.h),
 

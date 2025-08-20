@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -19,6 +20,7 @@ import 'package:oreum_fe/features/course/presentation/widgets/detail_container.d
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../home/presentation/widgets/course_card.dart';
@@ -168,8 +170,11 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
     if (state.status == UiStatus.loading) {
       return Scaffold(
         appBar: CustomAppBar.back(),
-        body: const Center(
-          child: CircularProgressIndicator(), //로티
+        body: Padding(
+          padding: EdgeInsets.only(bottom: 56.h),
+          child: Center(
+            child: Lottie.asset(AnimationPath.loading, repeat: true),
+          ),
         ),
       );
     }
@@ -179,6 +184,15 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
         appBar: CustomAppBar.back(),
         body: Center(
           child: Text('error: ${state.errorMessage}'),
+        ),
+      );
+    }
+
+    if (state.courseDetail == null) {
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: Text('코스 정보를 불러올 수 없습니다.'),
         ),
       );
     }

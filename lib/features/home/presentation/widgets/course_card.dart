@@ -16,7 +16,7 @@ class CourseCard extends StatelessWidget {
       {super.key,
       required this.title,
       required this.subTitle,
-      required this.thumbnailImage,
+      this.thumbnailImage,
       required this.onPressed});
 
   @override
