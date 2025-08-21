@@ -21,6 +21,7 @@ import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/constants/animation_path.dart';
+import '../../../../core/constants/content_type_id.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../home/presentation/widgets/course_card.dart';
@@ -249,7 +250,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                             children: [
                               SvgPicture.asset(IconPath.star2),
                               SizedBox(width: 2.w),
-                              Text(course.averageRate.toString(),
+                              Text(course.averageRate.toStringAsFixed(1),
                                   style: context.textStyles.caption1
                                       .copyWith(color: AppColors.gray200)),
                               SizedBox(width: 2.w),
@@ -303,11 +304,15 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                       itemCount: places.length,
                       itemBuilder: (context, index) {
                         final dynamic place = places[index];
+
+                        final contentType = ContentTypeId.fromContentTypeId(place.contentTypeId);
+                        String category = contentType?.label ?? '여행지';
+
                         return CourseDetailListTile(
                             totalItemCount: places.length,
                             title: place.title,
                             address: place.address,
-                            category: '한식',
+                            category: category,
                             thumbnailImage: place.thumbnailImage,
                             index: index + 1);
                       },

@@ -342,8 +342,9 @@ mixin _$Place {
   String get address => throw _privateConstructorUsedError;
   double get mapX => throw _privateConstructorUsedError;
   double get mapY => throw _privateConstructorUsedError;
-  String get originImage => throw _privateConstructorUsedError;
-  String get thumbnailImage => throw _privateConstructorUsedError;
+  String? get originImage => throw _privateConstructorUsedError;
+  String? get thumbnailImage => throw _privateConstructorUsedError;
+  String? get contentTypeId => throw _privateConstructorUsedError;
 
   /// Serializes this Place to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -364,8 +365,9 @@ abstract class $PlaceCopyWith<$Res> {
       String address,
       double mapX,
       double mapY,
-      String originImage,
-      String thumbnailImage});
+      String? originImage,
+      String? thumbnailImage,
+      String? contentTypeId});
 }
 
 /// @nodoc
@@ -387,8 +389,9 @@ class _$PlaceCopyWithImpl<$Res, $Val extends Place>
     Object? address = null,
     Object? mapX = null,
     Object? mapY = null,
-    Object? originImage = null,
-    Object? thumbnailImage = null,
+    Object? originImage = freezed,
+    Object? thumbnailImage = freezed,
+    Object? contentTypeId = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -407,14 +410,18 @@ class _$PlaceCopyWithImpl<$Res, $Val extends Place>
           ? _value.mapY
           : mapY // ignore: cast_nullable_to_non_nullable
               as double,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      thumbnailImage: null == thumbnailImage
+              as String?,
+      thumbnailImage: freezed == thumbnailImage
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      contentTypeId: freezed == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -431,8 +438,9 @@ abstract class _$$PlaceImplCopyWith<$Res> implements $PlaceCopyWith<$Res> {
       String address,
       double mapX,
       double mapY,
-      String originImage,
-      String thumbnailImage});
+      String? originImage,
+      String? thumbnailImage,
+      String? contentTypeId});
 }
 
 /// @nodoc
@@ -452,8 +460,9 @@ class __$$PlaceImplCopyWithImpl<$Res>
     Object? address = null,
     Object? mapX = null,
     Object? mapY = null,
-    Object? originImage = null,
-    Object? thumbnailImage = null,
+    Object? originImage = freezed,
+    Object? thumbnailImage = freezed,
+    Object? contentTypeId = freezed,
   }) {
     return _then(_$PlaceImpl(
       title: null == title
@@ -472,14 +481,18 @@ class __$$PlaceImplCopyWithImpl<$Res>
           ? _value.mapY
           : mapY // ignore: cast_nullable_to_non_nullable
               as double,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
-      thumbnailImage: null == thumbnailImage
+              as String?,
+      thumbnailImage: freezed == thumbnailImage
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      contentTypeId: freezed == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -493,7 +506,8 @@ class _$PlaceImpl implements _Place {
       required this.mapX,
       required this.mapY,
       required this.originImage,
-      required this.thumbnailImage});
+      required this.thumbnailImage,
+      required this.contentTypeId});
 
   factory _$PlaceImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlaceImplFromJson(json);
@@ -507,13 +521,15 @@ class _$PlaceImpl implements _Place {
   @override
   final double mapY;
   @override
-  final String originImage;
+  final String? originImage;
   @override
-  final String thumbnailImage;
+  final String? thumbnailImage;
+  @override
+  final String? contentTypeId;
 
   @override
   String toString() {
-    return 'Place(title: $title, address: $address, mapX: $mapX, mapY: $mapY, originImage: $originImage, thumbnailImage: $thumbnailImage)';
+    return 'Place(title: $title, address: $address, mapX: $mapX, mapY: $mapY, originImage: $originImage, thumbnailImage: $thumbnailImage, contentTypeId: $contentTypeId)';
   }
 
   @override
@@ -528,13 +544,15 @@ class _$PlaceImpl implements _Place {
             (identical(other.originImage, originImage) ||
                 other.originImage == originImage) &&
             (identical(other.thumbnailImage, thumbnailImage) ||
-                other.thumbnailImage == thumbnailImage));
+                other.thumbnailImage == thumbnailImage) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, title, address, mapX, mapY, originImage, thumbnailImage);
+  int get hashCode => Object.hash(runtimeType, title, address, mapX, mapY,
+      originImage, thumbnailImage, contentTypeId);
 
   /// Create a copy of Place
   /// with the given fields replaced by the non-null parameter values.
@@ -558,8 +576,9 @@ abstract class _Place implements Place {
       required final String address,
       required final double mapX,
       required final double mapY,
-      required final String originImage,
-      required final String thumbnailImage}) = _$PlaceImpl;
+      required final String? originImage,
+      required final String? thumbnailImage,
+      required final String? contentTypeId}) = _$PlaceImpl;
 
   factory _Place.fromJson(Map<String, dynamic> json) = _$PlaceImpl.fromJson;
 
@@ -572,9 +591,11 @@ abstract class _Place implements Place {
   @override
   double get mapY;
   @override
-  String get originImage;
+  String? get originImage;
   @override
-  String get thumbnailImage;
+  String? get thumbnailImage;
+  @override
+  String? get contentTypeId;
 
   /// Create a copy of Place
   /// with the given fields replaced by the non-null parameter values.
