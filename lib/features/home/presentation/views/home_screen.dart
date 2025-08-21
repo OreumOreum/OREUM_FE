@@ -35,6 +35,9 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 
+import '../../../../core/constants/content_type_id.dart';
+import '../../data/models/category_recommend_response.dart';
+import '../../data/models/place_response.dart';
 import '../viewmodels/states/home_state.dart';
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/route_path.dart';
@@ -289,8 +292,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final homeState = ref.watch(homeViewModelProvider);
     WeatherInfo? weatherInfo = state.weatherInfo;
     List<CourseResponse> courses = state.courses;
+    List<CategoryRecommendResponse> categoryPlaces = state.categoryPlaces;
+    List<Place> typePlaces = state.typePlaces;
 
-    return SingleChildScrollView(
+
+                  return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -450,80 +456,91 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             height: 14.h,
           ),
 
-          /// ============================================
-          /// ================= 카테고리 ===================
-          Padding(
-            padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
-            child: isWideScreen
-                ? Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      // 혹은 spaceAround
-                      children: children,
-                    ),
-                  )
-                : SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
+            /// ============================================
+            /// ================= 카테고리 ===================
+            Padding(
+              padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
+              child: isWideScreen
+                  ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
                       child: Row(
-                        children:
-                            List.generate(children.length * 2 - 1, (index) {
-                          if (index.isOdd) {
-                            return SizedBox(width: 14.w); // 아이템 사이 간격
-                          } else {
-                            return children[index ~/ 2];
-                          }
-                        }),
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        // 혹은 spaceAround
+                        children: children,
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 14.w),
+                        child: Row(
+                          children:
+                              List.generate(children.length * 2 - 1, (index) {
+                            if (index.isOdd) {
+                              return SizedBox(width: 14.w); // 아이템 사이 간격
+                            } else {
+                              return children[index ~/ 2];
+                            }
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-          ),
+            ),
 
-          /// ============================================
-          /// ================= 서치바 ===================
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: 16.w, horizontal: AppSizes.defaultPadding),
-            child: SearchBarButton(),
-          ),
+            /// ============================================
+            /// ================= 서치바 ===================
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: 16.w, horizontal: AppSizes.defaultPadding),
+              child: SearchBarButton(),
+            ),
 
-          /// ============================================
-          /// ================= 여행지 추천 =================
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 24.h),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding:
-                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-              child: Row(
-                children: List.generate(mockPlace.length, (index) {
-                  String title = mockPlace[index]['title']!;
-                  String type = mockPlace[index]['type']!;
-                  String category = mockPlace[index]['category']!;
-                  String thumbnailImage = mockPlace[index]['thumbnailImage']!;
-                  return Row(
-                    children: [
-                      PlaceCard(
-                        title: title,
-                        type: type,
-                        category: category,
-                        thumbnailImage: thumbnailImage,
-                        onPressed: () {},
-                      ),
-                      if (index != mockPlace.length - 1)
-                        SizedBox(width: 8.w), // separator 역할
-                    ],
-                  );
-                }),
+            /// ============================================
+            /// ================= 여행지 추천 =================
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.h),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding:
+                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                child: Row(
+                  children: List.generate(categoryPlaces.length, (index) {
+                    String title = mockPlace[index]['title']!;
+                    String type = mockPlace[index]['type']!;
+                    String placeId = categoryPlaces[index].placeId.toString();
+                   // String category = categoryPlaces[index].contentTypeId;
+                    String thumbnailImage = categoryPlaces[index].orignImage;
+                    String contentId = categoryPlaces[index].contentId;
+                    String contentTypeId = categoryPlaces[index].contentTypeId;
+
+                    final contentType = ContentTypeId.fromContentTypeId(categoryPlaces[index].contentTypeId);
+                    String category = contentType?.label ?? '여행지';
+
+                    return Row(
+                      children: [
+                        PlaceCard(
+                          title: category,
+                          type: type,
+                          category: category,
+                          thumbnailImage: thumbnailImage,
+                          onPressed: () {
+                            context.push('${RoutePath.placeDetail}/${placeId}',
+                            extra: {'contentId' : contentId,
+                            'contentTypeId' : contentTypeId});
+                          },
+                        ),
+                        if (index != categoryPlaces.length - 1)
+                          SizedBox(width: 8.w), // separator 역할
+                      ],
+                    );
+                  }),
+                ),
               ),
             ),
-          ),
 
-          /// ============================================
-          /// ================= 추천 버튼 =================
-          Padding(
+            /// ============================================
+            /// ================= 추천 버튼 =================
+            Padding(
             padding: EdgeInsets.symmetric(
                 vertical: 14.h, horizontal: AppSizes.defaultPadding),
             child: SplitRoundedButton(
@@ -549,176 +566,128 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             ),
           ),
-
-          /// ============================================
-          SizedBox(
-            height: 14.h,
-          ),
-
-          /// ================= 코스 추천 =================
-          Padding(
-            padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                  child: HomeTitleText(
-                    title: AppStrings.personalizedCourseRecommendation,
-                    primaryText: '모험 액티비티형',
-                    subtitle: AppStrings.typeCourseRecommendation,
-                  ),
-                ),
-                SizedBox(height: 10.h),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(horizontal: 14.w),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(courses.length, (index) {
-                      String title = courses[index].title;
-                      String subTitle = courses[index].title;
-                      String? thumbnailImage = courses[index].originImage;
-
-                      return Row(
-                        children: [
-                          CourseCard(
-                            title: title,
-                            subTitle: subTitle,
-                            thumbnailImage: thumbnailImage,
-                            onPressed: () {},
-                          ),
-                          if (index != courses.length - 1)
-                            SizedBox(width: 9.w), // separator 역할
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-              ],
+            /// ============================================
+            SizedBox(
+              height: 14.h,
             ),
-          ),
-          SizedBox(
-            height: 14.h,
-          ),
 
-          ///============================================
-          /// ================= 타입별 추천 =================
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 24.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppSizes.defaultPadding,
-                  ),
-                  child: HomeTitleText(
-                      title: AppStrings.typeRecommend('모험 액티비티형'),
+            /// ================= 코스 추천 =================
+            Padding(
+              padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                    child: HomeTitleText(
+                      title: AppStrings.personalizedCourseRecommendation,
+                      //TODO 유형 추가 enum
                       primaryText: '모험 액티비티형',
-                      subtitle: AppStrings.typePlaceRecommendation),
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  padding: EdgeInsets.zero,
-                  itemCount: 3,
-                  itemBuilder: (BuildContext context, int index) {
-                    String title = mockPlace2[index]['title']!;
-                    String address = mockPlace2[index]['address']!;
-                    String thumbnailImage =
-                        mockPlace2[index]['thumbnailImage']!;
-                    return PlaceListTile(
-                        thumbnailImage: thumbnailImage,
-                        title: title,
-                        address: address);
-                  },
-                ),
-                Divider(
-                  height: 1.h,
-                  thickness: 1.h,
-                  color: AppColors.gray100,
-                ),
-                SizedBox(
-                  height: 18.h,
-                ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      context.push(
-                        RoutePath.recommend,
-                        extra: {'contentTypeId': 0,'type': true, 'initialFilter':RegionFilter.all},
-                      );
-                    },
-                    child: Text(
-                      AppStrings.viewAll,
-                      style: context.textStyles.body1
-                          .copyWith(color: AppColors.gray200),
+                      subtitle: AppStrings.typeCourseRecommendation,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 14.h,
-          ),
+                  SizedBox(height: 10.h),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(courses.length, (index) {
+                        String title = courses[index].title;
+                        String subTitle = courses[index].title;
+                        String? thumbnailImage = courses[index].originImage;
+                        String courseId = courses[index].id.toString();
+                        String contentId = courses[index].contentId.toString();
+                        String contentTypeId = courses[index].contentTypeId.toString();
 
-          ///============================================
-          /// ================= 이런 여행지는 어때요? =================
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 24.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                  child: HomeTitleText(
-                    title: AppStrings.travelSuggestionTitle,
-                    primaryText: '모험 액티비티형',
-                    subtitle: AppStrings.destinationRecommendToUser,
-                  ),
-                ),
-                SizedBox(height: 14.h),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                  child: Row(
-                    children: List.generate(placeImages.length, (index) {
-                      String thumbnailImage =
-                          placeImages[index]['thumbnailImage']!;
-                      return Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(AppSizes.radiusXS),
-                            child: Image.network(
-                              thumbnailImage,
-                              height: 120.h,
-                              width: 163.w,
-                              fit: BoxFit.cover,
+                        return Row(
+                          children: [
+                            CourseCard(
+                              title: title,
+                              subTitle: subTitle,
+                              thumbnailImage: thumbnailImage,
+                              onPressed: () {
+                                context.push('${RoutePath.courseDetail}/${courseId}',
+                                    extra: {'contentId' : contentId,
+                                      'contentTypeId' : contentTypeId});
+                              },
                             ),
-                          ),
-                          if (index != placeImages.length - 1)
-                            SizedBox(width: 8.w),
-                        ],
-                      );
-                    }),
+                            if (index != courses.length - 1)
+                              SizedBox(width: 9.w), // separator 역할
+                          ],
+                        );
+                      }),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 72.h,
-          ),
-        ],
+            SizedBox(
+              height: 14.h,
+            ),
+
+            ///============================================
+            /// ================= 타입별 추천 =================
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSizes.defaultPadding,
+                    ),
+                    child: HomeTitleText(
+                      //TODO 유형 연결
+                        title: AppStrings.typeRecommend('모험 액티비티형'),
+                        primaryText: '모험 액티비티형',
+                        subtitle: AppStrings.typePlaceRecommendation),
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    primary: false,
+                    padding: EdgeInsets.zero,
+                    itemCount: typePlaces.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final place = typePlaces[index];
+                      print('checkcheckplace$place');
+                      String placeId = place.placeId.toString();
+                      String? contentId = place.contentId;
+                      String? contentTypeId = place.contentTypeId;
+
+                      return InkWell(
+                        onTap: ()  {
+                          context.push('${RoutePath.placeDetail}/${placeId}',
+                              extra: {'contentId' : contentId,
+                                'contentTypeId' : contentTypeId});
+                        },
+                        child: PlaceListTile(
+                          thumbnailImage: place.thumbnailImage ?? '',
+                          title: place.title,
+                          address: place.address ?? '',
+                          isSaved: place.isSaved,
+                          placeId: place.placeId,
+                        ),
+                      );
+                    },
+                  ),
+                  Divider(
+                    height: 1.h,
+                    thickness: 1.h,
+                    color: AppColors.gray100,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+          ],
+        ),
       ),
     );
   }

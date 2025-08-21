@@ -85,7 +85,11 @@ abstract class IconPath {
   static const String saveCheck = 'assets/icons/save_check.svg';
   static const String savePlus = 'assets/icons/save_plus.svg';
 
-  static String flags (String flag) => 'assets/icons/$flag.svg';
+  static String flags (String flag) => 'assets/icons/flag_$flag.svg';
+
+  static const String mapMarker = 'assets/icons/map_marker.svg';
+  static const String addressPaste = 'assets/icons/address_paste.svg';
+  static const String mapIcon = 'assets/icons/map_icon.svg';
 
   static const String copy = 'assets/icons/copy.svg';
 }

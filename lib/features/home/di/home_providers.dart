@@ -1,3 +1,5 @@
+import 'package:oreum_fe/features/home/domain/usecases/get_recommend_place_use_case.dart';
+import 'package:oreum_fe/features/home/domain/usecases/get_type_recommend_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:oreum_fe/core/network/dio_providers.dart';
 import '../presentation/viewmodels/home_view_model.dart';
@@ -24,4 +26,14 @@ PlaceRepositoryImpl placeRepository(PlaceRepositoryRef ref) {
 @riverpod
 GetPlacesUseCase getPlacesUseCase(GetPlacesUseCaseRef ref) {
   return GetPlacesUseCase(ref.watch(placeRepositoryProvider));
+}
+
+@riverpod
+GetRecommendPlaceUseCase getRecommendPlaceUseCase(GetRecommendPlaceUseCaseRef ref) {
+  return GetRecommendPlaceUseCase(ref.watch(placeRepositoryProvider));
+}
+
+@riverpod
+GetTypeRecommendUseCase getTypeRecommendUseCase(GetTypeRecommendUseCaseRef ref) {
+  return GetTypeRecommendUseCase(ref.watch(placeRepositoryProvider));
 }

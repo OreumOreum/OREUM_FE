@@ -13,7 +13,7 @@ _$PlaceResponseImpl _$$PlaceResponseImplFromJson(Map<String, dynamic> json) =>
       middleCategory: json['middleCategory'] as String,
       largeCategory: json['largeCategory'] as String,
       address: json['address'] as String,
-      originImage: json['originImage'] as String,
+      originImage: json['originImage'] as String?,
       contentTypeId: json['contentTypeId'] as String,
       sigunguCode: (json['sigunguCode'] as num).toInt(),
       overview: json['overview'] as String?,

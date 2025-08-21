@@ -40,8 +40,9 @@ _$PlaceImpl _$$PlaceImplFromJson(Map<String, dynamic> json) => _$PlaceImpl(
       address: json['address'] as String,
       mapX: (json['mapX'] as num).toDouble(),
       mapY: (json['mapY'] as num).toDouble(),
-      originImage: json['originImage'] as String,
-      thumbnailImage: json['thumbnailImage'] as String,
+      originImage: json['originImage'] as String?,
+      thumbnailImage: json['thumbnailImage'] as String?,
+      contentTypeId: json['contentTypeId'] as String?,
     );
 
 Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
@@ -52,4 +53,5 @@ Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
       'mapY': instance.mapY,
       'originImage': instance.originImage,
       'thumbnailImage': instance.thumbnailImage,
+      'contentTypeId': instance.contentTypeId,
     };

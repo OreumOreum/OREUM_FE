@@ -30,7 +30,13 @@ Dio tourDio (TourDioRef ref) {
 
 @Riverpod(keepAlive: true)
 Dio weatherDio (WeatherDioRef ref) {
+  final loginNotifier = ref.watch(loginNotifierProvider);
+  final storageRepo = ref.watch(secureStorageRepositoryProvider);
+  final tokenSaver = ref.watch(tokenSaverProvider);
   final dio = Dio(weatherDioBaseOptions);
+
+  dio.interceptors.clear();
+  dio.interceptors.add(DioInterceptor(storageRepo, loginNotifier, tokenSaver));
 
   return dio;
 }

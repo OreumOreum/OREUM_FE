@@ -27,8 +27,10 @@ class Place with _$Place {
     required String address,
     required double mapX,
     required double mapY,
-    required String originImage,
-    required String thumbnailImage,
+    required String? originImage,
+    required String? thumbnailImage,
+    required String? contentTypeId,
+
   }) = _Place;
 
   factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);

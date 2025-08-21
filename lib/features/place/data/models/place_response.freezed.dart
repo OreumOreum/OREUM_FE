@@ -25,7 +25,7 @@ mixin _$PlaceResponse {
   String get middleCategory => throw _privateConstructorUsedError;
   String get largeCategory => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
-  String get originImage => throw _privateConstructorUsedError;
+  String? get originImage => throw _privateConstructorUsedError;
   String get contentTypeId => throw _privateConstructorUsedError;
   int get sigunguCode => throw _privateConstructorUsedError;
   String? get overview => throw _privateConstructorUsedError;
@@ -58,7 +58,7 @@ abstract class $PlaceResponseCopyWith<$Res> {
       String middleCategory,
       String largeCategory,
       String address,
-      String originImage,
+      String? originImage,
       String contentTypeId,
       int sigunguCode,
       String? overview,
@@ -90,7 +90,7 @@ class _$PlaceResponseCopyWithImpl<$Res, $Val extends PlaceResponse>
     Object? middleCategory = null,
     Object? largeCategory = null,
     Object? address = null,
-    Object? originImage = null,
+    Object? originImage = freezed,
     Object? contentTypeId = null,
     Object? sigunguCode = null,
     Object? overview = freezed,
@@ -122,10 +122,10 @@ class _$PlaceResponseCopyWithImpl<$Res, $Val extends PlaceResponse>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       contentTypeId: null == contentTypeId
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
@@ -180,7 +180,7 @@ abstract class _$$PlaceResponseImplCopyWith<$Res>
       String middleCategory,
       String largeCategory,
       String address,
-      String originImage,
+      String? originImage,
       String contentTypeId,
       int sigunguCode,
       String? overview,
@@ -210,7 +210,7 @@ class __$$PlaceResponseImplCopyWithImpl<$Res>
     Object? middleCategory = null,
     Object? largeCategory = null,
     Object? address = null,
-    Object? originImage = null,
+    Object? originImage = freezed,
     Object? contentTypeId = null,
     Object? sigunguCode = null,
     Object? overview = freezed,
@@ -242,10 +242,10 @@ class __$$PlaceResponseImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      originImage: null == originImage
+      originImage: freezed == originImage
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       contentTypeId: null == contentTypeId
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
@@ -295,7 +295,7 @@ class _$PlaceResponseImpl implements _PlaceResponse {
       required this.middleCategory,
       required this.largeCategory,
       required this.address,
-      required this.originImage,
+      this.originImage,
       required this.contentTypeId,
       required this.sigunguCode,
       this.overview,
@@ -320,7 +320,7 @@ class _$PlaceResponseImpl implements _PlaceResponse {
   @override
   final String address;
   @override
-  final String originImage;
+  final String? originImage;
   @override
   final String contentTypeId;
   @override
@@ -419,7 +419,7 @@ abstract class _PlaceResponse implements PlaceResponse {
       required final String middleCategory,
       required final String largeCategory,
       required final String address,
-      required final String originImage,
+      final String? originImage,
       required final String contentTypeId,
       required final int sigunguCode,
       final String? overview,
@@ -444,7 +444,7 @@ abstract class _PlaceResponse implements PlaceResponse {
   @override
   String get address;
   @override
-  String get originImage;
+  String? get originImage;
   @override
   String get contentTypeId;
   @override

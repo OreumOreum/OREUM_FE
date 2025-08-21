@@ -12,6 +12,8 @@ class CourseResponse with _$CourseResponse {
     String? thumbnailImage,
     required String category2,
     int? sigunguCode,
+    String? contentId,
+    String? contentTypeId,
   }) = _CourseResponse;
 
   factory CourseResponse.fromJson(Map<String, dynamic> json) =>
