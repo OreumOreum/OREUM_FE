@@ -45,9 +45,11 @@ class FolderDetailListTile extends ConsumerWidget {
                   child: thumbnailImage == null
                       ? Container(
                           color: AppColors.gray100,
-                          child: Image.asset(
-                            ImagePath.imageError,
-                            width: 74.r,
+                          child: Center(
+                            child: Image.asset(
+                              ImagePath.imageError,
+                              width: 74.r,
+                            ),
                           ),
                         )
                       : CachedNetworkImage(
@@ -59,9 +61,11 @@ class FolderDetailListTile extends ConsumerWidget {
                           errorWidget: (context, url, error) {
                             return Container(
                               color: AppColors.gray100,
-                              child: Image.asset(
-                                ImagePath.imageError,
-                                width: 74.r,
+                              child: Center(
+                                child: Image.asset(
+                                  ImagePath.imageError,
+                                  width: 74.r,
+                                ),
                               ),
                             );
                           },

@@ -15,6 +15,8 @@ _$FolderDetialResponseImpl _$$FolderDetialResponseImplFromJson(
       placeTitle: json['placeTitle'] as String,
       placeAddress: json['placeAddress'] as String?,
       originImage: json['originImage'] as String?,
+      contentId: json['contentId'] as String,
+      contentTypeId: json['contentTypeId'] as String,
     );
 
 Map<String, dynamic> _$$FolderDetialResponseImplToJson(
@@ -26,4 +28,6 @@ Map<String, dynamic> _$$FolderDetialResponseImplToJson(
       'placeTitle': instance.placeTitle,
       'placeAddress': instance.placeAddress,
       'originImage': instance.originImage,
+      'contentId': instance.contentId,
+      'contentTypeId': instance.contentTypeId,
     };

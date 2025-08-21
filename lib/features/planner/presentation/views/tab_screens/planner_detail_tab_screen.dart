@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -72,13 +73,28 @@ class PlannerDetailTabScreen extends ConsumerWidget {
           itemCount: places.length,
           itemBuilder: (context, index) {
             final dynamic place = places[index];
-            return CourseDetailListTile(
-                totalItemCount: places.length,
-                title: place.placeTitle,
-                address: place.placeAddress,
-                category: '한식',
-                thumbnailImage: place.placeThumbnailImage,
-                index: index + 1);
+            String placeId = place.placeId.toString();
+            String contentId = place.contentId;
+            String contentTypeId = place.contentTypeId;
+            final contentType = ContentTypeId.fromContentTypeId(contentTypeId);
+            String category = contentType?.label ?? '여행지';
+
+            return InkWell(
+              onTap: () {
+                context.push('${RoutePath.placeDetail}/$placeId',
+                    extra: {
+                      'contentId': contentId,
+                      'contentTypeId': contentTypeId
+                    });
+              },
+              child: CourseDetailListTile(
+                  totalItemCount: places.length,
+                  title: place.placeTitle,
+                  address: place.placeAddress,
+                  category: category,
+                  thumbnailImage: place.placeThumbnailImage,
+                  index: index + 1),
+            );
           },
           separatorBuilder: (context, index) {
 
