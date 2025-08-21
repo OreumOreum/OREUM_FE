@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/image_path.dart';
 
 enum MontlyBadge {
   // 1월
@@ -53,7 +54,7 @@ extension MontlyBadgeExtension on MontlyBadge {
   }
 
   String get iconPath {
-    return IconPath.badge(name);
+    return ImagePath.badge(name);
   }
 
   double get iconWidth {

@@ -91,4 +91,5 @@ abstract class IconPath {
   static const String addressPaste = 'assets/icons/address_paste.svg';
   static const String mapIcon = 'assets/icons/map_icon.svg';
 
+  static const String copy = 'assets/icons/copy.svg';
 }

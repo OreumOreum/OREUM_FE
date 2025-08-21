@@ -41,7 +41,6 @@ class PlannerEditScreen extends ConsumerStatefulWidget {
     this.initialDay,
   });
 
-
   @override
   ConsumerState<PlannerEditScreen> createState() => _PlannerEditScreenState();
 }
@@ -67,9 +66,12 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
           .setPlannerPlaces(widget.editPlaces!);
       ref.read(plannerEditViewModelProvider.notifier).initializeForEdit();
     } else {
-      if(widget.isRecommend! && widget.isRecommend != null) {
+      ref.read(plannerEditViewModelProvider.notifier).resetForNewPlanner();
+      if (widget.isRecommend! && widget.isRecommend != null) {
         print('추천 플래너 가져오기 시작');
-        await ref.read(plannerEditViewModelProvider.notifier).getRecommendPlanner();
+        await ref
+            .read(plannerEditViewModelProvider.notifier)
+            .getRecommendPlanner();
 
         // 추천 플래너 데이터 확인
         final state = ref.read(plannerEditViewModelProvider);
@@ -96,9 +98,9 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
       length: tabDays.length,
       vsync: this,
       initialIndex:
-      widget.initialDay != null && widget.initialDay! < tabDays.length
-          ? widget.initialDay!
-          : 0,
+          widget.initialDay != null && widget.initialDay! < tabDays.length
+              ? widget.initialDay!
+              : 0,
     );
 
     _isInitialized = true;
@@ -161,18 +163,21 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: state.tabDays.length == 1
-          ? CustomAppBar.backWithText(title: state.recommendPlannerName != '' ? state.recommendPlannerName : widget.plannerName!)
+          ? CustomAppBar.backWithText(
+              title: state.recommendPlannerName != ''
+                  ? state.recommendPlannerName
+                  : widget.plannerName!)
           : CustomAppBar.backWithButtonAndText(
-        title: widget.plannerName!,
-        onActionPressed: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return PlannerTabModal(tabLength: tabDays.length);
-              });
-        },
-        actionType: ActionType.dots,
-      ),
+              title: widget.plannerName!,
+              onActionPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return PlannerTabModal(tabLength: tabDays.length);
+                    });
+              },
+              actionType: ActionType.dots,
+            ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,14 +194,13 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
                     CustomTabBar(
                       tabController: _tabController!,
                       tabs: tabDays
-                          .map((day) =>
-                          Tab(
-                            child: Container(
-                              alignment: Alignment.bottomCenter,
-                              padding: EdgeInsets.only(bottom: 8.h),
-                              child: Text(AppStrings.day(day)),
-                            ),
-                          ))
+                          .map((day) => Tab(
+                                child: Container(
+                                  alignment: Alignment.bottomCenter,
+                                  padding: EdgeInsets.only(bottom: 8.h),
+                                  child: Text(AppStrings.day(day)),
+                                ),
+                              ))
                           .toList(),
                     ),
                     SizedBox(width: 2.w),
@@ -208,7 +212,7 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
                         onPressed: () {
                           final lastDay = state.tabDays.last;
                           final isLastDayEmpty =
-                          !state.plannerPlaces.any((p) => p.day == lastDay);
+                              !state.plannerPlaces.any((p) => p.day == lastDay);
                           if (isLastDayEmpty) {
                             CustomToast.showToast(
                                 context, '${tabDays.last}일 차 일정을 추가해주세요', 56.h);
@@ -239,13 +243,14 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
               child: TabBarView(
                 controller: _tabController!,
                 children: tabDays
-                    .map((day) =>
-                    PlannerEditTabScreen(
-                      day: day,
-                      plannerId: widget.plannerId,
-                      plannerName: widget.plannerName,
-                      isEdit: widget.isEdit,
-                    ))
+                    .map((day) => PlannerEditTabScreen(
+                          day: day,
+                          plannerId: widget.plannerId,
+                          plannerName: state.recommendPlannerName != ''
+                              ? state.recommendPlannerName
+                              : widget.plannerName!,
+                          isEdit: widget.isEdit,
+                        ))
                     .toList(),
               ),
             ),

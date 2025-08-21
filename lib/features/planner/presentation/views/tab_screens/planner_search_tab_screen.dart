@@ -5,6 +5,8 @@ import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/core/themes/app_text_styles.dart';
+import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_detail_response.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
@@ -39,12 +41,7 @@ class _PlannerSearchTabScreenState
     final searchState = ref.watch(plannerSearchViewModelProvider);
     final state = ref.watch(folderDetailViewModelProvider);
     if (state.status == UiStatus.loading) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: 56.h),
-        child: Center(
-          child: Lottie.asset(AnimationPath.loading, repeat: true),
-        ),
-      );
+      return SizedBox.shrink();
     }
 
     if (state.status == UiStatus.error) {
@@ -56,7 +53,18 @@ class _PlannerSearchTabScreenState
     logger.i(folderPlaces.toString());
 
     if (folderPlaces.isEmpty) {
-      return SizedBox.shrink();
+      return Column(
+        children: [
+          SizedBox(height: 52.h,),
+          Center(
+            child: Text(
+              '아직 관광지가 없습니다.',
+              style: context.textStyles.headLine1
+                  .copyWith(color: AppColors.gray300),
+            ),
+          ),
+        ],
+      );
     } else {
       return ListView.separated(
         itemCount: folderPlaces.length,

@@ -33,7 +33,6 @@ class CustomTextMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: 방문 여부(isVisited)에 따라 스타일을 다르게 할 수 있습니다.
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -91,14 +90,13 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
   @override
   MonthlySpotMapState build({
     required List<SpotMonthResponse> spots,
-    int? initialSelectedPlaceId, // View에서 사용하므로 유지
+    int? initialSelectedPlaceId,
   }) {
     ref.onDispose(() {
       _positionStreamSubscription?.cancel();
     });
 
-    // build가 끝난 직후에 비동기 마커 생성을 시작합니다.
-    Future.microtask(() => _updateCustomMarkers());
+    Future.microtask(() => retryLoadingMarkers());
 
     _startListeningToLocation();
 
@@ -113,6 +111,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     }
 
     return MonthlySpotMapState(
+      status: UiStatus.loading,
       spots: spots,
       markers: {}, // 초기에는 빈 마커 Set
       circles: _createInitialCircles(spots),
@@ -120,28 +119,32 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     );
   }
 
-  /// 커스텀 마커를 비동기적으로 생성하고 상태를 업데이트하는 함수
-  Future<void> _updateCustomMarkers() async {
-    final zoom = state.currentZoom;
+  Future<void> retryLoadingMarkers() async {
+    state = state.copyWith(status: UiStatus.loading);
 
-    final markerFutures = state.spots.map((spot) async {
-      // 👇 [수정] 줌 레벨에 따라 다른 위젯을 선택합니다.
-      final Widget markerWidget = zoom > _zoomThreshold
-          ? CustomTextMarker(text: spot.title, isVisited: spot.visited)
-          : SimpleMapMarker(isVisited: spot.visited);
-      return Marker(
-        markerId: MarkerId(spot.spotId.toString()),
-        position: LatLng(spot.mapY, spot.mapX),
-        // await를 사용하여 Future<BitmapDescriptor>가 완료될 때까지 기다립니다.
-        icon: await markerWidget
-            .toBitmapDescriptor(),
-        onTap: () => selectSpot(spot),
-      );
-    }).toList();
+    try {
+      final zoom = state.currentZoom;
 
-    final Set<Marker> newMarkers = (await Future.wait(markerFutures)).toSet();
+      final markerFutures = state.spots.map((spot) async {
+        final Widget markerWidget = zoom > _zoomThreshold
+            ? CustomTextMarker(text: spot.title, isVisited: spot.visited)
+            : SimpleMapMarker(isVisited: spot.visited);
 
-    state = state.copyWith(markers: newMarkers);
+        return Marker(
+          markerId: MarkerId(spot.spotId.toString()),
+          position: LatLng(spot.mapY, spot.mapX),
+          icon: await markerWidget.toBitmapDescriptor(),
+          onTap: () => selectSpot(spot),
+        );
+      }).toList();
+
+      final Set<Marker> newMarkers = (await Future.wait(markerFutures)).toSet();
+
+      state = state.copyWith(status: UiStatus.success, markers: newMarkers);
+
+    } catch (e) {
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
   }
   Future<void> onCameraIdle() async {
     // 컨트롤러가 없으면 아무것도 하지 않음
@@ -158,7 +161,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     if (shouldUpdate) {
       // 새로운 줌 레벨로 상태를 업데이트하고, 마커를 다시 생성
       state = state.copyWith(currentZoom: newZoom);
-      await _updateCustomMarkers();
+      await retryLoadingMarkers();
     }
   }
   /// 원(Circle)만 생성하는 함수
@@ -198,8 +201,10 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
     if (!isLocationEnabled) return;
 
     LocationPermission permission = await Geolocator.checkPermission();
+    state = state.copyWith(permissionStatus: permission);
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
+      state = state.copyWith(permissionStatus: permission);
       if (permission == LocationPermission.denied) return;
     }
     if (permission == LocationPermission.deniedForever) return;
@@ -212,7 +217,9 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
       _checkProximityAndUpdateUI(position);
     });
   }
-
+  Future<void> openAppSettings() async {
+    await Geolocator.openAppSettings();
+  }
   void _checkProximityAndUpdateUI(Position currentPosition) {
     bool isNowInProximity = false;
     final updatedCircles = <Circle>{};
@@ -275,7 +282,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
       state = state.copyWith(status: UiStatus.success, spots: updatedSpots, proximateSpot: updatedProximateSpot);
 
       // 스탬프 성공 후 마커 모양을 다시 그리도록 호출
-      await _updateCustomMarkers();
+      await retryLoadingMarkers();
     } catch (e) {
       state =
           state.copyWith(status: UiStatus.error, errorMessage: e.toString());

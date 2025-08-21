@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -11,7 +12,9 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/monthly_spot_ranking_view_model.dart';
 
 class MonthlySpotRanking extends ConsumerStatefulWidget {
@@ -50,23 +53,21 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
         controller: widget.scrollController,
         slivers: [
           _buildStaticHeader(context),
-          const SliverFillRemaining(
-            child: Center(child: CircularProgressIndicator()),
+           SliverFillRemaining(
+            child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
           ),
         ],
       );
     }
 
     if (state.status == UiStatus.error) {
-      return CustomScrollView(
-        controller: widget.scrollController,
-        slivers: [
-          _buildStaticHeader(context),
-          SliverFillRemaining(
-            child: Center(child: Text('Error: ${state.errorMessage}')),
-          ),
-        ],
-      );
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          ref
+              .read(monthlySpotRankingViewModelProvider.notifier)
+              .fetchRanking(spotId: widget.spots.spotId.toString());
+        },
+      ));
     }
     final myTravelType = state.myTravelType;
     final myTypeVisitCount = state.myTypeVisitCount;

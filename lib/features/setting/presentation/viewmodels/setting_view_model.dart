@@ -14,7 +14,7 @@ class SettingViewModel extends _$SettingViewModel {
   @override
   SettingState build() {
     Future.microtask(() => fetchMyBadges());
-    return const SettingState();
+    return const SettingState(status: UiStatus.loading);
   }
 
   Future<void> fetchMyBadges() async {

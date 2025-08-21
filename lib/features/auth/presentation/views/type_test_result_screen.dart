@@ -85,6 +85,7 @@ class TypeTestResultScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 6.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Wrap(
                       alignment: WrapAlignment.start,
@@ -101,7 +102,7 @@ class TypeTestResultScreen extends StatelessWidget {
                       height: 12.h,
                     ),
                     Text(
-                      StringUtils().wordBreaks(travelType.detailedDescription),
+                      travelType.detailedDescription,
                       style: context.textStyles.body2
                           .copyWith(color: AppColors.gray300),
                     ),

@@ -5,22 +5,24 @@ import '../constants/app_colors.dart';
 
 class AppTheme {
   static ThemeData kThemeData = ThemeData(
-      primaryColor: AppColors.primary,
-      primaryColorLight: AppColors.secondary,
-      cardColor: AppColors.white,
-      scaffoldBackgroundColor: AppColors.white,
-      splashFactory: NoSplash.splashFactory,
-      highlightColor: Colors.transparent,
+    primaryColor: AppColors.primary,
+    primaryColorLight: AppColors.secondary,
+    cardColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.white,
+    splashFactory: NoSplash.splashFactory,
+    highlightColor: Colors.transparent,
 
-      ///textTheme: textTheme,
-      fontFamily: 'PretendardVariable',
-      appBarTheme: kAppAppBarTheme,
-      bottomSheetTheme: kBottomSheetThemeData,
-      elevatedButtonTheme: kElevatedButtonThemeData,
-      iconButtonTheme: kIconButtonThemeData,
-      textButtonTheme: kTextButtonThemeData,
-      useMaterial3: true,
-      bottomNavigationBarTheme: kBottomNavigationBarThemeData);
+    ///textTheme: textTheme,
+    fontFamily: 'PretendardVariable',
+    appBarTheme: kAppAppBarTheme,
+    bottomSheetTheme: kBottomSheetThemeData,
+    elevatedButtonTheme: kElevatedButtonThemeData,
+    iconButtonTheme: kIconButtonThemeData,
+    textButtonTheme: kTextButtonThemeData,
+    useMaterial3: true,
+    bottomNavigationBarTheme: kBottomNavigationBarThemeData,
+    dialogTheme: kDialogTheme,
+  );
 
   ///Appbar 테마
   static AppBarTheme kAppAppBarTheme = AppBarTheme(
@@ -32,25 +34,25 @@ class AppTheme {
   ///BottomSheet 테마
   static BottomSheetThemeData kBottomSheetThemeData = BottomSheetThemeData(
     shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppSizes.radiusLG))),
+        borderRadius:
+            BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG))),
     backgroundColor: AppColors.white,
   );
 
   ///ElevatedButton 테마
   static ElevatedButtonThemeData kElevatedButtonThemeData =
-  ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size.zero,
-        padding: EdgeInsets.zero,
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        elevation: 0,
-        overlayColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSizes.radiusMD),
-        ),
-      ));
+      ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+    minimumSize: Size.zero,
+    padding: EdgeInsets.zero,
+    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    elevation: 0,
+    overlayColor: Colors.transparent,
+    shadowColor: Colors.transparent,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppSizes.radiusMD),
+    ),
+  ));
 
   ///IconButton 테마
   static IconButtonThemeData kIconButtonThemeData = IconButtonThemeData(
@@ -73,6 +75,15 @@ class AppTheme {
 
   ///BottomNavigationBar 테마
   static BottomNavigationBarThemeData kBottomNavigationBarThemeData =
-  BottomNavigationBarThemeData(
-      elevation: 0, backgroundColor: AppColors.white);
+      BottomNavigationBarThemeData(
+          elevation: 0, backgroundColor: AppColors.white);
+
+  ///Dialog 테마
+  static DialogThemeData kDialogTheme = DialogThemeData(
+    backgroundColor: AppColors.white,
+    insetPadding: EdgeInsets.zero,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppSizes.radiusMD),
+    ),
+  );
 }

@@ -20,6 +20,7 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
 import 'package:oreum_fe/features/home/data/services/weather_service.dart';
 import 'package:oreum_fe/features/course/data/models/course_response.dart';
@@ -43,6 +44,7 @@ import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../viewmodels/home_view_model.dart';
+import '../viewmodels/states/recommend_state.dart';
 import '../widgets/page_gradient_carousel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -243,7 +245,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onTap: () {
           context.push(
             RoutePath.recommend,
-            extra: {'contentTypeId': category.contentTypeId},
+            extra: {'contentTypeId': category.contentTypeId,'type': false, 'initialFilter':RegionFilter.all},
           );
         },
         behavior: HitTestBehavior.translucent,
@@ -280,7 +282,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Text('error: ${state.errorMessage}');
+      return ErrorRetryWidget(
+        onPressed: () {
+          ref.read(homeViewModelProvider.notifier).initializeHome();
+        },
+      );
     }
 
     final homeState = ref.watch(homeViewModelProvider);
@@ -289,162 +295,166 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     List<CategoryRecommendResponse> categoryPlaces = state.categoryPlaces;
     List<Place> typePlaces = state.typePlaces;
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// ================= 날씨 ===================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 24.w),
-              child: state.weatherStatus == UiStatus.error
-                  ? Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '날씨를 불러오는데 실패했습니다.',
+
+                  return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// ================= 날씨 ===================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 24.w),
+            child: state.weatherStatus == UiStatus.error
+                ? Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '날씨를 불러오는데 실패했습니다.',
+                            style: context.textStyles.label3
+                                .copyWith(color: AppColors.gray400),
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              await ref
+                                  .read(homeViewModelProvider.notifier)
+                                  .refreshWeatherBackground();
+                            },
+                            child: Text(
+                              '다시 시도하기',
                               style: context.textStyles.label3
-                                  .copyWith(color: AppColors.gray400),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(homeViewModelProvider.notifier)
-                                    .refreshWeatherBackground();
-                              },
-                              child: Text('다시 시도하기',  style: context.textStyles.label3
-                                  .copyWith(color: AppColors.primary),),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          height: 72.r,
-                          width: 72.r,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              IconPath.weatherType('error'),
-                              width: 72.r,
+                                  .copyWith(color: AppColors.primary),
                             ),
                           ),
-                        ),
-                        Container(
-                          width: 42.w,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '오류',
-                            style: context.textStyles.headLine2
-                                .copyWith(color: AppColors.secondary),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppStrings.weatherTitle,
-                              style: context.textStyles.headLine2
-                                  .copyWith(color: AppColors.gray600),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            Text(
-                              weatherInfo!.description,
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray300),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          height: 72.r,
-                          width: 72.r,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              weatherInfo.iconAsset,
-                              width: weatherInfo.iconWidth,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 42.w,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '${weatherInfo.temp}°',
-                            style: context.textStyles.headLine2
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                      ],
-                    ),
-            ),
-
-            /// ============================================
-            /// ================= 이달의 여행지 ===================
-            SizedBox(
-              height: 14.h,
-            ),
-              PagedGradientCarousel(
-                onItemTap: (index) {
-                  final tappedSpot = homeState.monthlySpots[index];
-                  context.push(
-                    RoutePath.monthlySpotMap,
-                    extra: {
-                      'year': homeState.year,
-                      'month': homeState.month,
-                      'placeId': tappedSpot.placeId,
-                      'spots': homeState.monthlySpots,
-                    },
-                  );
-                },
-                items: homeState.monthlySpots.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final spot = entry.value;
-                  final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
-                  const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
-                  final String city =
-                      (index < fixedCities.length) ? fixedCities[index] : '제주';
-
-                  return CarouselItem(
-                    background: (spot.thumbnailImage == null)
-                      ? Container(
-                      color: AppColors.gray100,
-                      child: Image.asset(
-                        ImagePath.imageError,
-                        width: 74.r,
+                        ],
                       ),
-                    )
-                    : CachedNetworkImage(
-                      cacheManager: CustomCacheManager(),
-                      imageUrl:  spot.thumbnailImage!,
-                      fit: BoxFit.cover,
-                      errorWidget: (context, url, error) =>
-                          Container(
-                            color: AppColors.gray100,
-                            child: Image.asset(
-                              ImagePath.imageError,
-                              width: 74.r,
-                            ),
+                      Spacer(),
+                      SizedBox(
+                        height: 72.r,
+                        width: 72.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            IconPath.weatherType('error'),
+                            width: 72.r,
                           ),
+                        ),
+                      ),
+                      Container(
+                        width: 42.w,
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '오류',
+                          style: context.textStyles.headLine2
+                              .copyWith(color: AppColors.secondary),
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppStrings.weatherTitle,
+                            style: context.textStyles.headLine2
+                                .copyWith(color: AppColors.gray600),
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Text(
+                            weatherInfo!.description,
+                            style: context.textStyles.body1
+                                .copyWith(color: AppColors.gray300),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      SizedBox(
+                        height: 72.r,
+                        width: 72.r,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            weatherInfo.iconAsset,
+                            width: weatherInfo.iconWidth,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 42.w,
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          '${weatherInfo.temp}°',
+                          style: context.textStyles.headLine2
+                              .copyWith(color: AppColors.primary),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+
+          /// ============================================
+          /// ================= 이달의 여행지 ===================
+          SizedBox(
+            height: 14.h,
+          ),
+          PagedGradientCarousel(
+            onItemTap: (index) {
+              final tappedSpot = homeState.monthlySpots[index];
+              context.push(
+                RoutePath.monthlySpotMap,
+                extra: {
+                  'year': homeState.year,
+                  'month': homeState.month,
+                  'placeId': tappedSpot.placeId,
+                  'spots': homeState.monthlySpots,
+                },
+              );
+            },
+            items: homeState.monthlySpots.asMap().entries.map((entry) {
+              final index = entry.key;
+              final spot = entry.value;
+              final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
+              const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
+              final String city =
+                  (index < fixedCities.length) ? fixedCities[index] : '제주';
+
+                return CarouselItem(
+                  background: (spot.originImage == null)
+                    ? Container(
+                    color: AppColors.gray100,
+                    child: Image.asset(
+                      ImagePath.imageError,
+                      width: 74.r,
                     ),
-                    title: spot.title,
-                    count: count.toString(),
-                    city: city,
-                  );
-                }).toList(),
-              ),
-            SizedBox(
-              height: 14.h,
+                  )
+                  : CachedNetworkImage(
+                    cacheManager: CustomCacheManager(),
+                    imageUrl:  spot.originImage!,
+                    fit: BoxFit.cover,
+                    errorWidget: (context, url, error) =>
+                        Container(
+                          color: AppColors.gray100,
+                          child: Image.asset(
+                            ImagePath.imageError,
+                            width: 74.r,
+                          ),
+                        ),
+                  ),
+                  title: spot.title,
+                  count: count.toString(),
+                  city: city,
+                  isVisited: spot.visited,
+                );
+              }).toList(),
             ),
+          SizedBox(
+            height: 14.h,
+          ),
 
             /// ============================================
             /// ================= 카테고리 ===================
@@ -531,11 +541,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             /// ============================================
             /// ================= 추천 버튼 =================
             Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 14.h, horizontal: AppSizes.defaultPadding),
-              child: SplitRoundedButton(),
+            padding: EdgeInsets.symmetric(
+                vertical: 14.h, horizontal: AppSizes.defaultPadding),
+            child: SplitRoundedButton(
+              onJejuTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.jeju,
+                  },
+                );
+              },
+              onSeogwipoTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.seogwipo,
+                  },
+                );
+              },
             ),
-
+          ),
             /// ============================================
             SizedBox(
               height: 14.h,

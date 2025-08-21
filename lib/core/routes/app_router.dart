@@ -21,6 +21,7 @@ import 'package:oreum_fe/features/course/presentation/views/course_detail_screen
 
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/states/recommend_state.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
 import 'package:oreum_fe/features/planner/presentation/views/planner_detail_screen.dart';
@@ -200,7 +201,9 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>?;
           final contentTypeId = extra?['contentTypeId'] as int? ?? 12;
-          return RecommendScreen(contentTypeId: contentTypeId);
+          final regionFilter = extra?['initialFilter'] ?? RegionFilter.all;
+          final type = extra?['type'] ?? true;
+          return RecommendScreen(contentTypeId: contentTypeId, regionFilter: regionFilter, type: type,);
         },
       ),
       GoRoute(

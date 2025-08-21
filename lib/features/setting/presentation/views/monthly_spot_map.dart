@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +13,9 @@ import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
+import '../../../../core/constants/animation_path.dart';
+import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/monthly_spot_map_view_model.dart';
 import '../viewmodels/states/monthly_spot_map_state.dart';
 import '../widgets/monthly_spot_list_tile.dart';
@@ -149,7 +154,22 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
         ref.watch(monthlySpotMapViewModelProvider(spots: widget.spots));
     final spotViewModel =
         ref.read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier);
-
+    if (spotState.status == UiStatus.loading) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 56.h),
+        child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+      );
+    }
+    if (spotState.status == UiStatus.error) {
+      return Center(child: ErrorRetryWidget(
+        onPressed: () {
+          spotViewModel.retryLoadingMarkers();
+        },
+      ));
+    }
+    final bool isPermissionGranted =
+        spotState.permissionStatus == LocationPermission.always ||
+            spotState.permissionStatus == LocationPermission.whileInUse;
     return Scaffold(
       appBar: CustomAppBar.back(),
       body: SafeArea(
@@ -263,22 +283,31 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
               bottom: 16.h,
               child: SizedBox(
                 height: 58.h,
-                child: CustomElevatedButton.primary(
-                  onPressed: (spotState.isProximity &&
-                          spotState.proximateSpot != null &&
-                          !spotState.proximateSpot!.visited)
-                      ? spotViewModel.onStampButtonPressed
-                      : null,
-                  text: (spotState.proximateSpot?.visited ?? false)
-                      ? '이미 방문한 여행지'
-                      : AppStrings.stamp,
-                  textStyle: context.textStyles.label3
-                    .copyWith(color: (spotState.isProximity &&
-                      spotState.proximateSpot != null &&
-                      !spotState.proximateSpot!.visited)
-                      ? AppColors.white : AppColors.gray200),
-                  radius: AppSizes.radiusMD,
-                ),
+                child: isPermissionGranted
+                    ? CustomElevatedButton.primary(
+                        onPressed: (spotState.isProximity &&
+                                spotState.proximateSpot != null &&
+                                !spotState.proximateSpot!.visited)
+                            ? spotViewModel.onStampButtonPressed
+                            : null,
+                        text: (spotState.proximateSpot?.visited ?? false)
+                            ? '이미 방문한 여행지'
+                            : AppStrings.stamp,
+                        textStyle: context.textStyles.label3.copyWith(
+                            color: (spotState.isProximity &&
+                                    spotState.proximateSpot != null &&
+                                    !spotState.proximateSpot!.visited)
+                                ? AppColors.white
+                                : AppColors.gray200),
+                        radius: AppSizes.radiusMD,
+                      )
+                    : CustomElevatedButton.primary(
+                        onPressed: spotViewModel.openAppSettings,
+                        text: '위치 권한 설정하기',
+                        textStyle: context.textStyles.label3
+                            .copyWith(color: AppColors.white),
+                        radius: AppSizes.radiusMD,
+                      ),
               ),
             ),
             Positioned(

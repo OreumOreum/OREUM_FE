@@ -26,9 +26,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   void initState() {
     super.initState();
-    /*_controller.addListener(() {
-      setState(() {}); // 텍스트 변화 감지해서 rebuild
-    });*/
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
   }
 
   @override

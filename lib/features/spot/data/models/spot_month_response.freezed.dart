@@ -29,6 +29,7 @@ mixin _$SpotMonthResponse {
   double get mapY => throw _privateConstructorUsedError;
   bool get visited => throw _privateConstructorUsedError;
   String? get thumbnailImage => throw _privateConstructorUsedError;
+  String? get originImage => throw _privateConstructorUsedError;
 
   /// Serializes this SpotMonthResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,7 +56,8 @@ abstract class $SpotMonthResponseCopyWith<$Res> {
       double mapX,
       double mapY,
       bool visited,
-      String? thumbnailImage});
+      String? thumbnailImage,
+      String? originImage});
 }
 
 /// @nodoc
@@ -82,6 +84,7 @@ class _$SpotMonthResponseCopyWithImpl<$Res, $Val extends SpotMonthResponse>
     Object? mapY = null,
     Object? visited = null,
     Object? thumbnailImage = freezed,
+    Object? originImage = freezed,
   }) {
     return _then(_value.copyWith(
       spotId: null == spotId
@@ -120,6 +123,10 @@ class _$SpotMonthResponseCopyWithImpl<$Res, $Val extends SpotMonthResponse>
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      originImage: freezed == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -141,7 +148,8 @@ abstract class _$$SpotMonthResponseImplCopyWith<$Res>
       double mapX,
       double mapY,
       bool visited,
-      String? thumbnailImage});
+      String? thumbnailImage,
+      String? originImage});
 }
 
 /// @nodoc
@@ -166,6 +174,7 @@ class __$$SpotMonthResponseImplCopyWithImpl<$Res>
     Object? mapY = null,
     Object? visited = null,
     Object? thumbnailImage = freezed,
+    Object? originImage = freezed,
   }) {
     return _then(_$SpotMonthResponseImpl(
       spotId: null == spotId
@@ -204,6 +213,10 @@ class __$$SpotMonthResponseImplCopyWithImpl<$Res>
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      originImage: freezed == originImage
+          ? _value.originImage
+          : originImage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -220,7 +233,8 @@ class _$SpotMonthResponseImpl implements _SpotMonthResponse {
       required this.mapX,
       required this.mapY,
       required this.visited,
-      this.thumbnailImage});
+      this.thumbnailImage,
+      this.originImage});
 
   factory _$SpotMonthResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$SpotMonthResponseImplFromJson(json);
@@ -243,10 +257,12 @@ class _$SpotMonthResponseImpl implements _SpotMonthResponse {
   final bool visited;
   @override
   final String? thumbnailImage;
+  @override
+  final String? originImage;
 
   @override
   String toString() {
-    return 'SpotMonthResponse(spotId: $spotId, placeId: $placeId, title: $title, address: $address, detailAddress: $detailAddress, mapX: $mapX, mapY: $mapY, visited: $visited, thumbnailImage: $thumbnailImage)';
+    return 'SpotMonthResponse(spotId: $spotId, placeId: $placeId, title: $title, address: $address, detailAddress: $detailAddress, mapX: $mapX, mapY: $mapY, visited: $visited, thumbnailImage: $thumbnailImage, originImage: $originImage)';
   }
 
   @override
@@ -264,13 +280,15 @@ class _$SpotMonthResponseImpl implements _SpotMonthResponse {
             (identical(other.mapY, mapY) || other.mapY == mapY) &&
             (identical(other.visited, visited) || other.visited == visited) &&
             (identical(other.thumbnailImage, thumbnailImage) ||
-                other.thumbnailImage == thumbnailImage));
+                other.thumbnailImage == thumbnailImage) &&
+            (identical(other.originImage, originImage) ||
+                other.originImage == originImage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, spotId, placeId, title, address,
-      detailAddress, mapX, mapY, visited, thumbnailImage);
+      detailAddress, mapX, mapY, visited, thumbnailImage, originImage);
 
   /// Create a copy of SpotMonthResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -299,7 +317,8 @@ abstract class _SpotMonthResponse implements SpotMonthResponse {
       required final double mapX,
       required final double mapY,
       required final bool visited,
-      final String? thumbnailImage}) = _$SpotMonthResponseImpl;
+      final String? thumbnailImage,
+      final String? originImage}) = _$SpotMonthResponseImpl;
 
   factory _SpotMonthResponse.fromJson(Map<String, dynamic> json) =
       _$SpotMonthResponseImpl.fromJson;
@@ -322,6 +341,8 @@ abstract class _SpotMonthResponse implements SpotMonthResponse {
   bool get visited;
   @override
   String? get thumbnailImage;
+  @override
+  String? get originImage;
 
   /// Create a copy of SpotMonthResponse
   /// with the given fields replaced by the non-null parameter values.
