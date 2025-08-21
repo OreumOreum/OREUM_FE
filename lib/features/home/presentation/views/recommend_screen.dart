@@ -114,7 +114,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -149,7 +149,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -194,14 +194,14 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final myTravelType = myTypeState.myTravelType;
     final myTravelTypeLabel = myTravelType!.type;
     final sortLabel =
-        state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
+    state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
     final categoryLabel = LargeCategory.values
         .firstWhere(
           (cat) =>
-              cat.contentTypeId ==
-              (state.selectedContentTypeId ?? widget.contentTypeId),
-          orElse: () => LargeCategory.touristAttraction,
-        )
+      cat.contentTypeId ==
+          (state.selectedContentTypeId ?? widget.contentTypeId),
+      orElse: () => LargeCategory.touristAttraction,
+    )
         .label;
     String titleText;
     String primaryText;
@@ -246,49 +246,49 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         child: Row(
                             children: List.generate(
                                 largeCategories.length * 2 - 1, (index) {
-                          if (index.isOdd) {
-                            return SizedBox(width: 14.w);
-                          } else {
-                            final category = largeCategories[index ~/ 2];
-                            final isSelected = state.selectedContentTypeId ==
-                                category.contentTypeId;
+                              if (index.isOdd) {
+                                return SizedBox(width: 14.w);
+                              } else {
+                                final category = largeCategories[index ~/ 2];
+                                final isSelected = state.selectedContentTypeId ==
+                                    category.contentTypeId;
 
-                            return GestureDetector(
-                              onTap: () => viewModel.setContentTypeId(
-                                  widget.regionFilter,
-                                  category.contentTypeId,
-                                  widget.type),
-                              behavior: HitTestBehavior.translucent,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: 52.r,
-                                    width: 52.r,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        category.iconPath,
-                                        width: category.iconWidth,
+                                return GestureDetector(
+                                  onTap: () => viewModel.setContentTypeId(
+                                      widget.regionFilter,
+                                      category.contentTypeId,
+                                      widget.type),
+                                  behavior: HitTestBehavior.translucent,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 52.r,
+                                        width: 52.r,
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            category.iconPath,
+                                            width: category.iconWidth,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        category.label,
+                                        style: context.textStyles.body2.copyWith(
+                                          color: isSelected
+                                              ? AppColors.primary
+                                              : AppColors.gray400,
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    category.label,
-                                    style: context.textStyles.body2.copyWith(
-                                      color: isSelected
-                                          ? AppColors.primary
-                                          : AppColors.gray400,
-                                      fontWeight: isSelected
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        })),
+                                );
+                              }
+                            })),
                       ),
                     ),
                   ),
@@ -350,7 +350,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           context: context,
                           label: '서귀포시',
                           isSelected:
-                              state.selectedFilter == RegionFilter.seogwipo,
+                          state.selectedFilter == RegionFilter.seogwipo,
                           onTap: () => viewModel.setFilter(
                               RegionFilter.seogwipo,
                               state.selectedContentTypeId ??
@@ -380,26 +380,28 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
               ))
             else if (state.filteredPlaces.isEmpty)
-              const SliverFillRemaining(
-                  child: Center(child: Text('표시할 장소가 없습니다.')))
-            else
-              SliverList.separated(
-                itemCount: state.filteredPlaces.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final place = state.filteredPlaces[index];
-                  return PlaceListTile(
+                const SliverFillRemaining(
+                    child: Center(child: Text('표시할 장소가 없습니다.')))
+              else
+                SliverList.separated(
+                  itemCount: state.filteredPlaces.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final place = state.filteredPlaces[index];
+                    return PlaceListTile(
                       thumbnailImage: place.thumbnailImage ?? '',
                       title: place.title,
-                      address: place.address ?? '');
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1.h,
-                    thickness: 1.h,
-                    color: AppColors.gray100,
-                  );
-                },
-              ),
+                      address: place.address ?? '',
+                      isSaved: place.isSaved,
+                      placeId: place.placeId,);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 1.h,
+                      thickness: 1.h,
+                      color: AppColors.gray100,
+                    );
+                  },
+                ),
             if (state.isLoadingNextPage)
               SliverToBoxAdapter(
                 child: Padding(
@@ -472,7 +474,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
             SizedBox(width: 4.w),
             Text(label,
                 style:
-                    context.textStyles.body1.copyWith(color: AppColors.white)),
+                context.textStyles.body1.copyWith(color: AppColors.white)),
           ],
         ),
       ),
