@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oreum_fe/core/widgets/custom_toast.dart';
 
 Future<void> launchCustomTab(BuildContext context, {
   required String url,
@@ -24,8 +26,6 @@ Future<void> launchCustomTab(BuildContext context, {
     );
   } catch (e) {
     // 브라우저를 열 수 없을 경우 에러 메시지를 표시합니다.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('브라우저를 열 수 없습니다: ${e.toString()}')),
-    );
+    CustomToast.showToast(context, '브라우저를 열 수 없습니다', 56.h);
   }
 }

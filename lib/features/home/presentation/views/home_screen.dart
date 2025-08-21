@@ -436,6 +436,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               return CarouselItem(
                 background: (spot.originImage == null)
                     ? Container(
+
                   color: AppColors.gray100,
                   child: Image.asset(
                     ImagePath.imageError,
@@ -454,6 +455,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                 ),
+
                 title: spot.title,
                 count: count.toString(),
                 city: city,
@@ -471,6 +473,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
             child: isWideScreen
                 ? Padding(
+
               padding: EdgeInsets.symmetric(horizontal: 14.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -512,6 +515,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               scrollDirection: Axis.horizontal,
               padding:
               EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+
               child: Row(
                 children: List.generate(categoryPlaces.length, (index) {
                   String title = mockPlace[index]['title']!;
@@ -602,6 +606,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: HomeTitleText(
                     title: AppStrings.personalizedCourseRecommendation,
                     primaryText: myTravelTypeLabel,
+
                     subtitle: AppStrings.typeCourseRecommendation,
                   ),
                 ),
@@ -619,6 +624,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       String contentId = courses[index].contentId.toString();
                       String contentTypeId =
                       courses[index].contentTypeId.toString();
+
 
                       return Row(
                         children: [
@@ -663,6 +669,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: HomeTitleText(
                       title: AppStrings.typeRecommend(myTravelTypeLabel),
                       primaryText: myTravelTypeLabel,
+
                       subtitle: AppStrings.typePlaceRecommendation),
                 ),
                 SizedBox(

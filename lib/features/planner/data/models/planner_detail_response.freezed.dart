@@ -30,6 +30,7 @@ mixin _$PlannerDetailResponse {
   String get placeAddress => throw _privateConstructorUsedError;
   String? get placeThumbnailImage => throw _privateConstructorUsedError;
   String get contentTypeId => throw _privateConstructorUsedError;
+  String get contentId => throw _privateConstructorUsedError;
   double? get mapX => throw _privateConstructorUsedError;
   double? get mapY => throw _privateConstructorUsedError;
 
@@ -59,6 +60,7 @@ abstract class $PlannerDetailResponseCopyWith<$Res> {
       String placeAddress,
       String? placeThumbnailImage,
       String contentTypeId,
+      String contentId,
       double? mapX,
       double? mapY});
 }
@@ -88,6 +90,7 @@ class _$PlannerDetailResponseCopyWithImpl<$Res,
     Object? placeAddress = null,
     Object? placeThumbnailImage = freezed,
     Object? contentTypeId = null,
+    Object? contentId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
   }) {
@@ -128,6 +131,10 @@ class _$PlannerDetailResponseCopyWithImpl<$Res,
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
       mapX: freezed == mapX
           ? _value.mapX
           : mapX // ignore: cast_nullable_to_non_nullable
@@ -159,6 +166,7 @@ abstract class _$$PlannerDetailResponseImplCopyWith<$Res>
       String placeAddress,
       String? placeThumbnailImage,
       String contentTypeId,
+      String contentId,
       double? mapX,
       double? mapY});
 }
@@ -186,6 +194,7 @@ class __$$PlannerDetailResponseImplCopyWithImpl<$Res>
     Object? placeAddress = null,
     Object? placeThumbnailImage = freezed,
     Object? contentTypeId = null,
+    Object? contentId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
   }) {
@@ -226,6 +235,10 @@ class __$$PlannerDetailResponseImplCopyWithImpl<$Res>
           ? _value.contentTypeId
           : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
       mapX: freezed == mapX
           ? _value.mapX
           : mapX // ignore: cast_nullable_to_non_nullable
@@ -251,6 +264,7 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
       required this.placeAddress,
       this.placeThumbnailImage,
       required this.contentTypeId,
+      required this.contentId,
       this.mapX,
       this.mapY});
 
@@ -276,13 +290,15 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
   @override
   final String contentTypeId;
   @override
+  final String contentId;
+  @override
   final double? mapX;
   @override
   final double? mapY;
 
   @override
   String toString() {
-    return 'PlannerDetailResponse(plannerPlaceId: $plannerPlaceId, day: $day, order: $order, plannerId: $plannerId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, placeThumbnailImage: $placeThumbnailImage, contentTypeId: $contentTypeId, mapX: $mapX, mapY: $mapY)';
+    return 'PlannerDetailResponse(plannerPlaceId: $plannerPlaceId, day: $day, order: $order, plannerId: $plannerId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, placeThumbnailImage: $placeThumbnailImage, contentTypeId: $contentTypeId, contentId: $contentId, mapX: $mapX, mapY: $mapY)';
   }
 
   @override
@@ -305,6 +321,8 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
                 other.placeThumbnailImage == placeThumbnailImage) &&
             (identical(other.contentTypeId, contentTypeId) ||
                 other.contentTypeId == contentTypeId) &&
+            (identical(other.contentId, contentId) ||
+                other.contentId == contentId) &&
             (identical(other.mapX, mapX) || other.mapX == mapX) &&
             (identical(other.mapY, mapY) || other.mapY == mapY));
   }
@@ -322,6 +340,7 @@ class _$PlannerDetailResponseImpl implements _PlannerDetailResponse {
       placeAddress,
       placeThumbnailImage,
       contentTypeId,
+      contentId,
       mapX,
       mapY);
 
@@ -353,6 +372,7 @@ abstract class _PlannerDetailResponse implements PlannerDetailResponse {
       required final String placeAddress,
       final String? placeThumbnailImage,
       required final String contentTypeId,
+      required final String contentId,
       final double? mapX,
       final double? mapY}) = _$PlannerDetailResponseImpl;
 
@@ -377,6 +397,8 @@ abstract class _PlannerDetailResponse implements PlannerDetailResponse {
   String? get placeThumbnailImage;
   @override
   String get contentTypeId;
+  @override
+  String get contentId;
   @override
   double? get mapX;
   @override

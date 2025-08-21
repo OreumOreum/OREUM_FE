@@ -232,6 +232,7 @@ abstract class $SearchPlaceItemCopyWith<$Res> {
       String? address,
       String? thumbnailImage,
       bool isSaved});
+
 }
 
 /// @nodoc
@@ -306,6 +307,7 @@ abstract class _$$SearchPlaceItemImplCopyWith<$Res>
       String? address,
       String? thumbnailImage,
       bool isSaved});
+
 }
 
 /// @nodoc
@@ -394,7 +396,9 @@ class _$SearchPlaceItemImpl implements _SearchPlaceItem {
 
   @override
   String toString() {
+
     return 'SearchPlaceItem(id: $id, title: $title, contentId: $contentId, contentTypeId: $contentTypeId, address: $address, thumbnailImage: $thumbnailImage, isSaved: $isSaved)';
+
   }
 
   @override
@@ -418,6 +422,7 @@ class _$SearchPlaceItemImpl implements _SearchPlaceItem {
   @override
   int get hashCode => Object.hash(runtimeType, id, title, contentId,
       contentTypeId, address, thumbnailImage, isSaved);
+
 
   /// Create a copy of SearchPlaceItem
   /// with the given fields replaced by the non-null parameter values.

@@ -12,6 +12,8 @@ class FolderDetailResponse with _$FolderDetailResponse {
     required String placeTitle,
     required String? placeAddress,
     required String? originImage,
+    required String contentId,
+    required String contentTypeId,
   }) = _FolderDetialResponse;
 
   factory FolderDetailResponse.fromJson(Map<String, dynamic> json) =>

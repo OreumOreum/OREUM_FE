@@ -116,7 +116,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -151,7 +151,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -196,14 +196,14 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final myTravelType = myTypeState.myTravelType;
     final myTravelTypeLabel = myTravelType!.type;
     final sortLabel =
-        state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
+    state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
     final categoryLabel = LargeCategory.values
         .firstWhere(
           (cat) =>
-              cat.contentTypeId ==
-              (state.selectedContentTypeId ?? widget.contentTypeId),
-          orElse: () => LargeCategory.touristAttraction,
-        )
+      cat.contentTypeId ==
+          (state.selectedContentTypeId ?? widget.contentTypeId),
+      orElse: () => LargeCategory.touristAttraction,
+    )
         .label;
     String titleText;
     String primaryText;
@@ -248,29 +248,31 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         child: Row(
                             children: List.generate(
                                 largeCategories.length * 2 - 1, (index) {
-                          if (index.isOdd) {
-                            return SizedBox(width: 14.w);
-                          } else {
-                            final category = largeCategories[index ~/ 2];
-                            final isSelected = state.selectedContentTypeId ==
-                                category.contentTypeId;
+                              if (index.isOdd) {
+                                return SizedBox(width: 14.w);
+                              } else {
+                                final category = largeCategories[index ~/ 2];
+                                final isSelected = state.selectedContentTypeId ==
+                                    category.contentTypeId;
 
-                            return GestureDetector(
-                              onTap: () => viewModel.setContentTypeId(
-                                  widget.regionFilter,
-                                  category.contentTypeId,
-                                  widget.type),
-                              behavior: HitTestBehavior.translucent,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: 52.r,
-                                    width: 52.r,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        category.iconPath,
-                                        width: category.iconWidth,
+                                return GestureDetector(
+                                  onTap: () => viewModel.setContentTypeId(
+                                      widget.regionFilter,
+                                      category.contentTypeId,
+                                      widget.type),
+                                  behavior: HitTestBehavior.translucent,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 52.r,
+                                        width: 52.r,
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            category.iconPath,
+                                            width: category.iconWidth,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -285,12 +287,11 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                                           ? FontWeight.bold
                                           : FontWeight.normal,
                                     ),
+
                                   ),
-                                ],
-                              ),
-                            );
-                          }
-                        })),
+                                );
+                              }
+                            })),
                       ),
                     ),
                   ),
@@ -352,7 +353,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           context: context,
                           label: '서귀포시',
                           isSelected:
-                              state.selectedFilter == RegionFilter.seogwipo,
+                          state.selectedFilter == RegionFilter.seogwipo,
                           onTap: () => viewModel.setFilter(
                               RegionFilter.seogwipo,
                               state.selectedContentTypeId ??
@@ -418,6 +419,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   );
                 },
               ),
+
             if (state.isLoadingNextPage)
               SliverToBoxAdapter(
                 child: Padding(
@@ -476,12 +478,14 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   width: width,
                 ),
               ),
+
               SizedBox(width: 4.w),
               Text(label,
                   style:
                   context.textStyles.body1.copyWith(color: AppColors.white)),
             ],
           ),
+
         ),
       ),
     );

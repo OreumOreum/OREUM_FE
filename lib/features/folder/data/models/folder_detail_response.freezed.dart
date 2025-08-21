@@ -26,6 +26,8 @@ mixin _$FolderDetailResponse {
   String get placeTitle => throw _privateConstructorUsedError;
   String? get placeAddress => throw _privateConstructorUsedError;
   String? get originImage => throw _privateConstructorUsedError;
+  String get contentId => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
 
   /// Serializes this FolderDetailResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,7 +51,9 @@ abstract class $FolderDetailResponseCopyWith<$Res> {
       int placeId,
       String placeTitle,
       String? placeAddress,
-      String? originImage});
+      String? originImage,
+      String contentId,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -74,6 +78,8 @@ class _$FolderDetailResponseCopyWithImpl<$Res,
     Object? placeTitle = null,
     Object? placeAddress = freezed,
     Object? originImage = freezed,
+    Object? contentId = null,
+    Object? contentTypeId = null,
   }) {
     return _then(_value.copyWith(
       folderPlaceId: null == folderPlaceId
@@ -100,6 +106,14 @@ class _$FolderDetailResponseCopyWithImpl<$Res,
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -118,7 +132,9 @@ abstract class _$$FolderDetialResponseImplCopyWith<$Res>
       int placeId,
       String placeTitle,
       String? placeAddress,
-      String? originImage});
+      String? originImage,
+      String contentId,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -140,6 +156,8 @@ class __$$FolderDetialResponseImplCopyWithImpl<$Res>
     Object? placeTitle = null,
     Object? placeAddress = freezed,
     Object? originImage = freezed,
+    Object? contentId = null,
+    Object? contentTypeId = null,
   }) {
     return _then(_$FolderDetialResponseImpl(
       folderPlaceId: null == folderPlaceId
@@ -166,6 +184,14 @@ class __$$FolderDetialResponseImplCopyWithImpl<$Res>
           ? _value.originImage
           : originImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -179,7 +205,9 @@ class _$FolderDetialResponseImpl implements _FolderDetialResponse {
       required this.placeId,
       required this.placeTitle,
       required this.placeAddress,
-      required this.originImage});
+      required this.originImage,
+      required this.contentId,
+      required this.contentTypeId});
 
   factory _$FolderDetialResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$FolderDetialResponseImplFromJson(json);
@@ -196,10 +224,14 @@ class _$FolderDetialResponseImpl implements _FolderDetialResponse {
   final String? placeAddress;
   @override
   final String? originImage;
+  @override
+  final String contentId;
+  @override
+  final String contentTypeId;
 
   @override
   String toString() {
-    return 'FolderDetailResponse(folderPlaceId: $folderPlaceId, FolderId: $FolderId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, originImage: $originImage)';
+    return 'FolderDetailResponse(folderPlaceId: $folderPlaceId, FolderId: $FolderId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, originImage: $originImage, contentId: $contentId, contentTypeId: $contentTypeId)';
   }
 
   @override
@@ -217,13 +249,17 @@ class _$FolderDetialResponseImpl implements _FolderDetialResponse {
             (identical(other.placeAddress, placeAddress) ||
                 other.placeAddress == placeAddress) &&
             (identical(other.originImage, originImage) ||
-                other.originImage == originImage));
+                other.originImage == originImage) &&
+            (identical(other.contentId, contentId) ||
+                other.contentId == contentId) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, folderPlaceId, FolderId, placeId,
-      placeTitle, placeAddress, originImage);
+      placeTitle, placeAddress, originImage, contentId, contentTypeId);
 
   /// Create a copy of FolderDetailResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -250,7 +286,9 @@ abstract class _FolderDetialResponse implements FolderDetailResponse {
       required final int placeId,
       required final String placeTitle,
       required final String? placeAddress,
-      required final String? originImage}) = _$FolderDetialResponseImpl;
+      required final String? originImage,
+      required final String contentId,
+      required final String contentTypeId}) = _$FolderDetialResponseImpl;
 
   factory _FolderDetialResponse.fromJson(Map<String, dynamic> json) =
       _$FolderDetialResponseImpl.fromJson;
@@ -267,6 +305,10 @@ abstract class _FolderDetialResponse implements FolderDetailResponse {
   String? get placeAddress;
   @override
   String? get originImage;
+  @override
+  String get contentId;
+  @override
+  String get contentTypeId;
 
   /// Create a copy of FolderDetailResponse
   /// with the given fields replaced by the non-null parameter values.
