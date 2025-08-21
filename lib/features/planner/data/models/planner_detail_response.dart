@@ -16,6 +16,7 @@ class PlannerDetailResponse with _$PlannerDetailResponse {
     required String placeAddress,
     String? placeThumbnailImage,
     required String contentTypeId,
+    required String contentId,
     double? mapX,
     double? mapY,
   }) = _PlannerDetailResponse;

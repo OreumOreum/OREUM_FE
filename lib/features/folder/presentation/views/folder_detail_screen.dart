@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -173,9 +175,16 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                             String title = folderPlaces[index].placeTitle;
                             String? thumbnailImage =
                                 folderPlaces[index].originImage;
+                            String placeId = folderPlaces[index].placeId.toString();
+                            String contentId = folderPlaces[index].contentId;
+                            String contentTypeId = folderPlaces[index].contentTypeId;
                             return InkWell(
                               onTap: () {
-                                ///단일 여행지 상세보기 네비게이트
+                                context.push('${RoutePath.placeDetail}/$placeId',
+                                    extra: {
+                                      'contentId': contentId,
+                                      'contentTypeId': contentTypeId
+                                    });
                               },
                               child: FolderDetailListTile(
                                   folderId: folderPlaces[index].FolderId,
