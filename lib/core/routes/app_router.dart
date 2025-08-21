@@ -93,6 +93,11 @@ GoRouter appRouter(AppRouterRef ref) {
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
+        path: RoutePath.myReview,
+        builder: (context, state) => const MyReviewScreen(),
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+      ),
+      GoRoute(
         path: RoutePath.typeTestStart,
         builder: (context, state) => const TypeTestStartScreen(),
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
