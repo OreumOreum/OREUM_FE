@@ -32,6 +32,7 @@ _$SearchPlaceItemImpl _$$SearchPlaceItemImplFromJson(
       contentTypeId: json['contentTypeId'] as String,
       address: json['address'] as String?,
       thumbnailImage: json['thumbnailImage'] as String?,
+      isSaved: json['isSaved'] as bool,
     );
 
 Map<String, dynamic> _$$SearchPlaceItemImplToJson(
@@ -43,4 +44,5 @@ Map<String, dynamic> _$$SearchPlaceItemImplToJson(
       'contentTypeId': instance.contentTypeId,
       'address': instance.address,
       'thumbnailImage': instance.thumbnailImage,
+      'isSaved': instance.isSaved,
     };

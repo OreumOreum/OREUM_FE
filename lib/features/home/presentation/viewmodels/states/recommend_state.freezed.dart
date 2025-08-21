@@ -25,6 +25,7 @@ mixin _$RecommendState {
   bool get isLastPage => throw _privateConstructorUsedError;
   bool get isLoadingNextPage => throw _privateConstructorUsedError;
   SortOption get selectedSortOption => throw _privateConstructorUsedError;
+  Map<int, bool> get bookmarkStatusMap => throw _privateConstructorUsedError;
   int? get selectedContentTypeId => throw _privateConstructorUsedError;
   TravelType? get myTravelType => throw _privateConstructorUsedError;
 
@@ -51,6 +52,7 @@ abstract class $RecommendStateCopyWith<$Res> {
       bool isLastPage,
       bool isLoadingNextPage,
       SortOption selectedSortOption,
+      Map<int, bool> bookmarkStatusMap,
       int? selectedContentTypeId,
       TravelType? myTravelType});
 }
@@ -79,6 +81,7 @@ class _$RecommendStateCopyWithImpl<$Res, $Val extends RecommendState>
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
     Object? selectedSortOption = null,
+    Object? bookmarkStatusMap = null,
     Object? selectedContentTypeId = freezed,
     Object? myTravelType = freezed,
   }) {
@@ -119,6 +122,10 @@ class _$RecommendStateCopyWithImpl<$Res, $Val extends RecommendState>
           ? _value.selectedSortOption
           : selectedSortOption // ignore: cast_nullable_to_non_nullable
               as SortOption,
+      bookmarkStatusMap: null == bookmarkStatusMap
+          ? _value.bookmarkStatusMap
+          : bookmarkStatusMap // ignore: cast_nullable_to_non_nullable
+              as Map<int, bool>,
       selectedContentTypeId: freezed == selectedContentTypeId
           ? _value.selectedContentTypeId
           : selectedContentTypeId // ignore: cast_nullable_to_non_nullable
@@ -149,6 +156,7 @@ abstract class _$$RecommendStateImplCopyWith<$Res>
       bool isLastPage,
       bool isLoadingNextPage,
       SortOption selectedSortOption,
+      Map<int, bool> bookmarkStatusMap,
       int? selectedContentTypeId,
       TravelType? myTravelType});
 }
@@ -175,6 +183,7 @@ class __$$RecommendStateImplCopyWithImpl<$Res>
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
     Object? selectedSortOption = null,
+    Object? bookmarkStatusMap = null,
     Object? selectedContentTypeId = freezed,
     Object? myTravelType = freezed,
   }) {
@@ -215,6 +224,10 @@ class __$$RecommendStateImplCopyWithImpl<$Res>
           ? _value.selectedSortOption
           : selectedSortOption // ignore: cast_nullable_to_non_nullable
               as SortOption,
+      bookmarkStatusMap: null == bookmarkStatusMap
+          ? _value._bookmarkStatusMap
+          : bookmarkStatusMap // ignore: cast_nullable_to_non_nullable
+              as Map<int, bool>,
       selectedContentTypeId: freezed == selectedContentTypeId
           ? _value.selectedContentTypeId
           : selectedContentTypeId // ignore: cast_nullable_to_non_nullable
@@ -240,10 +253,12 @@ class _$RecommendStateImpl implements _RecommendState {
       this.isLastPage = false,
       this.isLoadingNextPage = false,
       this.selectedSortOption = SortOption.review,
+      final Map<int, bool> bookmarkStatusMap = const {},
       this.selectedContentTypeId,
       this.myTravelType})
       : _originalPlaces = originalPlaces,
-        _filteredPlaces = filteredPlaces;
+        _filteredPlaces = filteredPlaces,
+        _bookmarkStatusMap = bookmarkStatusMap;
 
   @override
   @JsonKey()
@@ -284,6 +299,16 @@ class _$RecommendStateImpl implements _RecommendState {
   @override
   @JsonKey()
   final SortOption selectedSortOption;
+  final Map<int, bool> _bookmarkStatusMap;
+  @override
+  @JsonKey()
+  Map<int, bool> get bookmarkStatusMap {
+    if (_bookmarkStatusMap is EqualUnmodifiableMapView)
+      return _bookmarkStatusMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_bookmarkStatusMap);
+  }
+
   @override
   final int? selectedContentTypeId;
   @override
@@ -291,7 +316,7 @@ class _$RecommendStateImpl implements _RecommendState {
 
   @override
   String toString() {
-    return 'RecommendState(status: $status, errorMessage: $errorMessage, originalPlaces: $originalPlaces, filteredPlaces: $filteredPlaces, selectedFilter: $selectedFilter, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage, selectedSortOption: $selectedSortOption, selectedContentTypeId: $selectedContentTypeId, myTravelType: $myTravelType)';
+    return 'RecommendState(status: $status, errorMessage: $errorMessage, originalPlaces: $originalPlaces, filteredPlaces: $filteredPlaces, selectedFilter: $selectedFilter, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage, selectedSortOption: $selectedSortOption, bookmarkStatusMap: $bookmarkStatusMap, selectedContentTypeId: $selectedContentTypeId, myTravelType: $myTravelType)';
   }
 
   @override
@@ -316,6 +341,8 @@ class _$RecommendStateImpl implements _RecommendState {
                 other.isLoadingNextPage == isLoadingNextPage) &&
             (identical(other.selectedSortOption, selectedSortOption) ||
                 other.selectedSortOption == selectedSortOption) &&
+            const DeepCollectionEquality()
+                .equals(other._bookmarkStatusMap, _bookmarkStatusMap) &&
             (identical(other.selectedContentTypeId, selectedContentTypeId) ||
                 other.selectedContentTypeId == selectedContentTypeId) &&
             (identical(other.myTravelType, myTravelType) ||
@@ -334,6 +361,7 @@ class _$RecommendStateImpl implements _RecommendState {
       isLastPage,
       isLoadingNextPage,
       selectedSortOption,
+      const DeepCollectionEquality().hash(_bookmarkStatusMap),
       selectedContentTypeId,
       myTravelType);
 
@@ -358,6 +386,7 @@ abstract class _RecommendState implements RecommendState {
       final bool isLastPage,
       final bool isLoadingNextPage,
       final SortOption selectedSortOption,
+      final Map<int, bool> bookmarkStatusMap,
       final int? selectedContentTypeId,
       final TravelType? myTravelType}) = _$RecommendStateImpl;
 
@@ -379,6 +408,8 @@ abstract class _RecommendState implements RecommendState {
   bool get isLoadingNextPage;
   @override
   SortOption get selectedSortOption;
+  @override
+  Map<int, bool> get bookmarkStatusMap;
   @override
   int? get selectedContentTypeId;
   @override

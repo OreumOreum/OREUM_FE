@@ -23,6 +23,7 @@ class SearchPlaceItem with _$SearchPlaceItem {
     required String contentTypeId,
     String? address,
     String? thumbnailImage,
+    required bool isSaved,
   }) = _SearchPlaceItem;
 
   factory SearchPlaceItem.fromJson(Map<String, dynamic> json) =>
