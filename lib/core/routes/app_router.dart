@@ -254,12 +254,14 @@ GoRouter appRouter(AppRouterRef ref) {
             String address = extraData['address'];
             double rate = extraData['rate'];
             String? originImage = extraData['originImage'];
+            int reviewCount = extraData['reviewCount'];
             return ReviewDetailScreen.place(
               id: id,
               name: name,
               address: address,
               rate: rate,
               originImage: originImage,
+              reviewCount: reviewCount,
             );
           },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
@@ -273,12 +275,14 @@ GoRouter appRouter(AppRouterRef ref) {
             String address = extraData['address'] ?? '';
             double rate = extraData['rate'];
             String? originImage = extraData['originImage'];
+            int reviewCount = extraData['reviewCount'];
             return ReviewDetailScreen.course(
               id: id,
               name: name,
               address: address,
               rate: rate,
               originImage: originImage,
+                reviewCount: reviewCount,
             );
           },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,

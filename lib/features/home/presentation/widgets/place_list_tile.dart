@@ -64,6 +64,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
     final bool hasImage = widget.thumbnailImage.isNotEmpty;
 
     // 상태 변화 리스닝
+    // _PlaceListTileState의 listen 부분 수정
     ref.listen(placeDetailViewModelProvider(widget.placeId.toString()), (previous, next) {
       print('상태 변화 감지: ${previous?.buttonStatus} -> ${next.buttonStatus}');
 
@@ -73,9 +74,9 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
         print('모달 띄우기');
         _isWaitingForModal = false;
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
           if (mounted) {
-            showModalBottomSheet<bool>(
+            final result = await showModalBottomSheet<bool>( // 🔥 결과 받기
               context: context,
               useRootNavigator: true,
               builder: (context) {
@@ -86,6 +87,15 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                 );
               },
             );
+
+            // 🔥 바텀시트에서 북마크가 삭제되었다면 (result == false)
+            if (result == false) {
+              setState(() {
+                _localIsSaved = false;
+              });
+              widget.onBookmarkChanged?.call(widget.placeId, false);
+              // 토스트는 바텀시트에서 이미 표시하므로 여기서는 생략
+            }
           }
         });
       } else if (_isWaitingForModal &&

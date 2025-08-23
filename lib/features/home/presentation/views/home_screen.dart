@@ -713,6 +713,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ],
               ),
+
+            ),
+
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  context.push(
+                    RoutePath.recommend,
+                    extra: {'contentTypeId': 0,'type': true, 'initialFilter':RegionFilter.all},
+                  );
+                },
+                child: Text(
+                  AppStrings.viewAll,
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray200),
+                ),
+              ),
             ),
             SizedBox(
               height: 16.h,

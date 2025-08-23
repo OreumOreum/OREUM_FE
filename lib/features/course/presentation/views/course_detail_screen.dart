@@ -366,7 +366,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                   ),
                                   SizedBox(width: 6.w),
                                   Text(
-                                    reviews.length.toString(),
+                                      '${course.reviewCount.toString()}',
                                     style: context.textStyles.body1
                                         .copyWith(color: AppColors.gray300),
                                   ),
@@ -447,7 +447,8 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                 .push('${RoutePath.reviewCourseDetail}/${widget.courseId}', extra: {
                               'name': state.courseDetail!.title,
                               'rate': state.courseDetail!.averageRate,
-                              'originImage': state.courseDetail!.originImage
+                              'originImage': state.courseDetail!.originImage,
+                              'reviewCount': state.courseDetail!.reviewCount
                             });
                           },
                           child: Text(
