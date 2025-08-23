@@ -40,4 +40,9 @@ class AuthRepositoryImpl implements AuthRepository{
   Future<void> submitTypeTestResult(String type) {
     return _authService.submitTypeTestResult(type);
   }
+
+  @override
+  Future<bool> checkExistMember(String token, String provider) {
+    return _authService.checkExistMember(token, provider);
+  }
 }

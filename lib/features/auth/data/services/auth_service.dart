@@ -3,6 +3,7 @@ import 'package:oreum_fe/core/constants/api_path.dart';
 import 'package:oreum_fe/core/data/models/auth_token_response.dart';
 import 'package:oreum_fe/features/auth/data/models/access_token_request.dart';
 import 'package:oreum_fe/features/auth/data/models/authorization_code_request.dart';
+import 'package:oreum_fe/features/auth/data/models/exist_request.dart';
 import 'package:oreum_fe/features/auth/data/models/id_token_request.dart';
 import 'package:oreum_fe/features/auth/data/models/type_check_response.dart';
 import 'package:oreum_fe/features/auth/data/models/type_request.dart';
@@ -67,5 +68,19 @@ class AuthService {
   Future<void> submitTypeTestResult(String type) async {
     final TypeRequest typeRequest = TypeRequest(categoryType: type);
     await _dio.patch(ApiPath.category, data: typeRequest.toJson());
+  }
+
+  Future<bool> checkExistMember(String token, String provider) async {
+    final ExistRequest existRequest =
+        ExistRequest(token: token, provider: provider);
+    Response response = await _dio.post(
+      ApiPath.existMember,
+      data: existRequest.toJson(),
+      options: Options(
+        extra: {'skipToken': true},
+      ),
+    );
+
+    return response.data;
   }
 }

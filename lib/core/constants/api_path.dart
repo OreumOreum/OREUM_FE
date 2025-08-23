@@ -53,4 +53,6 @@ abstract class ApiPath {
   static String folderSaved(int placeId) => '/v1/folder/detail/$placeId';
 
   static const String categoryRecommend = '/v1/place/category/recommend';
+
+  static const String existMember = '/v1/auth/member/exist';
 }

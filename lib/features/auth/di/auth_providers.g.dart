@@ -265,5 +265,85 @@ final submitTypeTestResultUseCaseProvider =
 // ignore: unused_element
 typedef SubmitTypeTestResultUseCaseRef
     = AutoDisposeProviderRef<SubmitTypeTestResultUseCase>;
+String _$checkExistMemberUseCaseHash() =>
+    r'336dc61791ea1f818b159ac0bfa5f91a89732c8e';
+
+/// See also [checkExistMemberUseCase].
+@ProviderFor(checkExistMemberUseCase)
+final checkExistMemberUseCaseProvider =
+    AutoDisposeProvider<CheckExistMemberUseCase>.internal(
+  checkExistMemberUseCase,
+  name: r'checkExistMemberUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$checkExistMemberUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CheckExistMemberUseCaseRef
+    = AutoDisposeProviderRef<CheckExistMemberUseCase>;
+String _$loginWithAppleUseCaseHash() =>
+    r'0cc22eb93246eef75c2f512cabe0d32830fc2045';
+
+/// See also [loginWithAppleUseCase].
+@ProviderFor(loginWithAppleUseCase)
+final loginWithAppleUseCaseProvider =
+    AutoDisposeProvider<LoginWithAppleUseCase>.internal(
+  loginWithAppleUseCase,
+  name: r'loginWithAppleUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginWithAppleUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef LoginWithAppleUseCaseRef
+    = AutoDisposeProviderRef<LoginWithAppleUseCase>;
+String _$loginWithGoogleUseCaseHash() =>
+    r'5cee712f693d2e91215d0278f883932f892c341e';
+
+/// See also [loginWithGoogleUseCase].
+@ProviderFor(loginWithGoogleUseCase)
+final loginWithGoogleUseCaseProvider =
+    AutoDisposeProvider<LoginWithGoogleUseCase>.internal(
+  loginWithGoogleUseCase,
+  name: r'loginWithGoogleUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginWithGoogleUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef LoginWithGoogleUseCaseRef
+    = AutoDisposeProviderRef<LoginWithGoogleUseCase>;
+String _$loginWithKakaoUseCaseHash() =>
+    r'd24dc96b154552e54b1516e7c08d58657be44621';
+
+/// See also [loginWithKakaoUseCase].
+@ProviderFor(loginWithKakaoUseCase)
+final loginWithKakaoUseCaseProvider =
+    AutoDisposeProvider<LoginWithKakaoUseCase>.internal(
+  loginWithKakaoUseCase,
+  name: r'loginWithKakaoUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$loginWithKakaoUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef LoginWithKakaoUseCaseRef
+    = AutoDisposeProviderRef<LoginWithKakaoUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -15,11 +15,12 @@ class AppleLoginUseCase {
       this._tokenSaver,
       );
 
-  Future<void> call() async {
+  Future<String> call() async {
     final String authorizationCode = await _appleAuthRepository.appleLogin();
     print('authorizationCode: $authorizationCode');
-    final AuthToken authToken = await _authRepository.loginWithApple(authorizationCode);
-    print('authToken: $authToken');
-    await _tokenSaver.saveTokens(authToken);
+    return authorizationCode;
+    // final AuthToken authToken = await _authRepository.loginWithApple(authorizationCode);
+    // print('authToken: $authToken');
+    // await _tokenSaver.saveTokens(authToken);
   }
 }

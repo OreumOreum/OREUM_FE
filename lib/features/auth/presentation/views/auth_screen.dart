@@ -18,6 +18,7 @@ import 'package:oreum_fe/features/auth/data/services/apple_auth_service.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/auth_view_model.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/states/auth_state.dart';
 import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
+import 'package:oreum_fe/features/auth/presentation/widgets/terms_modal.dart';
 
 class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
@@ -56,8 +57,8 @@ class AuthScreen extends ConsumerWidget {
                 ),
                 Text(
                   AppStrings.bannerDescription,
-                  style:
-                      context.textStyles.body1.copyWith(color: AppColors.gray300),
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray300),
                 ),
                 Spacer(),
                 GuideBox(text: AppStrings.socialLoginGuide),
@@ -68,8 +69,23 @@ class AuthScreen extends ConsumerWidget {
                     IconButton(
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      onPressed: () {
-                        authViewModel.loginWithKakao();
+                      onPressed: () async {
+                        await authViewModel.checkUserExist('KAKAO');
+                        final isExist = ref.read(authViewModelProvider).isExist;
+                        if (isExist) {
+                          await authViewModel.loginWithKakao();
+                        } else {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return TermsModal(
+                                onPressed: () async {
+                                  await authViewModel.loginWithKakao();
+                                },
+                              );
+                            },
+                          );
+                        }
                       },
                       icon: SvgPicture.asset(
                         IconPath.kakao,
@@ -83,8 +99,23 @@ class AuthScreen extends ConsumerWidget {
                       IconButton(
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
-                        onPressed: () {
-                          authViewModel.loginWithApple();
+                        onPressed: () async {
+                          await authViewModel.checkUserExist('APPLE');
+                          final isExist = ref.read(authViewModelProvider).isExist;
+                          if (isExist) {
+                            await authViewModel.loginWithApple();
+                          } else {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return TermsModal(
+                                  onPressed: () async {
+                                    await authViewModel.loginWithApple();
+                                  },
+                                );
+                              },
+                            );
+                          }
                         },
                         icon: SvgPicture.asset(
                           IconPath.apple,
@@ -98,8 +129,24 @@ class AuthScreen extends ConsumerWidget {
                     IconButton(
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
-                      onPressed: () {
-                        authViewModel.loginWithGoogle();
+                      onPressed: () async {
+                        await authViewModel.checkUserExist('GOOGLE');
+                        final isExist = ref.read(authViewModelProvider).isExist;
+                        print(isExist);
+                        if (isExist) {
+                          await authViewModel.loginWithGoogle();
+                        } else {
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return TermsModal(
+                                onPressed: () async {
+                                  await authViewModel.loginWithGoogle();
+                                },
+                              );
+                            },
+                          );
+                        }
                       },
                       icon: SvgPicture.asset(
                         IconPath.google,
