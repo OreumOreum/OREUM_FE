@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -37,7 +39,7 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollListener() {
-    if (_scrollController.position.isScrollingNotifier.value ) {
+    if (_scrollController.position.isScrollingNotifier.value) {
       FocusScope.of(context).unfocus();
     }
 
@@ -150,7 +152,6 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
 
   Widget _buildSearchResultList(
       PlannerSearchState searchState, List<SearchPlaceItem> searchPlaceItems) {
-
     if (searchState.status == UiStatus.error) {
       return Center(
         child: Text('검색 에러: ${searchState.errorMessage}'),
@@ -181,8 +182,8 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
               Expanded(
                 child: Text(
                   '"${_textEditingController.text}" 검색결과',
-                  style:
-                  context.textStyles.body1.copyWith(color: AppColors.gray400),
+                  style: context.textStyles.body1
+                      .copyWith(color: AppColors.gray400),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -198,12 +199,23 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
             padding: EdgeInsets.only(bottom: 16.h),
             itemBuilder: (context, index) {
               final item = searchPlaceItems[index];
-              return PlannerSearchListTile(
-                day: widget.day,
-                placeId: item.id.toString(),
-                title: item.title,
-                address: item.address,
-                thumbnailImage: item.thumbnailImage,
+              String placeId = searchPlaceItems[index].id.toString();
+              String contentId = searchPlaceItems[index].contentId;
+              String contentTypeId = searchPlaceItems[index].contentTypeId;
+              return InkWell(
+                onTap: () {
+                  context.push('${RoutePath.placeDetail}/$placeId', extra: {
+                    'contentId': contentId,
+                    'contentTypeId': contentTypeId
+                  });
+                },
+                child: PlannerSearchListTile(
+                  day: widget.day,
+                  placeId: item.id.toString(),
+                  title: item.title,
+                  address: item.address,
+                  thumbnailImage: item.thumbnailImage,
+                ),
               );
             },
             separatorBuilder: (_, __) => Padding(
@@ -221,7 +233,6 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
   }
 
   Widget _buildTabView(List folders) {
-
     return DefaultTabController(
       length: folders.length,
       child: Column(
@@ -235,9 +246,11 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
                   tabs: folders
                       .map(
                         (folder) => Tab(
-                          child: IntrinsicWidth( // 내용에 따라 너비를 유동적으로 조절
+                          child: IntrinsicWidth(
+                            // 내용에 따라 너비를 유동적으로 조절
                             child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: 122.w), // 최대 너비만 제한
+                              constraints: BoxConstraints(maxWidth: 122.w),
+                              // 최대 너비만 제한
                               child: Container(
                                 alignment: Alignment.bottomCenter,
                                 padding: EdgeInsets.only(bottom: 8.h),
@@ -246,7 +259,8 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: false,
-                                  style: context.textStyles.label4, // 스타일도 꼭 넣어주기
+                                  style:
+                                      context.textStyles.label4, // 스타일도 꼭 넣어주기
                                 ),
                               ),
                             ),

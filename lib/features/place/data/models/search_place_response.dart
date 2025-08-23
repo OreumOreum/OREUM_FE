@@ -19,8 +19,11 @@ class SearchPlaceItem with _$SearchPlaceItem {
   const factory SearchPlaceItem({
     required int id,
     required String title,
+    required String contentId,
+    required String contentTypeId,
     String? address,
     String? thumbnailImage,
+    required bool isSaved,
   }) = _SearchPlaceItem;
 
   factory SearchPlaceItem.fromJson(Map<String, dynamic> json) =>

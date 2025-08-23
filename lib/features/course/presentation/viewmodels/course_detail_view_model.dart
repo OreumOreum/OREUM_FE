@@ -34,7 +34,7 @@ class CourseDetailViewModel extends _$CourseDetailViewModel {
       final GetCourseDetailUseCase getCourseDetailUseCase = ref.read(getCourseDetailUseCaseProvider);
       final GetTourApiUseCase getTourApiUseCase = ref.read(getTourApiUseCaseProvider);
       final GetCourseReviewsUseCase getCourseReviewsUseCase = ref.read(getCourseReviewsUseCaseProvider);
-      List<ReviewResponse> reviews = await getCourseReviewsUseCase.call(courseId, '1', '3');
+      List<ReviewResponse> reviews = await getCourseReviewsUseCase.call(courseId, '0', '4');
       TourResponse tour = await getTourApiUseCase.call(contentId, contentTypeId);
       CourseDetailResponse course = await getCourseDetailUseCase.call(courseId, contentId, contentTypeId);
       state = state.copyWith(status: UiStatus.success, courseDetail: course, tour: tour, reviews: reviews);
@@ -47,7 +47,7 @@ class CourseDetailViewModel extends _$CourseDetailViewModel {
   Future<void> refreshCourseDetailBackground(String courseId) async {
     try {
       final GetCourseReviewsUseCase getCourseReviewsUseCase = ref.read(getCourseReviewsUseCaseProvider);
-      List<ReviewResponse> reviews = await getCourseReviewsUseCase.call(courseId, '1', '3');
+      List<ReviewResponse> reviews = await getCourseReviewsUseCase.call(courseId, '0', '4');
       state = state.copyWith(reviews: reviews);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());

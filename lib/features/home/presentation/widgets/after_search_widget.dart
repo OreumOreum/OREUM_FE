@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
 
 import '../../../../core/constants/animation_path.dart';
+import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/utils/debouncer.dart';
 import '../../../../core/widgets/error_widget.dart';
@@ -87,11 +90,19 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
             child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
           )
         else if (state.status == UiStatus.error)
-          Center(child: ErrorRetryWidget(
-            onPressed: () {
-              ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
-            },
-          ))
+          Builder(
+              builder: (context) {
+
+                print('🚨 AfterSearchWidget 에러 발생: ${state.errorMessage}');
+
+                // 2. 기존 에러 UI를 반환합니다.
+                return Center(child: ErrorRetryWidget(
+                  onPressed: () {
+                    ref.read(plannerSearchViewModelProvider.notifier).searchPlaces(widget.searchQuery);
+                  },
+                ));
+              }
+          )
         else if (state.searchPlace == null || state.searchPlace!.content.isEmpty)
             const Center(child: Text('검색 결과가 없습니다.'))
           else
@@ -101,18 +112,24 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
               itemCount: state.searchPlace?.content.length ?? 0,
               itemBuilder: (BuildContext context, int index) {
                 final place = state.searchPlace!.content[index];
+                final placeId = place.id;
                 return GestureDetector(
                   onTap: () {
                     recentSearchViewModel.addSearch(place.title);
 
-                    // 2. TODO: 탭한 장소의 상세 페이지로 이동하는 로직 추가
-                    print('${place.title} 상세 페이지로 이동');
+                    context.push('${RoutePath.placeDetail}/$placeId',
+                        extra: {
+                          'contentId': place.contentId,
+                          'contentTypeId': place.contentTypeId,
+                        });
                   },
                   behavior: HitTestBehavior.opaque,
-                  child: SearchListTile(
+                  child: PlaceListTile(
                       thumbnailImage: place.thumbnailImage ?? '',
                       title: place.title,
                       address: place.address.toString(),
+                    isSaved: place.isSaved,
+                    placeId: place.id,
                   ),
                 );
               },

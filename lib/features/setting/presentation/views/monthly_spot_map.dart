@@ -147,7 +147,106 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
       });
     }
   }
-
+  final String _mapStyle = '''
+  [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#f5f2e7" }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#4b4b4b" }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#ffffff" },
+      { "weight": 2 }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#8edce6" }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#007d8f" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#b5e3b2" }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#3f7d3a" }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "elementType": "labels.icon",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffd28d" }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      { "color": "#f5b45b" }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffeecd" }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#ffffff" }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#d8f0f0" }
+    ]
+  }
+]
+  ''';
   @override
   Widget build(BuildContext context) {
     final spotState =
@@ -181,6 +280,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
                   child: Stack(
                     children: [
                       GoogleMap(
+                        style: _mapStyle,
                         initialCameraPosition: _initialCameraPosition,
                         onMapCreated: spotViewModel.setMapController,
                         markers: spotState.markers,

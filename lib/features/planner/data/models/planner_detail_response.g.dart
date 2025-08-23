@@ -18,6 +18,7 @@ _$PlannerDetailResponseImpl _$$PlannerDetailResponseImplFromJson(
       placeAddress: json['placeAddress'] as String,
       placeThumbnailImage: json['placeThumbnailImage'] as String?,
       contentTypeId: json['contentTypeId'] as String,
+      contentId: json['contentId'] as String,
       mapX: (json['mapX'] as num?)?.toDouble(),
       mapY: (json['mapY'] as num?)?.toDouble(),
     );
@@ -34,6 +35,7 @@ Map<String, dynamic> _$$PlannerDetailResponseImplToJson(
       'placeAddress': instance.placeAddress,
       'placeThumbnailImage': instance.placeThumbnailImage,
       'contentTypeId': instance.contentTypeId,
+      'contentId': instance.contentId,
       'mapX': instance.mapX,
       'mapY': instance.mapY,
     };

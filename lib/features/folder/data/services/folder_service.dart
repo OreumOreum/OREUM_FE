@@ -4,6 +4,7 @@ import 'package:oreum_fe/features/folder/data/models/folder_detail_response.dart
 import 'package:oreum_fe/features/folder/data/models/folder_place_request.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_request.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_response.dart';
+import 'package:oreum_fe/features/folder/data/models/folder_saved_response.dart';
 
 class FolderService {
   final Dio _dio;
@@ -49,5 +50,31 @@ class FolderService {
   Future<void> deleteFolderPlace(String folderId, int placeId) async {
     await _dio.delete(ApiPath.folderPlaceDelete(folderId),
         data: FolderPlaceRequest(placeId: placeId).toJson());
+  }
+
+  Future<void> addDefaultFolder(int placeId) async {
+    await _dio.post(ApiPath.defaultFolder, data: FolderPlaceRequest(placeId: placeId).toJson());
+  }
+
+  Future<void> deleteDefaultFolder(int placeId) async {
+    await _dio.delete(ApiPath.defaultFolder, data: FolderPlaceRequest(placeId: placeId).toJson());
+  }
+
+  Future<List<FolderSavedResponse>> getFolderSaved(int placeId) async {
+    Response response = await _dio.get(ApiPath.folderSaved(placeId));
+
+    final List<dynamic> jsonList = response.data;
+
+    return jsonList
+        .map((json) => FolderSavedResponse.fromJson(json as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<void> addPlaceToFolder(String folderId, int placeId) async {
+    await _dio.post(ApiPath.folderDetail(folderId), data: FolderPlaceRequest(placeId: placeId).toJson());
+  }
+
+  Future<void> deletePlaceFromFolder(String folderId, int placeId) async {
+    await _dio.delete(ApiPath.folderPlaceDelete(folderId), data: FolderPlaceRequest(placeId: placeId).toJson());
   }
 }

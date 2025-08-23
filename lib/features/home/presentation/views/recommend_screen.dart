@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
@@ -20,6 +21,7 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/image_path.dart';
+import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/error_widget.dart';
@@ -114,7 +116,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -149,7 +151,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
                   child: Row(
                     children: [
                       Text(
@@ -194,14 +196,14 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     final myTravelType = myTypeState.myTravelType;
     final myTravelTypeLabel = myTravelType!.type;
     final sortLabel =
-        state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
+    state.selectedSortOption == SortOption.review ? '리뷰 좋은순' : '가나다순';
     final categoryLabel = LargeCategory.values
         .firstWhere(
           (cat) =>
-              cat.contentTypeId ==
-              (state.selectedContentTypeId ?? widget.contentTypeId),
-          orElse: () => LargeCategory.touristAttraction,
-        )
+      cat.contentTypeId ==
+          (state.selectedContentTypeId ?? widget.contentTypeId),
+      orElse: () => LargeCategory.touristAttraction,
+    )
         .label;
     String titleText;
     String primaryText;
@@ -246,49 +248,49 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         child: Row(
                             children: List.generate(
                                 largeCategories.length * 2 - 1, (index) {
-                          if (index.isOdd) {
-                            return SizedBox(width: 14.w);
-                          } else {
-                            final category = largeCategories[index ~/ 2];
-                            final isSelected = state.selectedContentTypeId ==
-                                category.contentTypeId;
+                              if (index.isOdd) {
+                                return SizedBox(width: 14.w);
+                              } else {
+                                final category = largeCategories[index ~/ 2];
+                                final isSelected = state.selectedContentTypeId ==
+                                    category.contentTypeId;
 
-                            return GestureDetector(
-                              onTap: () => viewModel.setContentTypeId(
-                                  widget.regionFilter,
-                                  category.contentTypeId,
-                                  widget.type),
-                              behavior: HitTestBehavior.translucent,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: 52.r,
-                                    width: 52.r,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                        category.iconPath,
-                                        width: category.iconWidth,
+                                return GestureDetector(
+                                  onTap: () => viewModel.setContentTypeId(
+                                      widget.regionFilter,
+                                      category.contentTypeId,
+                                      widget.type),
+                                  behavior: HitTestBehavior.translucent,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 52.r,
+                                        width: 52.r,
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            category.iconPath,
+                                            width: category.iconWidth,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        category.label,
+                                        style: context.textStyles.body2.copyWith(
+                                          color: isSelected
+                                              ? AppColors.gray500
+                                              : AppColors.gray400,
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    category.label,
-                                    style: context.textStyles.body2.copyWith(
-                                      color: isSelected
-                                          ? AppColors.primary
-                                          : AppColors.gray400,
-                                      fontWeight: isSelected
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                        })),
+                                );
+                              }
+                            })),
                       ),
                     ),
                   ),
@@ -350,7 +352,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                           context: context,
                           label: '서귀포시',
                           isSelected:
-                              state.selectedFilter == RegionFilter.seogwipo,
+                          state.selectedFilter == RegionFilter.seogwipo,
                           onTap: () => viewModel.setFilter(
                               RegionFilter.seogwipo,
                               state.selectedContentTypeId ??
@@ -368,11 +370,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               SliverFillRemaining(
                 child: Center(
                   child: Lottie.asset(AnimationPath.loading,
-                      repeat: true, width: 150.w),
+                      repeat: true, width: 1000.w),
                 ),
               )
             else if (state.status == UiStatus.error)
-
               Center(child: ErrorRetryWidget(
                 onPressed: () {
                   ref.read(recommendViewModelProvider.notifier).fetchPlaces(
@@ -380,33 +381,48 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
               ))
             else if (state.filteredPlaces.isEmpty)
-              const SliverFillRemaining(
-                  child: Center(child: Text('표시할 장소가 없습니다.')))
-            else
-              SliverList.separated(
-                itemCount: state.filteredPlaces.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final place = state.filteredPlaces[index];
-                  return PlaceListTile(
+                const SliverFillRemaining(
+                    child: Center(child: Text('표시할 장소가 없습니다.')))
+              else
+                SliverList.separated(
+                  itemCount: state.filteredPlaces.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final place = state.filteredPlaces[index];
+                    final isSaved =
+                        state.bookmarkStatusMap[place.placeId] ?? place.isSaved;
+                    return PlaceListTile(
                       thumbnailImage: place.thumbnailImage ?? '',
                       title: place.title,
-                      address: place.address ?? '');
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1.h,
-                    thickness: 1.h,
-                    color: AppColors.gray100,
-                  );
-                },
-              ),
+                      address: place.address ?? '',
+                      isSaved: place.isSaved,
+                      placeId: place.placeId,
+
+                      onTap: () {
+                        context.push(
+                          '${RoutePath.placeDetail}/${place.placeId}',
+                          extra: {
+                            'contentId': place.contentId,
+                            'contentTypeId': place.contentTypeId,
+                          },
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 1.h,
+                      thickness: 1.h,
+                      color: AppColors.gray100,
+                    );
+                  },
+                ),
             if (state.isLoadingNextPage)
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Center(
                     child: Lottie.asset(AnimationPath.loading,
-                        repeat: true, width: 150.w),
+                        repeat: true, width: 1000.w),
                   ),
                 ),
               ),
@@ -425,55 +441,45 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     required double width,
   }) {
     Color color;
+    Color textColor;
     String iconPath;
 
-    if (isSelected) {
-      if (label == '제주시') {
-        color = AppColors.jeju;
-        iconPath = ImagePath.tangerine;
-      } else if (label == '서귀포시') {
-        color = AppColors.seogwipo;
-        iconPath = ImagePath.mountain;
-      } else {
-        color = AppColors.primary;
-        iconPath = ImagePath.all;
-      }
+    if (label == '제주시') {
+      color = AppColors.jeju;
+      iconPath = ImagePath.tangerine;
+    } else if (label == '서귀포시') {
+      color = AppColors.seogwipo;
+      iconPath = ImagePath.mountain;
     } else {
-      //color = AppColors.gray200;
-      if (label == '제주시') {
-        color = AppColors.jeju.withOpacity(0.5);
-        iconPath = ImagePath.tangerine;
-      } else if (label == '서귀포시') {
-        color = AppColors.seogwipo.withOpacity(0.5);
-        iconPath = ImagePath.mountain;
-      } else {
-        color = AppColors.primary.withOpacity(0.5);
-        iconPath = ImagePath.all;
-      }
+      color = AppColors.primary;
+      iconPath = ImagePath.all;
     }
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 14.w),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Image.asset(
-                iconPath,
-                width: width,
+    return Opacity(
+      opacity: isSelected ? 1.0 : 0.5,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 14.w),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  iconPath,
+                  width: width,
+                ),
               ),
-            ),
-            SizedBox(width: 4.w),
-            Text(label,
-                style:
-                    context.textStyles.body1.copyWith(color: AppColors.white)),
-          ],
+              SizedBox(width: 4.w),
+              Text(label,
+                  style:
+                  context.textStyles.body1.copyWith(color: AppColors.white)),
+            ],
+          ),
         ),
       ),
     );

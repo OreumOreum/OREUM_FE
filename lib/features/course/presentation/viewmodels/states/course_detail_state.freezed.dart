@@ -21,6 +21,7 @@ mixin _$CourseDetailState {
   CourseDetailResponse? get courseDetail => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
   TourResponse? get tour => throw _privateConstructorUsedError;
+  List<CourseResponse> get courses => throw _privateConstructorUsedError;
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,7 +41,8 @@ abstract class $CourseDetailStateCopyWith<$Res> {
       String errorMessage,
       CourseDetailResponse? courseDetail,
       List<ReviewResponse> reviews,
-      TourResponse? tour});
+      TourResponse? tour,
+      List<CourseResponse> courses});
 
   $CourseDetailResponseCopyWith<$Res>? get courseDetail;
   $TourResponseCopyWith<$Res>? get tour;
@@ -66,6 +68,7 @@ class _$CourseDetailStateCopyWithImpl<$Res, $Val extends CourseDetailState>
     Object? courseDetail = freezed,
     Object? reviews = null,
     Object? tour = freezed,
+    Object? courses = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -88,6 +91,10 @@ class _$CourseDetailStateCopyWithImpl<$Res, $Val extends CourseDetailState>
           ? _value.tour
           : tour // ignore: cast_nullable_to_non_nullable
               as TourResponse?,
+      courses: null == courses
+          ? _value.courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseResponse>,
     ) as $Val);
   }
 
@@ -133,7 +140,8 @@ abstract class _$$CourseDetailStateImplCopyWith<$Res>
       String errorMessage,
       CourseDetailResponse? courseDetail,
       List<ReviewResponse> reviews,
-      TourResponse? tour});
+      TourResponse? tour,
+      List<CourseResponse> courses});
 
   @override
   $CourseDetailResponseCopyWith<$Res>? get courseDetail;
@@ -159,6 +167,7 @@ class __$$CourseDetailStateImplCopyWithImpl<$Res>
     Object? courseDetail = freezed,
     Object? reviews = null,
     Object? tour = freezed,
+    Object? courses = null,
   }) {
     return _then(_$CourseDetailStateImpl(
       status: null == status
@@ -181,6 +190,10 @@ class __$$CourseDetailStateImplCopyWithImpl<$Res>
           ? _value.tour
           : tour // ignore: cast_nullable_to_non_nullable
               as TourResponse?,
+      courses: null == courses
+          ? _value._courses
+          : courses // ignore: cast_nullable_to_non_nullable
+              as List<CourseResponse>,
     ));
   }
 }
@@ -193,8 +206,10 @@ class _$CourseDetailStateImpl implements _CourseDetailState {
       this.errorMessage = '',
       this.courseDetail,
       final List<ReviewResponse> reviews = const [],
-      this.tour})
-      : _reviews = reviews;
+      this.tour,
+      final List<CourseResponse> courses = const []})
+      : _reviews = reviews,
+        _courses = courses;
 
   @override
   @JsonKey()
@@ -215,10 +230,18 @@ class _$CourseDetailStateImpl implements _CourseDetailState {
 
   @override
   final TourResponse? tour;
+  final List<CourseResponse> _courses;
+  @override
+  @JsonKey()
+  List<CourseResponse> get courses {
+    if (_courses is EqualUnmodifiableListView) return _courses;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_courses);
+  }
 
   @override
   String toString() {
-    return 'CourseDetailState(status: $status, errorMessage: $errorMessage, courseDetail: $courseDetail, reviews: $reviews, tour: $tour)';
+    return 'CourseDetailState(status: $status, errorMessage: $errorMessage, courseDetail: $courseDetail, reviews: $reviews, tour: $tour, courses: $courses)';
   }
 
   @override
@@ -232,12 +255,19 @@ class _$CourseDetailStateImpl implements _CourseDetailState {
             (identical(other.courseDetail, courseDetail) ||
                 other.courseDetail == courseDetail) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
-            (identical(other.tour, tour) || other.tour == tour));
+            (identical(other.tour, tour) || other.tour == tour) &&
+            const DeepCollectionEquality().equals(other._courses, _courses));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, errorMessage,
-      courseDetail, const DeepCollectionEquality().hash(_reviews), tour);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      errorMessage,
+      courseDetail,
+      const DeepCollectionEquality().hash(_reviews),
+      tour,
+      const DeepCollectionEquality().hash(_courses));
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -255,7 +285,8 @@ abstract class _CourseDetailState implements CourseDetailState {
       final String errorMessage,
       final CourseDetailResponse? courseDetail,
       final List<ReviewResponse> reviews,
-      final TourResponse? tour}) = _$CourseDetailStateImpl;
+      final TourResponse? tour,
+      final List<CourseResponse> courses}) = _$CourseDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -267,6 +298,8 @@ abstract class _CourseDetailState implements CourseDetailState {
   List<ReviewResponse> get reviews;
   @override
   TourResponse? get tour;
+  @override
+  List<CourseResponse> get courses;
 
   /// Create a copy of CourseDetailState
   /// with the given fields replaced by the non-null parameter values.

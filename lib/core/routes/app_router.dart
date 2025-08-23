@@ -40,7 +40,7 @@ import 'package:oreum_fe/features/review/presentation/views/create_review_screen
 import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../features/planner/presentation/views/place_detail_screen.dart';
+import '../../features/place/presentation/views/place_detail_screen.dart';
 import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
 import '../../features/spot/data/models/spot_month_response.dart';
 import '../constants/monthly_spot.dart';
@@ -90,6 +90,11 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: RoutePath.auth,
         builder: (context, state) => const AuthScreen(),
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+      ),
+      GoRoute(
+        path: RoutePath.myReview,
+        builder: (context, state) => const MyReviewScreen(),
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
@@ -210,8 +215,16 @@ GoRouter appRouter(AppRouterRef ref) {
           path: '${RoutePath.createPlaceReview}/:id',
           builder: (context, state) {
             String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+            state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String address = extraData['address'];
+            String? originImage = extraData['originImage'];
             return CreateReviewScreen.place(
               id: id,
+              name: name,
+              address: address,
+              originImage: originImage,
             );
           },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,
@@ -220,8 +233,14 @@ GoRouter appRouter(AppRouterRef ref) {
           path: '${RoutePath.createCourseReview}/:id',
           builder: (context, state) {
             String id = state.pathParameters['id']!;
+            Map<String, dynamic>? extraData =
+            state.extra as Map<String, dynamic>;
+            String name = extraData['name'];
+            String? originImage = extraData['originImage'];
             return CreateReviewScreen.course(
               id: id,
+              name: name,
+                originImage: originImage
             );
           },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
@@ -251,7 +270,7 @@ GoRouter appRouter(AppRouterRef ref) {
             Map<String, dynamic>? extraData =
                 state.extra as Map<String, dynamic>;
             String name = extraData['name'];
-            String address = extraData['address'];
+            String address = extraData['address'] ?? '';
             double rate = extraData['rate'];
             String? originImage = extraData['originImage'];
             return ReviewDetailScreen.course(
@@ -268,8 +287,10 @@ GoRouter appRouter(AppRouterRef ref) {
         path: '${RoutePath.courseDetail}/:id',
         builder: (context, state) {
           String courseId = state.pathParameters['id']!;
-          String contentId = state.pathParameters['id']!;
-          String contentTypeId = state.pathParameters['id']!;
+          Map<String, dynamic>? extraData =
+          state.extra as Map<String, dynamic>;
+          String contentId = extraData['contentId']!;
+          String contentTypeId = extraData['contentTypeId']!;
           return CourseDetailScreen(
             courseId: courseId,
             contentId: contentId,
@@ -336,10 +357,10 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) {
           String placeId = state.pathParameters['id']!;
 
-
-          String contentId = state.pathParameters['id']!;
-          String contentTypeId = state.pathParameters['id']!;
-
+          Map<String, dynamic>? extraData =
+          state.extra as Map<String, dynamic>;
+          String contentId = extraData['contentId']!;
+          String contentTypeId = extraData['contentTypeId']!;
 
           return PlaceDetailScreen(
             placeId: placeId,

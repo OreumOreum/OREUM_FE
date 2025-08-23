@@ -38,7 +38,7 @@ final tourDioProvider = Provider<Dio>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TourDioRef = ProviderRef<Dio>;
-String _$weatherDioHash() => r'85863b1dec8c58d45775b4f59f560489d5f42a4d';
+String _$weatherDioHash() => r'2f918aebf1eecb76ab343852ca0447ce27865e6d';
 
 /// See also [weatherDio].
 @ProviderFor(weatherDio)

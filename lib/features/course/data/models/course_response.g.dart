@@ -14,6 +14,8 @@ _$CourseResponseImpl _$$CourseResponseImplFromJson(Map<String, dynamic> json) =>
       thumbnailImage: json['thumbnailImage'] as String?,
       category2: json['category2'] as String,
       sigunguCode: (json['sigunguCode'] as num?)?.toInt(),
+      contentId: json['contentId'] as String?,
+      contentTypeId: json['contentTypeId'] as String?,
     );
 
 Map<String, dynamic> _$$CourseResponseImplToJson(
@@ -25,4 +27,6 @@ Map<String, dynamic> _$$CourseResponseImplToJson(
       'thumbnailImage': instance.thumbnailImage,
       'category2': instance.category2,
       'sigunguCode': instance.sigunguCode,
+      'contentId': instance.contentId,
+      'contentTypeId': instance.contentTypeId,
     };

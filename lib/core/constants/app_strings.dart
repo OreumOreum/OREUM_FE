@@ -24,7 +24,7 @@ abstract class AppStrings {
   static String placeCardSubTitle(String category) => '에게 어울리는 $category';
   static const String jejuCityRecommendation = '제주시 추천';
   static const String seogwipoCityRecommendation = '서귀포시 추천';
-  static const String personalizedCourseRecommendation = '회원님을 위한 추천';
+  static const String personalizedCourseRecommendation = '회원님을 위한 제주 코스';
   static const String typeCourseRecommendation = '들이 선호하는 코스 추천';
   static const String typePlaceRecommendation = '들이 선호하는 여행지';
   static const String travelPickOfMonth = '이달의 여행지';
@@ -35,7 +35,7 @@ abstract class AppStrings {
   static String typeRecommend(String type) => '$type을 위한 추천';
   static String viewAll = '전체보기';
   static const String userCreatedCourseTitle = '회원님이 만드는 여행코스';
-  static const String userCreatedCourseSubTitle = '회원님이 만드는 여행코스';
+  static const String userCreatedCourseSubTitle = ' 회원님이 만드는 여행코스';
   static const String userCreatedCourseTileTitle = '새로운 여행코스 생성하기';
   static const String userCreatedCourseTileSubTitle = '회원님의 입맛대로 여행코스를 생성해보세요.';
   static String userRecommendationCourseTileTitle(String type) => '$type 추천 여행코스';

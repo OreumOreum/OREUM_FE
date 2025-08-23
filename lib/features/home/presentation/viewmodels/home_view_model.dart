@@ -4,9 +4,12 @@ import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_cas
 import 'dart:async';
 
 import 'package:oreum_fe/core/constants/ui_status.dart';
+import 'package:oreum_fe/features/home/data/models/type_recommend_response.dart';
+import 'package:oreum_fe/features/home/di/home_providers.dart';
 import 'package:oreum_fe/features/home/di/weather_providers.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 import 'package:oreum_fe/features/home/domain/use_cases/get_weather_info_use_case.dart';
+import 'package:oreum_fe/features/home/domain/usecases/get_type_recommend_use_case.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_state.dart';
 import 'package:intl/intl.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_monthly_spot_state.dart';
@@ -16,6 +19,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
+import '../../data/models/category_recommend_response.dart';
+import '../../data/models/place_response.dart';
+import '../../domain/usecases/get_recommend_place_use_case.dart';
 
 part 'home_view_model.g.dart';
 
@@ -38,7 +44,11 @@ class HomeViewModel extends _$HomeViewModel {
       await fetchMonthlySpots();
       final GetCourseListUseCase getCourseListUseCase = ref.read(getCourseListUseCaseProvider);
       List<CourseResponse> courses = await getCourseListUseCase.call();
-      state = state.copyWith(status: UiStatus.success,courses: courses);
+      final GetRecommendPlaceUseCase getRecommendPlaceUseCase = ref.read(getRecommendPlaceUseCaseProvider);
+      List<CategoryRecommendResponse> categoryPlaces = await getRecommendPlaceUseCase.call();
+      final GetTypeRecommendUseCase getTypeRecommendUseCase = ref.read(getTypeRecommendUseCaseProvider);
+      List<Place> typePlaces = await getTypeRecommendUseCase.call();
+      state = state.copyWith(status: UiStatus.success,courses: courses, categoryPlaces: categoryPlaces,typePlaces: typePlaces);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
@@ -53,6 +63,20 @@ class HomeViewModel extends _$HomeViewModel {
       state = state.copyWith(weatherStatus: UiStatus.error, errorMessage: e.toString());
     }
   }
+
+  // UI 단에서만 북마크 상태를 업데이트하는 메서드 (서버 통신 없음)
+  void updatePlaceBookmarkStatus(int placeId, bool isSaved) {
+    final updatedTypePlaces = state.typePlaces.map((place) {
+      if (place.placeId == placeId) {
+        return place.copyWith(isSaved: isSaved);
+      }
+      return place;
+    }).toList();
+
+    state = state.copyWith(typePlaces: updatedTypePlaces);
+  }
+
+
 
   void _startWeatherTimer() {
     _weatherTimer?.cancel();

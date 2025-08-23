@@ -11,7 +11,7 @@ class PlaceResponse with _$PlaceResponse {
     required String middleCategory,
     required String largeCategory,
     required String address,
-    required String originImage,
+    String? originImage,
     required String contentTypeId,
     required int sigunguCode,
     String? overview,
