@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/api_path.dart';
 import 'package:oreum_fe/features/review/data/models/my_review_response.dart';
 import 'package:oreum_fe/features/review/data/models/place_review_request.dart';
+import 'package:oreum_fe/features/review/data/models/review_list_response.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../models/course_review_request.dart';
@@ -49,6 +50,10 @@ class ReviewService {
     return jsonList
         .map((json) => ReviewResponse.fromJson(json as Map<String, dynamic>))
         .toList();
+  }
+
+  Future<void> deleteMyReview(int reviewId) async {
+    await _dio.delete(ApiPath.deleteReview(reviewId));
   }
 
   Future<void> createCourseReview(CourseReviewRequest courseReview) async {

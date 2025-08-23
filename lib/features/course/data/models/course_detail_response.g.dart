@@ -36,6 +36,7 @@ Map<String, dynamic> _$$CourseDetailResponseImplToJson(
     };
 
 _$PlaceImpl _$$PlaceImplFromJson(Map<String, dynamic> json) => _$PlaceImpl(
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       address: json['address'] as String,
       mapX: (json['mapX'] as num).toDouble(),
@@ -43,10 +44,12 @@ _$PlaceImpl _$$PlaceImplFromJson(Map<String, dynamic> json) => _$PlaceImpl(
       originImage: json['originImage'] as String?,
       thumbnailImage: json['thumbnailImage'] as String?,
       contentTypeId: json['contentTypeId'] as String?,
+      contentId: json['contentId'] as String?,
     );
 
 Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'address': instance.address,
       'mapX': instance.mapX,
@@ -54,4 +57,5 @@ Map<String, dynamic> _$$PlaceImplToJson(_$PlaceImpl instance) =>
       'originImage': instance.originImage,
       'thumbnailImage': instance.thumbnailImage,
       'contentTypeId': instance.contentTypeId,
+      'contentId': instance.contentId,
     };

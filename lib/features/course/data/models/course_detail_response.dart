@@ -23,6 +23,7 @@ class CourseDetailResponse with _$CourseDetailResponse {
 @freezed
 class Place with _$Place {
   const factory Place({
+    required int id,
     required String title,
     required String address,
     required double mapX,
@@ -30,6 +31,7 @@ class Place with _$Place {
     required String? originImage,
     required String? thumbnailImage,
     required String? contentTypeId,
+    required String? contentId
 
   }) = _Place;
 

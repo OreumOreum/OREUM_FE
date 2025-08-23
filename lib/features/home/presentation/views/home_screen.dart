@@ -65,42 +65,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '눈 덮인 산장의 따뜻한 하루',
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '도심 속 힐링 스파텔',
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '파도 소리 가득한 바닷가 민박',
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '오지 속 비밀의 집',
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '한옥의 멋과 맛',
       'type': '모험 액티비티형',
       'category': '숙소',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
   ];
   final List<Map<String, String>> mockPlace2 = [
@@ -108,31 +108,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       'title': '성산일출봉',
       'address': '제주특별자치도 서귀포시 성산읍 성산리 1',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '협재해수욕장',
       'address': '제주특별자치도 제주시 한림읍 협재리 2497-1',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '한라산국립공원',
       'address': '제주특별자치도 제주시 1100로 2070-61',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '천지연폭포',
       'address': '제주특별자치도 서귀포시 천지동 667-7',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '카카오박물관',
       'address': '제주특별자치도 제주시 첨단로 242',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
   ];
   final List<Map<String, String>> mockCourse = [
@@ -140,91 +140,91 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       'title': '제주 감성 드라이브 코스',
       'subTitle': '바다 따라 달리는 감성 가득한 힐링 드라이브',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '도심 속 자연 산책 코스',
       'subTitle': '카페부터 공원까지, 여유를 즐기는 하루 루트',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '서귀포 문화 유산 코스',
       'subTitle': '전통과 현대가 공존하는 서귀포 명소 탐방',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '제주시 반나절 여행 코스',
       'subTitle': '짧지만 알찬 핵심 스팟들로 구성된 루트',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '오름과 함께하는 자연 힐링 코스',
       'subTitle': '오름 산책과 자연 경관을 느낄 수 있는 여행',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '아이와 함께하는 제주 체험 코스',
       'subTitle': '아이와 즐기기 좋은 체험형 명소들 모음',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '푸른 바다와 노을을 따라 걷는 제주시 해안 산책 코스',
       'subTitle': '감성 가득한 바다 풍경 속에서 힐링하는 시간',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '제주의 속살을 느낄 수 있는 전통시장과 로컬 맛집 코스',
       'subTitle': '먹거리와 사람 사는 이야기가 있는 하루',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '하루 만에 둘러보는 서귀포 자연 명소 집중 탐방 코스',
       'subTitle': '오름, 폭포, 해안 절경까지 한 번에',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '커플을 위한 감성 가득 인생샷 스팟 코스 in 제주',
       'subTitle': '카메라만 들면 어디든 화보 되는 로맨틱 코스',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '아이들과 함께하는 즐거운 체험과 동물 친구들 만나는 코스',
       'subTitle': '가족 여행에 딱! 체험 중심 코스 추천',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
     {
       'title': '제주 숨은 명소를 찾아 떠나는 로컬 감성 여행 코스',
       'subTitle': '사람 많지 않은 조용한 장소 위주로 구성',
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
     },
   ];
   final List<Map<String, String>> placeImages = [
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
     {
       'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
+          'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
     },
   ];
 

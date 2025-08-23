@@ -34,4 +34,9 @@ class ReviewRepositoryImpl implements ReviewRepository{
     return _reviewService.createCourseReview(courseReview);
   }
 
+  @override
+  Future<void> deleteMyReview(int reviewId) {
+    return _reviewService.deleteMyReview(reviewId);
+  }
+
 }

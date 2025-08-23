@@ -5,6 +5,7 @@ import 'package:oreum_fe/features/review/data/repositories/review_repository_imp
 import 'package:oreum_fe/features/review/data/services/review_service.dart';
 import 'package:oreum_fe/features/review/domain/repositories/review_repository.dart';
 import 'package:oreum_fe/features/review/domain/usecases/create_place_review_use_case.dart';
+import 'package:oreum_fe/features/review/domain/usecases/delete_my_review_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_course_reviews_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_my_reviews_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_place_reviews_use_case.dart';
@@ -55,4 +56,10 @@ GetCourseReviewsUseCase getCourseReviewsUseCase(GetCourseReviewsUseCaseRef ref) 
 CreateCourseReviewUseCase createCourseReviewUseCase(CreateCourseReviewUseCaseRef ref) {
   final ReviewRepositoryImpl reviewRepositoryImpl = ref.watch(reviewRepositoryImplProvider);
   return CreateCourseReviewUseCase(reviewRepositoryImpl);
+}
+
+@riverpod
+DeleteMyReviewUseCase deleteMyReviewUseCase(DeleteMyReviewUseCaseRef ref) {
+  final ReviewRepositoryImpl reviewRepositoryImpl = ref.watch(reviewRepositoryImplProvider);
+  return DeleteMyReviewUseCase(reviewRepositoryImpl);
 }

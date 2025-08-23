@@ -24,6 +24,7 @@ import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/my_review_list_tile.dart';
 
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 
 class MyReviewScreen extends ConsumerStatefulWidget {
   const MyReviewScreen({super.key});
@@ -91,8 +92,10 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
     if (state.status == UiStatus.error) {
       return Scaffold(
         appBar: CustomAppBar.back(),
-        body: Center(
-          child: Text('error: ${state.errorMessage}'),
+        body: ErrorRetryWidget(
+          onPressed: () {
+            ref.read(myReviewViewModelProvider.notifier).initializeMyReview();
+          },
         ),
       );
     }
@@ -128,16 +131,23 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
               primary: false,
               itemCount: myReviews.length,
               itemBuilder: (BuildContext context, int index) {
-                String type = mockReview2[index]['type']!; //이부분 수정해야함
+                String type = myReviews[index].placeTitle;
                 String date = myReviews[index].updatedAt.toString();
                 String content =
                 myReviews[index].content.toString();
                 double rating = myReviews[index].rate;
+                int reviewId = myReviews[index].reviewID;
                 return MyReviewListTile(
                     type: type,
                     date: date,
                     content: content,
-                    rating: rating);
+                    rating: rating,
+                  reviewId: reviewId,
+                  onReviewDeleted: () {
+                    ref.read(myReviewViewModelProvider.notifier)
+                        .initializeMyReview();
+                  },
+                );
               },
             ),
             SizedBox(height: 16.h,)

@@ -15,6 +15,7 @@ class CourseDetailListTile extends StatelessWidget {
   final String title;
   final String? thumbnailImage;
   final int totalItemCount;
+  final VoidCallback? onTap;
 
   const CourseDetailListTile(
       {super.key,
@@ -23,119 +24,123 @@ class CourseDetailListTile extends StatelessWidget {
       required this.category,
       required this.thumbnailImage,
       required this.index,
-      required this.totalItemCount});
+      required this.totalItemCount,
+        this.onTap,});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 23.h, bottom: 7.h, left: 21.h, right: 14.h),
-      child: Row(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SizedBox(
-                height: 24.r,
-                width: 24.r,
-                child: CircleAvatar(
-                  backgroundColor: AppColors.primary,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Padding(
-                      padding: EdgeInsets.all(2.r),
-                      child: Text(
-                        index.toString(),
-                        style: context.textStyles.label2.copyWith(
-                          color: AppColors.white,
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: EdgeInsets.only(top: 23.h, bottom: 7.h, left: 21.h, right: 14.h),
+        child: Row(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  height: 24.r,
+                  width: 24.r,
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.primary,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Padding(
+                        padding: EdgeInsets.all(2.r),
+                        child: Text(
+                          index.toString(),
+                          style: context.textStyles.label2.copyWith(
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: 11.h,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  category,
-                  style: context.textStyles.label1
-                      .copyWith(color: AppColors.primary),
-                ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                Text(
-                  title,
-                  style: context.textStyles.headLine4
-                      .copyWith(color: AppColors.gray500),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 2.h,
-                ),
-                Text(
-                  address,
-                  style: context.textStyles.body1
-                      .copyWith(color: AppColors.gray400),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
               ],
             ),
-          ),
-          SizedBox(
-            width: 8.w,
-          ),
-          Column(
-            children: [
-              SizedBox(
-                height: 8.h,
+            SizedBox(
+              width: 11.h,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    category,
+                    style: context.textStyles.label1
+                        .copyWith(color: AppColors.primary),
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    title,
+                    style: context.textStyles.headLine4
+                        .copyWith(color: AppColors.gray500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Text(
+                    address,
+                    style: context.textStyles.body1
+                        .copyWith(color: AppColors.gray400),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                child: thumbnailImage != null
-                    ? CachedNetworkImage(
-                        imageUrl: thumbnailImage!,
-                        width: 84.r,
-                        height: 84.r,
-                        fit: BoxFit.cover,
-                        cacheManager: CustomCacheManager(),
-                        errorWidget: (context, url, error) {
-                          return Container(
-                            width: 84.r,
-                            height: 84.r,
-                            color: AppColors.gray100,
-                            child: Center(
-                              child: Image.asset(
-                                ImagePath.imageError,
-                                width: 52.r,
+            ),
+            SizedBox(
+              width: 8.w,
+            ),
+            Column(
+              children: [
+                SizedBox(
+                  height: 8.h,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                  child: thumbnailImage != null
+                      ? CachedNetworkImage(
+                          imageUrl: thumbnailImage!,
+                          width: 84.r,
+                          height: 84.r,
+                          fit: BoxFit.cover,
+                          cacheManager: CustomCacheManager(),
+                          errorWidget: (context, url, error) {
+                            return Container(
+                              width: 84.r,
+                              height: 84.r,
+                              color: AppColors.gray100,
+                              child: Center(
+                                child: Image.asset(
+                                  ImagePath.imageError,
+                                  width: 52.r,
+                                ),
                               ),
+                            );
+                          },
+                        )
+                      : Container(
+                          width: 84.r,
+                          height: 84.r,
+                          color: AppColors.gray100,
+                          child: Center(
+                            child: Image.asset(
+                              ImagePath.imageError,
+                              width: 52.r,
                             ),
-                          );
-                        },
-                      )
-                    : Container(
-                        width: 84.r,
-                        height: 84.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: Image.asset(
-                            ImagePath.imageError,
-                            width: 52.r,
                           ),
                         ),
-                      ),
-              )
-            ],
-          ),
-        ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -6,11 +6,13 @@ part 'review_response.g.dart';
 @freezed
 class ReviewResponse with _$ReviewResponse {
   const factory ReviewResponse({
+    required int reviewId,
     required double rate,
     required String content,
     required DateTime createdAt,
     required DateTime updatedAt,
     required String? type,
+    required bool isMyReview,
   }) = _ReviewResponse;
 
   factory ReviewResponse.fromJson(Map<String, dynamic> json) =>

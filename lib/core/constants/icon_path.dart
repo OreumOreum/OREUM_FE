@@ -92,4 +92,5 @@ abstract class IconPath {
   static const String mapIcon = 'assets/icons/map_icon.svg';
 
   static const String copy = 'assets/icons/copy.svg';
+  static const String report = 'assets/icons/report.svg';
 }

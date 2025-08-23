@@ -19,6 +19,7 @@ mixin _$ReviewDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
+  UiStatus get buttonStatus => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   bool get isLastPage => throw _privateConstructorUsedError;
   bool get isLoadingNextPage => throw _privateConstructorUsedError;
@@ -40,6 +41,7 @@ abstract class $ReviewDetailStateCopyWith<$Res> {
       {UiStatus status,
       String errorMessage,
       List<ReviewResponse> reviews,
+      UiStatus buttonStatus,
       int currentPage,
       bool isLastPage,
       bool isLoadingNextPage});
@@ -63,6 +65,7 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
     Object? status = null,
     Object? errorMessage = null,
     Object? reviews = null,
+    Object? buttonStatus = null,
     Object? currentPage = null,
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
@@ -80,6 +83,10 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$ReviewDetailStateImplCopyWith<$Res>
       {UiStatus status,
       String errorMessage,
       List<ReviewResponse> reviews,
+      UiStatus buttonStatus,
       int currentPage,
       bool isLastPage,
       bool isLoadingNextPage});
@@ -129,6 +137,7 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? errorMessage = null,
     Object? reviews = null,
+    Object? buttonStatus = null,
     Object? currentPage = null,
     Object? isLastPage = null,
     Object? isLoadingNextPage = null,
@@ -146,6 +155,10 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
           ? _value._reviews
           : reviews // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -169,6 +182,7 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
       {this.status = UiStatus.idle,
       this.errorMessage = '',
       final List<ReviewResponse> reviews = const [],
+      this.buttonStatus = UiStatus.idle,
       this.currentPage = 0,
       this.isLastPage = false,
       this.isLoadingNextPage = false})
@@ -191,6 +205,9 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
 
   @override
   @JsonKey()
+  final UiStatus buttonStatus;
+  @override
+  @JsonKey()
   final int currentPage;
   @override
   @JsonKey()
@@ -201,7 +218,7 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
 
   @override
   String toString() {
-    return 'ReviewDetailState(status: $status, errorMessage: $errorMessage, reviews: $reviews, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage)';
+    return 'ReviewDetailState(status: $status, errorMessage: $errorMessage, reviews: $reviews, buttonStatus: $buttonStatus, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage)';
   }
 
   @override
@@ -213,6 +230,8 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
+            (identical(other.buttonStatus, buttonStatus) ||
+                other.buttonStatus == buttonStatus) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage) &&
             (identical(other.isLastPage, isLastPage) ||
@@ -227,6 +246,7 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
       status,
       errorMessage,
       const DeepCollectionEquality().hash(_reviews),
+      buttonStatus,
       currentPage,
       isLastPage,
       isLoadingNextPage);
@@ -246,6 +266,7 @@ abstract class _ReviewDetailState implements ReviewDetailState {
       {final UiStatus status,
       final String errorMessage,
       final List<ReviewResponse> reviews,
+      final UiStatus buttonStatus,
       final int currentPage,
       final bool isLastPage,
       final bool isLoadingNextPage}) = _$ReviewDetailStateImpl;
@@ -256,6 +277,8 @@ abstract class _ReviewDetailState implements ReviewDetailState {
   String get errorMessage;
   @override
   List<ReviewResponse> get reviews;
+  @override
+  UiStatus get buttonStatus;
   @override
   int get currentPage;
   @override

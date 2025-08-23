@@ -12,4 +12,5 @@ abstract class ReviewRepository {
   Future<List<ReviewResponse>> getCourseReviews(
       String courseId, String page, String size);
   Future<void> createCourseReview(CourseReviewRequest courseReview);
+  Future<void> deleteMyReview(int reviewId);
 }
