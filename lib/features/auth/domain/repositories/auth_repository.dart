@@ -8,4 +8,5 @@ abstract class AuthRepository {
   Future<TypeCheckResponse> checkTypeExist();
   Future<void> skipTypeTest();
   Future<void> submitTypeTestResult(String type);
+  Future<bool> checkExistMember(String token, String provider);
 }

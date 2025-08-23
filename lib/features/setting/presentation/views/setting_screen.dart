@@ -17,6 +17,7 @@ import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/email_sander.dart';
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
@@ -515,7 +516,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print('고객센터 터치');
+                          EmailSander().sendEmail(context);
                         },
                         behavior: HitTestBehavior.opaque,
                         child: Padding(

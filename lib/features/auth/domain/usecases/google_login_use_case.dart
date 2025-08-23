@@ -16,11 +16,12 @@ class GoogleLoginUseCase{
       this._tokenSaver,
       );
 
-  Future<void> call() async {
+  Future<String> call() async {
     final String idToken = await _googleAuthRepository.googleLogin();
     print('idToken: $idToken');
-    final AuthToken authToken = await _authRepository.loginWithGoogle(idToken);
-    print('authToken: $authToken');
-    await _tokenSaver.saveTokens(authToken);
+    return idToken;
+    // final AuthToken authToken = await _authRepository.loginWithGoogle(idToken);
+    // print('authToken: $authToken');
+    // await _tokenSaver.saveTokens(authToken);
   }
 }

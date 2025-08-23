@@ -14,9 +14,13 @@ import 'package:oreum_fe/features/auth/data/services/kakao_auth_service.dart';
 import 'package:oreum_fe/features/auth/domain/repositories/apple_auth_repository.dart';
 import 'package:oreum_fe/features/auth/domain/repositories/google_auth_repository.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/apple_login_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/check_exist_member_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_type_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/google_login_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/kakao_login_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/login_with_apple_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/login_with_google_use_case.dart';
+import 'package:oreum_fe/features/auth/domain/usecases/login_with_kakao_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/skip_type_test_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/submit_type_test_result_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -109,4 +113,31 @@ SkipTypeTestUseCase skipTypeTestUseCase(SkipTypeTestUseCaseRef ref) {
 SubmitTypeTestResultUseCase submitTypeTestResultUseCase(SubmitTypeTestResultUseCaseRef ref) {
   final authRepo = ref.watch(authRepositoryProvider);
   return SubmitTypeTestResultUseCase(authRepo);
+}
+
+@riverpod
+CheckExistMemberUseCase checkExistMemberUseCase(CheckExistMemberUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  return CheckExistMemberUseCase(authRepo);
+}
+
+@riverpod
+LoginWithAppleUseCase loginWithAppleUseCase(LoginWithAppleUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  final tokenSaver = ref.watch(tokenSaverProvider);
+  return LoginWithAppleUseCase(authRepo, tokenSaver);
+}
+
+@riverpod
+LoginWithGoogleUseCase loginWithGoogleUseCase(LoginWithGoogleUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  final tokenSaver = ref.watch(tokenSaverProvider);
+  return LoginWithGoogleUseCase(authRepo, tokenSaver);
+}
+
+@riverpod
+LoginWithKakaoUseCase loginWithKakaoUseCase(LoginWithKakaoUseCaseRef ref) {
+  final authRepo = ref.watch(authRepositoryProvider);
+  final tokenSaver = ref.watch(tokenSaverProvider);
+  return LoginWithKakaoUseCase(authRepo, tokenSaver);
 }
