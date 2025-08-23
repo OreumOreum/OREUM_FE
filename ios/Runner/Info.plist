@@ -22,6 +22,8 @@
 		</array>
 
 
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>이달의 여행지 스탬프 기능을 위해 현재 위치를 사용합니다.</string>
         <key>GOOGLE_MAPS_API_KEY</key>
         <string>$(GOOGLE_MAPS_API_KEY)</string>
 		<key>CFBundleDevelopmentRegion</key>
