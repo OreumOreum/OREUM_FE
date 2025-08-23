@@ -202,8 +202,11 @@ SearchPlaceItem _$SearchPlaceItemFromJson(Map<String, dynamic> json) {
 mixin _$SearchPlaceItem {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get contentId => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
   String? get thumbnailImage => throw _privateConstructorUsedError;
+  bool get isSaved => throw _privateConstructorUsedError;
 
   /// Serializes this SearchPlaceItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -221,7 +224,14 @@ abstract class $SearchPlaceItemCopyWith<$Res> {
           SearchPlaceItem value, $Res Function(SearchPlaceItem) then) =
       _$SearchPlaceItemCopyWithImpl<$Res, SearchPlaceItem>;
   @useResult
-  $Res call({int id, String title, String? address, String? thumbnailImage});
+  $Res call(
+      {int id,
+      String title,
+      String contentId,
+      String contentTypeId,
+      String? address,
+      String? thumbnailImage,
+      bool isSaved});
 }
 
 /// @nodoc
@@ -241,8 +251,11 @@ class _$SearchPlaceItemCopyWithImpl<$Res, $Val extends SearchPlaceItem>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? contentId = null,
+    Object? contentTypeId = null,
     Object? address = freezed,
     Object? thumbnailImage = freezed,
+    Object? isSaved = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -253,6 +266,14 @@ class _$SearchPlaceItemCopyWithImpl<$Res, $Val extends SearchPlaceItem>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -261,6 +282,10 @@ class _$SearchPlaceItemCopyWithImpl<$Res, $Val extends SearchPlaceItem>
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isSaved: null == isSaved
+          ? _value.isSaved
+          : isSaved // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -273,7 +298,14 @@ abstract class _$$SearchPlaceItemImplCopyWith<$Res>
       __$$SearchPlaceItemImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String title, String? address, String? thumbnailImage});
+  $Res call(
+      {int id,
+      String title,
+      String contentId,
+      String contentTypeId,
+      String? address,
+      String? thumbnailImage,
+      bool isSaved});
 }
 
 /// @nodoc
@@ -291,8 +323,11 @@ class __$$SearchPlaceItemImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? contentId = null,
+    Object? contentTypeId = null,
     Object? address = freezed,
     Object? thumbnailImage = freezed,
+    Object? isSaved = null,
   }) {
     return _then(_$SearchPlaceItemImpl(
       id: null == id
@@ -303,6 +338,14 @@ class __$$SearchPlaceItemImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      contentId: null == contentId
+          ? _value.contentId
+          : contentId // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
       address: freezed == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -311,6 +354,10 @@ class __$$SearchPlaceItemImplCopyWithImpl<$Res>
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      isSaved: null == isSaved
+          ? _value.isSaved
+          : isSaved // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -321,8 +368,11 @@ class _$SearchPlaceItemImpl implements _SearchPlaceItem {
   const _$SearchPlaceItemImpl(
       {required this.id,
       required this.title,
+      required this.contentId,
+      required this.contentTypeId,
       this.address,
-      this.thumbnailImage});
+      this.thumbnailImage,
+      required this.isSaved});
 
   factory _$SearchPlaceItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$SearchPlaceItemImplFromJson(json);
@@ -332,13 +382,19 @@ class _$SearchPlaceItemImpl implements _SearchPlaceItem {
   @override
   final String title;
   @override
+  final String contentId;
+  @override
+  final String contentTypeId;
+  @override
   final String? address;
   @override
   final String? thumbnailImage;
+  @override
+  final bool isSaved;
 
   @override
   String toString() {
-    return 'SearchPlaceItem(id: $id, title: $title, address: $address, thumbnailImage: $thumbnailImage)';
+    return 'SearchPlaceItem(id: $id, title: $title, contentId: $contentId, contentTypeId: $contentTypeId, address: $address, thumbnailImage: $thumbnailImage, isSaved: $isSaved)';
   }
 
   @override
@@ -348,15 +404,20 @@ class _$SearchPlaceItemImpl implements _SearchPlaceItem {
             other is _$SearchPlaceItemImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.contentId, contentId) ||
+                other.contentId == contentId) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.thumbnailImage, thumbnailImage) ||
-                other.thumbnailImage == thumbnailImage));
+                other.thumbnailImage == thumbnailImage) &&
+            (identical(other.isSaved, isSaved) || other.isSaved == isSaved));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, address, thumbnailImage);
+  int get hashCode => Object.hash(runtimeType, id, title, contentId,
+      contentTypeId, address, thumbnailImage, isSaved);
 
   /// Create a copy of SearchPlaceItem
   /// with the given fields replaced by the non-null parameter values.
@@ -379,8 +440,11 @@ abstract class _SearchPlaceItem implements SearchPlaceItem {
   const factory _SearchPlaceItem(
       {required final int id,
       required final String title,
+      required final String contentId,
+      required final String contentTypeId,
       final String? address,
-      final String? thumbnailImage}) = _$SearchPlaceItemImpl;
+      final String? thumbnailImage,
+      required final bool isSaved}) = _$SearchPlaceItemImpl;
 
   factory _SearchPlaceItem.fromJson(Map<String, dynamic> json) =
       _$SearchPlaceItemImpl.fromJson;
@@ -390,9 +454,15 @@ abstract class _SearchPlaceItem implements SearchPlaceItem {
   @override
   String get title;
   @override
+  String get contentId;
+  @override
+  String get contentTypeId;
+  @override
   String? get address;
   @override
   String? get thumbnailImage;
+  @override
+  bool get isSaved;
 
   /// Create a copy of SearchPlaceItem
   /// with the given fields replaced by the non-null parameter values.

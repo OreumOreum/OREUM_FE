@@ -14,6 +14,7 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
@@ -36,6 +37,7 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 
 import '../../../../core/constants/content_type_id.dart';
+import '../../../../core/constants/recommendation_titles.dart';
 import '../../data/models/category_recommend_response.dart';
 import '../../data/models/place_response.dart';
 import '../viewmodels/states/home_state.dart';
@@ -239,7 +241,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final isWideScreen = screenWidth > 600;
     final state = ref.watch(homeViewModelProvider);
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTravelTypeLabel = myTravelType!.type;
+
     final children = List.generate(largeCategories.length, (index) {
+
       final category = largeCategories[index];
       return GestureDetector(
         onTap: () {
@@ -270,7 +277,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Text(
               category.label,
               style:
-                  context.textStyles.body2.copyWith(color: AppColors.gray400),
+              context.textStyles.body2.copyWith(color: AppColors.gray400),
             ),
           ],
         ),
@@ -299,408 +306,417 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     List<CategoryRecommendResponse> categoryPlaces = state.categoryPlaces;
     List<Place> typePlaces = state.typePlaces;
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// ================= 날씨 ===================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 24.w),
-              child: state.weatherStatus == UiStatus.error
-                  ? Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '날씨를 불러오는데 실패했습니다.',
-                              style: context.textStyles.label3
-                                  .copyWith(color: AppColors.gray400),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                await ref
-                                    .read(homeViewModelProvider.notifier)
-                                    .refreshWeatherBackground();
-                              },
-                              child: Text(
-                                '다시 시도하기',
-                                style: context.textStyles.label3
-                                    .copyWith(color: AppColors.primary),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          height: 72.r,
-                          width: 72.r,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              IconPath.weatherType('error'),
-                              width: 72.r,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 42.w,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '오류',
-                            style: context.textStyles.headLine2
-                                .copyWith(color: AppColors.secondary),
-                          ),
-                        ),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppStrings.weatherTitle,
-                              style: context.textStyles.headLine2
-                                  .copyWith(color: AppColors.gray600),
-                            ),
-                            SizedBox(
-                              height: 4.h,
-                            ),
-                            Text(
-                              weatherInfo!.description,
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray300),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          height: 72.r,
-                          width: 72.r,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              weatherInfo.iconAsset,
-                              width: weatherInfo.iconWidth,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 42.w,
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '${weatherInfo.temp}°',
-                            style: context.textStyles.headLine2
-                                .copyWith(color: AppColors.primary),
-                          ),
-                        ),
-                      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// ================= 날씨 ===================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 24.w),
+            child: state.weatherStatus == UiStatus.error
+                ? Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '날씨를 불러오는데 실패했습니다.',
+                      style: context.textStyles.label3
+                          .copyWith(color: AppColors.gray400),
                     ),
-            ),
-
-            /// ============================================
-            /// ================= 이달의 여행지 ===================
-            SizedBox(
-              height: 14.h,
-            ),
-            PagedGradientCarousel(
-              onItemTap: (index) {
-                final tappedSpot = homeState.monthlySpots[index];
-                context.push(
-                  RoutePath.monthlySpotMap,
-                  extra: {
-                    'year': homeState.year,
-                    'month': homeState.month,
-                    'placeId': tappedSpot.placeId,
-                    'spots': homeState.monthlySpots,
-                  },
-                );
-              },
-              items: homeState.monthlySpots.asMap().entries.map((entry) {
-                final index = entry.key;
-                final spot = entry.value;
-                final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
-                const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
-                final String city =
-                    (index < fixedCities.length) ? fixedCities[index] : '제주';
-
-                return CarouselItem(
-                  background: (spot.originImage == null)
-                      ? Container(
-                          color: AppColors.gray100,
-                          child: Image.asset(
-                            ImagePath.imageError,
-                            width: 74.r,
-                          ),
-                        )
-                      : CachedNetworkImage(
-                          cacheManager: CustomCacheManager(),
-                          imageUrl: spot.originImage!,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) => Container(
-                            color: AppColors.gray100,
-                            child: Image.asset(
-                              ImagePath.imageError,
-                              width: 74.r,
-                            ),
-                          ),
-                        ),
-                  title: spot.title,
-                  count: count.toString(),
-                  city: city,
-                  isVisited: spot.visited,
-                );
-              }).toList(),
-            ),
-            SizedBox(
-              height: 14.h,
-            ),
-
-            /// ============================================
-            /// ================= 카테고리 ===================
-            Padding(
-              padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
-              child: isWideScreen
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        // 혹은 spaceAround
-                        children: children,
-                      ),
-                    )
-                  : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 14.w),
-                        child: Row(
-                          children:
-                              List.generate(children.length * 2 - 1, (index) {
-                            if (index.isOdd) {
-                              return SizedBox(width: 14.w); // 아이템 사이 간격
-                            } else {
-                              return children[index ~/ 2];
-                            }
-                          }),
-                        ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        await ref
+                            .read(homeViewModelProvider.notifier)
+                            .refreshWeatherBackground();
+                      },
+                      child: Text(
+                        '다시 시도하기',
+                        style: context.textStyles.label3
+                            .copyWith(color: AppColors.primary),
                       ),
                     ),
+                  ],
+                ),
+                Spacer(),
+                SizedBox(
+                  height: 72.r,
+                  width: 72.r,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      IconPath.weatherType('error'),
+                      width: 72.r,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 42.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '오류',
+                    style: context.textStyles.headLine2
+                        .copyWith(color: AppColors.secondary),
+                  ),
+                ),
+              ],
+            )
+                : Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppStrings.weatherTitle,
+                      style: context.textStyles.headLine2
+                          .copyWith(color: AppColors.gray600),
+                    ),
+                    SizedBox(
+                      height: 4.h,
+                    ),
+                    Text(
+                      weatherInfo!.description,
+                      style: context.textStyles.body1
+                          .copyWith(color: AppColors.gray300),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                SizedBox(
+                  height: 72.r,
+                  width: 72.r,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      weatherInfo.iconAsset,
+                      width: weatherInfo.iconWidth,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 42.w,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '${weatherInfo.temp}°',
+                    style: context.textStyles.headLine2
+                        .copyWith(color: AppColors.primary),
+                  ),
+                ),
+              ],
             ),
+          ),
 
-            /// ============================================
-            /// ================= 서치바 ===================
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.w, horizontal: AppSizes.defaultPadding),
-              child: SearchBarButton(),
-            ),
+          /// ============================================
+          /// ================= 이달의 여행지 ===================
+          SizedBox(
+            height: 14.h,
+          ),
+          PagedGradientCarousel(
+            onItemTap: (index) {
+              final tappedSpot = homeState.monthlySpots[index];
+              context.push(
+                RoutePath.monthlySpotMap,
+                extra: {
+                  'year': homeState.year,
+                  'month': homeState.month,
+                  'placeId': tappedSpot.placeId,
+                  'spots': homeState.monthlySpots,
+                },
+              );
+            },
+            items: homeState.monthlySpots.asMap().entries.map((entry) {
+              final index = entry.key;
+              final spot = entry.value;
+              final count = homeState.myTypeVisitCounts[spot.spotId] ?? 0;
+              const fixedCities = ['서귀포시', '서귀포시', '제주시', '제주시'];
+              final String city =
+              (index < fixedCities.length) ? fixedCities[index] : '제주';
 
-            /// ============================================
-            /// ================= 여행지 추천 =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+              return CarouselItem(
+                background: (spot.originImage == null)
+                    ? Container(
+
+                  color: AppColors.gray100,
+                  child: Image.asset(
+                    ImagePath.imageError,
+                    width: 74.r,
+                  ),
+                )
+                    : CachedNetworkImage(
+                  cacheManager: CustomCacheManager(),
+                  imageUrl: spot.originImage!,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(
+                    color: AppColors.gray100,
+                    child: Image.asset(
+                      ImagePath.imageError,
+                      width: 74.r,
+                    ),
+                  ),
+                ),
+
+                title: spot.title,
+                count: count.toString(),
+                city: city,
+                isVisited: spot.visited,
+              );
+            }).toList(),
+          ),
+          SizedBox(
+            height: 14.h,
+          ),
+
+          /// ============================================
+          /// ================= 카테고리 ===================
+          Padding(
+            padding: EdgeInsets.only(top: 10.h, bottom: 6.h),
+            child: isWideScreen
+                ? Padding(
+
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // 혹은 spaceAround
+                children: children,
+              ),
+            )
+                : SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 child: Row(
-                  children: List.generate(categoryPlaces.length, (index) {
-                    String title = mockPlace[index]['title']!;
-                    String type = mockPlace[index]['type']!;
-                    String placeId = categoryPlaces[index].placeId.toString();
-                    // String category = categoryPlaces[index].contentTypeId;
-                    String thumbnailImage = categoryPlaces[index].orignImage;
-                    String contentId = categoryPlaces[index].contentId;
-                    String contentTypeId = categoryPlaces[index].contentTypeId;
-
-                    final contentType = ContentTypeId.fromContentTypeId(
-                        categoryPlaces[index].contentTypeId);
-                    String category = contentType?.label ?? '여행지';
-
-                    return Row(
-                      children: [
-                        PlaceCard(
-                          title: category,
-                          type: type,
-                          category: category,
-                          thumbnailImage: thumbnailImage,
-                          onPressed: () {
-                            context.push('${RoutePath.placeDetail}/${placeId}',
-                                extra: {
-                                  'contentId': contentId,
-                                  'contentTypeId': contentTypeId
-                                });
-                          },
-                        ),
-                        if (index != categoryPlaces.length - 1)
-                          SizedBox(width: 8.w), // separator 역할
-                      ],
-                    );
+                  children:
+                  List.generate(children.length * 2 - 1, (index) {
+                    if (index.isOdd) {
+                      return SizedBox(width: 14.w); // 아이템 사이 간격
+                    } else {
+                      return children[index ~/ 2];
+                    }
                   }),
                 ),
               ),
             ),
+          ),
 
-            /// ============================================
-            /// ================= 추천 버튼 =================
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 14.h, horizontal: AppSizes.defaultPadding),
-              child: SplitRoundedButton(
-                onJejuTap: () {
-                  context.push(
-                    RoutePath.recommend,
-                    extra: {
-                      'type': true,
-                      'contentTypeId': 0,
-                      'initialFilter': RegionFilter.jeju,
-                    },
+          /// ============================================
+          /// ================= 서치바 ===================
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: 16.w, horizontal: AppSizes.defaultPadding),
+            child: SearchBarButton(),
+          ),
+
+          /// ============================================
+          /// ================= 여행지 추천 =================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding:
+              EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+
+              child: Row(
+                children: List.generate(categoryPlaces.length, (index) {
+                  String title = mockPlace[index]['title']!;
+                  String type = mockPlace[index]['type']!;
+                  String placeId = categoryPlaces[index].placeId.toString();
+                  // String category = categoryPlaces[index].contentTypeId;
+                  String thumbnailImage = categoryPlaces[index].orignImage;
+                  String contentId = categoryPlaces[index].contentId;
+                  String contentTypeId = categoryPlaces[index].contentTypeId;
+                  final place = categoryPlaces[index];
+                  final LargeCategory largeCategory = LargeCategory.values.firstWhere(
+                          (c) => c.contentTypeId.toString() == place.contentTypeId,
+                      orElse: () => LargeCategory.touristAttraction
                   );
-                },
-                onSeogwipoTap: () {
-                  context.push(
-                    RoutePath.recommend,
-                    extra: {
-                      'type': true,
-                      'contentTypeId': 0,
-                      'initialFilter': RegionFilter.seogwipo,
-                    },
-                  );
-                },
-              ),
-            ),
+                  final contentType = ContentTypeId.fromContentTypeId(
+                      categoryPlaces[index].contentTypeId);
+                  String category = contentType?.label ?? '여행지';
+                  final String cardTitle = recommendationTitles[largeCategory]?[myTravelType] ?? category;
 
-            /// ============================================
-            SizedBox(
-              height: 14.h,
-            ),
 
-            /// ================= 코스 추천 =================
-            Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-                    child: HomeTitleText(
-                      title: AppStrings.personalizedCourseRecommendation,
-                      //TODO 유형 추가 enum
-                      primaryText: '모험 액티비티형',
-                      subtitle: AppStrings.typeCourseRecommendation,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 14.w),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(courses.length, (index) {
-                        String title = courses[index].title;
-                        String subTitle = courses[index].title;
-                        String? thumbnailImage = courses[index].originImage;
-                        String courseId = courses[index].id.toString();
-                        String contentId = courses[index].contentId.toString();
-                        String contentTypeId =
-                            courses[index].contentTypeId.toString();
-
-                        return Row(
-                          children: [
-                            CourseCard(
-                              title: title,
-                              subTitle: subTitle,
-                              thumbnailImage: thumbnailImage,
-                              onPressed: () {
-                                context.push(
-                                    '${RoutePath.courseDetail}/${courseId}',
-                                    extra: {
-                                      'contentId': contentId,
-                                      'contentTypeId': contentTypeId
-                                    });
-                              },
-                            ),
-                            if (index != courses.length - 1)
-                              SizedBox(width: 9.w), // separator 역할
-                          ],
-                        );
-                      }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 14.h,
-            ),
-
-            ///============================================
-            /// ================= 타입별 추천 =================
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSizes.defaultPadding,
-                    ),
-                    child: HomeTitleText(
-                        //TODO 유형 연결
-                        title: AppStrings.typeRecommend('모험 액티비티형'),
-                        primaryText: '모험 액티비티형',
-                        subtitle: AppStrings.typePlaceRecommendation),
-                  ),
-                  SizedBox(
-                    height: 14.h,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: EdgeInsets.zero,
-                    itemCount: typePlaces.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final place = typePlaces[index];
-                      print('checkcheckplace$place');
-                      String placeId = place.placeId.toString();
-                      String? contentId = place.contentId;
-                      String? contentTypeId = place.contentTypeId;
-
-                      return InkWell(
-                        onTap: () {
+                  return Row(
+                    children: [
+                      PlaceCard(
+                        title: cardTitle,
+                        type: myTravelTypeLabel,
+                        category: category,
+                        thumbnailImage: thumbnailImage,
+                        onPressed: () {
                           context.push('${RoutePath.placeDetail}/${placeId}',
                               extra: {
                                 'contentId': contentId,
                                 'contentTypeId': contentTypeId
                               });
                         },
-                        child: PlaceListTile(
-                          thumbnailImage: place.thumbnailImage ?? '',
-                          title: place.title,
-                          address: place.address ?? '',
-                          isSaved: place.isSaved,
-                          placeId: place.placeId,
-                        ),
-                      );
-                    },
-                  ),
-                  Divider(
-                    height: 1.h,
-                    thickness: 1.h,
-                    color: AppColors.gray100,
-                  ),
-                ],
+                      ),
+                      if (index != categoryPlaces.length - 1)
+                        SizedBox(width: 8.w), // separator 역할
+                    ],
+                  );
+                }),
               ),
             ),
-            SizedBox(
-              height: 16.h,
+          ),
+
+          /// ============================================
+          /// ================= 추천 버튼 =================
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: 14.h, horizontal: AppSizes.defaultPadding),
+            child: SplitRoundedButton(
+              onJejuTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.jeju,
+                  },
+                );
+              },
+              onSeogwipoTap: () {
+                context.push(
+                  RoutePath.recommend,
+                  extra: {
+                    'type': true,
+                    'contentTypeId': 0,
+                    'initialFilter': RegionFilter.seogwipo,
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+
+          /// ============================================
+          SizedBox(
+            height: 14.h,
+          ),
+
+          /// ================= 코스 추천 =================
+          Padding(
+            padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding:
+                  EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                  child: HomeTitleText(
+                    title: AppStrings.personalizedCourseRecommendation,
+                    primaryText: myTravelTypeLabel,
+
+                    subtitle: AppStrings.typeCourseRecommendation,
+                  ),
+                ),
+                SizedBox(height: 10.h),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.symmetric(horizontal: 14.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(courses.length, (index) {
+                      String title = courses[index].title;
+                      String subTitle = courses[index].title;
+                      String? thumbnailImage = courses[index].originImage;
+                      String courseId = courses[index].id.toString();
+                      String contentId = courses[index].contentId.toString();
+                      String contentTypeId =
+                      courses[index].contentTypeId.toString();
+
+
+                      return Row(
+                        children: [
+                          CourseCard(
+                            title: title,
+                            subTitle: subTitle,
+                            thumbnailImage: thumbnailImage,
+                            onPressed: () {
+                              context.push(
+                                  '${RoutePath.courseDetail}/${courseId}',
+                                  extra: {
+                                    'contentId': contentId,
+                                    'contentTypeId': contentTypeId
+                                  });
+                            },
+                          ),
+                          if (index != courses.length - 1)
+                            SizedBox(width: 9.w), // separator 역할
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 14.h,
+          ),
+
+          ///============================================
+          /// ================= 타입별 추천 =================
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppSizes.defaultPadding,
+                  ),
+                  child: HomeTitleText(
+                      title: AppStrings.typeRecommend(myTravelTypeLabel),
+                      primaryText: myTravelTypeLabel,
+
+                      subtitle: AppStrings.typePlaceRecommendation),
+                ),
+                SizedBox(
+                  height: 14.h,
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: EdgeInsets.zero,
+                  itemCount: typePlaces.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final place = typePlaces[index];
+                    print('checkcheckplace$place');
+                    String placeId = place.placeId.toString();
+                    String? contentId = place.contentId;
+                    String? contentTypeId = place.contentTypeId;
+
+                    return InkWell(
+                      onTap: () {
+                        context.push('${RoutePath.placeDetail}/${placeId}',
+                            extra: {
+                              'contentId': contentId,
+                              'contentTypeId': contentTypeId
+                            });
+                      },
+                      child: PlaceListTile(
+                        thumbnailImage: place.thumbnailImage ?? '',
+                        title: place.title,
+                        address: place.address ?? '',
+                        isSaved: place.isSaved,
+                        placeId: place.placeId,
+                      ),
+                    );
+                  },
+                ),
+                Divider(
+                  height: 1.h,
+                  thickness: 1.h,
+                  color: AppColors.gray100,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 16.h,
+          ),
+        ],
       ),
     );
   }

@@ -188,7 +188,7 @@ class _AccountSettingScreenState extends ConsumerState<AccountSettingScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      print('내가쓴 리뷰 터치');
+                      context.push(RoutePath.myReview);
                     },
                     behavior: HitTestBehavior.opaque,
                     child: Padding(

@@ -90,7 +90,7 @@ class PagedGradientCarouselItem extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: '같은 유형이', // 이 부분 색상 변경
+                          text: '같은 유형이 ', // 이 부분 색상 변경
                           style: context.textStyles.body1
                               .copyWith(color: AppColors.white),
                         ),

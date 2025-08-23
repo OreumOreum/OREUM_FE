@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
@@ -20,6 +21,7 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/image_path.dart';
+import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/error_widget.dart';
@@ -277,7 +279,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                                         category.label,
                                         style: context.textStyles.body2.copyWith(
                                           color: isSelected
-                                              ? AppColors.primary
+                                              ? AppColors.gray500
                                               : AppColors.gray400,
                                           fontWeight: isSelected
                                               ? FontWeight.bold
@@ -368,11 +370,10 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
               SliverFillRemaining(
                 child: Center(
                   child: Lottie.asset(AnimationPath.loading,
-                      repeat: true, width: 150.w),
+                      repeat: true, width: 1000.w),
                 ),
               )
             else if (state.status == UiStatus.error)
-
               Center(child: ErrorRetryWidget(
                 onPressed: () {
                   ref.read(recommendViewModelProvider.notifier).fetchPlaces(
@@ -387,12 +388,25 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   itemCount: state.filteredPlaces.length,
                   itemBuilder: (BuildContext context, int index) {
                     final place = state.filteredPlaces[index];
+                    final isSaved =
+                        state.bookmarkStatusMap[place.placeId] ?? place.isSaved;
                     return PlaceListTile(
                       thumbnailImage: place.thumbnailImage ?? '',
                       title: place.title,
                       address: place.address ?? '',
                       isSaved: place.isSaved,
-                      placeId: place.placeId,);
+                      placeId: place.placeId,
+
+                      onTap: () {
+                        context.push(
+                          '${RoutePath.placeDetail}/${place.placeId}',
+                          extra: {
+                            'contentId': place.contentId,
+                            'contentTypeId': place.contentTypeId,
+                          },
+                        );
+                      },
+                    );
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(
@@ -408,7 +422,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   padding: EdgeInsets.symmetric(vertical: 16.0),
                   child: Center(
                     child: Lottie.asset(AnimationPath.loading,
-                        repeat: true, width: 150.w),
+                        repeat: true, width: 1000.w),
                   ),
                 ),
               ),
@@ -427,55 +441,45 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
     required double width,
   }) {
     Color color;
+    Color textColor;
     String iconPath;
 
-    if (isSelected) {
-      if (label == '제주시') {
-        color = AppColors.jeju;
-        iconPath = ImagePath.tangerine;
-      } else if (label == '서귀포시') {
-        color = AppColors.seogwipo;
-        iconPath = ImagePath.mountain;
-      } else {
-        color = AppColors.primary;
-        iconPath = ImagePath.all;
-      }
+    if (label == '제주시') {
+      color = AppColors.jeju;
+      iconPath = ImagePath.tangerine;
+    } else if (label == '서귀포시') {
+      color = AppColors.seogwipo;
+      iconPath = ImagePath.mountain;
     } else {
-      //color = AppColors.gray200;
-      if (label == '제주시') {
-        color = AppColors.jeju.withOpacity(0.5);
-        iconPath = ImagePath.tangerine;
-      } else if (label == '서귀포시') {
-        color = AppColors.seogwipo.withOpacity(0.5);
-        iconPath = ImagePath.mountain;
-      } else {
-        color = AppColors.primary.withOpacity(0.5);
-        iconPath = ImagePath.all;
-      }
+      color = AppColors.primary;
+      iconPath = ImagePath.all;
     }
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 14.w),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Image.asset(
-                iconPath,
-                width: width,
+    return Opacity(
+      opacity: isSelected ? 1.0 : 0.5,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 14.w),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Image.asset(
+                  iconPath,
+                  width: width,
+                ),
               ),
-            ),
-            SizedBox(width: 4.w),
-            Text(label,
-                style:
-                context.textStyles.body1.copyWith(color: AppColors.white)),
-          ],
+              SizedBox(width: 4.w),
+              Text(label,
+                  style:
+                  context.textStyles.body1.copyWith(color: AppColors.white)),
+            ],
+          ),
         ),
       ),
     );

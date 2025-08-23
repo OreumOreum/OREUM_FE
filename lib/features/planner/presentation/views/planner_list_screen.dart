@@ -7,6 +7,7 @@ import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -16,6 +17,8 @@ import 'package:oreum_fe/features/planner/data/models/planner_response.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/planner_list_tile.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/planner_menu_modal.dart';
+
+import '../../../../core/di/my_type_provider.dart';
 
 class PlannerListScreen extends ConsumerStatefulWidget {
   const PlannerListScreen({super.key});
@@ -49,7 +52,9 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(plannerListViewModelProvider);
-
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTravelTypeLabel = myTravelType!.type;
     if (state.status == UiStatus.loading) {
       return Padding(
         padding: EdgeInsets.only(bottom: 56.h),
@@ -78,7 +83,7 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
             ),
             HomeTitleText(
               title: AppStrings.userCreatedCourseTitle,
-              primaryText: '모험 액티비티형',
+              primaryText: myTravelTypeLabel,
 
               ///내 타입 가져와야 됨
               subtitle: AppStrings.userCreatedCourseSubTitle,

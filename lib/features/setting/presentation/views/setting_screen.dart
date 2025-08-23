@@ -227,7 +227,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        myTravelTypeLabel, // TODO: 실제 사용자 유형으로 변경
+                        myTravelTypeLabel,
                         style: context.textStyles.headLine4
                             .copyWith(color: AppColors.gray600),
                         maxLines: 1,

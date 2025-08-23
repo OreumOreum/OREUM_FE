@@ -8,12 +8,11 @@ part 'review_detail_state.freezed.dart';
 class ReviewDetailState with _$ReviewDetailState {
   const factory ReviewDetailState({
     @Default(UiStatus.idle) UiStatus status,
-    @Default(UiStatus.idle) UiStatus paginationStatus,
     @Default('') String errorMessage,
     @Default([]) List<ReviewResponse> reviews,
     @Default(UiStatus.idle) UiStatus buttonStatus,
     @Default(0) int currentPage,
     @Default(false) bool isLastPage,
-    @Default('') String keyword,
+    @Default(false) bool isLoadingNextPage,
   }) = _ReviewDetailState;
 }

@@ -37,7 +37,7 @@ abstract class AppStrings {
   static String typeRecommend(String type) => '$type을 위한 추천';
   static String viewAll = '전체보기';
   static const String userCreatedCourseTitle = '회원님이 만드는 여행코스';
-  static const String userCreatedCourseSubTitle = '회원님이 만드는 여행코스';
+  static const String userCreatedCourseSubTitle = ' 회원님이 만드는 여행코스';
   static const String userCreatedCourseTileTitle = '새로운 여행코스 생성하기';
   static const String userCreatedCourseTileSubTitle = '회원님의 입맛대로 여행코스를 생성해보세요.';
   static String userRecommendationCourseTileTitle(String type) => '$type 추천 여행코스';

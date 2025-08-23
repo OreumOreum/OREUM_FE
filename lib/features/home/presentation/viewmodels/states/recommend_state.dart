@@ -20,6 +20,7 @@ class RecommendState with _$RecommendState {
     @Default(false) bool isLastPage,
     @Default(false) bool isLoadingNextPage,
     @Default(SortOption.review) SortOption selectedSortOption,
+    @Default({}) Map<int, bool> bookmarkStatusMap,
     int? selectedContentTypeId,
     TravelType? myTravelType,
   }) = _RecommendState;

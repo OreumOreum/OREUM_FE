@@ -17,13 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ReviewDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
-  UiStatus get paginationStatus => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
   UiStatus get buttonStatus => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
   bool get isLastPage => throw _privateConstructorUsedError;
-  String get keyword => throw _privateConstructorUsedError;
+  bool get isLoadingNextPage => throw _privateConstructorUsedError;
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -40,13 +39,12 @@ abstract class $ReviewDetailStateCopyWith<$Res> {
   @useResult
   $Res call(
       {UiStatus status,
-      UiStatus paginationStatus,
       String errorMessage,
       List<ReviewResponse> reviews,
       UiStatus buttonStatus,
       int currentPage,
       bool isLastPage,
-      String keyword});
+      bool isLoadingNextPage});
 }
 
 /// @nodoc
@@ -65,22 +63,17 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
   @override
   $Res call({
     Object? status = null,
-    Object? paginationStatus = null,
     Object? errorMessage = null,
     Object? reviews = null,
     Object? buttonStatus = null,
     Object? currentPage = null,
     Object? isLastPage = null,
-    Object? keyword = null,
+    Object? isLoadingNextPage = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as UiStatus,
-      paginationStatus: null == paginationStatus
-          ? _value.paginationStatus
-          : paginationStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -102,10 +95,10 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
           ? _value.isLastPage
           : isLastPage // ignore: cast_nullable_to_non_nullable
               as bool,
-      keyword: null == keyword
-          ? _value.keyword
-          : keyword // ignore: cast_nullable_to_non_nullable
-              as String,
+      isLoadingNextPage: null == isLoadingNextPage
+          ? _value.isLoadingNextPage
+          : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -120,13 +113,12 @@ abstract class _$$ReviewDetailStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {UiStatus status,
-      UiStatus paginationStatus,
       String errorMessage,
       List<ReviewResponse> reviews,
       UiStatus buttonStatus,
       int currentPage,
       bool isLastPage,
-      String keyword});
+      bool isLoadingNextPage});
 }
 
 /// @nodoc
@@ -143,22 +135,17 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? paginationStatus = null,
     Object? errorMessage = null,
     Object? reviews = null,
     Object? buttonStatus = null,
     Object? currentPage = null,
     Object? isLastPage = null,
-    Object? keyword = null,
+    Object? isLoadingNextPage = null,
   }) {
     return _then(_$ReviewDetailStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as UiStatus,
-      paginationStatus: null == paginationStatus
-          ? _value.paginationStatus
-          : paginationStatus // ignore: cast_nullable_to_non_nullable
               as UiStatus,
       errorMessage: null == errorMessage
           ? _value.errorMessage
@@ -180,10 +167,10 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
           ? _value.isLastPage
           : isLastPage // ignore: cast_nullable_to_non_nullable
               as bool,
-      keyword: null == keyword
-          ? _value.keyword
-          : keyword // ignore: cast_nullable_to_non_nullable
-              as String,
+      isLoadingNextPage: null == isLoadingNextPage
+          ? _value.isLoadingNextPage
+          : isLoadingNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -193,21 +180,17 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
 class _$ReviewDetailStateImpl implements _ReviewDetailState {
   const _$ReviewDetailStateImpl(
       {this.status = UiStatus.idle,
-      this.paginationStatus = UiStatus.idle,
       this.errorMessage = '',
       final List<ReviewResponse> reviews = const [],
       this.buttonStatus = UiStatus.idle,
       this.currentPage = 0,
       this.isLastPage = false,
-      this.keyword = ''})
+      this.isLoadingNextPage = false})
       : _reviews = reviews;
 
   @override
   @JsonKey()
   final UiStatus status;
-  @override
-  @JsonKey()
-  final UiStatus paginationStatus;
   @override
   @JsonKey()
   final String errorMessage;
@@ -231,11 +214,11 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
   final bool isLastPage;
   @override
   @JsonKey()
-  final String keyword;
+  final bool isLoadingNextPage;
 
   @override
   String toString() {
-    return 'ReviewDetailState(status: $status, paginationStatus: $paginationStatus, errorMessage: $errorMessage, reviews: $reviews, buttonStatus: $buttonStatus, currentPage: $currentPage, isLastPage: $isLastPage, keyword: $keyword)';
+    return 'ReviewDetailState(status: $status, errorMessage: $errorMessage, reviews: $reviews, buttonStatus: $buttonStatus, currentPage: $currentPage, isLastPage: $isLastPage, isLoadingNextPage: $isLoadingNextPage)';
   }
 
   @override
@@ -244,8 +227,6 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
         (other.runtimeType == runtimeType &&
             other is _$ReviewDetailStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.paginationStatus, paginationStatus) ||
-                other.paginationStatus == paginationStatus) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
@@ -255,20 +236,20 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
                 other.currentPage == currentPage) &&
             (identical(other.isLastPage, isLastPage) ||
                 other.isLastPage == isLastPage) &&
-            (identical(other.keyword, keyword) || other.keyword == keyword));
+            (identical(other.isLoadingNextPage, isLoadingNextPage) ||
+                other.isLoadingNextPage == isLoadingNextPage));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       status,
-      paginationStatus,
       errorMessage,
       const DeepCollectionEquality().hash(_reviews),
       buttonStatus,
       currentPage,
       isLastPage,
-      keyword);
+      isLoadingNextPage);
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -283,18 +264,15 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
 abstract class _ReviewDetailState implements ReviewDetailState {
   const factory _ReviewDetailState(
       {final UiStatus status,
-      final UiStatus paginationStatus,
       final String errorMessage,
       final List<ReviewResponse> reviews,
       final UiStatus buttonStatus,
       final int currentPage,
       final bool isLastPage,
-      final String keyword}) = _$ReviewDetailStateImpl;
+      final bool isLoadingNextPage}) = _$ReviewDetailStateImpl;
 
   @override
   UiStatus get status;
-  @override
-  UiStatus get paginationStatus;
   @override
   String get errorMessage;
   @override
@@ -306,7 +284,7 @@ abstract class _ReviewDetailState implements ReviewDetailState {
   @override
   bool get isLastPage;
   @override
-  String get keyword;
+  bool get isLoadingNextPage;
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.

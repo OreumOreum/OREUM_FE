@@ -7,7 +7,7 @@ part of 'review_detail_view_model.dart';
 // **************************************************************************
 
 String _$reviewDetailViewModelHash() =>
-    r'5a859c72d508048988dbd308b8132d0c9332884e';
+    r'23ff666b96e46436fcd0bef1becd14d2833ee222';
 
 /// See also [ReviewDetailViewModel].
 @ProviderFor(ReviewDetailViewModel)

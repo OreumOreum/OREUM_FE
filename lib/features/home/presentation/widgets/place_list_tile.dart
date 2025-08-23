@@ -111,45 +111,29 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
           children: [
             hasImage
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                    child: CachedNetworkImage(
-                      cacheManager: CustomCacheManager(),
-                      imageUrl: widget.thumbnailImage,
-                      height: 64.r,
-                      width: 64.r,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        height: 64.r,
-                        width: 64.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.gray300),
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        height: 64.r,
-                        width: 64.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: Image.asset(
-                            ImagePath.imageError,
-                            width: 32.r,
-                          ),
-                        ),
-                      ),
-                    ))
-                : Container(
+                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                child: CachedNetworkImage(
+                  cacheManager: CustomCacheManager(),
+                  imageUrl: widget.thumbnailImage,
+                  height: 64.r,
+                  width: 64.r,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
                     height: 64.r,
                     width: 64.r,
-                    decoration: BoxDecoration(
-                      color: AppColors.gray100,
-                      borderRadius:
-                          BorderRadius.circular(AppSizes.radiusXS), // 둥근 모서리 유지
+                    color: AppColors.gray100,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.gray300),
+                      ),
                     ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    height: 64.r,
+                    width: 64.r,
+                    color: AppColors.gray100,
                     child: Center(
                       child: Image.asset(
                         ImagePath.imageError,
@@ -157,6 +141,22 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                       ),
                     ),
                   ),
+                ))
+                : Container(
+              height: 64.r,
+              width: 64.r,
+              decoration: BoxDecoration(
+                color: AppColors.gray100,
+                borderRadius:
+                BorderRadius.circular(AppSizes.radiusXS), // 둥근 모서리 유지
+              ),
+              child: Center(
+                child: Image.asset(
+                  ImagePath.imageError,
+                  width: 32.r,
+                ),
+              ),
+            ),
             SizedBox(
               width: 10.w,
             ),
