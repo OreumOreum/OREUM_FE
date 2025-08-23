@@ -10,5 +10,8 @@ class ReviewDetailState with _$ReviewDetailState {
     @Default(UiStatus.idle) UiStatus status,
     @Default('') String errorMessage,
     @Default([]) List<ReviewResponse> reviews,
+    @Default(0) int currentPage,
+    @Default(false) bool isLastPage,
+    @Default(false) bool isLoadingNextPage,
   }) = _ReviewDetailState;
 }

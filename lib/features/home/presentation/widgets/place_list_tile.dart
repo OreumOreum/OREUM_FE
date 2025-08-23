@@ -87,6 +87,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                 );
               },
             ).then((result) {
+              print('🔥 바텀시트 결과: $result');
               // 🔥 바텀시트가 내려갈 때 결과 처리하는 부분!
               if (result == true) {
                 // 저장이 완료된 경우
@@ -124,50 +125,50 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
           children: [
             hasImage
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                    child: CachedNetworkImage(
-                      cacheManager: CustomCacheManager(),
-                      imageUrl: widget.thumbnailImage,
-                      height: 64.r,
-                      width: 64.r,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        height: 64.r,
-                        width: 64.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.gray300),
-                          ),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        height: 64.r,
-                        width: 64.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: Image.asset(
-                            ImagePath.imageError,
-                            width: 32.r,
-                          ),
-                        ),
-                      ),
-                    ))
-                : Container(
-                    width: 64.r,
+                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                child: CachedNetworkImage(
+                  cacheManager: CustomCacheManager(),
+                  imageUrl: widget.thumbnailImage,
+                  height: 64.r,
+                  width: 64.r,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
                     height: 64.r,
-                    decoration: BoxDecoration(
-                      color: AppColors.gray100,
-                      borderRadius: BorderRadius.circular(AppSizes.radiusXS),
-                    ),
-                    child: Icon(
-                      Icons.photo_size_select_actual_rounded,
-                      color: AppColors.gray200,
-                      size: 24.r,
+                    width: 64.r,
+                    color: AppColors.gray100,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            AppColors.gray300),
+                      ),
                     ),
                   ),
+                  errorWidget: (context, url, error) => Container(
+                    height: 64.r,
+                    width: 64.r,
+                    color: AppColors.gray100,
+                    child: Center(
+                      child: Image.asset(
+                        ImagePath.imageError,
+                        width: 32.r,
+                      ),
+                    ),
+                  ),
+                ))
+                : Container(
+              width: 64.r,
+              height: 64.r,
+              decoration: BoxDecoration(
+                color: AppColors.gray100,
+                borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+              ),
+              child: Icon(
+                Icons.photo_size_select_actual_rounded,
+                color: AppColors.gray200,
+                size: 24.r,
+              ),
+            ),
             SizedBox(
               width: 10.w,
             ),
