@@ -274,20 +274,19 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    category.label,
-                                    style: context.textStyles.body2.copyWith(
-                                      color: isSelected
-                                          ? AppColors.gray500
-                                          : AppColors.gray400,
-                                      fontWeight: isSelected
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                    ),
-
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        category.label,
+                                        style: context.textStyles.body2.copyWith(
+                                          color: isSelected
+                                              ? AppColors.gray500
+                                              : AppColors.gray400,
+                                          fontWeight: isSelected
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }
@@ -382,44 +381,41 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 },
               ))
             else if (state.filteredPlaces.isEmpty)
-              const SliverFillRemaining(
-                  child: Center(child: Text('표시할 장소가 없습니다.')))
-            else
-              SliverList.separated(
-                itemCount: state.filteredPlaces.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final place = state.filteredPlaces[index];
-                  final isSaved =
-                      state.bookmarkStatusMap[place.placeId] ?? place.isSaved;
-                  return PlaceListTile(
-                    thumbnailImage: place.thumbnailImage ?? '',
-                    title: place.title,
-                    address: place.address ?? '',
-                    isSaved: place.isSaved,
-                    placeId: place.placeId,
-                    onBookmarkChanged: (placeId, newStatus) {
-                      viewModel.updateBookmarkStatus(placeId, newStatus);
-                    },
-                    onTap: () {
-                      context.push(
-                        '${RoutePath.placeDetail}/${place.placeId}',
-                        extra: {
-                          'contentId': place.contentId,
-                          'contentTypeId': place.contentTypeId,
-                        },
-                      );
-                    },
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1.h,
-                    thickness: 1.h,
-                    color: AppColors.gray100,
-                  );
-                },
-              ),
+                const SliverFillRemaining(
+                    child: Center(child: Text('표시할 장소가 없습니다.')))
+              else
+                SliverList.separated(
+                  itemCount: state.filteredPlaces.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final place = state.filteredPlaces[index];
+                    final isSaved =
+                        state.bookmarkStatusMap[place.placeId] ?? place.isSaved;
+                    return PlaceListTile(
+                      thumbnailImage: place.thumbnailImage ?? '',
+                      title: place.title,
+                      address: place.address ?? '',
+                      isSaved: place.isSaved,
+                      placeId: place.placeId,
 
+                      onTap: () {
+                        context.push(
+                          '${RoutePath.placeDetail}/${place.placeId}',
+                          extra: {
+                            'contentId': place.contentId,
+                            'contentTypeId': place.contentTypeId,
+                          },
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      height: 1.h,
+                      thickness: 1.h,
+                      color: AppColors.gray100,
+                    );
+                  },
+                ),
             if (state.isLoadingNextPage)
               SliverToBoxAdapter(
                 child: Padding(
@@ -478,14 +474,12 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   width: width,
                 ),
               ),
-
               SizedBox(width: 4.w),
               Text(label,
                   style:
                   context.textStyles.body1.copyWith(color: AppColors.white)),
             ],
           ),
-
         ),
       ),
     );

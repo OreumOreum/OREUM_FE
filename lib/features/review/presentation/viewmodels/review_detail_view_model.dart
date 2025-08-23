@@ -11,36 +11,82 @@ part 'review_detail_view_model.g.dart';
 
 @riverpod
 class ReviewDetailViewModel extends _$ReviewDetailViewModel {
+  final int _pageSize = 20;
+
   @override
   ReviewDetailState build() {
     return ReviewDetailState(status: UiStatus.loading);
   }
 
-  Future<void> getPlaceReviews(String placeId, String page, String size) async {
-    state = state.copyWith(status: UiStatus.loading);
+  Future<void> getInitialPlaceReviews(String placeId) async {
+    state = state.copyWith(status: UiStatus.loading, currentPage: 0);
     try {
-      GetPlaceReviewsUseCase getPlaceReviewsUseCase =
-          ref.read(getPlaceReviewsUseCaseProvider);
-      List<ReviewResponse> reviews =
-          await getPlaceReviewsUseCase.call(placeId, page, size);
-      state = state.copyWith(status: UiStatus.success, reviews: reviews);
+      GetPlaceReviewsUseCase usecase = ref.read(getPlaceReviewsUseCaseProvider);
+      List<ReviewResponse> reviews = await usecase.call(placeId, '0', _pageSize.toString());
+      state = state.copyWith(
+        status: UiStatus.success,
+        reviews: reviews,
+        isLastPage: reviews.length < _pageSize,
+      );
     } catch (e) {
-      state =
-          state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
   }
 
-  Future<void> getCourseReviews(String courseId, String page, String size) async {
-    state = state.copyWith(status: UiStatus.loading);
+  Future<void> loadNextPlacePage(String placeId) async {
+    if (state.isLastPage || state.isLoadingNextPage) return;
+
+    state = state.copyWith(isLoadingNextPage: true);
+    final nextPage = state.currentPage + 1;
+
     try {
-      GetCourseReviewsUseCase getCourseReviewsUseCase =
-      ref.read(getCourseReviewsUseCaseProvider);
-      List<ReviewResponse> reviewsCourse =
-      await getCourseReviewsUseCase.call(courseId, page, size);
-      state = state.copyWith(status: UiStatus.success, reviews: reviewsCourse);
+      GetPlaceReviewsUseCase usecase = ref.read(getPlaceReviewsUseCaseProvider);
+      List<ReviewResponse> newReviews = await usecase.call(placeId, nextPage.toString(), _pageSize.toString());
+
+      state = state.copyWith(
+        reviews: [...state.reviews, ...newReviews],
+        currentPage: nextPage,
+        isLastPage: newReviews.length < _pageSize,
+        isLoadingNextPage: false,
+      );
     } catch (e) {
-      state =
-          state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+      state = state.copyWith(isLoadingNextPage: false);
+    }
+  }
+
+  Future<void> getInitialCourseReviews(String courseId) async {
+    state = state.copyWith(status: UiStatus.loading, currentPage: 0, reviews: []);
+    try {
+      GetCourseReviewsUseCase usecase = ref.read(getCourseReviewsUseCaseProvider);
+      final reviews = await usecase.call(courseId, '0', _pageSize.toString());
+      state = state.copyWith(
+        status: UiStatus.success,
+        reviews: reviews,
+        isLastPage: reviews.length < _pageSize,
+      );
+    } catch (e) {
+      state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  Future<void> loadNextCoursePage(String courseId) async {
+    if (state.isLastPage || state.isLoadingNextPage) return;
+
+    state = state.copyWith(isLoadingNextPage: true);
+    final nextPage = state.currentPage + 1;
+
+    try {
+      GetCourseReviewsUseCase usecase = ref.read(getCourseReviewsUseCaseProvider);
+      final newReviews = await usecase.call(courseId, nextPage.toString(), _pageSize.toString());
+
+      state = state.copyWith(
+        reviews: [...state.reviews, ...newReviews],
+        currentPage: nextPage,
+        isLastPage: newReviews.length < _pageSize,
+        isLoadingNextPage: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoadingNextPage: false);
     }
   }
 
