@@ -11,6 +11,7 @@ class MyReviewResponse with _$MyReviewResponse {
     required String createdAt,
     required String updatedAt,
     required String placeTitle,
+    required int reviewID,
 
   }) = _MyReviewResponse;
 

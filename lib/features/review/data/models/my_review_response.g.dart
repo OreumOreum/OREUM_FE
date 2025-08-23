@@ -14,6 +14,7 @@ _$MyReviewResponseImpl _$$MyReviewResponseImplFromJson(
       createdAt: json['createdAt'] as String,
       updatedAt: json['updatedAt'] as String,
       placeTitle: json['placeTitle'] as String,
+      reviewID: (json['reviewID'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$MyReviewResponseImplToJson(
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$MyReviewResponseImplToJson(
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
       'placeTitle': instance.placeTitle,
+      'reviewID': instance.reviewID,
     };

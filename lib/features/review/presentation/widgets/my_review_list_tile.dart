@@ -20,7 +20,7 @@ class MyReviewListTile extends ConsumerStatefulWidget {
   final String date;
   final String content;
   final double rating;
-  final int? reviewId;
+  final int reviewId;
   final VoidCallback? onReviewDeleted;
 
   const MyReviewListTile({
@@ -29,7 +29,7 @@ class MyReviewListTile extends ConsumerStatefulWidget {
     required this.date,
     required this.content,
     required this.rating,
-    this.reviewId,
+    required this.reviewId,
     this.onReviewDeleted,
   });
 
@@ -48,7 +48,7 @@ class _MyReviewListTileState extends ConsumerState<MyReviewListTile> {
       builder: (context) => SizedBox(
         height: 128.h,
         child: DeleteReviewBottomSheet(
-          reviewId: widget.reviewId!,
+          reviewId: widget.reviewId,
           onDeleteConfirm: () {
             _deleteReview();
           },
@@ -62,7 +62,7 @@ class _MyReviewListTileState extends ConsumerState<MyReviewListTile> {
 
     await ref
         .read(reviewDetailViewModelProvider.notifier)
-        .deleteReview(widget.reviewId!);
+        .deleteReview(widget.reviewId);
   }
 
   @override

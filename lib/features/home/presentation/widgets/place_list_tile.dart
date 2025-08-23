@@ -64,7 +64,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
     final bool hasImage = widget.thumbnailImage.isNotEmpty;
 
     // 상태 변화 리스닝
-    ref.listen(placeDetailViewModelProvider, (previous, next) {
+    ref.listen(placeDetailViewModelProvider(widget.placeId.toString()), (previous, next) {
       print('상태 변화 감지: ${previous?.buttonStatus} -> ${next.buttonStatus}');
 
       if (_isWaitingForModal &&
@@ -198,10 +198,10 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                   if (_localIsSaved) {
                     // 삭제 로직 (기존과 동일)
                     await ref
-                        .read(placeDetailViewModelProvider.notifier)
+                        .read(placeDetailViewModelProvider(widget.placeId.toString()).notifier)
                         .deleteDefaultFolder(widget.placeId!);
 
-                    final state = ref.read(placeDetailViewModelProvider);
+                    final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
                     if (context.mounted &&
                         state.buttonStatus == UiStatus.success) {
                       setState(() {
@@ -221,7 +221,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                     _isWaitingForModal = true; // 모달 대기 상태 설정
 
                     await ref
-                        .read(placeDetailViewModelProvider.notifier)
+                        .read(placeDetailViewModelProvider(widget.placeId.toString()).notifier)
                         .addDefaultFolder(widget.placeId);
 
                     setState(() {

@@ -83,4 +83,36 @@ class ReviewDetailViewModel extends _$ReviewDetailViewModel {
       );
     }
   }
+
+  Future<void> loadNextPage(String placeId, String size) async {
+    if (state.paginationStatus == UiStatus.loading || state.isLastPage) return;
+
+    final int nextPage = state.currentPage + 1;
+    state = state.copyWith(paginationStatus: UiStatus.loading);
+
+    try {
+      GetPlaceReviewsUseCase getPlaceReviewsUseCase =
+      ref.read(getPlaceReviewsUseCaseProvider);
+      List<ReviewResponse> newReviews =
+      await getPlaceReviewsUseCase.call(placeId, nextPage.toString(), size);
+
+      // 기존 리뷰에 새 리뷰 추가
+      List<ReviewResponse> updatedReviews = [
+        ...state.reviews,
+        ...newReviews
+      ];
+
+      state = state.copyWith(
+        paginationStatus: UiStatus.success,
+        currentPage: nextPage,
+        reviews: updatedReviews,
+        isLastPage: newReviews.length < int.parse(size), // size보다 적으면 마지막 페이지
+      );
+    } catch (e) {
+      state = state.copyWith(
+        paginationStatus: UiStatus.error,
+        errorMessage: e.toString(),
+      );
+    }
+  }
 }

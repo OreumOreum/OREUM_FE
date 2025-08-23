@@ -24,6 +24,7 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/content_type_id.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/custom_toast.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../home/presentation/widgets/course_card.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
@@ -182,10 +183,13 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return ErrorRetryWidget(
+      return Scaffold(
+          appBar: CustomAppBar.back(),
+          body:ErrorRetryWidget(
         onPressed: () {
           ref.read(courseDetailViewModelProvider.notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
         },
+      ),
       );
     }
 
@@ -370,7 +374,15 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                 ],
                               ),
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  final hasMyReview = reviews.any((review) => review.isMyReview);
+                                  if (hasMyReview) {
+                                    // 이미 리뷰를 작성한 경우 토스트 메시지 표시
+                                    if (mounted) {
+                                      CustomToast.showToast(context, '이미 리뷰를 작성하셨습니다.', 56.h);
+                                    }
+                                    return;
+                                  }
                                   context.push('${RoutePath.createCourseReview}/${widget.courseId}',extra: {
                                     'name': state.courseDetail!.title,
                                     'originImage': state.courseDetail!.originImage

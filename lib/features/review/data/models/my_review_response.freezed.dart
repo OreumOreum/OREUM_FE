@@ -25,6 +25,7 @@ mixin _$MyReviewResponse {
   String get createdAt => throw _privateConstructorUsedError;
   String get updatedAt => throw _privateConstructorUsedError;
   String get placeTitle => throw _privateConstructorUsedError;
+  int get reviewID => throw _privateConstructorUsedError;
 
   /// Serializes this MyReviewResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +48,8 @@ abstract class $MyReviewResponseCopyWith<$Res> {
       String content,
       String createdAt,
       String updatedAt,
-      String placeTitle});
+      String placeTitle,
+      int reviewID});
 }
 
 /// @nodoc
@@ -70,6 +72,7 @@ class _$MyReviewResponseCopyWithImpl<$Res, $Val extends MyReviewResponse>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? placeTitle = null,
+    Object? reviewID = null,
   }) {
     return _then(_value.copyWith(
       rate: null == rate
@@ -92,6 +95,10 @@ class _$MyReviewResponseCopyWithImpl<$Res, $Val extends MyReviewResponse>
           ? _value.placeTitle
           : placeTitle // ignore: cast_nullable_to_non_nullable
               as String,
+      reviewID: null == reviewID
+          ? _value.reviewID
+          : reviewID // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$MyReviewResponseImplCopyWith<$Res>
       String content,
       String createdAt,
       String updatedAt,
-      String placeTitle});
+      String placeTitle,
+      int reviewID});
 }
 
 /// @nodoc
@@ -130,6 +138,7 @@ class __$$MyReviewResponseImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? placeTitle = null,
+    Object? reviewID = null,
   }) {
     return _then(_$MyReviewResponseImpl(
       rate: null == rate
@@ -152,6 +161,10 @@ class __$$MyReviewResponseImplCopyWithImpl<$Res>
           ? _value.placeTitle
           : placeTitle // ignore: cast_nullable_to_non_nullable
               as String,
+      reviewID: null == reviewID
+          ? _value.reviewID
+          : reviewID // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$MyReviewResponseImpl implements _MyReviewResponse {
       required this.content,
       required this.createdAt,
       required this.updatedAt,
-      required this.placeTitle});
+      required this.placeTitle,
+      required this.reviewID});
 
   factory _$MyReviewResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyReviewResponseImplFromJson(json);
@@ -179,10 +193,12 @@ class _$MyReviewResponseImpl implements _MyReviewResponse {
   final String updatedAt;
   @override
   final String placeTitle;
+  @override
+  final int reviewID;
 
   @override
   String toString() {
-    return 'MyReviewResponse(rate: $rate, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, placeTitle: $placeTitle)';
+    return 'MyReviewResponse(rate: $rate, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, placeTitle: $placeTitle, reviewID: $reviewID)';
   }
 
   @override
@@ -197,13 +213,15 @@ class _$MyReviewResponseImpl implements _MyReviewResponse {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.placeTitle, placeTitle) ||
-                other.placeTitle == placeTitle));
+                other.placeTitle == placeTitle) &&
+            (identical(other.reviewID, reviewID) ||
+                other.reviewID == reviewID));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, rate, content, createdAt, updatedAt, placeTitle);
+  int get hashCode => Object.hash(
+      runtimeType, rate, content, createdAt, updatedAt, placeTitle, reviewID);
 
   /// Create a copy of MyReviewResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -228,7 +246,8 @@ abstract class _MyReviewResponse implements MyReviewResponse {
       required final String content,
       required final String createdAt,
       required final String updatedAt,
-      required final String placeTitle}) = _$MyReviewResponseImpl;
+      required final String placeTitle,
+      required final int reviewID}) = _$MyReviewResponseImpl;
 
   factory _MyReviewResponse.fromJson(Map<String, dynamic> json) =
       _$MyReviewResponseImpl.fromJson;
@@ -243,6 +262,8 @@ abstract class _MyReviewResponse implements MyReviewResponse {
   String get updatedAt;
   @override
   String get placeTitle;
+  @override
+  int get reviewID;
 
   /// Create a copy of MyReviewResponse
   /// with the given fields replaced by the non-null parameter values.

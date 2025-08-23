@@ -28,11 +28,13 @@ class PlaceDetailAddBottomSheet extends ConsumerStatefulWidget {
   final String title;
   final int id;
 
+
   PlaceDetailAddBottomSheet({
     super.key,
     required this.originImage,
     required this.title,
     required this.id,
+
   });
 
   @override
@@ -122,14 +124,12 @@ class _PlaceDetailAddBottomSheetState
                                         return Container(
                                           height: 64.r,
                                           width: 64.r,
-                                          decoration: BoxDecoration(
-                                            color: AppColors.gray100,
-                                            borderRadius: BorderRadius.circular(
-                                                AppSizes.radiusXS),
-                                          ),
-                                          child: Image.asset(
-                                            ImagePath.imageError,
-                                            width: 74.w,
+                                          color: AppColors.gray100,
+                                          child: Center(
+                                            child: Image.asset(
+                                              ImagePath.imageError,
+                                              width: 32.r,
+                                            ),
                                           ),
                                         );
                                       },
@@ -161,13 +161,16 @@ class _PlaceDetailAddBottomSheetState
                                   constraints: const BoxConstraints(),
                                   onPressed: () async {
                                     await ref
-                                        .read(placeDetailViewModelProvider.notifier)
+                                        .read(placeDetailViewModelProvider(
+                                        widget.id.toString()).notifier)
                                         .deleteDefaultFolder(widget.id);
 
                                     if (mounted) {
-                                      _isBookmarkDeleted = true; // 🔥 북마크 삭제 플래그 설정
+                                      _isBookmarkDeleted =
+                                      true; // 🔥 북마크 삭제 플래그 설정
                                       Navigator.of(context).pop(false);
-                                      CustomToast.showToast(context, '모든 폴더에서 삭제되었습니다.', 56.h);
+                                      CustomToast.showToast(
+                                          context, '모든 폴더에서 삭제되었습니다.', 56.h);
                                     }
                                   },
                                   icon: SvgPicture.asset(
@@ -309,26 +312,52 @@ class _PlaceDetailAddBottomSheetState
         padding: EdgeInsets.zero,
         itemCount: state.folders.length,
         itemBuilder: (context, index) {
+          final folder = folders[index];
+
           return Padding(
             padding: EdgeInsets.only(
                 bottom: index == state.folders.length - 1 ? 30.h : 20.h),
             child: GestureDetector(
               onTap: () async {
-                if (folders[index].isSaved) {
+                if (folder.isSaved) {
+                  // 폴더에서 제거
                   await ref
                       .read(placeDetailAddViewModelProvider.notifier)
-                      .deletePlaceFromFolder(
-                      widget.id, folders[index].folderId);
-                  _hasChanges = true; // 🔥 변경사항 표시
-                } else {
-                  // 🔥 폴더에 저장만 하고 바텀시트는 닫지 않음
-                  print('🔥 바텀시트: 폴더에 저장 시작');
-                  await ref
-                      .read(placeDetailAddViewModelProvider.notifier)
-                      .addPlaceToFolder(widget.id, folders[index].folderId);
-                  _hasChanges = true; // 🔥 변경사항 표시
+                      .deletePlaceFromFolder(widget.id, folder.folderId);
 
-                  // 바텀시트는 자동으로 닫지 않음 - 사용자가 수동으로 닫아야 함
+                  // 🔥 "모든 저장됨" 기본 폴더인 경우 추가 처리
+                  if (folder.folderName == '모든 저장됨') {
+                    // 기본 폴더에서 제거되면 북마크도 함께 해제
+                    await ref
+                        .read(placeDetailViewModelProvider(widget.id.toString())
+                        .notifier)
+                        .deleteDefaultFolder(widget.id);
+
+                    if (mounted) {
+                      _isBookmarkDeleted = true; // 북마크 삭제 플래그 설정
+                      Navigator.of(context).pop(false);
+                      CustomToast.showToast(context, '모든 폴더에서 삭제되었습니다.', 56.h);
+                      return; // 바텀시트 닫으므로 여기서 종료
+                    }
+                  }
+
+                  _hasChanges = true; // 변경사항 표시
+                } else {
+                  // 폴더에 추가
+                  await ref
+                      .read(placeDetailAddViewModelProvider.notifier)
+                      .addPlaceToFolder(widget.id, folder.folderId);
+
+                  // 🔥 "모든 저장됨" 기본 폴더인 경우 추가 처리
+                  if (folder.folderName == '모든 저장됨') {
+                    // 기본 폴더에 추가되면 북마크도 함께 활성화
+                    await ref
+                        .read(placeDetailViewModelProvider(widget.id.toString())
+                        .notifier)
+                        .addDefaultFolder(widget.id);
+                  }
+
+                  _hasChanges = true; // 변경사항 표시
                 }
               },
               child: Row(
@@ -336,7 +365,7 @@ class _PlaceDetailAddBottomSheetState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(state.folders[index].folderName,
+                    child: Text(folder.folderName,
                         style: context.textStyles.label4
                             .copyWith(color: AppColors.gray400),
                         maxLines: 1,
@@ -347,8 +376,7 @@ class _PlaceDetailAddBottomSheetState
                     height: 24.h,
                     child: Center(
                       child: SvgPicture.asset(
-                        // 실제 선택 상태에 따른 아이콘 변경
-                        folders[index].isSaved
+                        folder.isSaved
                             ? IconPath.saveCheck
                             : IconPath.savePlus,
                         width: 12.w,

@@ -90,10 +90,13 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return ErrorRetryWidget(
-        onPressed: () {
-          ref.read(myReviewViewModelProvider.notifier).initializeMyReview();
-        },
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: ErrorRetryWidget(
+          onPressed: () {
+            ref.read(myReviewViewModelProvider.notifier).initializeMyReview();
+          },
+        ),
       );
     }
 
@@ -133,13 +136,13 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
                 String content =
                 myReviews[index].content.toString();
                 double rating = myReviews[index].rate;
-                //int reviewId = myReviews[index].reviewId;
+                int reviewId = myReviews[index].reviewID;
                 return MyReviewListTile(
                     type: type,
                     date: date,
                     content: content,
                     rating: rating,
-                  //reviewId: reviewId,
+                  reviewId: reviewId,
                   onReviewDeleted: () {
                     ref.read(myReviewViewModelProvider.notifier)
                         .initializeMyReview();

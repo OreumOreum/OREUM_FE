@@ -667,7 +667,7 @@ class _DetailContainerState extends State<DetailContainer> {
           _mapController = controller;
           final position = LatLng(widget.latitude!, widget.longitude!);
           await controller.animateCamera(
-            CameraUpdate.newLatLngZoom(position, 16.0),
+            CameraUpdate.newLatLngZoom(position, 14.0),
           );
         },
         initialCameraPosition: CameraPosition(

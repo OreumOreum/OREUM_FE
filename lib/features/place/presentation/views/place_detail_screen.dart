@@ -38,10 +38,11 @@ class PlaceDetailScreen extends ConsumerStatefulWidget {
   final String contentTypeId;
 
   PlaceDetailScreen({
+    Key? key, // 🔥 추가
     required this.placeId,
     required this.contentId,
     required this.contentTypeId,
-  }) : super(key: ValueKey('place_detail_${placeId}'));
+  }) : super(key: key ?? ValueKey('place_${placeId}_${contentId}_${contentTypeId}')); // 🔥 수정
 
   @override
   ConsumerState<PlaceDetailScreen> createState() => _PlaceDetailScreenState();
@@ -87,43 +88,49 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
   @override
   void initState() {
     super.initState();
-    print('=== initState 호출됨: ${widget.placeId} ===');
-    Future.microtask(() {
-      ref
-          .read(placeDetailViewModelProvider.notifier)
-          .initializePlaceDetail(widget.placeId, widget.contentId, widget.contentTypeId);
-    });
+    print('=== initState 시작: ${widget.placeId} ===');
+    _loadPlaceDetail();
   }
 
   @override
   void didUpdateWidget(PlaceDetailScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    print('=== didUpdateWidget 호출됨!!! ===');
-    print('현재 위젯: ${widget.placeId}');
-    print('이전 위젯: ${oldWidget.placeId}');
-    print('위젯이 같은가? ${widget.placeId == oldWidget.placeId}');
+    print('=== didUpdateWidget 호출됨! ===');
+    print('=== 이전: ${oldWidget.placeId}, 현재: ${widget.placeId} ===');
 
-    // placeId가 변경되었을 때 새로운 데이터 로드
+    // placeId가 변경되었을 때만 새로 로드
     if (oldWidget.placeId != widget.placeId ||
         oldWidget.contentId != widget.contentId ||
         oldWidget.contentTypeId != widget.contentTypeId) {
-
-      print('=== 새로운 장소 데이터 로딩 시작 ===');
-      ref
-          .read(placeDetailViewModelProvider.notifier)
-          .initializePlaceDetail(widget.placeId, widget.contentId, widget.contentTypeId);
-    } else {
-      print('=== 매개변수가 동일하여 데이터 로딩 안함 ===');
+      print('=== didUpdateWidget: ${oldWidget.placeId} -> ${widget.placeId} ===');
+      _loadPlaceDetail();
     }
   }
 
+  void _loadPlaceDetail() {
+    print('=== _loadPlaceDetail 호출: ${widget.placeId} ===');
+    Future.microtask(() {
+      // 🔥 placeId를 파라미터로 전달하여 해당 placeId의 provider 사용
+      ref
+          .read(placeDetailViewModelProvider(widget.placeId).notifier)
+          .initializePlaceDetail(widget.placeId, widget.contentId, widget.contentTypeId);
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(placeDetailViewModelProvider);
+    print('=== build 호출됨: widget.placeId = ${widget.placeId} ===');
 
-    // 🔥 상태 변화 리스닝 (바텀시트 처리용)
-    ref.listen(placeDetailViewModelProvider, (previous, next) {
+    // 🔥 placeId별로 다른 provider 인스턴스 사용
+    final state = ref.watch(placeDetailViewModelProvider(widget.placeId));
+
+    print('=== Provider 로딩상태: ${state.status} ===');
+
+    // 🔥 상태 변화 리스닝도 placeId별로
+    ref.listen(placeDetailViewModelProvider(widget.placeId), (previous, next) {
       print('PlaceDetailScreen 상태 변화 감지: ${previous?.buttonStatus} -> ${next.buttonStatus}');
 
       if (_isWaitingForModal &&
@@ -132,7 +139,6 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
         print('바텀시트 띄우기');
         _isWaitingForModal = false;
 
-        // 🔥 캐시된 place 또는 현재 place 사용
         final place = next.place ?? _cachedPlace;
         if (place != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -149,7 +155,6 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
               ).then((result) {
                 if (result == true) {
                   print('바텀시트에서 저장 완료 - UI 자동 업데이트됨');
-                  // 추가 새로고침 불필요 (상태가 이미 업데이트됨)
                 }
               });
             }
@@ -182,14 +187,18 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
     // 에러 상태
     if (state.status == UiStatus.error) {
-      return ErrorRetryWidget(
-        onPressed: () {
-          ref.read(placeDetailViewModelProvider.notifier).initializePlaceDetail(widget.placeId,
-              widget.contentId,
-              widget.contentTypeId);
-        },
+      return Scaffold(
+        appBar:CustomAppBar.back(),
+        body: ErrorRetryWidget(
+          onPressed: () {
+            ref.read(placeDetailViewModelProvider(widget.placeId).notifier).initializePlaceDetail(widget.placeId,
+                widget.contentId,
+                widget.contentTypeId);
+          },
+        ),
       );
     }
+
 
     if (state.place != null) {
       _cachedPlace = state.place;
@@ -214,7 +223,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
               TextButton(
                 onPressed: () {
                   // 다시 시도 로직
-                  ref.read(placeDetailViewModelProvider.notifier)
+                  ref.read(placeDetailViewModelProvider(widget.placeId).notifier)
                       .initializePlaceDetail(
                       widget.placeId,
                       widget.contentId,
@@ -294,12 +303,12 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 if (place.isSaved) {
                                   // 삭제 로직
                                   await ref
-                                      .read(placeDetailViewModelProvider.notifier)
+                                      .read(placeDetailViewModelProvider(widget.placeId).notifier)
                                       .deleteDefaultFolder(placeIdInt);
 
-                                  if (mounted && ref.read(placeDetailViewModelProvider).buttonStatus == UiStatus.success) {
+                                  if (mounted && ref.read(placeDetailViewModelProvider(widget.placeId)).buttonStatus == UiStatus.success) {
                                     CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
-                                  } else if (mounted && ref.read(placeDetailViewModelProvider).buttonStatus == UiStatus.error) {
+                                  } else if (mounted && ref.read(placeDetailViewModelProvider(widget.placeId)).buttonStatus == UiStatus.error) {
                                     CustomToast.showToast(context, '삭제를 실패하였습니다.', 56.h);
                                   }
                                 } else {
@@ -308,7 +317,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                   _isWaitingForModal = true; // 모달 대기 상태 설정
 
                                   await ref
-                                      .read(placeDetailViewModelProvider.notifier)
+                                      .read(placeDetailViewModelProvider(widget.placeId).notifier)
                                       .addDefaultFolder(placeIdInt);
                                 }
                               },
@@ -410,6 +419,14 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                           ),
                           TextButton(
                             onPressed: () async {
+                              final hasMyReview = reviews.any((review) => review.isMyReview);
+                              if (hasMyReview) {
+                                // 이미 리뷰를 작성한 경우 토스트 메시지 표시
+                                if (mounted) {
+                                  CustomToast.showToast(context, '이미 리뷰를 작성하셨습니다.', 56.h);
+                                }
+                                return;
+                              }
                               // 🔥 안전한 place 접근
                               final currentPlace = state.place ?? _cachedPlace;
                               if (currentPlace != null) {
@@ -421,7 +438,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
                                 if (mounted) {
                                   await ref
-                                      .read(placeDetailViewModelProvider.notifier)
+                                      .read(placeDetailViewModelProvider(widget.placeId).notifier)
                                       .refreshPlaceDetailBackground(widget.placeId);
                                 }
                               }
@@ -461,7 +478,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                         isMyReview: isMyReview,
                         reviewId: reviewId,
                         onReviewDeleted: () {
-                          ref.read(placeDetailViewModelProvider.notifier)
+                          ref.read(placeDetailViewModelProvider(widget.placeId).notifier)
                               .refreshPlaceDetailBackground(widget.placeId);
                         },
                       );
@@ -530,7 +547,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               print('=== 네비게이션 시작: $placeId ==='); // 🔥 이 로그 추가
                               context.push('${RoutePath.placeDetail}/${placeId}',
                                   extra: {'contentId': contentId,
-                                    'contentTypeId': contentTypeId});
+                                    'contentTypeId': contentTypeId,
+                                    'key': 'place_${placeId}_${contentId}_${contentTypeId}'});
                             },
                             child: PlaceListTile(
                               thumbnailImage: typePlace.thumbnailImage ?? '',
@@ -542,7 +560,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               onBookmarkChanged: (int changedPlaceId, bool newIsSaved) {
                                 print('PlaceDetailScreen에서 북마크 상태 변경 감지: $changedPlaceId -> $newIsSaved');
                                 // typePlaces 새로고침을 위해 전체 상태 새로고침
-                                ref.read(placeDetailViewModelProvider.notifier)
+                                ref.read(placeDetailViewModelProvider(widget.placeId).notifier)
                                     .refreshPlaceDetailBackground(widget.placeId);
                               },
                             ),
