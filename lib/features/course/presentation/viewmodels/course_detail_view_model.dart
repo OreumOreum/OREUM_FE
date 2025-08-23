@@ -34,10 +34,12 @@ class CourseDetailViewModel extends _$CourseDetailViewModel {
       final GetCourseDetailUseCase getCourseDetailUseCase = ref.read(getCourseDetailUseCaseProvider);
       final GetTourApiUseCase getTourApiUseCase = ref.read(getTourApiUseCaseProvider);
       final GetCourseReviewsUseCase getCourseReviewsUseCase = ref.read(getCourseReviewsUseCaseProvider);
+      final GetCourseListUseCase getCourseListUseCase = ref.read(getCourseListUseCaseProvider);
+      List<CourseResponse> courses = await getCourseListUseCase.call();
       List<ReviewResponse> reviews = await getCourseReviewsUseCase.call(courseId, '0', '4');
       TourResponse tour = await getTourApiUseCase.call(contentId, contentTypeId);
       CourseDetailResponse course = await getCourseDetailUseCase.call(courseId, contentId, contentTypeId);
-      state = state.copyWith(status: UiStatus.success, courseDetail: course, tour: tour, reviews: reviews);
+      state = state.copyWith(status: UiStatus.success, courseDetail: course, tour: tour, reviews: reviews,courses: courses);
     }
     catch(e){
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());

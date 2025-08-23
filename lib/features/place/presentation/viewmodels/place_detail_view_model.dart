@@ -32,7 +32,7 @@ part 'place_detail_view_model.g.dart';
 @riverpod
 class PlaceDetailViewModel extends _$PlaceDetailViewModel {
   @override
-  PlaceDetailState build() {
+  PlaceDetailState build(String placeId) { // 🔥 placeId 파라미터 추가
     return PlaceDetailState();
   }
 

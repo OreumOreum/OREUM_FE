@@ -22,7 +22,7 @@ class CreateReviewViewModel extends _$CreateReviewViewModel {
     state = state.copyWith(status: UiStatus.loading);
     try {
       CreatePlaceReviewUseCase createPlaceReviewUseCase = ref.read(createPlaceReviewUseCaseProvider);
-      PlaceDetailViewModel placeDetailViewModel = ref.read(placeDetailViewModelProvider.notifier);
+      PlaceDetailViewModel placeDetailViewModel = ref.read(placeDetailViewModelProvider(placeId.toString()).notifier);
       ReviewDetailViewModel reviewDetailViewModel = ref.read(reviewDetailViewModelProvider.notifier);
       await createPlaceReviewUseCase.call(placeId, rate, content);
       await placeDetailViewModel.refreshPlaceDetailBackground(placeId.toString());

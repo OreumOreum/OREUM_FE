@@ -37,5 +37,4 @@ class MyReviewViewModel extends _$MyReviewViewModel {
   }
 
 
-
 }

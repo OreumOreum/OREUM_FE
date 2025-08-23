@@ -141,5 +141,25 @@ final createCourseReviewUseCaseProvider =
 // ignore: unused_element
 typedef CreateCourseReviewUseCaseRef
     = AutoDisposeProviderRef<CreateCourseReviewUseCase>;
+String _$deleteMyReviewUseCaseHash() =>
+    r'917f6639f8578a863e46df201fa0f09103bb12a4';
+
+/// See also [deleteMyReviewUseCase].
+@ProviderFor(deleteMyReviewUseCase)
+final deleteMyReviewUseCaseProvider =
+    AutoDisposeProvider<DeleteMyReviewUseCase>.internal(
+  deleteMyReviewUseCase,
+  name: r'deleteMyReviewUseCaseProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$deleteMyReviewUseCaseHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef DeleteMyReviewUseCaseRef
+    = AutoDisposeProviderRef<DeleteMyReviewUseCase>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

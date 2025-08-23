@@ -18,5 +18,6 @@ class PlaceDetailState with _$PlaceDetailState{
     @Default([]) List<ReviewResponse> reviews,
     TourResponse? tour,
     @Default([]) List<Place> typePlaces,
+    final String? currentPlaceId
   }) = _PlaceDetailState;
 }

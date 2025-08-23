@@ -23,6 +23,7 @@ mixin _$PlaceDetailState {
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
   TourResponse? get tour => throw _privateConstructorUsedError;
   List<Place> get typePlaces => throw _privateConstructorUsedError;
+  String? get currentPlaceId => throw _privateConstructorUsedError;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -44,7 +45,8 @@ abstract class $PlaceDetailStateCopyWith<$Res> {
       PlaceResponse? place,
       List<ReviewResponse> reviews,
       TourResponse? tour,
-      List<Place> typePlaces});
+      List<Place> typePlaces,
+      String? currentPlaceId});
 
   $PlaceResponseCopyWith<$Res>? get place;
   $TourResponseCopyWith<$Res>? get tour;
@@ -72,6 +74,7 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
     Object? reviews = null,
     Object? tour = freezed,
     Object? typePlaces = null,
+    Object? currentPlaceId = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -102,6 +105,10 @@ class _$PlaceDetailStateCopyWithImpl<$Res, $Val extends PlaceDetailState>
           ? _value.typePlaces
           : typePlaces // ignore: cast_nullable_to_non_nullable
               as List<Place>,
+      currentPlaceId: freezed == currentPlaceId
+          ? _value.currentPlaceId
+          : currentPlaceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -149,7 +156,8 @@ abstract class _$$PlaceDetailStateImplCopyWith<$Res>
       PlaceResponse? place,
       List<ReviewResponse> reviews,
       TourResponse? tour,
-      List<Place> typePlaces});
+      List<Place> typePlaces,
+      String? currentPlaceId});
 
   @override
   $PlaceResponseCopyWith<$Res>? get place;
@@ -177,6 +185,7 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
     Object? reviews = null,
     Object? tour = freezed,
     Object? typePlaces = null,
+    Object? currentPlaceId = freezed,
   }) {
     return _then(_$PlaceDetailStateImpl(
       status: null == status
@@ -207,6 +216,10 @@ class __$$PlaceDetailStateImplCopyWithImpl<$Res>
           ? _value._typePlaces
           : typePlaces // ignore: cast_nullable_to_non_nullable
               as List<Place>,
+      currentPlaceId: freezed == currentPlaceId
+          ? _value.currentPlaceId
+          : currentPlaceId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -221,7 +234,8 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
       this.place,
       final List<ReviewResponse> reviews = const [],
       this.tour,
-      final List<Place> typePlaces = const []})
+      final List<Place> typePlaces = const [],
+      this.currentPlaceId})
       : _reviews = reviews,
         _typePlaces = typePlaces;
 
@@ -257,8 +271,11 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
   }
 
   @override
+  final String? currentPlaceId;
+
+  @override
   String toString() {
-    return 'PlaceDetailState(status: $status, buttonStatus: $buttonStatus, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour, typePlaces: $typePlaces)';
+    return 'PlaceDetailState(status: $status, buttonStatus: $buttonStatus, errorMessage: $errorMessage, place: $place, reviews: $reviews, tour: $tour, typePlaces: $typePlaces, currentPlaceId: $currentPlaceId)';
   }
 
   @override
@@ -275,7 +292,9 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
             const DeepCollectionEquality().equals(other._reviews, _reviews) &&
             (identical(other.tour, tour) || other.tour == tour) &&
             const DeepCollectionEquality()
-                .equals(other._typePlaces, _typePlaces));
+                .equals(other._typePlaces, _typePlaces) &&
+            (identical(other.currentPlaceId, currentPlaceId) ||
+                other.currentPlaceId == currentPlaceId));
   }
 
   @override
@@ -287,7 +306,8 @@ class _$PlaceDetailStateImpl implements _PlaceDetailState {
       place,
       const DeepCollectionEquality().hash(_reviews),
       tour,
-      const DeepCollectionEquality().hash(_typePlaces));
+      const DeepCollectionEquality().hash(_typePlaces),
+      currentPlaceId);
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -307,7 +327,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
       final PlaceResponse? place,
       final List<ReviewResponse> reviews,
       final TourResponse? tour,
-      final List<Place> typePlaces}) = _$PlaceDetailStateImpl;
+      final List<Place> typePlaces,
+      final String? currentPlaceId}) = _$PlaceDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -323,6 +344,8 @@ abstract class _PlaceDetailState implements PlaceDetailState {
   TourResponse? get tour;
   @override
   List<Place> get typePlaces;
+  @override
+  String? get currentPlaceId;
 
   /// Create a copy of PlaceDetailState
   /// with the given fields replaced by the non-null parameter values.

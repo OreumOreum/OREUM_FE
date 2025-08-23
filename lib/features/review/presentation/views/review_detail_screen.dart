@@ -33,6 +33,9 @@ import 'package:oreum_fe/features/review/presentation/widgets/review_list_tile.d
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/utils/custom_cache_manager.dart';
+import '../../../../core/utils/debouncer.dart';
+import '../../../../core/utils/throttler.dart';
+import '../../../../core/widgets/error_widget.dart';
 
 class ReviewDetailScreen extends ConsumerStatefulWidget {
   final String id;
@@ -174,11 +177,33 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
     final state = ref.watch(reviewDetailViewModelProvider);
 
     if (state.status == UiStatus.loading) {
-      return Scaffold(appBar: CustomAppBar.back(), body: const Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: const Center(
+          child: CircularProgressIndicator(), //로티
+        ),
+      );
     }
+
     if (state.status == UiStatus.error) {
-      return Scaffold(appBar: CustomAppBar.back(), body: Center(child: Text('error: ${state.errorMessage}')));
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: ErrorRetryWidget(
+          onPressed: () {
+            if (widget.type == ReviewType.place) {
+              ref.read(reviewDetailViewModelProvider.notifier)
+                  .getInitialPlaceReviews(widget.id);
+            } else if (widget.type == ReviewType.course) {
+              ref.read(reviewDetailViewModelProvider.notifier)
+                  .getInitialCourseReviews(widget.id);
+            }
+          },
+
+        ),
+      );
     }
+
+    List<ReviewResponse> reviews = state.reviews;
 
     return Scaffold(
       appBar: CustomAppBar.back(),
@@ -305,6 +330,7 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
                 date: review.createdAt.toString().split(' ')[0],
                 content: review.content,
                 rating: review.rate,
+                isMyReview: review.isMyReview,
               );
             },
           ),

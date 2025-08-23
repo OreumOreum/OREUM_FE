@@ -7,7 +7,7 @@ part of 'course_detail_view_model.dart';
 // **************************************************************************
 
 String _$courseDetailViewModelHash() =>
-    r'3f38d8ba14c443b764151d060e40797e9d4fa652';
+    r'ad9a8981aab6ddc5a87b8a241eb360251e4cd1b7';
 
 /// See also [CourseDetailViewModel].
 @ProviderFor(CourseDetailViewModel)

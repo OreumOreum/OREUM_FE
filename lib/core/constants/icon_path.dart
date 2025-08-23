@@ -97,4 +97,5 @@ abstract class IconPath {
   static const String checkBoxOff = 'assets/icons/checkbox_off.svg';
 
   static const String arrowLink = 'assets/icons/arrow_link.svg';
+  static const String report = 'assets/icons/report.svg';
 }

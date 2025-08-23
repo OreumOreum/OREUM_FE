@@ -1,3 +1,5 @@
+import 'package:oreum_fe/core/constants/travel_type.dart';
+
 abstract class AppStrings {
   static const String splashText = '당신의 여행 스타일에 딱 맞는 제주';
   static const String bannerTitle = '지금 오름오름과\n제주여행을 시작하세요!';
@@ -56,7 +58,12 @@ abstract class AppStrings {
   static String ratingNumber(int number) => '$number개 리뷰';
   static const String travelerReview = '여행자 리뷰';
   static const String doReview = '리뷰 작성하기';
-  static String reviewName(String type) => '익명의 $type';
+  static String reviewName(String type) {
+      final travelType = TravelType.values.firstWhere(
+            (e) => e.name == type,
+      );
+      return '익명의 ${travelType.type}';
+  }
   static String reviewDate(String date) => '$date 작성';
   static const String recentSearch = '최근 검색';
   static const String deleteAll = '전체삭제';
@@ -107,6 +114,7 @@ abstract class AppStrings {
   static const String editPlannerButtonText = '일정 수정하기';
 
   static const String deleteReview = '리뷰 삭제';
+  static const String reportReview = '신고';
   static const String isSaved = '저장됨';
   static const String folder = '폴더';
   static const String allSave = '모든 저장';
