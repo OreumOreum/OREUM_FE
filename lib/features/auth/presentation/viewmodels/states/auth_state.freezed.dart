@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AuthState {
   AuthStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
+  bool get isExist => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +33,8 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({AuthStatus status, String errorMessage});
+  $Res call(
+      {AuthStatus status, String errorMessage, bool isExist, String token});
 }
 
 /// @nodoc
@@ -51,6 +54,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   $Res call({
     Object? status = null,
     Object? errorMessage = null,
+    Object? isExist = null,
+    Object? token = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -60,6 +65,14 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
+      isExist: null == isExist
+          ? _value.isExist
+          : isExist // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -73,7 +86,8 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthStatus status, String errorMessage});
+  $Res call(
+      {AuthStatus status, String errorMessage, bool isExist, String token});
 }
 
 /// @nodoc
@@ -91,6 +105,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? errorMessage = null,
+    Object? isExist = null,
+    Object? token = null,
   }) {
     return _then(_$AuthStateImpl(
       status: null == status
@@ -101,6 +117,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
               as String,
+      isExist: null == isExist
+          ? _value.isExist
+          : isExist // ignore: cast_nullable_to_non_nullable
+              as bool,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -109,7 +133,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 
 class _$AuthStateImpl implements _AuthState {
   const _$AuthStateImpl(
-      {this.status = AuthStatus.idle, this.errorMessage = ''});
+      {this.status = AuthStatus.idle,
+      this.errorMessage = '',
+      this.isExist = false,
+      this.token = ''});
 
   @override
   @JsonKey()
@@ -117,10 +144,16 @@ class _$AuthStateImpl implements _AuthState {
   @override
   @JsonKey()
   final String errorMessage;
+  @override
+  @JsonKey()
+  final bool isExist;
+  @override
+  @JsonKey()
+  final String token;
 
   @override
   String toString() {
-    return 'AuthState(status: $status, errorMessage: $errorMessage)';
+    return 'AuthState(status: $status, errorMessage: $errorMessage, isExist: $isExist, token: $token)';
   }
 
   @override
@@ -130,11 +163,14 @@ class _$AuthStateImpl implements _AuthState {
             other is _$AuthStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+                other.errorMessage == errorMessage) &&
+            (identical(other.isExist, isExist) || other.isExist == isExist) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, errorMessage);
+  int get hashCode =>
+      Object.hash(runtimeType, status, errorMessage, isExist, token);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -147,12 +183,19 @@ class _$AuthStateImpl implements _AuthState {
 
 abstract class _AuthState implements AuthState {
   const factory _AuthState(
-      {final AuthStatus status, final String errorMessage}) = _$AuthStateImpl;
+      {final AuthStatus status,
+      final String errorMessage,
+      final bool isExist,
+      final String token}) = _$AuthStateImpl;
 
   @override
   AuthStatus get status;
   @override
   String get errorMessage;
+  @override
+  bool get isExist;
+  @override
+  String get token;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

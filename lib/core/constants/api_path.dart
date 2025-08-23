@@ -55,4 +55,6 @@ abstract class ApiPath {
   static String deleteReview(int reviewId) => '/v1/place/$reviewId';
 
   static const String categoryRecommend = '/v1/place/category/recommend';
+
+  static const String existMember = '/v1/auth/member/exist';
 }
