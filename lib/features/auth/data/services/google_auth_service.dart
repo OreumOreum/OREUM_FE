@@ -1,5 +1,6 @@
-import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert';
+
+import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleAuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -16,7 +17,7 @@ class GoogleAuthService {
     print(idToken);
     final payload = parseJwt(idToken!);
     print(payload); /// 구글 고유 ID (계정마다 고정)
-    return idToken!;
+    return idToken;
   }
 
   Map<String, dynamic> parseJwt(String token) {

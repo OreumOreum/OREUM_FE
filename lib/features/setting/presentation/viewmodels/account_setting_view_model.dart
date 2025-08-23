@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/features/setting/di/setting_providers.dart';

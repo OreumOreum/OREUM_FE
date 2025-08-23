@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oreum_fe/core/di/token_providers.dart';
-import 'package:oreum_fe/core/di/user_type_notifier.dart';
-import 'package:oreum_fe/core/utils/token_saver.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_notifier.g.dart';

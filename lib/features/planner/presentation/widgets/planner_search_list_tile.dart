@@ -17,6 +17,7 @@ class PlannerSearchListTile extends ConsumerWidget {
   final String title;
   final String? address;
   final String? thumbnailImage;
+  final String contentTypeId;
 
   const PlannerSearchListTile(
       {super.key,
@@ -24,6 +25,7 @@ class PlannerSearchListTile extends ConsumerWidget {
       required this.placeId,
       required this.title,
       required this.address,
+      required this.contentTypeId,
       this.thumbnailImage});
 
   @override
@@ -102,7 +104,7 @@ class PlannerSearchListTile extends ConsumerWidget {
                 print('클릭');
                 ref
                     .read(plannerEditViewModelProvider.notifier)
-                    .addPlace(day, placeId, title, address);
+                    .addPlace(day, placeId, title, address, contentTypeId);
                 context.pop();
               },
               textStyle: context.textStyles.label4,

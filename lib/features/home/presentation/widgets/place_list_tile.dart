@@ -128,18 +128,6 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                   height: 64.r,
                   width: 64.r,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    height: 64.r,
-                    width: 64.r,
-                    color: AppColors.gray100,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.gray300),
-                      ),
-                    ),
-                  ),
                   errorWidget: (context, url, error) => Container(
                     height: 64.r,
                     width: 64.r,
@@ -209,7 +197,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                     // 삭제 로직 (기존과 동일)
                     await ref
                         .read(placeDetailViewModelProvider(widget.placeId.toString()).notifier)
-                        .deleteDefaultFolder(widget.placeId!);
+                        .deleteDefaultFolder(widget.placeId);
 
                     final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
                     if (context.mounted &&
@@ -217,7 +205,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                       setState(() {
                         _localIsSaved = false;
                       });
-                      widget.onBookmarkChanged?.call(widget.placeId!, false);
+                      widget.onBookmarkChanged?.call(widget.placeId, false);
                       CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
                     } else if (context.mounted &&
                         state.buttonStatus == UiStatus.error) {
@@ -237,7 +225,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                     setState(() {
                       _localIsSaved = true;
                     });
-                    widget.onBookmarkChanged?.call(widget.placeId!, true);
+                    widget.onBookmarkChanged?.call(widget.placeId, true);
                   }
                 },
                 icon: SvgPicture.asset(

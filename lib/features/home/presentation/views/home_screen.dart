@@ -1,14 +1,13 @@
 import 'dart:core';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -16,19 +15,15 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
-import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/core/widgets/search_bar_button.dart';
-import 'package:oreum_fe/features/home/data/services/weather_service.dart';
 import 'package:oreum_fe/features/course/data/models/course_response.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info_extension.dart';
-import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
@@ -37,20 +32,17 @@ import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart
 import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 
 import '../../../../core/constants/content_type_id.dart';
+import '../../../../core/constants/image_path.dart';
 import '../../../../core/constants/recommendation_titles.dart';
+import '../../../../core/constants/route_path.dart';
+import '../../../../core/di/my_type_provider.dart';
 import '../../data/models/category_recommend_response.dart';
 import '../../data/models/place_response.dart';
-import '../viewmodels/states/home_state.dart';
-import '../../../../core/constants/image_path.dart';
-import '../../../../core/constants/route_path.dart';
-import '../../../../core/constants/ui_status.dart';
-import '../../../../core/di/my_type_provider.dart';
-import '../viewmodels/home_view_model.dart';
 import '../viewmodels/states/recommend_state.dart';
 import '../widgets/page_gradient_carousel.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
@@ -545,7 +537,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           category: category,
                           thumbnailImage: thumbnailImage,
                           onPressed: () {
-                            context.push('${RoutePath.placeDetail}/${placeId}',
+                            context.push('${RoutePath.placeDetail}/$placeId',
                                 extra: {
                                   'contentId': contentId,
                                   'contentTypeId': contentTypeId
@@ -635,7 +627,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               thumbnailImage: thumbnailImage,
                               onPressed: () {
                                 context.push(
-                                    '${RoutePath.courseDetail}/${courseId}',
+                                    '${RoutePath.courseDetail}/$courseId',
                                     extra: {
                                       'contentId': contentId,
                                       'contentTypeId': contentTypeId
@@ -690,7 +682,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                       return InkWell(
                         onTap: () {
-                          context.push('${RoutePath.placeDetail}/${placeId}',
+                          context.push('${RoutePath.placeDetail}/$placeId',
                               extra: {
                                 'contentId': contentId,
                                 'contentTypeId': contentTypeId
@@ -711,28 +703,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     thickness: 1.h,
                     color: AppColors.gray100,
                   ),
+                  SizedBox(height: 18.h),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.push(
+                          RoutePath.recommend,
+                          extra: {'contentTypeId': 0,'type': true, 'initialFilter':RegionFilter.all},
+                        );
+                      },
+                      child: Text(
+                        AppStrings.viewAll,
+                        style: context.textStyles.body1
+                            .copyWith(color: AppColors.gray200),
+                      ),
+                    ),
+                  ),
                 ],
               ),
 
-            ),
-
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  context.push(
-                    RoutePath.recommend,
-                    extra: {'contentTypeId': 0,'type': true, 'initialFilter':RegionFilter.all},
-                  );
-                },
-                child: Text(
-                  AppStrings.viewAll,
-                  style: context.textStyles.body1
-                      .copyWith(color: AppColors.gray200),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 16.h,
             ),
           ],
         ),

@@ -1,12 +1,11 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/features/auth/di/auth_providers.dart';
+import 'package:oreum_fe/features/auth/domain/entities/type_question.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/skip_type_test_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/submit_type_test_result_use_case.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:oreum_fe/core/constants/travel_type.dart';
-import 'package:oreum_fe/features/auth/domain/entities/type_question.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/states/type_test_state.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/di/my_type_provider.dart';
 

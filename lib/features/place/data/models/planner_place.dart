@@ -13,6 +13,7 @@ class PlannerPlace with _$PlannerPlace {
     required String placeTitle,
     required String placeAddress,
     required String placeThumbnailImage,
+    required String contentTypeId,
   }) = _PlannerPlace;
 
 }

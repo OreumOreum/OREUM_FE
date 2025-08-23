@@ -16,7 +16,6 @@ import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/auth/presentation/viewmodels/type_test_view_model.dart';
 import 'package:oreum_fe/features/auth/presentation/widgets/custom_percent_indicatioer.dart';
 import 'package:oreum_fe/features/auth/presentation/widgets/guide_box.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../../core/constants/ui_status.dart';
 

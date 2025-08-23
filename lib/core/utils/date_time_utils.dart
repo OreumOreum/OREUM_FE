@@ -59,7 +59,7 @@ class DateTimeUtils {
       print('비교: ${baseTime.hour} >= $hour = ${baseTime.hour >= hour}');
       if (baseTime.hour >= hour) {
         selected = DateTime(baseTime.year, baseTime.month, baseTime.day, hour);
-        print('선택: ${hour}시');
+        print('선택: $hour시');
         break;
       }
     }

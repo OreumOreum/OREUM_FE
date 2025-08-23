@@ -8,7 +8,6 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
-import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 
 import '../../../../core/constants/icon_path.dart';
 

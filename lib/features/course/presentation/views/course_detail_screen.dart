@@ -9,16 +9,14 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
-import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/features/course/data/models/course_detail_response.dart';
 import 'package:oreum_fe/features/course/presentation/viewmodels/course_detail_view_model.dart';
-import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
+import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/content_type_id.dart';
@@ -28,7 +26,6 @@ import '../../../../core/widgets/custom_toast.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../home/presentation/widgets/course_card.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
-import '../../../place/presentation/viewmodels/place_detail_view_model.dart';
 import '../../../review/data/models/review_response.dart';
 import '../../../review/presentation/widgets/review_list_tile.dart';
 import '../../data/models/course_response.dart';
@@ -38,7 +35,7 @@ class CourseDetailScreen extends ConsumerStatefulWidget {
   final String contentId;
   final String contentTypeId;
 
-  CourseDetailScreen({super.key,
+  const CourseDetailScreen({super.key,
     required this.courseId,
     required this.contentId,
     required this.contentTypeId,
@@ -335,8 +332,8 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                         final Distance distance = Distance();
                         final double km = distance.as(
                           LengthUnit.Kilometer,
-                          LatLng(place1.mapY!, place1.mapX!),
-                          LatLng(place2.mapY!, place2.mapX!),
+                          LatLng(place1.mapY, place1.mapX),
+                          LatLng(place2.mapY, place2.mapX),
                         );
 
                         return Padding(
@@ -366,7 +363,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                   ),
                                   SizedBox(width: 6.w),
                                   Text(
-                                      '${course.reviewCount.toString()}',
+                                      course.reviewCount.toString(),
                                     style: context.textStyles.body1
                                         .copyWith(color: AppColors.gray300),
                                   ),
@@ -497,7 +494,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                   thumbnailImage: thumbnailImage,
                                   onPressed: () {
                                     context.push(
-                                        '${RoutePath.courseDetail}/${courseId}',
+                                        '${RoutePath.courseDetail}/$courseId',
                                         extra: {
                                           'contentId': contentId,
                                           'contentTypeId': contentTypeId

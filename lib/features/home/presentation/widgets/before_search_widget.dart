@@ -5,8 +5,8 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
-import 'package:oreum_fe/features/home/presentation/viewmodels/recent_search_view_model.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/features/home/presentation/viewmodels/recent_search_view_model.dart';
 
 import 'recent_search_list_tile.dart';
 

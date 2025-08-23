@@ -1,11 +1,9 @@
-import 'package:oreum_fe/features/home/di/home_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../place/data/models/search_place_response.dart';
 import '../../../place/di/place_providers.dart';
 import '../../../place/domain/usecases/search_places_use_case.dart';
 import '../../../planner/presentation/viewmodels/states/planner_search_state.dart';
-import 'states/search_state.dart';
 
 part 'search_view_model.g.dart';
 

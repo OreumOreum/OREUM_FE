@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
-import 'package:oreum_fe/core/themes/app_text_styles.dart';
-import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 
 class PlaceCard extends StatelessWidget {

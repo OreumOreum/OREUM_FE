@@ -5,7 +5,6 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
-import 'package:oreum_fe/core/widgets/custom_search_bar.dart';
 
 class CustomToast {
   static void showToast(BuildContext context, String message, double bottom,) {

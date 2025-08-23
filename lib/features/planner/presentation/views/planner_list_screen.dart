@@ -9,8 +9,6 @@ import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/core/routes/app_router.dart';
-import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_response.dart';

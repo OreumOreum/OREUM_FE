@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
-import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
@@ -92,6 +90,7 @@ class _PlannerSearchTabScreenState
               title: title,
               address: address,
               thumbnailImage: thumbnailImage,
+              contentTypeId: contentTypeId,
             ),
           );
         },

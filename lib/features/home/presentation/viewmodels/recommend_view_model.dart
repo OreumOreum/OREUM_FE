@@ -1,6 +1,6 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:oreum_fe/features/home/di/home_providers.dart';
-import 'package:oreum_fe/features/home/data/models/place_response.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import 'states/recommend_state.dart';
@@ -77,9 +77,9 @@ class RecommendViewModel extends _$RecommendViewModel {
     final nextPage = state.currentPage + 1;
 
     int? sigunguCode;
-    if (state.selectedFilter == RegionFilter.jeju)
+    if (state.selectedFilter == RegionFilter.jeju) {
       sigunguCode = 4;
-    else if (state.selectedFilter == RegionFilter.seogwipo) sigunguCode = 3;
+    } else if (state.selectedFilter == RegionFilter.seogwipo) sigunguCode = 3;
 
     try {
       final usecase = ref.read(getPlacesUseCaseProvider);

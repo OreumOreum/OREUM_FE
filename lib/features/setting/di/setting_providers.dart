@@ -1,7 +1,6 @@
 import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/features/setting/data/repositories/setting_repository_impl.dart';
 import 'package:oreum_fe/features/setting/data/services/setting_service.dart';
-import 'package:oreum_fe/features/setting/domain/repositories/setting_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/usecases/delete_my_account_use_case.dart';

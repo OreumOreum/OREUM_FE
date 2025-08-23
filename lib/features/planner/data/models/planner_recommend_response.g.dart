@@ -29,6 +29,7 @@ _$PlannerRecommendItemImpl _$$PlannerRecommendItemImplFromJson(
       placeTitle: json['placeTitle'] as String,
       placeAddress: json['placeAddress'] as String?,
       thumbnailImage: json['thumbnailImage'] as String?,
+      contentTypeId: json['contentTypeId'] as String? ?? '관광지',
     );
 
 Map<String, dynamic> _$$PlannerRecommendItemImplToJson(
@@ -38,4 +39,5 @@ Map<String, dynamic> _$$PlannerRecommendItemImplToJson(
       'placeTitle': instance.placeTitle,
       'placeAddress': instance.placeAddress,
       'thumbnailImage': instance.thumbnailImage,
+      'contentTypeId': instance.contentTypeId,
     };

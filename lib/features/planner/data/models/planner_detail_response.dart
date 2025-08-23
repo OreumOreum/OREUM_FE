@@ -33,6 +33,7 @@ extension PlannerDetailResponseMapper on PlannerDetailResponse {
       orderIndex: order,
       title: placeTitle,
       address: placeAddress,
+      contentTypeId: contentTypeId,
     );
   }
 }

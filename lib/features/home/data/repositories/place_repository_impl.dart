@@ -2,7 +2,6 @@ import 'package:oreum_fe/features/home/data/models/category_recommend_response.d
 
 import '../../domain/repositories/place_repository.dart';
 import '../models/place_response.dart';
-import '../models/type_recommend_response.dart';
 import '../services/place_service.dart';
 
 class PlaceRepositoryImpl implements PlaceRepository {

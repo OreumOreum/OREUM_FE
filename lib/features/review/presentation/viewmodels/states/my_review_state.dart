@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../../../core/constants/ui_status.dart';
 import '../../../data/models/my_review_response.dart';

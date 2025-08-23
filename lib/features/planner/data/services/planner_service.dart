@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/api_path.dart';
-import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_name_request.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_recommend_response.dart';

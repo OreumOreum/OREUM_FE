@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
-import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
@@ -214,7 +212,7 @@ class _PlannerSearchScreenState extends ConsumerState<PlannerSearchScreen> {
                   placeId: item.id.toString(),
                   title: item.title,
                   address: item.address,
-                  thumbnailImage: item.thumbnailImage,
+                  thumbnailImage: item.thumbnailImage, contentTypeId: contentTypeId,
                 ),
               );
             },

@@ -13,6 +13,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
     return _placeService.getPlace(placeId);
   }
 
+  @override
   Future<SearchPlaceResponse> searchPlaces(
       String keyword, int page, int size,
       {int? sigunguCode}) {
