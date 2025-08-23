@@ -410,7 +410,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               ),
                                 SizedBox(width: 6.w),
                                 Text(
-                                  reviews.length.toString(),
+                                  '${place.reviewCount.toString()}',
                                   style: context.textStyles.body1
                                       .copyWith(color: AppColors.gray300),
                                 ),
@@ -504,7 +504,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                 'name': currentPlace.title,
                                 'address': currentPlace.address,
                                 'rate': currentPlace.averageRate,
-                                'originImage': currentPlace.originImage
+                                'originImage': currentPlace.originImage,
+                                'reviewCount': state.place?.reviewCount
                               });
                             }
                           },

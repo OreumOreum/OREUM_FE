@@ -44,6 +44,7 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
   final String address;
   final double rate;
   final String? originImage;
+  final int reviewCount;
 
   ReviewDetailScreen(
       {super.key,
@@ -52,7 +53,8 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
       required this.name,
       required this.address,
       required this.rate,
-      required this.originImage});
+      required this.originImage,
+        required this.reviewCount});
 
   @override
   ConsumerState<ReviewDetailScreen> createState() => _ReviewDetailScreenState();
@@ -63,6 +65,7 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
     required String address,
     required double rate,
     required String? originImage,
+    required int reviewCount,
   }) =>
       ReviewDetailScreen(
         id: id,
@@ -71,6 +74,7 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
         address: address,
         rate: rate,
         originImage: originImage,
+        reviewCount: reviewCount,
       );
 
   factory ReviewDetailScreen.course({
@@ -79,6 +83,7 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
     required String address,
     required double rate,
     required String? originImage,
+    required int reviewCount,
   }) =>
       ReviewDetailScreen(
         id: id,
@@ -87,6 +92,7 @@ class ReviewDetailScreen extends ConsumerStatefulWidget {
         address: address,
         rate: rate,
         originImage: originImage,
+        reviewCount: reviewCount,
       );
 }
 
@@ -260,7 +266,7 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
                           ],
                         ),
                         SizedBox(height: 20.h),
-                        Text(AppStrings.ratingNumber(state.reviews.length), style: context.textStyles.body1.copyWith(color: AppColors.gray400)),
+                        Text(AppStrings.ratingNumber(widget.reviewCount), style: context.textStyles.body1.copyWith(color: AppColors.gray400)),
                       ],
                     ),
                   ],
