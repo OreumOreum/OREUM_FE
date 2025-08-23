@@ -31,6 +31,7 @@ import 'package:oreum_fe/features/review/presentation/widgets/review_list_tile.d
 
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/utils/custom_cache_manager.dart';
+import '../../../../core/widgets/error_widget.dart';
 
 class ReviewDetailScreen extends ConsumerStatefulWidget {
   final String id;
@@ -169,11 +170,17 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Scaffold(
-        appBar: CustomAppBar.back(),
-        body: Center(
-          child: Text('error: ${state.errorMessage}'),
-        ),
+      return ErrorRetryWidget(
+        onPressed: () {
+          if (widget.type == ReviewType.place) {
+            ref.read(reviewDetailViewModelProvider.notifier)
+                .getPlaceReviews(widget.id, '0', '20');
+          } else if (widget.type == ReviewType.course) {
+            ref.read(reviewDetailViewModelProvider.notifier)
+                .getCourseReviews(widget.id, '0', '20');
+          }
+        },
+
       );
     }
 
@@ -329,8 +336,24 @@ class _ReviewDetailScreenState extends ConsumerState<ReviewDetailScreen> {
                 String date = reviews[index].createdAt.toString().split(' ')[0];
                 String content = reviews[index].content;
                 double rating = reviews[index].rate;
+                bool isMyReview = reviews[index].isMyReview;
+                int reviewId = reviews[index].reviewId;
                 return ReviewListTile(
-                    type: type, date: date, content: content, rating: rating);
+                  type: type,
+                  date: date,
+                  content: content,
+                  rating: rating,
+                  isMyReview: isMyReview,
+                  reviewId: reviewId,
+                  onReviewDeleted: () {
+                    if (widget.type == ReviewType.place) {
+                      ref.read(reviewDetailViewModelProvider.notifier)
+                          .refreshReviewsBackground(widget.id, '0', '20');
+                    } else if (widget.type == ReviewType.course) {
+                      ref.read(reviewDetailViewModelProvider.notifier)
+                          .refreshCourseReviewsBackground(widget.id, '0', '20');
+                    }
+                  },);
               },
             ),
           ],

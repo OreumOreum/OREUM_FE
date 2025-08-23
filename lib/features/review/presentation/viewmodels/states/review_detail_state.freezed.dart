@@ -19,6 +19,7 @@ mixin _$ReviewDetailState {
   UiStatus get status => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<ReviewResponse> get reviews => throw _privateConstructorUsedError;
+  UiStatus get buttonStatus => throw _privateConstructorUsedError;
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +35,10 @@ abstract class $ReviewDetailStateCopyWith<$Res> {
       _$ReviewDetailStateCopyWithImpl<$Res, ReviewDetailState>;
   @useResult
   $Res call(
-      {UiStatus status, String errorMessage, List<ReviewResponse> reviews});
+      {UiStatus status,
+      String errorMessage,
+      List<ReviewResponse> reviews,
+      UiStatus buttonStatus});
 }
 
 /// @nodoc
@@ -55,6 +59,7 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
     Object? status = null,
     Object? errorMessage = null,
     Object? reviews = null,
+    Object? buttonStatus = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -69,6 +74,10 @@ class _$ReviewDetailStateCopyWithImpl<$Res, $Val extends ReviewDetailState>
           ? _value.reviews
           : reviews // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
     ) as $Val);
   }
 }
@@ -82,7 +91,10 @@ abstract class _$$ReviewDetailStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {UiStatus status, String errorMessage, List<ReviewResponse> reviews});
+      {UiStatus status,
+      String errorMessage,
+      List<ReviewResponse> reviews,
+      UiStatus buttonStatus});
 }
 
 /// @nodoc
@@ -101,6 +113,7 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? errorMessage = null,
     Object? reviews = null,
+    Object? buttonStatus = null,
   }) {
     return _then(_$ReviewDetailStateImpl(
       status: null == status
@@ -115,6 +128,10 @@ class __$$ReviewDetailStateImplCopyWithImpl<$Res>
           ? _value._reviews
           : reviews // ignore: cast_nullable_to_non_nullable
               as List<ReviewResponse>,
+      buttonStatus: null == buttonStatus
+          ? _value.buttonStatus
+          : buttonStatus // ignore: cast_nullable_to_non_nullable
+              as UiStatus,
     ));
   }
 }
@@ -125,7 +142,8 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
   const _$ReviewDetailStateImpl(
       {this.status = UiStatus.idle,
       this.errorMessage = '',
-      final List<ReviewResponse> reviews = const []})
+      final List<ReviewResponse> reviews = const [],
+      this.buttonStatus = UiStatus.idle})
       : _reviews = reviews;
 
   @override
@@ -144,8 +162,12 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
   }
 
   @override
+  @JsonKey()
+  final UiStatus buttonStatus;
+
+  @override
   String toString() {
-    return 'ReviewDetailState(status: $status, errorMessage: $errorMessage, reviews: $reviews)';
+    return 'ReviewDetailState(status: $status, errorMessage: $errorMessage, reviews: $reviews, buttonStatus: $buttonStatus)';
   }
 
   @override
@@ -156,12 +178,14 @@ class _$ReviewDetailStateImpl implements _ReviewDetailState {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality().equals(other._reviews, _reviews));
+            const DeepCollectionEquality().equals(other._reviews, _reviews) &&
+            (identical(other.buttonStatus, buttonStatus) ||
+                other.buttonStatus == buttonStatus));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, status, errorMessage,
-      const DeepCollectionEquality().hash(_reviews));
+      const DeepCollectionEquality().hash(_reviews), buttonStatus);
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -177,7 +201,8 @@ abstract class _ReviewDetailState implements ReviewDetailState {
   const factory _ReviewDetailState(
       {final UiStatus status,
       final String errorMessage,
-      final List<ReviewResponse> reviews}) = _$ReviewDetailStateImpl;
+      final List<ReviewResponse> reviews,
+      final UiStatus buttonStatus}) = _$ReviewDetailStateImpl;
 
   @override
   UiStatus get status;
@@ -185,6 +210,8 @@ abstract class _ReviewDetailState implements ReviewDetailState {
   String get errorMessage;
   @override
   List<ReviewResponse> get reviews;
+  @override
+  UiStatus get buttonStatus;
 
   /// Create a copy of ReviewDetailState
   /// with the given fields replaced by the non-null parameter values.

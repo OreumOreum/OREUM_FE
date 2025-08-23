@@ -10,6 +10,8 @@ class MyReviewResponse with _$MyReviewResponse {
     required String content,
     required String createdAt,
     required String updatedAt,
+    required String placeTitle,
+
   }) = _MyReviewResponse;
 
   factory MyReviewResponse.fromJson(Map<String, dynamic> json) =>

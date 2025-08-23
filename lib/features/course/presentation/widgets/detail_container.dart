@@ -24,6 +24,7 @@ class DetailContainer extends StatefulWidget {
   final bool isMapTabEnabled;
   final double? latitude;
   final double? longitude;
+  final bool isCourseMode;
 
   const DetailContainer({
     super.key,
@@ -32,6 +33,7 @@ class DetailContainer extends StatefulWidget {
     this.isMapTabEnabled = true,
     this.longitude,
     this.latitude,
+    this.isCourseMode = false,
   });
 
   @override
@@ -221,6 +223,45 @@ class _DetailContainerState extends State<DetailContainer> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isCourseMode) {
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.gray100),
+              borderRadius: BorderRadius.circular(8.r),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0.w, 44.h, 0.w, 24.h), // 상단 패딩 추가
+              child: _buildDetailContent(),
+            ),
+          ),
+
+          Positioned(
+            top: -19.h,
+            left: 24.w,
+            right: 24.w,
+            child: Container(
+              height: 38.h,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(19.r),
+                border: Border.all(color: AppColors.gray100),
+              ),
+              child: Center(
+                child: Text(
+                  '상세정보',
+                  style: context.textStyles.label3.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
     return Stack(
       clipBehavior: Clip.none,
       children: [

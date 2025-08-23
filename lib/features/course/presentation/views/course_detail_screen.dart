@@ -24,6 +24,7 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/content_type_id.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/widgets/error_widget.dart';
 import '../../../home/presentation/widgets/course_card.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../place/presentation/viewmodels/place_detail_view_model.dart';
@@ -181,13 +182,13 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
     }
 
     if (state.status == UiStatus.error) {
-      return Scaffold(
-        appBar: CustomAppBar.back(),
-        body: Center(
-          child: Text('error: ${state.errorMessage}'),
-        ),
+      return ErrorRetryWidget(
+        onPressed: () {
+          ref.read(courseDetailViewModelProvider.notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
+        },
       );
     }
+
 
     if (state.courseDetail == null) {
       return Scaffold(
@@ -262,7 +263,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                           SizedBox(height: 63.h),
                           DetailContainer(
                             tourData: state.tour,
-                            isMapTabEnabled: false,
+                            isCourseMode: true,
                           ),
                           SizedBox(height: 56.h),
                           Text(AppStrings.spotIntro,
@@ -314,10 +315,16 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                             address: place.address,
                             category: category,
                             thumbnailImage: place.thumbnailImage,
-                            index: index + 1);
+                            index: index + 1,
+                            onTap: () {
+                              context.push('${RoutePath.placeDetail}/${place.id}',
+                                  extra: {
+                                    'contentId': place.contentId,
+                                    'contentTypeId': place.contentTypeId.toString()
+                                  });
+                            });
                       },
                       separatorBuilder: (context, index) {
-
                         final place1 = places[index];
                         final place2 = places[index + 1];
 
@@ -346,10 +353,21 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                AppStrings.travelerReview,
-                                style: context.textStyles.label3
-                                    .copyWith(color: AppColors.gray500),
+                              Row(
+                                children: [
+                                  Text(
+                                    AppStrings.travelerReview,
+                                    style: context.textStyles.label3
+                                        .copyWith(color: AppColors.gray500),
+                                  ),
+                                  SizedBox(width: 6.w),
+                                  Text(
+                                    reviews.length.toString(),
+                                    style: context.textStyles.body1
+                                        .copyWith(color: AppColors.gray300),
+                                  ),
+
+                                ],
                               ),
                               TextButton(
                                 onPressed: () {
@@ -386,11 +404,19 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                       String content =
                           reviews[index].content;
                       double rating = reviews[index].rate;
+                      bool isMyReview = reviews[index].isMyReview;
+                      int reviewId = reviews[index].reviewId;
                       return ReviewListTile(
-                          type: type,
-                          date: date,
-                          content: content,
-                          rating: rating);
+                        type: type,
+                        date: date,
+                        content: content,
+                        rating: rating,
+                        isMyReview: isMyReview,
+                        reviewId: reviewId,
+                        onReviewDeleted: () {
+                          ref.read(courseDetailViewModelProvider.notifier)
+                              .refreshCourseDetailBackground(widget.courseId);
+                        },);
                     },
                   ),
                 ),
@@ -420,7 +446,6 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                     ],
                   ),
                 if (reviews.length > 3) SizedBox(height: 48.h),
-                SizedBox(height: 48.h),
                 Padding(
                   padding: EdgeInsets.only(top: 24.h, bottom: 8.h),
                   child: Column(
@@ -448,7 +473,8 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                             String? thumbnailImage = courses[index].originImage;
                             String courseId = courses[index].id.toString();
                             String contentId = courses[index].contentId.toString();
-                            String contentTypeId = courses[index].contentTypeId.toString();
+                            String contentTypeId =
+                            courses[index].contentTypeId.toString();
 
                             return Row(
                               children: [
@@ -457,9 +483,12 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                   subTitle: subTitle,
                                   thumbnailImage: thumbnailImage,
                                   onPressed: () {
-                                    context.push('${RoutePath.courseDetail}/${courseId}',
-                                        extra: {'contentId' : contentId,
-                                          'contentTypeId' : contentTypeId});
+                                    context.push(
+                                        '${RoutePath.courseDetail}/${courseId}',
+                                        extra: {
+                                          'contentId': contentId,
+                                          'contentTypeId': contentTypeId
+                                        });
                                   },
                                 ),
                                 if (index != courses.length - 1)

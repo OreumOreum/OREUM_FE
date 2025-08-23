@@ -76,29 +76,16 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
             showModalBottomSheet<bool>(
-              // 제네릭 타입 추가
               context: context,
               useRootNavigator: true,
               builder: (context) {
                 return PlaceDetailAddBottomSheet(
                   title: widget.title,
                   originImage: widget.thumbnailImage,
-                  id: widget.placeId!,
+                  id: widget.placeId,
                 );
               },
-            ).then((result) {
-              // 🔥 바텀시트가 내려갈 때 결과 처리하는 부분!
-              if (result == true) {
-                // 저장이 완료된 경우
-                print('바텀시트에서 저장 완료 - UI 업데이트');
-                setState(() {
-                  _localIsSaved = true; // UI에서 바로 북마크 상태 업데이트
-                });
-
-                // 부모 위젯(HomeScreen)에 상태 변경 알림
-                widget.onBookmarkChanged?.call(widget.placeId!, true);
-              }
-            });
+            );
           }
         });
       } else if (_isWaitingForModal &&
@@ -156,16 +143,18 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                       ),
                     ))
                 : Container(
-                    width: 64.r,
                     height: 64.r,
+                    width: 64.r,
                     decoration: BoxDecoration(
                       color: AppColors.gray100,
-                      borderRadius: BorderRadius.circular(AppSizes.radiusXS),
+                      borderRadius:
+                          BorderRadius.circular(AppSizes.radiusXS), // 둥근 모서리 유지
                     ),
-                    child: Icon(
-                      Icons.photo_size_select_actual_rounded,
-                      color: AppColors.gray200,
-                      size: 24.r,
+                    child: Center(
+                      child: Image.asset(
+                        ImagePath.imageError,
+                        width: 32.r,
+                      ),
                     ),
                   ),
             SizedBox(
@@ -207,8 +196,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                 constraints: const BoxConstraints(),
                 onPressed: () async {
                   if (_localIsSaved) {
-                    // 로컬 상태 사용
-                    // 삭제 로직
+                    // 삭제 로직 (기존과 동일)
                     await ref
                         .read(placeDetailViewModelProvider.notifier)
                         .deleteDefaultFolder(widget.placeId!);
@@ -217,25 +205,29 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                     if (context.mounted &&
                         state.buttonStatus == UiStatus.success) {
                       setState(() {
-                        _localIsSaved = false; // UI에서 바로 업데이트
+                        _localIsSaved = false;
                       });
-
-                      // 부모 위젯에 상태 변경 알림
                       widget.onBookmarkChanged?.call(widget.placeId!, false);
-
                       CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
                     } else if (context.mounted &&
                         state.buttonStatus == UiStatus.error) {
                       CustomToast.showToast(context, '삭제를 실패하였습니다.', 56.h);
                     }
                   } else {
-                    // 저장 로직
+                    // 🔥 저장 로직 - 즉시 UI 업데이트
                     print('저장 시작');
+
+
                     _isWaitingForModal = true; // 모달 대기 상태 설정
 
                     await ref
                         .read(placeDetailViewModelProvider.notifier)
                         .addDefaultFolder(widget.placeId);
+
+                    setState(() {
+                      _localIsSaved = true;
+                    });
+                    widget.onBookmarkChanged?.call(widget.placeId!, true);
                   }
                 },
                 icon: SvgPicture.asset(

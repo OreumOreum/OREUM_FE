@@ -11,16 +11,10 @@ import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 
 import '../../../../core/constants/icon_path.dart';
+import '../../../../core/utils/email_sander.dart';
 
-class DeleteReviewBottomSheet extends StatelessWidget {
-  final int reviewId;
-  final VoidCallback onDeleteConfirm;
-
-  const DeleteReviewBottomSheet({
-    super.key,
-    required this.reviewId,
-    required this.onDeleteConfirm,
-  });
+class ReportReviewBottomSheet extends StatelessWidget {
+  const ReportReviewBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +23,8 @@ class DeleteReviewBottomSheet extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
         ),
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
@@ -54,8 +49,7 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context); // 바텀시트 닫기
-                    onDeleteConfirm(); // 삭제 실행
+                    EmailSander().sendEmail(context);
                   },
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(6.w, 12.h, 6.w, 12.h),
@@ -69,15 +63,13 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                               width: 24.w,
                               height: 24.h,
                               child: Center(
-                                child: SvgPicture.asset(
-                                    IconPath.trashCan,
-                                    width: 12.w
-                                ),
+                                child: SvgPicture.asset(IconPath.report,
+                                    width: 16.w),
                               ),
                             ),
                             SizedBox(width: 4.w),
                             Text(
-                              AppStrings.deleteReview,
+                              AppStrings.reportReview,
                               style: context.textStyles.body1
                                   .copyWith(color: AppColors.gray400),
                             ),
@@ -98,8 +90,7 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                   ),
                 )
               ],
-            )
-        ),
+            )),
       ),
     );
   }

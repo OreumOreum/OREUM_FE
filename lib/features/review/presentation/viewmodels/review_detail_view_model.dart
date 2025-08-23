@@ -5,6 +5,7 @@ import 'package:oreum_fe/features/review/domain/usecases/get_place_reviews_use_c
 import 'package:oreum_fe/features/review/presentation/viewmodels/states/review_detail_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../domain/usecases/delete_my_review_use_case.dart';
 import '../../domain/usecases/get_course_reviews_use_case.dart';
 
 part 'review_detail_view_model.g.dart';
@@ -66,6 +67,20 @@ class ReviewDetailViewModel extends _$ReviewDetailViewModel {
       state = state.copyWith(reviews: reviewsCourse);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
+  Future<void> deleteReview(int reviewId) async {
+    state = state.copyWith(buttonStatus: UiStatus.loading);
+    try {
+      final DeleteMyReviewUseCase deleteMyReviewUseCase = ref.read(deleteMyReviewUseCaseProvider);
+      await deleteMyReviewUseCase.call(reviewId);
+      state = state.copyWith(buttonStatus: UiStatus.success);
+    } catch (e) {
+      state = state.copyWith(
+          buttonStatus: UiStatus.error,
+          errorMessage: e.toString()
+      );
     }
   }
 }

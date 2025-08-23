@@ -10,5 +10,6 @@ class ReviewDetailState with _$ReviewDetailState {
     @Default(UiStatus.idle) UiStatus status,
     @Default('') String errorMessage,
     @Default([]) List<ReviewResponse> reviews,
+    @Default(UiStatus.idle) UiStatus buttonStatus,
   }) = _ReviewDetailState;
 }

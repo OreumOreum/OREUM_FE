@@ -20,11 +20,13 @@ ReviewResponse _$ReviewResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ReviewResponse {
+  int get reviewId => throw _privateConstructorUsedError;
   double get rate => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   String? get type => throw _privateConstructorUsedError;
+  bool get isMyReview => throw _privateConstructorUsedError;
 
   /// Serializes this ReviewResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,11 +45,13 @@ abstract class $ReviewResponseCopyWith<$Res> {
       _$ReviewResponseCopyWithImpl<$Res, ReviewResponse>;
   @useResult
   $Res call(
-      {double rate,
+      {int reviewId,
+      double rate,
       String content,
       DateTime createdAt,
       DateTime updatedAt,
-      String? type});
+      String? type,
+      bool isMyReview});
 }
 
 /// @nodoc
@@ -65,13 +69,19 @@ class _$ReviewResponseCopyWithImpl<$Res, $Val extends ReviewResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? reviewId = null,
     Object? rate = null,
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? type = freezed,
+    Object? isMyReview = null,
   }) {
     return _then(_value.copyWith(
+      reviewId: null == reviewId
+          ? _value.reviewId
+          : reviewId // ignore: cast_nullable_to_non_nullable
+              as int,
       rate: null == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
@@ -92,6 +102,10 @@ class _$ReviewResponseCopyWithImpl<$Res, $Val extends ReviewResponse>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      isMyReview: null == isMyReview
+          ? _value.isMyReview
+          : isMyReview // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -105,11 +119,13 @@ abstract class _$$ReviewResponseImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {double rate,
+      {int reviewId,
+      double rate,
       String content,
       DateTime createdAt,
       DateTime updatedAt,
-      String? type});
+      String? type,
+      bool isMyReview});
 }
 
 /// @nodoc
@@ -125,13 +141,19 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? reviewId = null,
     Object? rate = null,
     Object? content = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? type = freezed,
+    Object? isMyReview = null,
   }) {
     return _then(_$ReviewResponseImpl(
+      reviewId: null == reviewId
+          ? _value.reviewId
+          : reviewId // ignore: cast_nullable_to_non_nullable
+              as int,
       rate: null == rate
           ? _value.rate
           : rate // ignore: cast_nullable_to_non_nullable
@@ -152,6 +174,10 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
+      isMyReview: null == isMyReview
+          ? _value.isMyReview
+          : isMyReview // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -160,15 +186,19 @@ class __$$ReviewResponseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ReviewResponseImpl implements _ReviewResponse {
   const _$ReviewResponseImpl(
-      {required this.rate,
+      {required this.reviewId,
+      required this.rate,
       required this.content,
       required this.createdAt,
       required this.updatedAt,
-      required this.type});
+      required this.type,
+      required this.isMyReview});
 
   factory _$ReviewResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReviewResponseImplFromJson(json);
 
+  @override
+  final int reviewId;
   @override
   final double rate;
   @override
@@ -179,10 +209,12 @@ class _$ReviewResponseImpl implements _ReviewResponse {
   final DateTime updatedAt;
   @override
   final String? type;
+  @override
+  final bool isMyReview;
 
   @override
   String toString() {
-    return 'ReviewResponse(rate: $rate, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, type: $type)';
+    return 'ReviewResponse(reviewId: $reviewId, rate: $rate, content: $content, createdAt: $createdAt, updatedAt: $updatedAt, type: $type, isMyReview: $isMyReview)';
   }
 
   @override
@@ -190,19 +222,23 @@ class _$ReviewResponseImpl implements _ReviewResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReviewResponseImpl &&
+            (identical(other.reviewId, reviewId) ||
+                other.reviewId == reviewId) &&
             (identical(other.rate, rate) || other.rate == rate) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.isMyReview, isMyReview) ||
+                other.isMyReview == isMyReview));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, rate, content, createdAt, updatedAt, type);
+  int get hashCode => Object.hash(runtimeType, reviewId, rate, content,
+      createdAt, updatedAt, type, isMyReview);
 
   /// Create a copy of ReviewResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -223,15 +259,19 @@ class _$ReviewResponseImpl implements _ReviewResponse {
 
 abstract class _ReviewResponse implements ReviewResponse {
   const factory _ReviewResponse(
-      {required final double rate,
+      {required final int reviewId,
+      required final double rate,
       required final String content,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      required final String? type}) = _$ReviewResponseImpl;
+      required final String? type,
+      required final bool isMyReview}) = _$ReviewResponseImpl;
 
   factory _ReviewResponse.fromJson(Map<String, dynamic> json) =
       _$ReviewResponseImpl.fromJson;
 
+  @override
+  int get reviewId;
   @override
   double get rate;
   @override
@@ -242,6 +282,8 @@ abstract class _ReviewResponse implements ReviewResponse {
   DateTime get updatedAt;
   @override
   String? get type;
+  @override
+  bool get isMyReview;
 
   /// Create a copy of ReviewResponse
   /// with the given fields replaced by the non-null parameter values.

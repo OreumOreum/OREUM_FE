@@ -51,6 +51,10 @@ class ReviewService {
         .toList();
   }
 
+  Future<void> deleteMyReview(int reviewId) async {
+    await _dio.delete(ApiPath.deleteReview(reviewId));
+  }
+
   Future<void> createCourseReview(CourseReviewRequest courseReview) async {
     await _dio.post(ApiPath.createCourseReview, data: courseReview.toJson());
   }
