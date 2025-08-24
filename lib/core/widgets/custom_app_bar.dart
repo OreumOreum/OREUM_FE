@@ -103,6 +103,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       case AppBarType.logo:
         return AppBar(
           automaticallyImplyLeading: false,
+          centerTitle: false,
           title: SvgPicture.asset(
             IconPath.appIconAppBar,
             width: 74.w,
