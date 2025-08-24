@@ -365,12 +365,14 @@ GoRouter appRouter(AppRouterRef ref) {
           state.extra as Map<String, dynamic>;
           String contentId = extraData['contentId']!;
           String contentTypeId = extraData['contentTypeId']!;
+          String? folderId = extraData['folderId'];
 
           return PlaceDetailScreen(
             key: UniqueKey(), // 🔥 이 줄 추가 - 매번 새로운 위젯 인스턴스 생성
             placeId: placeId,
             contentId: contentId,
             contentTypeId: contentTypeId,
+            folderId: folderId,
           );
         },
         pageBuilder: GoTransitions.slide.toLeft.withFade.call,

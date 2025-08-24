@@ -19,7 +19,9 @@ import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
+import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
+import 'package:oreum_fe/features/place/presentation/viewmodels/book_mark_notifier.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bottom_sheet.dart';
@@ -36,12 +38,14 @@ class PlaceDetailScreen extends ConsumerStatefulWidget {
   final String placeId;
   final String contentId;
   final String contentTypeId;
+  final String? folderId;
 
   PlaceDetailScreen({
     Key? key, // 🔥 추가
     required this.placeId,
     required this.contentId,
     required this.contentTypeId,
+    this.folderId,
   }) : super(key: key ?? ValueKey('place_${placeId}_${contentId}_${contentTypeId}')); // 🔥 수정
 
   @override
@@ -293,32 +297,72 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               padding: EdgeInsets.zero,
                               constraints: const BoxConstraints(),
                               onPressed: () async {
-                                // 🔥 안전한 placeId 파싱
-                                final placeIdInt = int.tryParse(widget.placeId);
-                                if (placeIdInt == null) {
-                                  print('placeId 파싱 실패: ${widget.placeId}');
-                                  return;
-                                }
-
+                                final bookmarkNotifier = ref.read(bookmarkProvider.notifier);
                                 if (place.isSaved) {
-                                  // 삭제 로직
+                                  // 삭제 로직 (기존과 동일)
                                   await ref
-                                      .read(placeDetailViewModelProvider(widget.placeId).notifier)
-                                      .deleteDefaultFolder(placeIdInt);
+                                      .read(placeDetailViewModelProvider(
+                                      widget.placeId.toString())
+                                      .notifier)
+                                      .deleteDefaultFolder(int.parse(widget.placeId));
 
-                                  if (mounted && ref.read(placeDetailViewModelProvider(widget.placeId)).buttonStatus == UiStatus.success) {
+                                  final state = ref.read(placeDetailViewModelProvider(
+                                      widget.placeId.toString()));
+                                  if (context.mounted &&
+                                      state.buttonStatus == UiStatus.success) {
+                                    setState(() {
+                                      bookmarkNotifier.toggleBookmark(int.parse(widget.placeId));
+                                    });
                                     CustomToast.showToast(context, '내 폴더에서 삭제되었습니다.', 56.h);
-                                  } else if (mounted && ref.read(placeDetailViewModelProvider(widget.placeId)).buttonStatus == UiStatus.error) {
+                                  } else if (context.mounted &&
+                                      state.buttonStatus == UiStatus.error) {
                                     CustomToast.showToast(context, '삭제를 실패하였습니다.', 56.h);
                                   }
                                 } else {
-                                  // 저장 로직 - PlaceListTile과 동일한 방식
+                                  // 🔥 저장 로직 - 바텀시트 구현
                                   print('저장 시작');
-                                  _isWaitingForModal = true; // 모달 대기 상태 설정
 
+                                  // 즉시 UI 업데이트 (북마크 상태 변경)
+                                  bookmarkNotifier.toggleBookmark(int.parse(widget.placeId));
+
+                                  // API 호출
                                   await ref
-                                      .read(placeDetailViewModelProvider(widget.placeId).notifier)
-                                      .addDefaultFolder(placeIdInt);
+                                      .read(placeDetailViewModelProvider(widget.placeId.toString()).notifier)
+                                      .addDefaultFolder(int.parse(widget.placeId));
+
+                                  final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
+
+                                  if (context.mounted) {
+                                    if (state.buttonStatus == UiStatus.success) {
+                                      // 성공시 바텀시트 표시
+                                      final result = await showModalBottomSheet<bool>(
+                                        context: context,
+                                        useRootNavigator: true,
+                                        builder: (context) {
+                                          return PlaceDetailAddBottomSheet(
+                                            title: place.title,
+                                            originImage: place.originImage,
+                                            id: int.parse(widget.placeId),
+                                            folderId: widget.folderId,
+                                          );
+                                        },
+                                      );
+
+                                      // 바텀시트 결과 처리
+                                      if (result == false) {
+                                        // 북마크가 삭제된 경우
+                                        bookmarkNotifier.toggleBookmark(int.parse(widget.placeId)); // 다시 false로
+
+                                      } else {
+                                        // 저장 완료 또는 폴더 변경
+
+                                      }
+                                    } else if (state.buttonStatus == UiStatus.error) {
+                                      // 실패시 북마크 상태 되돌리기
+                                      bookmarkNotifier.toggleBookmark(int.parse(widget.placeId)); // 다시 false로
+                                      CustomToast.showToast(context, '저장을 실패하였습니다.', 56.h);
+                                    }
+                                  }
                                 }
                               },
                               icon: SvgPicture.asset(
@@ -430,13 +474,15 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               // 🔥 안전한 place 접근
                               final currentPlace = state.place ?? _cachedPlace;
                               if (currentPlace != null) {
-                                context.push('${RoutePath.createPlaceReview}/${widget.placeId}',extra: {
+                                // 🔥 리뷰 작성 페이지로 이동하고 결과 받기
+                                final result = await context.push('${RoutePath.createPlaceReview}/${widget.placeId}',extra: {
                                   'name': currentPlace.title,
                                   'address': currentPlace.address,
                                   'originImage': currentPlace.originImage
                                 });
 
-                                if (mounted) {
+                                // 🔥 리뷰 작성이 성공했다면 (result == true) 데이터 새로고침
+                                if (mounted && result == true) {
                                   await ref
                                       .read(placeDetailViewModelProvider(widget.placeId).notifier)
                                       .refreshPlaceDetailBackground(widget.placeId);

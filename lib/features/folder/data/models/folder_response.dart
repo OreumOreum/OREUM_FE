@@ -8,7 +8,7 @@ class FolderResponse with _$FolderResponse {
   const factory FolderResponse({
     required int folderId,
     required String folderName,
-    List<String>? originImages,
+    List<String?>? originImages,
     required bool isDefault,
   }) = _FolderResponse;
 

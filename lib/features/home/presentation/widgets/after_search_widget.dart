@@ -10,6 +10,7 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
+import 'package:oreum_fe/features/place/presentation/viewmodels/book_mark_notifier.dart';
 
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/route_path.dart';
@@ -84,12 +85,8 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
           ),
         ),
 
-        if (state.status == UiStatus.loading)
-           Padding(
-            padding: EdgeInsets.all(32.0),
-            child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true, width: 150.w)),
-          )
-        else if (state.status == UiStatus.error)
+
+        if (state.status == UiStatus.error)
           Builder(
               builder: (context) {
 
@@ -104,7 +101,7 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
               }
           )
         else if (state.searchPlace == null || state.searchPlace!.content.isEmpty)
-            const Center(child: Text('검색 결과가 없습니다.'))
+            SizedBox.shrink()
           else
             ListView.separated(
               primary: false,
@@ -113,6 +110,7 @@ class _AfterSearchWidgetState extends ConsumerState<AfterSearchWidget> {
               itemBuilder: (BuildContext context, int index) {
                 final place = state.searchPlace!.content[index];
                 final placeId = place.id;
+                final isSaved = place.isSaved;
                 return GestureDetector(
                   onTap: () {
                     recentSearchViewModel.addSearch(place.title);

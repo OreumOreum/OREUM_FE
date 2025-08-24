@@ -7,7 +7,7 @@ part of 'place_detail_view_model.dart';
 // **************************************************************************
 
 String _$placeDetailViewModelHash() =>
-    r'a43c762f04d9191894a045e78fef718d0c033f0b';
+    r'ee8f93e67fd63a002de4002a8f0e5f2cdf882f55';
 
 /// Copied from Dart SDK
 class _SystemHash {

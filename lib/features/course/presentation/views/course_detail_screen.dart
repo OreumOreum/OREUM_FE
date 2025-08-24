@@ -160,7 +160,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
     super.initState();
     Future.microtask(() {
       ref
-          .read(courseDetailViewModelProvider.notifier)
+          .read(courseDetailViewModelProvider(widget.courseId).notifier)
           .initializeCourseDetail(widget.courseId,widget.contentId, widget.contentTypeId);
     });
   }
@@ -168,7 +168,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final state = ref.watch(courseDetailViewModelProvider);
+    final state = ref.watch(courseDetailViewModelProvider(widget.courseId));
 
     if (state.status == UiStatus.loading) {
       return Scaffold(
@@ -187,7 +187,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
           appBar: CustomAppBar.back(),
           body:ErrorRetryWidget(
         onPressed: () {
-          ref.read(courseDetailViewModelProvider.notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
+          ref.read(courseDetailViewModelProvider(widget.courseId).notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
         },
       ),
       );
@@ -426,7 +426,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                         isMyReview: isMyReview,
                         reviewId: reviewId,
                         onReviewDeleted: () {
-                          ref.read(courseDetailViewModelProvider.notifier)
+                          ref.read(courseDetailViewModelProvider(widget.courseId).notifier)
                               .refreshCourseDetailBackground(widget.courseId);
                         },);
                     },

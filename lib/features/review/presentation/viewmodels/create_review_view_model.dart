@@ -38,7 +38,7 @@ class CreateReviewViewModel extends _$CreateReviewViewModel {
     state = state.copyWith(status: UiStatus.loading);
     try {
       CreateCourseReviewUseCase createCourseReviewUseCase = ref.read(createCourseReviewUseCaseProvider);
-      CourseDetailViewModel courseDetailViewModel = ref.read(courseDetailViewModelProvider.notifier);
+      CourseDetailViewModel courseDetailViewModel = ref.read(courseDetailViewModelProvider(courseId.toString()).notifier);
       ReviewDetailViewModel reviewDetailViewModel = ref.read(reviewDetailViewModelProvider.notifier);
       await createCourseReviewUseCase.call(courseId, rate, content);
       await courseDetailViewModel.refreshCourseDetailBackground(courseId.toString());

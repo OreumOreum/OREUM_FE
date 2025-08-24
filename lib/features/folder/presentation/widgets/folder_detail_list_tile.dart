@@ -11,6 +11,7 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_cache_manager.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
+import 'package:oreum_fe/features/place/presentation/viewmodels/book_mark_notifier.dart';
 
 class FolderDetailListTile extends ConsumerWidget {
   final String title;
@@ -82,6 +83,7 @@ class FolderDetailListTile extends ConsumerWidget {
                       await ref
                           .read(folderDetailViewModelProvider.notifier)
                           .deleteFolderPlace(folderId, placeId);
+                      ref.read(bookmarkProvider.notifier).toggleBookmark(placeId);
                     },
                   ),
                 ),
