@@ -134,7 +134,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
     final dayPlaces = state.plannerPlaces.where((p) => p.day == day).toList();
 
     final target = dayPlaces.firstWhere(
-      (p) => p.orderIndex == orderIndex,
+          (p) => p.orderIndex == orderIndex,
       orElse: () => throw Exception('해당 orderIndex를 찾을 수 없음'),
     );
 
@@ -160,7 +160,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
     state = state.copyWith(status: UiStatus.loading);
     try {
       CreatePlannerUseCase createPlannerUseCase =
-          ref.watch(createPlannerUseCaseProvider);
+      ref.watch(createPlannerUseCaseProvider);
 
       PlannerRequest planner = _mapEditPlacesToPlannerRequest(
           name: name, editPlaces: state.plannerPlaces);
@@ -180,7 +180,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
     state = state.copyWith(status: UiStatus.loading);
     try {
       EditPlannerPlacesUseCase editPlannerPlacesUseCase =
-          ref.watch(editPlannerPlacesUseCaseProvider);
+      ref.watch(editPlannerPlacesUseCaseProvider);
 
       PlannerRequest planner = _mapEditPlacesToPlannerRequest(
           name: name, editPlaces: state.plannerPlaces);
@@ -239,7 +239,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
       print('  - 받은 장소 수: ${plannerRecommend.placeList.length}');
 
       List<PlannerEditPlace> editPlaces =
-          toPlannerEditPlaces(plannerRecommend.placeList);
+      toPlannerEditPlaces(plannerRecommend.placeList);
       state = state.copyWith(
           status: UiStatus.success,
           recommendPlannerName: plannerRecommend.plannerName,
@@ -251,18 +251,19 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
   }
 
   void compactDays() {
-    // 일정이 있는 day만 필터
-    final nonEmptyDays = state.tabDays
+    var nonEmptyDays = state.tabDays
         .where((day) => state.plannerPlaces.any((p) => p.day == day))
         .toList();
 
-    // 기존 day -> 새로운 day 매핑 (1부터 순서대로)
+    if (nonEmptyDays.isEmpty) {
+      nonEmptyDays = [1];
+    }
+
     final dayMapping = <int, int>{};
     for (int i = 0; i < nonEmptyDays.length; i++) {
       dayMapping[nonEmptyDays[i]] = i + 1;
     }
 
-    // plannerPlaces day 재매핑
     final newPlaces = state.plannerPlaces
         .map((p) => p.copyWith(day: dayMapping[p.day]!))
         .toList();
@@ -292,7 +293,7 @@ class PlannerEditViewModel extends _$PlannerEditViewModel  {
 }
 
 final plannerPlacesByDayProvider =
-    Provider.family<List<PlannerEditPlace>, int>((ref, day) {
+Provider.family<List<PlannerEditPlace>, int>((ref, day) {
   final state = ref.watch(plannerEditViewModelProvider);
   return state.plannerPlaces.where((place) => place.day == day).toList();
 });

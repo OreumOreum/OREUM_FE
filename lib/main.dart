@@ -39,6 +39,7 @@ Future main() async {
   await dotenv.load(fileName: '.env');
   String kakaoAppKey = dotenv.get('KAKAO_NATIVE_APP_KEY');
   String? accessToken = await SecureStorageRepositoryImpl(FlutterSecureStorage()).getAccessToken();
+  print('-----------KAKAOKEY----------');
   print(await KakaoSdk.origin);
   logger.i('Token:$accessToken');
   try {

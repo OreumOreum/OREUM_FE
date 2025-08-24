@@ -123,11 +123,15 @@ class _MyReviewListTileState extends ConsumerState<MyReviewListTile> {
                   )
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  _showDeleteReviewBottomSheet(context);
-                },
-                child: SvgPicture.asset(IconPath.dots),
+              SizedBox(
+                height: 24.r,
+                width: 24.r,
+                child: IconButton(
+                  onPressed: () {
+                    _showDeleteReviewBottomSheet(context);
+                  },
+                  icon: SvgPicture.asset(IconPath.dots),
+                ),
               )
             ],
           ),

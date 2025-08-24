@@ -119,7 +119,7 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
   }
 
   Future<void> retryLoadingMarkers() async {
-    state = state.copyWith(status: UiStatus.loading);
+    //state = state.copyWith(status: UiStatus.loading);
 
     try {
       final zoom = state.currentZoom;
