@@ -56,6 +56,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
   bool isExpanded = false;
   bool _isWaitingForModal = false; // 🔥 바텀시트 대기 상태 추가
   PlaceResponse? _cachedPlace; // 🔥 캐시된 place 정보 추가
+  bool _showExpandButton = false;
 
   // ... 기존 mock 데이터들은 그대로 유지 ...
   final List<Map<String, String>> placeList = [
@@ -122,7 +123,15 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
     });
   }
 
-
+  bool _isTextOverflow(String text, TextStyle style, double maxWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 3,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(maxWidth: maxWidth);
+    return textPainter.didExceedMaxLines;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -409,36 +418,62 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
                       if (place.overview != null && place.overview!.isNotEmpty) ...[
                         ///여행지 소개 부분
-                        Text(AppStrings.spotIntro,
-                            style: context.textStyles.label3
-                                .copyWith(color: AppColors.gray500)),
-                        SizedBox(height: 8.h),
                         Text(
-                          place.overview!,
-                          style: context.textStyles.body2
-                              .copyWith(color: AppColors.gray400),
-                          maxLines: isExpanded ? null : 3,
-                          overflow: isExpanded
-                              ? TextOverflow.visible
-                              : TextOverflow.ellipsis,
+                            AppStrings.spotIntro,
+                            style: context.textStyles.label3.copyWith(color: AppColors.gray500)
                         ),
-                        SizedBox(height: 18.h),
-                        Divider(height: 1.h, color: AppColors.gray100),
                         SizedBox(height: 8.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    isExpanded = !isExpanded;
-                                  });
-                                },
-                                child: Text(
-                                    isExpanded ? '접기' : AppStrings.showMore,
-                                    style: context.textStyles.body1
-                                        .copyWith(color: AppColors.gray200))),
-                          ],
+
+                        // LayoutBuilder로 사용 가능한 너비 계산
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            final textStyle = context.textStyles.body2.copyWith(color: AppColors.gray400);
+                            final maxWidth = constraints.maxWidth;
+
+                            // 텍스트가 3줄을 넘는지 확인
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              final shouldShowButton = _isTextOverflow(place.overview!, textStyle, maxWidth);
+                              if (_showExpandButton != shouldShowButton) {
+                                setState(() {
+                                  _showExpandButton = shouldShowButton;
+                                });
+                              }
+                            });
+
+                            return Column(
+                              children: [
+                                Text(
+                                  place.overview!,
+                                  style: textStyle,
+                                  maxLines: isExpanded ? null : 3,
+                                  overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                ),
+
+                                // 3줄을 넘을 때만 더보기 버튼 표시
+                                if (_showExpandButton) ...[
+                                  SizedBox(height: 18.h),
+                                  Divider(height: 1.h, color: AppColors.gray100),
+                                  SizedBox(height: 8.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              isExpanded = !isExpanded;
+                                            });
+                                          },
+                                          child: Text(
+                                              isExpanded ? '접기' : AppStrings.showMore,
+                                              style: context.textStyles.body1.copyWith(color: AppColors.gray200)
+                                          )
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ],
+                            );
+                          },
                         ),
                         SizedBox(height: 48.h),
                       ],

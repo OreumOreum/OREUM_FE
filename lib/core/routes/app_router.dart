@@ -200,7 +200,9 @@ GoRouter appRouter(AppRouterRef ref) {
             return PlannerSearchScreen(
               day: day,
             );
-          }),
+          },
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+      ),
       GoRoute(
         path: RoutePath.recommend,
         builder: (context, state) {
@@ -210,6 +212,7 @@ GoRouter appRouter(AppRouterRef ref) {
           final type = extra?['type'] ?? true;
           return RecommendScreen(contentTypeId: contentTypeId, regionFilter: regionFilter, type: type,);
         },
+        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
           path: '${RoutePath.createPlaceReview}/:id',

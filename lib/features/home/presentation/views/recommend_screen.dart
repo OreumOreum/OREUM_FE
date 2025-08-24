@@ -190,6 +190,8 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 600;
     final state = ref.watch(recommendViewModelProvider);
     final viewModel = ref.read(recommendViewModelProvider.notifier);
     final myTypeState = ref.read(myTravelTypeProvider);
@@ -241,56 +243,110 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h, bottom: 8.h),
-                    child: SingleChildScrollView(
+                    child: isWideScreen
+                        ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: List.generate(largeCategories.length,
+                                (index) {
+                              final category = largeCategories[index];
+                              final isSelected =
+                                  state.selectedContentTypeId ==
+                                      category.contentTypeId;
+
+                              return GestureDetector(
+                                onTap: () => viewModel.setContentTypeId(
+                                    widget.regionFilter,
+                                    category.contentTypeId,
+                                    widget.type),
+                                behavior: HitTestBehavior.translucent,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      height: 52.r,
+                                      width: 52.r,
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          category.iconPath,
+                                          width: category.iconWidth,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      category.label,
+                                      style:
+                                      context.textStyles.body2.copyWith(
+                                        color: isSelected
+                                            ? AppColors.gray500
+                                            : AppColors.gray400,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      ),
+                    )
+                        : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 14.w),
                         child: Row(
-                            children: List.generate(
-                                largeCategories.length * 2 - 1, (index) {
-                              if (index.isOdd) {
-                                return SizedBox(width: 14.w);
-                              } else {
-                                final category = largeCategories[index ~/ 2];
-                                final isSelected = state.selectedContentTypeId ==
-                                    category.contentTypeId;
+                          children: List.generate(
+                              largeCategories.length * 2 - 1, (index) {
+                            if (index.isOdd) {
+                              return SizedBox(width: 14.w);
+                            } else {
+                              final category =
+                              largeCategories[index ~/ 2];
+                              final isSelected =
+                                  state.selectedContentTypeId ==
+                                      category.contentTypeId;
 
-                                return GestureDetector(
-                                  onTap: () => viewModel.setContentTypeId(
-                                      widget.regionFilter,
-                                      category.contentTypeId,
-                                      widget.type),
-                                  behavior: HitTestBehavior.translucent,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      SizedBox(
-                                        height: 52.r,
-                                        width: 52.r,
-                                        child: Center(
-                                          child: SvgPicture.asset(
-                                            category.iconPath,
-                                            width: category.iconWidth,
-                                          ),
+                              return GestureDetector(
+                                onTap: () => viewModel.setContentTypeId(
+                                    widget.regionFilter,
+                                    category.contentTypeId,
+                                    widget.type),
+                                behavior: HitTestBehavior.translucent,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      height: 52.r,
+                                      width: 52.r,
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                          category.iconPath,
+                                          width: category.iconWidth,
                                         ),
                                       ),
-                                      SizedBox(height: 4.h),
-                                      Text(
-                                        category.label,
-                                        style: context.textStyles.body2.copyWith(
-                                          color: isSelected
-                                              ? AppColors.gray500
-                                              : AppColors.gray400,
-                                          fontWeight: isSelected
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                        ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      category.label,
+                                      style: context.textStyles.body2
+                                          .copyWith(
+                                        color: isSelected
+                                            ? AppColors.gray500
+                                            : AppColors.gray400,
+                                        fontWeight: isSelected
+                                            ? FontWeight.bold
+                                            : FontWeight.normal,
                                       ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            })),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }),
+                        ),
                       ),
                     ),
                   ),
