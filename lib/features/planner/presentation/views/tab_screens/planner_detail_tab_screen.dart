@@ -77,7 +77,7 @@ class PlannerDetailTabScreen extends ConsumerWidget {
             String contentId = place.contentId;
             String contentTypeId = place.contentTypeId;
             final contentType = ContentTypeId.fromContentTypeId(contentTypeId);
-            String category = contentType?.label ?? '여행지';
+            String category = contentType?.label ?? '관광지';
 
             return InkWell(
               onTap: () {

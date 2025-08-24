@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
+import 'package:oreum_fe/core/constants/app_colors.dart';
 
 class DashedLinePainter extends CustomPainter {
   @override

@@ -1,7 +1,6 @@
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/features/auth/di/auth_providers.dart';
-import 'package:oreum_fe/features/auth/domain/entities/auth_token.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/apple_login_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_member_use_case.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/google_login_use_case.dart';

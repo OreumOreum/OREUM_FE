@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
-import 'package:oreum_fe/core/constants/icon_path.dart';
-import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
-import 'package:oreum_fe/core/widgets/search_bar_button.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/course_card.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/home_title_text.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/place_card.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/place_list_tile.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/split_rounded_button.dart';
 import 'package:oreum_fe/features/review/data/models/my_review_response.dart';
 import 'package:oreum_fe/features/review/presentation/viewmodels/my_review_view_model.dart';
-import 'package:oreum_fe/main.dart';
-import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/my_review_list_tile.dart';
 
 import '../../../../core/constants/ui_status.dart';

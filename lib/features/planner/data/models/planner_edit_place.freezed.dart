@@ -24,6 +24,7 @@ mixin _$PlannerEditPlace {
   int get day => throw _privateConstructorUsedError;
   int get orderIndex => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
   double? get mapX => throw _privateConstructorUsedError;
   double? get mapY => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $PlannerEditPlaceCopyWith<$Res> {
       int day,
       int orderIndex,
       String title,
+      String contentTypeId,
       double? mapX,
       double? mapY,
       String? address});
@@ -73,6 +75,7 @@ class _$PlannerEditPlaceCopyWithImpl<$Res, $Val extends PlannerEditPlace>
     Object? day = null,
     Object? orderIndex = null,
     Object? title = null,
+    Object? contentTypeId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
     Object? address = freezed,
@@ -93,6 +96,10 @@ class _$PlannerEditPlaceCopyWithImpl<$Res, $Val extends PlannerEditPlace>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String,
       mapX: freezed == mapX
           ? _value.mapX
@@ -123,6 +130,7 @@ abstract class _$$PlannerEditPlaceImplCopyWith<$Res>
       int day,
       int orderIndex,
       String title,
+      String contentTypeId,
       double? mapX,
       double? mapY,
       String? address});
@@ -145,6 +153,7 @@ class __$$PlannerEditPlaceImplCopyWithImpl<$Res>
     Object? day = null,
     Object? orderIndex = null,
     Object? title = null,
+    Object? contentTypeId = null,
     Object? mapX = freezed,
     Object? mapY = freezed,
     Object? address = freezed,
@@ -165,6 +174,10 @@ class __$$PlannerEditPlaceImplCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
               as String,
       mapX: freezed == mapX
           ? _value.mapX
@@ -190,6 +203,7 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
       required this.day,
       required this.orderIndex,
       required this.title,
+      required this.contentTypeId,
       this.mapX,
       this.mapY,
       this.address = ''});
@@ -206,6 +220,8 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
   @override
   final String title;
   @override
+  final String contentTypeId;
+  @override
   final double? mapX;
   @override
   final double? mapY;
@@ -215,7 +231,7 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
 
   @override
   String toString() {
-    return 'PlannerEditPlace(placeId: $placeId, day: $day, orderIndex: $orderIndex, title: $title, mapX: $mapX, mapY: $mapY, address: $address)';
+    return 'PlannerEditPlace(placeId: $placeId, day: $day, orderIndex: $orderIndex, title: $title, contentTypeId: $contentTypeId, mapX: $mapX, mapY: $mapY, address: $address)';
   }
 
   @override
@@ -228,6 +244,8 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
             (identical(other.orderIndex, orderIndex) ||
                 other.orderIndex == orderIndex) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId) &&
             (identical(other.mapX, mapX) || other.mapX == mapX) &&
             (identical(other.mapY, mapY) || other.mapY == mapY) &&
             (identical(other.address, address) || other.address == address));
@@ -235,8 +253,8 @@ class _$PlannerEditPlaceImpl implements _PlannerEditPlace {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, placeId, day, orderIndex, title, mapX, mapY, address);
+  int get hashCode => Object.hash(runtimeType, placeId, day, orderIndex, title,
+      contentTypeId, mapX, mapY, address);
 
   /// Create a copy of PlannerEditPlace
   /// with the given fields replaced by the non-null parameter values.
@@ -261,6 +279,7 @@ abstract class _PlannerEditPlace implements PlannerEditPlace {
       required final int day,
       required final int orderIndex,
       required final String title,
+      required final String contentTypeId,
       final double? mapX,
       final double? mapY,
       final String? address}) = _$PlannerEditPlaceImpl;
@@ -276,6 +295,8 @@ abstract class _PlannerEditPlace implements PlannerEditPlace {
   int get orderIndex;
   @override
   String get title;
+  @override
+  String get contentTypeId;
   @override
   double? get mapX;
   @override

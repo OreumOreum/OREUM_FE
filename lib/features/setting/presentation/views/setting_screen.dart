@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -13,18 +14,16 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/montly_badge.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
+import 'package:oreum_fe/core/di/my_type_provider.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/utils/custom_tab_launcher.dart';
 import 'package:oreum_fe/core/utils/email_sander.dart';
-
-import '../../../../core/constants/animation_path.dart';
-import '../../../../core/constants/ui_status.dart';
-import '../../../../core/di/my_type_provider.dart';
-import '../../../../core/utils/custom_tab_launcher.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../viewmodels/setting_view_model.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
+import 'package:oreum_fe/features/setting/presentation/viewmodels/setting_view_model.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
@@ -34,8 +33,8 @@ class SettingScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingScreenState extends ConsumerState<SettingScreen> {
-  bool _isLocationEnabled = true;
-  bool _isNotificationEnabled = false;
+  final bool _isLocationEnabled = true;
+  final bool _isNotificationEnabled = false;
 
   void _showLogoutDialog(BuildContext context) {
     showModalBottomSheet(
@@ -187,7 +186,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
     final myTypeState = ref.watch(myTravelTypeProvider);
     final myTravelType = myTypeState.myTravelType;
     final myTrvelProfile = myTravelType!.profile;
-    final myTravelTypeLabel = myTravelType!.type;
+    final myTravelTypeLabel = myTravelType.type;
     if (settingState.status == UiStatus.loading || myTypeState.status == UiStatus.loading) {
       return Padding(
         padding: EdgeInsets.only(bottom: 56.h),

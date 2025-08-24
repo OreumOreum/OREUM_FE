@@ -6,7 +6,6 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
-import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';

@@ -5,7 +5,6 @@ import 'package:oreum_fe/features/place/domain/usecases/search_places_use_case.d
 import 'package:oreum_fe/features/planner/presentation/viewmodels/states/planner_search_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/utils/custom_logger.dart';
 
 part 'planner_search_view_model.g.dart';
 

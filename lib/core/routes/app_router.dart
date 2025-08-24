@@ -6,8 +6,6 @@ import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/di/login_notifier.dart';
 import 'package:oreum_fe/core/di/user_type_notifier.dart';
-import 'package:oreum_fe/core/di/login_notifier.dart';
-import 'package:oreum_fe/core/di/user_type_notifier.dart';
 import 'package:oreum_fe/core/storage/secure_storage_repository_impl.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_scaffold.dart';
@@ -16,34 +14,30 @@ import 'package:oreum_fe/features/auth/presentation/views/type_test_result_scree
 import 'package:oreum_fe/features/auth/presentation/views/type_test_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_skip_screen.dart';
 import 'package:oreum_fe/features/auth/presentation/views/type_test_start_screen.dart';
-import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
 import 'package:oreum_fe/features/course/presentation/views/course_detail_screen.dart';
-
+import 'package:oreum_fe/features/folder/domain/entities/folder_detail_arg.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_detail_screen.dart';
 import 'package:oreum_fe/features/folder/presentation/views/folder_list_screen.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/states/recommend_state.dart';
 import 'package:oreum_fe/features/home/presentation/views/home_screen.dart';
+import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
+import 'package:oreum_fe/features/home/presentation/views/search_screen.dart';
+import 'package:oreum_fe/features/place/presentation/views/place_detail_screen.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
 import 'package:oreum_fe/features/planner/presentation/views/planner_detail_screen.dart';
 import 'package:oreum_fe/features/planner/presentation/views/planner_edit_screen.dart';
-import 'package:oreum_fe/features/home/presentation/views/recommend_screen.dart';
-import 'package:oreum_fe/features/home/presentation/views/search_screen.dart';
 import 'package:oreum_fe/features/planner/presentation/views/planner_list_screen.dart';
 import 'package:oreum_fe/features/planner/presentation/views/planner_search_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
 import 'package:oreum_fe/features/review/presentation/views/my_review_screen.dart';
+import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/account_setting_screen.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_detail.dart';
 import 'package:oreum_fe/features/setting/presentation/views/monthly_spot_map.dart';
 import 'package:oreum_fe/features/setting/presentation/views/setting_screen.dart';
-import 'package:oreum_fe/features/review/presentation/views/create_review_screen.dart';
-import 'package:oreum_fe/features/review/presentation/views/review_detail_screen.dart';
+import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import '../../features/place/presentation/views/place_detail_screen.dart';
-import '../../features/setting/presentation/views/monthly_spot_ranking.dart';
-import '../../features/spot/data/models/spot_month_response.dart';
-import '../constants/monthly_spot.dart';
 
 part 'app_router.g.dart';
 

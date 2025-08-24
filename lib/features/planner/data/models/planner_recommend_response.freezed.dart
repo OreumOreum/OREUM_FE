@@ -210,6 +210,7 @@ mixin _$PlannerRecommendItem {
   String get placeTitle => throw _privateConstructorUsedError;
   String? get placeAddress => throw _privateConstructorUsedError;
   String? get thumbnailImage => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
 
   /// Serializes this PlannerRecommendItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -231,7 +232,8 @@ abstract class $PlannerRecommendItemCopyWith<$Res> {
       {int placeId,
       String placeTitle,
       String? placeAddress,
-      String? thumbnailImage});
+      String? thumbnailImage,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -254,6 +256,7 @@ class _$PlannerRecommendItemCopyWithImpl<$Res,
     Object? placeTitle = null,
     Object? placeAddress = freezed,
     Object? thumbnailImage = freezed,
+    Object? contentTypeId = null,
   }) {
     return _then(_value.copyWith(
       placeId: null == placeId
@@ -272,6 +275,10 @@ class _$PlannerRecommendItemCopyWithImpl<$Res,
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -288,7 +295,8 @@ abstract class _$$PlannerRecommendItemImplCopyWith<$Res>
       {int placeId,
       String placeTitle,
       String? placeAddress,
-      String? thumbnailImage});
+      String? thumbnailImage,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -308,6 +316,7 @@ class __$$PlannerRecommendItemImplCopyWithImpl<$Res>
     Object? placeTitle = null,
     Object? placeAddress = freezed,
     Object? thumbnailImage = freezed,
+    Object? contentTypeId = null,
   }) {
     return _then(_$PlannerRecommendItemImpl(
       placeId: null == placeId
@@ -326,6 +335,10 @@ class __$$PlannerRecommendItemImplCopyWithImpl<$Res>
           ? _value.thumbnailImage
           : thumbnailImage // ignore: cast_nullable_to_non_nullable
               as String?,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -337,7 +350,8 @@ class _$PlannerRecommendItemImpl implements _PlannerRecommendItem {
       {required this.placeId,
       required this.placeTitle,
       this.placeAddress,
-      this.thumbnailImage});
+      this.thumbnailImage,
+      this.contentTypeId = '관광지'});
 
   factory _$PlannerRecommendItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$PlannerRecommendItemImplFromJson(json);
@@ -350,10 +364,13 @@ class _$PlannerRecommendItemImpl implements _PlannerRecommendItem {
   final String? placeAddress;
   @override
   final String? thumbnailImage;
+  @override
+  @JsonKey()
+  final String contentTypeId;
 
   @override
   String toString() {
-    return 'PlannerRecommendItem(placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, thumbnailImage: $thumbnailImage)';
+    return 'PlannerRecommendItem(placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, thumbnailImage: $thumbnailImage, contentTypeId: $contentTypeId)';
   }
 
   @override
@@ -367,13 +384,15 @@ class _$PlannerRecommendItemImpl implements _PlannerRecommendItem {
             (identical(other.placeAddress, placeAddress) ||
                 other.placeAddress == placeAddress) &&
             (identical(other.thumbnailImage, thumbnailImage) ||
-                other.thumbnailImage == thumbnailImage));
+                other.thumbnailImage == thumbnailImage) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, placeId, placeTitle, placeAddress, thumbnailImage);
+  int get hashCode => Object.hash(runtimeType, placeId, placeTitle,
+      placeAddress, thumbnailImage, contentTypeId);
 
   /// Create a copy of PlannerRecommendItem
   /// with the given fields replaced by the non-null parameter values.
@@ -398,7 +417,8 @@ abstract class _PlannerRecommendItem implements PlannerRecommendItem {
       {required final int placeId,
       required final String placeTitle,
       final String? placeAddress,
-      final String? thumbnailImage}) = _$PlannerRecommendItemImpl;
+      final String? thumbnailImage,
+      final String contentTypeId}) = _$PlannerRecommendItemImpl;
 
   factory _PlannerRecommendItem.fromJson(Map<String, dynamic> json) =
       _$PlannerRecommendItemImpl.fromJson;
@@ -411,6 +431,8 @@ abstract class _PlannerRecommendItem implements PlannerRecommendItem {
   String? get placeAddress;
   @override
   String? get thumbnailImage;
+  @override
+  String get contentTypeId;
 
   /// Create a copy of PlannerRecommendItem
   /// with the given fields replaced by the non-null parameter values.

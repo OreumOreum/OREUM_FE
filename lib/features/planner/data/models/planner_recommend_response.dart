@@ -21,6 +21,7 @@ class PlannerRecommendItem with _$PlannerRecommendItem {
     required String placeTitle,
     String? placeAddress,
     String? thumbnailImage,
+    @Default('관광지') String contentTypeId,
   }) = _PlannerRecommendItem;
 
   factory PlannerRecommendItem.fromJson(Map<String, dynamic> json) =>

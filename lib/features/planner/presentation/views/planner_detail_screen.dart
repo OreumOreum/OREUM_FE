@@ -4,12 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart' hide Marker;
 import 'package:oreum_fe/core/constants/animation_path.dart';
-import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/error_widget.dart';
-import 'package:oreum_fe/features/place/data/models/planner_place.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/custom_planner_marker.dart';
@@ -314,7 +312,7 @@ class _PlannerDetailScreenState extends ConsumerState<PlannerDetailScreen> {
       length: uniqueDays.length,
       child: Builder(
           builder: (context) {
-            final tabController = DefaultTabController.of(context)!;
+            final tabController = DefaultTabController.of(context);
 
             tabController.addListener(() {
               if (!tabController.indexIsChanging) {

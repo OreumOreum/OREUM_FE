@@ -76,6 +76,9 @@ dependencies:
   device_info_plus: ^11.5.0
 
 
+  collection: any
+  google_maps_flutter_android: any
+  google_maps_flutter_platform_interface: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

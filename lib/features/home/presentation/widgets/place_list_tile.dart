@@ -168,18 +168,6 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                       height: 64.r,
                       width: 64.r,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        height: 64.r,
-                        width: 64.r,
-                        color: AppColors.gray100,
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.gray300),
-                          ),
-                        ),
-                      ),
                       errorWidget: (context, url, error) => Container(
                         height: 64.r,
                         width: 64.r,

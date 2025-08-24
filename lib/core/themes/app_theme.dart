@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
-
-import '../constants/app_colors.dart';
 
 class AppTheme {
   static ThemeData kThemeData = ThemeData(

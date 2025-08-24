@@ -13,8 +13,6 @@ import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
-import '../../../../core/di/login_notifier.dart';
-import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/di/user_type_notifier.dart';
 import '../viewmodels/account_setting_view_model.dart';
 

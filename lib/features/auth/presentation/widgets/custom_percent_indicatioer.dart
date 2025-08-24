@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 
 class CustomPercentIndicatioer extends StatelessWidget {
   final double percent; // 0~1

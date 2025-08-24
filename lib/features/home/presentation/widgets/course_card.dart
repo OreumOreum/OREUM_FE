@@ -35,7 +35,7 @@ class CourseCard extends StatelessWidget {
         topRight: Radius.circular(AppSizes.radiusXS),
       ),
       onTap: onPressed,
-      child: Container(
+      child: SizedBox(
         width: 220.r,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

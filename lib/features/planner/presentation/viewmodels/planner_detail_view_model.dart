@@ -1,12 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/features/place/data/models/planner_place.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_detail_response.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
 import 'package:oreum_fe/features/planner/di/planner_providers.dart';
 import 'package:oreum_fe/features/planner/domain/usecases/get_planner_places_use_case.dart';
-import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/states/planner_detail_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

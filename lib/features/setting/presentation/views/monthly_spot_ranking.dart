@@ -3,19 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/travel_type.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
+import 'package:oreum_fe/features/setting/presentation/viewmodels/monthly_spot_ranking_view_model.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
-
-import '../../../../core/constants/animation_path.dart';
-import '../../../../core/constants/ui_status.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../viewmodels/monthly_spot_ranking_view_model.dart';
 
 class MonthlySpotRanking extends ConsumerStatefulWidget {
   final ScrollController scrollController;
@@ -126,6 +125,7 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
                             .copyWith(color: AppColors.gray200)),
                   ],
                 ),
+                SizedBox(height: 4.h,),
                 Divider(height: 1.h, thickness: 1.h, color: AppColors.gray100),
               ],
             ),
@@ -141,7 +141,7 @@ class _MonthlySpotRankingState extends ConsumerState<MonthlySpotRanking> {
             if (myTravelType != null && travelType == myTravelType) {
               textColor = AppColors.primary;
             } else {
-              textColor = AppColors.gray500;
+              textColor = AppColors.gray300;
             }
 
             return Padding(

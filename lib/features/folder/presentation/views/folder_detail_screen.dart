@@ -13,9 +13,7 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/utils/custom_logger.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
-import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/core/widgets/error_widget.dart';
-import 'package:oreum_fe/core/widgets/modal_menu.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_detail_response.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/folder/presentation/widgets/folder_detail_list_tile.dart';
@@ -26,7 +24,7 @@ class FolderDetailScreen extends ConsumerStatefulWidget {
   final String folderName;
   final bool isDefault;
 
-  FolderDetailScreen(
+  const FolderDetailScreen(
       {super.key,
       required this.folderId,
       required this.folderName,

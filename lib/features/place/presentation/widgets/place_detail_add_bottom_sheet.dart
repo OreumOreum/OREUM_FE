@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -17,7 +16,6 @@ import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_add
 
 import '../../../../core/constants/icon_path.dart';
 import '../../../../core/constants/image_path.dart';
-import '../../../../core/constants/route_path.dart';
 import '../../../../core/widgets/custom_toast.dart';
 import '../../../../core/widgets/name_editing_modal.dart';
 import '../../../folder/data/models/folder_saved_response.dart';
@@ -30,7 +28,7 @@ class PlaceDetailAddBottomSheet extends ConsumerStatefulWidget {
   final int id;
   final String? folderId;
 
-  PlaceDetailAddBottomSheet({
+  const PlaceDetailAddBottomSheet({
     super.key,
     required this.originImage,
     required this.title,

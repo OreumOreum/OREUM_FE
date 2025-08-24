@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/api_path.dart';
 import 'package:oreum_fe/features/home/data/models/category_recommend_response.dart';
-import 'package:oreum_fe/features/home/data/models/type_recommend_response.dart';
 
 import '../models/place_response.dart';
 

@@ -1,7 +1,6 @@
 import 'package:oreum_fe/features/home/data/models/category_recommend_response.dart';
 
 import '../../data/models/place_response.dart';
-import '../../data/models/type_recommend_response.dart';
 
 abstract class PlaceRepository {
   Future<PageablePlaceResponse> getPlaces({

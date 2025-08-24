@@ -7,7 +7,7 @@ part of 'planner_edit_view_model.dart';
 // **************************************************************************
 
 String _$plannerEditViewModelHash() =>
-    r'ef37ac786c5fd9b6ae1b713dc2b371158c472ac5';
+    r'92a3af202926504a0627971ffce4273ac94a77e7';
 
 /// See also [PlannerEditViewModel].
 @ProviderFor(PlannerEditViewModel)
