@@ -16,7 +16,6 @@ import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_v
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_add_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
-import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_list_view_model.dart';
 
 enum NameEditStatus {
@@ -34,7 +33,6 @@ class NameEditingModal extends ConsumerStatefulWidget {
   final int? placeId;
 
   const NameEditingModal._({
-    super.key,
     required this.editStatus,
     this.folderId,
     this.plannerId,

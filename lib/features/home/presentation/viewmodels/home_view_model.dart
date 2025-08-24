@@ -1,23 +1,19 @@
-import 'package:oreum_fe/features/course/data/models/course_response.dart';
-import 'package:oreum_fe/features/course/di/course_providers.dart';
-import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_case.dart';
 import 'dart:async';
 
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/features/home/data/models/type_recommend_response.dart';
+import 'package:oreum_fe/features/course/data/models/course_response.dart';
+import 'package:oreum_fe/features/course/di/course_providers.dart';
+import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_case.dart';
 import 'package:oreum_fe/features/home/di/home_providers.dart';
 import 'package:oreum_fe/features/home/di/weather_providers.dart';
 import 'package:oreum_fe/features/home/domain/entities/weather_info.dart';
 import 'package:oreum_fe/features/home/domain/use_cases/get_weather_info_use_case.dart';
 import 'package:oreum_fe/features/home/domain/usecases/get_type_recommend_use_case.dart';
 import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_state.dart';
-import 'package:intl/intl.dart';
-import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_monthly_spot_state.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_ranking_response.dart';
 import 'package:oreum_fe/features/spot/di/spot_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../../core/constants/ui_status.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../data/models/category_recommend_response.dart';
 import '../../data/models/place_response.dart';

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -75,8 +76,9 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: places.length,
                 onReorder: (oldIndex, newIndex) {
-                  if (oldIndex >= places.length || newIndex > places.length)
+                  if (oldIndex >= places.length || newIndex > places.length) {
                     return;
+                  }
 
                   if (oldIndex < newIndex) newIndex -= 1;
 
@@ -93,6 +95,9 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                 },
                 itemBuilder: (context, index) {
                   final place = places[index];
+                  String contentTypeId = place.contentTypeId;
+                  final contentType = ContentTypeId.fromContentTypeId(contentTypeId);
+                  String category = contentType?.label ?? '관광지';
                   return Container(
                     key: ValueKey(index),
                     margin: index == places.length - 1
@@ -100,7 +105,7 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                         : EdgeInsets.only(bottom: 20.h),
                     child: PlannerEditListTile(
                       day: widget.day,
-                      category: '한식',
+                      category: category,
                       title: place.title,
                       address: place.address,
                       index: index,
@@ -118,7 +123,7 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                     child: Text(
                       '아직 일정이 없습니다.',
                       style: context.textStyles.headLine1
-                          .copyWith(color: AppColors.gray500),
+                          .copyWith(color: AppColors.gray200),
                     ),
                   ),
                   SizedBox(
@@ -157,16 +162,16 @@ class _PlannerEditTabScreenState extends ConsumerState<PlannerEditTabScreen> {
                             .editPlannerPlaces(
                                 widget.plannerName!, widget.plannerId.toString());
                         context.pop();
-                        CustomToast.showToast(context, '일정을 수정했습니다', 56.h);
+                        CustomToast.showToast(context, '일정을 수정했습니다.', 56.h);
                       } else {
                         await ref
                             .read(plannerEditViewModelProvider.notifier)
                             .createPlanner(widget.plannerName!);
                         context.pop();
-                        CustomToast.showToast(context, '일정을 생성했습니다', 56.h);
+                        CustomToast.showToast(context, '일정을 생성했습니다.', 56.h);
                       }
                     } else {
-                      CustomToast.showToast(context, '여행지가 없습니다', 56.h);
+                      CustomToast.showToast(context, '아직 일정이 없습니다.', 56.h);
                     }
                   },
                   textStyle: context.textStyles.label3,

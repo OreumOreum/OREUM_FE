@@ -1,6 +1,4 @@
-import 'package:oreum_fe/core/data/models/auth_token_response.dart';
 import 'package:oreum_fe/core/utils/token_saver.dart';
-import 'package:oreum_fe/features/auth/domain/entities/auth_token.dart';
 import 'package:oreum_fe/features/auth/domain/repositories/apple_auth_repository.dart';
 import 'package:oreum_fe/features/auth/domain/repositories/auth_repository.dart';
 

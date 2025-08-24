@@ -1,4 +1,3 @@
-import 'package:oreum_fe/features/review/data/models/place_review_request.dart';
 import 'package:oreum_fe/features/review/domain/repositories/review_repository.dart';
 
 import '../../data/models/course_review_request.dart';

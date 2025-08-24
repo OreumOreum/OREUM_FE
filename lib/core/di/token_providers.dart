@@ -1,4 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:oreum_fe/core/di/local_storage_providers.dart';
 import 'package:oreum_fe/core/utils/token_saver.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

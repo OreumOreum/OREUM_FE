@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
@@ -18,7 +17,6 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
-import '../../../../core/constants/icon_path.dart';
 import '../../../../core/constants/montly_badge.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../viewmodels/setting_view_model.dart';

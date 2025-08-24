@@ -1,4 +1,3 @@
-import 'package:oreum_fe/features/folder/data/models/folder_response.dart';
 import 'package:oreum_fe/features/folder/data/models/folder_saved_response.dart';
 import 'package:oreum_fe/features/folder/domain/repositories/folder_repository.dart';
 

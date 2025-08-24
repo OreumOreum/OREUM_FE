@@ -6,13 +6,11 @@ import 'package:oreum_fe/features/folder/di/folder_providers.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/add_place_to_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/delete_place_from_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/get_folder_saved_use_case.dart';
-import 'package:oreum_fe/features/folder/domain/usecases/get_my_folder_use_case.dart';
 import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_list_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/states/place_detail_add_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../core/utils/custom_logger.dart';
-import '../../../folder/data/models/folder_response.dart';
 import '../../../folder/domain/usecases/create_my_folder_use_case.dart';
 
 part 'place_detail_add_view_model.g.dart';

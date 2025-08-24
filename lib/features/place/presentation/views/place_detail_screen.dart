@@ -9,19 +9,16 @@ import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
-import 'package:oreum_fe/core/constants/large_category.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/core/routes/app_router.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_toast.dart';
-import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/course/presentation/widgets/detail_container.dart';
+import 'package:oreum_fe/features/course/presentation/widgets/image_slider.dart';
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_view_model.dart';
-import 'package:oreum_fe/features/place/presentation/widgets/course_detail_list_tile.dart';
 import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bottom_sheet.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
@@ -42,7 +39,7 @@ class PlaceDetailScreen extends ConsumerStatefulWidget {
     required this.placeId,
     required this.contentId,
     required this.contentTypeId,
-  }) : super(key: key ?? ValueKey('place_${placeId}_${contentId}_${contentTypeId}')); // 🔥 수정
+  }) : super(key: key ?? ValueKey('place_${placeId}_${contentId}_$contentTypeId')); // 🔥 수정
 
   @override
   ConsumerState<PlaceDetailScreen> createState() => _PlaceDetailScreenState();
@@ -410,7 +407,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                               ),
                                 SizedBox(width: 6.w),
                                 Text(
-                                  '${place.reviewCount.toString()}',
+                                  place.reviewCount.toString(),
                                   style: context.textStyles.body1
                                       .copyWith(color: AppColors.gray300),
                                 ),
@@ -546,10 +543,10 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                           return InkWell(
                             onTap: () {
                               print('=== 네비게이션 시작: $placeId ==='); // 🔥 이 로그 추가
-                              context.push('${RoutePath.placeDetail}/${placeId}',
+                              context.push('${RoutePath.placeDetail}/$placeId',
                                   extra: {'contentId': contentId,
                                     'contentTypeId': contentTypeId,
-                                    'key': 'place_${placeId}_${contentId}_${contentTypeId}'});
+                                    'key': 'place_${placeId}_${contentId}_$contentTypeId'});
                             },
                             child: PlaceListTile(
                               thumbnailImage: typePlace.thumbnailImage ?? '',

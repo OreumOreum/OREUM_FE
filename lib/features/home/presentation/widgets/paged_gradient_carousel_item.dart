@@ -7,7 +7,6 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/home/domain/entities/carousel_item.dart';
-import 'package:oreum_fe/features/home/presentation/widgets/page_gradient_carousel.dart';
 
 class PagedGradientCarouselItem extends StatelessWidget {
   final CarouselItem item;

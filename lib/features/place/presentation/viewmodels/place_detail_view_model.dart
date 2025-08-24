@@ -1,12 +1,10 @@
 // PlaceDetailViewModel 상단 import 부분을 다음과 같이 수정:
 
 import 'package:oreum_fe/core/constants/ui_status.dart';
-import 'package:oreum_fe/features/course/di/course_providers.dart';
-import 'package:oreum_fe/features/course/domain/usecases/get_course_list_use_case.dart';
-import 'package:oreum_fe/features/folder/data/models/folder_place_request.dart';
 import 'package:oreum_fe/features/folder/di/folder_providers.dart';
 import 'package:oreum_fe/features/folder/domain/usecases/add_default_folder_use_case.dart';
-import 'package:oreum_fe/features/home/presentation/viewmodels/states/home_state.dart';
+// home의 Place를 명시적으로 import
+import 'package:oreum_fe/features/home/data/models/place_response.dart';
 import 'package:oreum_fe/features/place/data/models/place_response.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/states/place_detail_state.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
@@ -17,13 +15,9 @@ import 'package:oreum_fe/features/tour/di/tour_providers.dart';
 import 'package:oreum_fe/features/tour/domain/usecases/get_tour_api_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-// course Place를 숨기고 alias 사용
-import '../../../course/data/models/course_detail_response.dart' hide Place;
 import '../../../folder/domain/usecases/delete_default_folder_use_case.dart';
 import '../../../home/di/home_providers.dart';
 import '../../../home/domain/usecases/get_type_recommend_use_case.dart';
-// home의 Place를 명시적으로 import
-import 'package:oreum_fe/features/home/data/models/place_response.dart';
 import '../../di/place_providers.dart';
 import '../../domain/usecases/get_place_use_case.dart';
 

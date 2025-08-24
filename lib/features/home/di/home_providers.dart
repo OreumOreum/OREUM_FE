@@ -1,11 +1,12 @@
+import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/features/home/domain/usecases/get_recommend_place_use_case.dart';
 import 'package:oreum_fe/features/home/domain/usecases/get_type_recommend_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:oreum_fe/core/network/dio_providers.dart';
-import '../presentation/viewmodels/home_view_model.dart';
+
 import '../data/repositories/place_repository_impl.dart';
 import '../data/services/place_service.dart';
 import '../domain/usecases/get_places_use_case.dart';
+import '../presentation/viewmodels/home_view_model.dart';
 
 part 'home_providers.g.dart';
 

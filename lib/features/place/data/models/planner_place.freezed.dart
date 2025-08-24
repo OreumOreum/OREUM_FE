@@ -24,6 +24,7 @@ mixin _$PlannerPlace {
   String get placeTitle => throw _privateConstructorUsedError;
   String get placeAddress => throw _privateConstructorUsedError;
   String get placeThumbnailImage => throw _privateConstructorUsedError;
+  String get contentTypeId => throw _privateConstructorUsedError;
 
   /// Create a copy of PlannerPlace
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +47,8 @@ abstract class $PlannerPlaceCopyWith<$Res> {
       int placeId,
       String placeTitle,
       String placeAddress,
-      String placeThumbnailImage});
+      String placeThumbnailImage,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$PlannerPlaceCopyWithImpl<$Res, $Val extends PlannerPlace>
     Object? placeTitle = null,
     Object? placeAddress = null,
     Object? placeThumbnailImage = null,
+    Object? contentTypeId = null,
   }) {
     return _then(_value.copyWith(
       plannerPlaceId: null == plannerPlaceId
@@ -106,6 +109,10 @@ class _$PlannerPlaceCopyWithImpl<$Res, $Val extends PlannerPlace>
           ? _value.placeThumbnailImage
           : placeThumbnailImage // ignore: cast_nullable_to_non_nullable
               as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -126,7 +133,8 @@ abstract class _$$PlannerPlaceImplCopyWith<$Res>
       int placeId,
       String placeTitle,
       String placeAddress,
-      String placeThumbnailImage});
+      String placeThumbnailImage,
+      String contentTypeId});
 }
 
 /// @nodoc
@@ -150,6 +158,7 @@ class __$$PlannerPlaceImplCopyWithImpl<$Res>
     Object? placeTitle = null,
     Object? placeAddress = null,
     Object? placeThumbnailImage = null,
+    Object? contentTypeId = null,
   }) {
     return _then(_$PlannerPlaceImpl(
       plannerPlaceId: null == plannerPlaceId
@@ -184,6 +193,10 @@ class __$$PlannerPlaceImplCopyWithImpl<$Res>
           ? _value.placeThumbnailImage
           : placeThumbnailImage // ignore: cast_nullable_to_non_nullable
               as String,
+      contentTypeId: null == contentTypeId
+          ? _value.contentTypeId
+          : contentTypeId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -199,7 +212,8 @@ class _$PlannerPlaceImpl implements _PlannerPlace {
       required this.placeId,
       required this.placeTitle,
       required this.placeAddress,
-      required this.placeThumbnailImage});
+      required this.placeThumbnailImage,
+      required this.contentTypeId});
 
   @override
   final int plannerPlaceId;
@@ -217,10 +231,12 @@ class _$PlannerPlaceImpl implements _PlannerPlace {
   final String placeAddress;
   @override
   final String placeThumbnailImage;
+  @override
+  final String contentTypeId;
 
   @override
   String toString() {
-    return 'PlannerPlace(plannerPlaceId: $plannerPlaceId, day: $day, order: $order, plannerId: $plannerId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, placeThumbnailImage: $placeThumbnailImage)';
+    return 'PlannerPlace(plannerPlaceId: $plannerPlaceId, day: $day, order: $order, plannerId: $plannerId, placeId: $placeId, placeTitle: $placeTitle, placeAddress: $placeAddress, placeThumbnailImage: $placeThumbnailImage, contentTypeId: $contentTypeId)';
   }
 
   @override
@@ -240,12 +256,23 @@ class _$PlannerPlaceImpl implements _PlannerPlace {
             (identical(other.placeAddress, placeAddress) ||
                 other.placeAddress == placeAddress) &&
             (identical(other.placeThumbnailImage, placeThumbnailImage) ||
-                other.placeThumbnailImage == placeThumbnailImage));
+                other.placeThumbnailImage == placeThumbnailImage) &&
+            (identical(other.contentTypeId, contentTypeId) ||
+                other.contentTypeId == contentTypeId));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, plannerPlaceId, day, order,
-      plannerId, placeId, placeTitle, placeAddress, placeThumbnailImage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      plannerPlaceId,
+      day,
+      order,
+      plannerId,
+      placeId,
+      placeTitle,
+      placeAddress,
+      placeThumbnailImage,
+      contentTypeId);
 
   /// Create a copy of PlannerPlace
   /// with the given fields replaced by the non-null parameter values.
@@ -265,7 +292,8 @@ abstract class _PlannerPlace implements PlannerPlace {
       required final int placeId,
       required final String placeTitle,
       required final String placeAddress,
-      required final String placeThumbnailImage}) = _$PlannerPlaceImpl;
+      required final String placeThumbnailImage,
+      required final String contentTypeId}) = _$PlannerPlaceImpl;
 
   @override
   int get plannerPlaceId;
@@ -283,6 +311,8 @@ abstract class _PlannerPlace implements PlannerPlace {
   String get placeAddress;
   @override
   String get placeThumbnailImage;
+  @override
+  String get contentTypeId;
 
   /// Create a copy of PlannerPlace
   /// with the given fields replaced by the non-null parameter values.

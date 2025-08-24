@@ -11,7 +11,6 @@ import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
 import 'package:oreum_fe/core/widgets/name_editing_modal.dart';
-import 'package:oreum_fe/features/planner/presentation/views/planner_edit_screen.dart';
 
 enum PlaceListType {
   create,

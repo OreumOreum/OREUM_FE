@@ -1,30 +1,27 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:oreum_fe/core/constants/animation_path.dart';
+import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
+import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
+import 'package:oreum_fe/core/widgets/error_widget.dart';
+import 'package:oreum_fe/features/setting/presentation/viewmodels/monthly_spot_map_view_model.dart';
+import 'package:oreum_fe/features/setting/presentation/viewmodels/states/monthly_spot_map_state.dart';
+import 'package:oreum_fe/features/setting/presentation/widgets/monthly_spot_list_tile.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
 
-import '../../../../core/constants/animation_path.dart';
-import '../../../../core/constants/ui_status.dart';
-import '../../../../core/widgets/error_widget.dart';
-import '../viewmodels/monthly_spot_map_view_model.dart';
-import '../viewmodels/states/monthly_spot_map_state.dart';
-import '../widgets/monthly_spot_list_tile.dart';
 import 'monthly_spot_ranking.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_strings.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:oreum_fe/core/constants/icon_path.dart';
-import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 
 class ProximityBanner extends StatelessWidget {
   final MonthlySpotMapState spotState;
@@ -147,6 +144,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
       });
     }
   }
+
   final String _mapStyle = '''
   [
   {
@@ -247,6 +245,7 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
   }
 ]
   ''';
+
   @override
   Widget build(BuildContext context) {
     final spotState =
@@ -254,17 +253,24 @@ class _MonthlySpotMapState extends ConsumerState<MonthlySpotMap> {
     final spotViewModel =
         ref.read(monthlySpotMapViewModelProvider(spots: widget.spots).notifier);
     if (spotState.status == UiStatus.loading) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: 56.h),
-        child: Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Padding(
+          padding: EdgeInsets.only(bottom: 56.h),
+          child:
+              Center(child: Lottie.asset(AnimationPath.loading, repeat: true)),
+        ),
       );
     }
     if (spotState.status == UiStatus.error) {
-      return Center(child: ErrorRetryWidget(
-        onPressed: () {
-          spotViewModel.retryLoadingMarkers();
-        },
-      ));
+      return Scaffold(
+        appBar: CustomAppBar.back(),
+        body: Center(child: ErrorRetryWidget(
+          onPressed: () {
+            spotViewModel.retryLoadingMarkers();
+          },
+        )),
+      );
     }
     final bool isPermissionGranted =
         spotState.permissionStatus == LocationPermission.always ||

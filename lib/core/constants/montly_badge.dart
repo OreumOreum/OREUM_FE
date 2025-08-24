@@ -1,5 +1,4 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 
 enum MontlyBadge {
@@ -48,7 +47,7 @@ extension MontlyBadgeExtension on MontlyBadge {
       final region = match.group(1)!;
       final month = match.group(2)!;
       final regionLabel = region == 'jeju' ? '제주시' : '서귀포시';
-      return '${month}월 $regionLabel';
+      return '$month월 $regionLabel';
     }
     return '';
   }

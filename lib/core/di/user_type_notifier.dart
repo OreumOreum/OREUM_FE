@@ -5,7 +5,6 @@ import 'package:oreum_fe/features/auth/di/auth_providers.dart';
 import 'package:oreum_fe/features/auth/domain/usecases/check_exist_type_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'login_notifier.dart';
 import 'my_type_provider.dart';
 
 part 'user_type_notifier.g.dart';

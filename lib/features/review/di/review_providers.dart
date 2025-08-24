@@ -1,16 +1,12 @@
-import 'package:oreum_fe/features/place/data/repositories/place_repository_impl.dart';
-import 'package:oreum_fe/features/place/data/services/place_service.dart';
-import 'package:oreum_fe/features/place/domain/usecases/get_place_use_case.dart';
+import 'package:oreum_fe/core/network/dio_providers.dart';
 import 'package:oreum_fe/features/review/data/repositories/review_repository_impl.dart';
 import 'package:oreum_fe/features/review/data/services/review_service.dart';
-import 'package:oreum_fe/features/review/domain/repositories/review_repository.dart';
 import 'package:oreum_fe/features/review/domain/usecases/create_place_review_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/delete_my_review_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_course_reviews_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_my_reviews_use_case.dart';
 import 'package:oreum_fe/features/review/domain/usecases/get_place_reviews_use_case.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:oreum_fe/core/network/dio_providers.dart';
 
 import '../domain/usecases/create_course_review_use_case.dart';
 

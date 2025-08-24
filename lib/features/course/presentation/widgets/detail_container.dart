@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
-import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/detail_info_enum.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
-import 'package:oreum_fe/core/constants/app_strings.dart';
+import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/features/tour/data/models/tour_response.dart';
-import 'package:widget_to_marker/widget_to_marker.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/widgets/custom_toast.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:widget_to_marker/widget_to_marker.dart';
 
 class DetailContainer extends StatefulWidget {
   final TourResponse? tourData;

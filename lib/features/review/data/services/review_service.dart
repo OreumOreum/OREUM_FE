@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:oreum_fe/core/constants/api_path.dart';
 import 'package:oreum_fe/features/review/data/models/my_review_response.dart';
 import 'package:oreum_fe/features/review/data/models/place_review_request.dart';
-import 'package:oreum_fe/features/review/data/models/review_list_response.dart';
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../models/course_review_request.dart';

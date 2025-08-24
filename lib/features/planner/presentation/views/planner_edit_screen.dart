@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/animation_path.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -10,7 +9,6 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
 import 'package:oreum_fe/core/widgets/custom_toast.dart';
 import 'package:oreum_fe/features/planner/data/models/planner_edit_place.dart';
-import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_detail_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/viewmodels/planner_edit_view_model.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/custom_tab_bar.dart';
 import 'package:oreum_fe/features/planner/presentation/widgets/planner_tab_modal.dart';
@@ -215,7 +213,7 @@ class _PlannerEditScreenState extends ConsumerState<PlannerEditScreen>
                               !state.plannerPlaces.any((p) => p.day == lastDay);
                           if (isLastDayEmpty) {
                             CustomToast.showToast(
-                                context, '${tabDays.last}일 차 일정을 추가해주세요', 56.h);
+                                context, '${tabDays.last}일 차 일정을 추가해주세요.', 56.h);
                           } else {
                             ref
                                 .read(plannerEditViewModelProvider.notifier)

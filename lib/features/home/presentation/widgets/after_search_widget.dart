@@ -18,7 +18,6 @@ import '../../../../core/utils/debouncer.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../planner/presentation/viewmodels/planner_search_view_model.dart';
 import '../viewmodels/recent_search_view_model.dart';
-import 'search_list_tile.dart';
 
 class AfterSearchWidget extends ConsumerStatefulWidget {
   final String searchQuery;

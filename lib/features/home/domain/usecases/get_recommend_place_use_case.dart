@@ -1,5 +1,3 @@
-import 'package:oreum_fe/features/course/data/models/course_response.dart';
-import 'package:oreum_fe/features/course/domain/repositories/course_repository.dart';
 import 'package:oreum_fe/features/home/data/models/category_recommend_response.dart';
 import 'package:oreum_fe/features/home/domain/repositories/place_repository.dart';
 

@@ -1,4 +1,3 @@
-import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/image_path.dart';
 
 enum TravelType {

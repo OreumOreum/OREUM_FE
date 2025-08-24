@@ -1,4 +1,4 @@
-import '../../features/tour/data/models/tour_response.dart';
+import 'package:oreum_fe/features/tour/data/models/tour_response.dart';
 
 enum TourField {
   // 일반 정보
