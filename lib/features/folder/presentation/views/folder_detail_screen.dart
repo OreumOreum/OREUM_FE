@@ -176,12 +176,14 @@ class _FolderDetailScreenState extends ConsumerState<FolderDetailScreen> {
                             String placeId = folderPlaces[index].placeId.toString();
                             String contentId = folderPlaces[index].contentId;
                             String contentTypeId = folderPlaces[index].contentTypeId;
+                            String folderId = folderPlaces[index].FolderId.toString();
                             return InkWell(
                               onTap: () {
                                 context.push('${RoutePath.placeDetail}/$placeId',
                                     extra: {
                                       'contentId': contentId,
-                                      'contentTypeId': contentTypeId
+                                      'contentTypeId': contentTypeId,
+                                      'folderId': folderId,
                                     });
                               },
                               child: FolderDetailListTile(

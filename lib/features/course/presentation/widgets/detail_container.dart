@@ -523,8 +523,9 @@ class _DetailContainerState extends State<DetailContainer> {
     );
   }
 
-  // 🔥 지도 탭 내용 - 동기 방식
   Widget _buildMapContent() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWideScreen = screenWidth > 600;
     return Column(
       children: [
         Padding(
@@ -551,7 +552,7 @@ class _DetailContainerState extends State<DetailContainer> {
         ),
         SizedBox(height: 12.h),
         Container(
-          height: 100.h,
+          height: isWideScreen ? 200.h : 100.h,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),

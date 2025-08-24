@@ -9,6 +9,8 @@ import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
+import 'package:oreum_fe/core/constants/large_category.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/core/widgets/custom_app_bar.dart';
@@ -22,6 +24,7 @@ import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/content_type_id.dart';
 import '../../../../core/constants/route_path.dart';
 import '../../../../core/constants/ui_status.dart';
+import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/custom_toast.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../home/presentation/widgets/course_card.dart';
@@ -47,125 +50,33 @@ class CourseDetailScreen extends ConsumerStatefulWidget {
 
 class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
   bool isExpanded = false;
-
-  final List<Map<String, String>> placeList = [
-    {
-      'title': '제주항 선터수',
-      'address': '제주시 삼동 310-45',
-      'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    },
-    {
-      'title': '김녕 해수욕장',
-      'address': '제주시 구좌읍 김녕해안로 237',
-      'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    },
-    {
-      'title': '삼지교',
-      'address': '제주 서귀포시 삼성리 교회',
-      'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    },
-    {
-      'title': '서귀포 올레시장',
-      'address': '제주 서귀포시 서호동 340',
-      'image':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    },
-  ];
-
-  final List<Map<String, String>> detailList = [
-    {
-      'detail1': '휴무일    연중무휴 ',
-      'detail2': '이용시간   10:00~19:00',
-      'detail3': '전화번호    064-728-3988',
-      'detail4': '주차시설    가능',
-      'detail5': '냄비유무    있음',
-      'detail6':
-      '하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침하늘에서 바라본 모습이 한문 평(平) 자를 이룬 모양을 하고 있어 김녕이라고 불리는, 김녕마을에 있는 해수욕장이다. 거대한 너럭바위 용암 위에 모래가 쌓여 만들어졌으며, 성세기는 외세의 침'
-    }
-  ];
-
-  final List<Map<String, String>> courseList = [
-    {
-      'title': '놀멍쉬멍 제주 바다 구경떠나기',
-      'address': '제주시',
-      'rating': '4.9',
-      'reviewNumber': '97'
-    },
-  ];
-
-  final List<String> courseImages = [
-    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-    'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg',
-  ];
-
-  final List<Map<String, String>> mockReview = [
-    {
-      'type': '모험 액티비티형',
-      'date': '2025.06.26',
-      'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
-      'rating': '4'
-    },
-    {
-      'type': '모험 액티비티형',
-      'date': '2025.06.26',
-      'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
-      'rating': '4'
-    },
-    {
-      'type': '모험 액티비티형',
-      'date': '2025.06.26',
-      'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
-      'rating': '4'
-    },
-    {
-      'type': '모험 액티비티형',
-      'date': '2025.06.26',
-      'content':
-      '친절한 응대 감사했습니다. 예약해서 앙기모띠. 매장이 너무 더워가 그 점이 아쉬웠습니다. 다음에 또 올게요. 앙로모띠!',
-      'rating': '4'
-    },
-  ];
-
-  final List<Map<String, String>> placeImages = [
-    {
-      'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
-    },
-    {
-      'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
-    },
-    {
-      'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
-    },
-    {
-      'thumbnailImage':
-      'http://tong.visitkorea.or.kr/cms/resource/13/729013_image2_1.jpg'
-    },
-  ];
+  bool _showExpandButton = false; // 더보기 버튼 표시 여부
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       ref
-          .read(courseDetailViewModelProvider.notifier)
+          .read(courseDetailViewModelProvider(widget.courseId).notifier)
           .initializeCourseDetail(widget.courseId,widget.contentId, widget.contentTypeId);
     });
+  }
+
+  // 텍스트가 3줄을 넘는지 확인하는 함수
+  bool _isTextOverflow(String text, TextStyle style, double maxWidth) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: 3,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(maxWidth: maxWidth);
+    return textPainter.didExceedMaxLines;
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final state = ref.watch(courseDetailViewModelProvider);
+    final state = ref.watch(courseDetailViewModelProvider(widget.courseId));
 
     if (state.status == UiStatus.loading) {
       return Scaffold(
@@ -181,12 +92,12 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
 
     if (state.status == UiStatus.error) {
       return Scaffold(
-          appBar: CustomAppBar.back(),
-          body:ErrorRetryWidget(
-        onPressed: () {
-          ref.read(courseDetailViewModelProvider.notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
-        },
-      ),
+        appBar: CustomAppBar.back(),
+        body:ErrorRetryWidget(
+          onPressed: () {
+            ref.read(courseDetailViewModelProvider(widget.courseId).notifier).initializeCourseDetail(widget.courseId, widget.contentId, widget.contentTypeId);
+          },
+        ),
       );
     }
 
@@ -204,6 +115,9 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
     List<ReviewResponse> reviews = state.reviews;
     List<Place> places = course.places;
     List<CourseResponse> courses = state.courses;
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTravelTypeLabel = myTravelType!.type;
 
     return Scaffold(
         appBar: CustomAppBar.back(),
@@ -232,9 +146,11 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(course.title,
-                                  style: context.textStyles.headLine3
-                                      .copyWith(color: AppColors.gray500)),
+                              Expanded(
+                                child: Text(course.title,
+                                    style: context.textStyles.headLine3
+                                        .copyWith(color: AppColors.gray500)),
+                              ),
                             ],
                           ),
                           SizedBox(height: 2.h),
@@ -267,36 +183,69 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                             isCourseMode: true,
                           ),
                           SizedBox(height: 56.h),
-                          Text(AppStrings.spotIntro,
-                              style: context.textStyles.label3
-                                  .copyWith(color: AppColors.gray500)),
-                          SizedBox(height: 8.h),
-                          Text(
-                            course.overview != null ? course.overview! : '',
-                            style: context.textStyles.body2.copyWith(color: AppColors.gray400),
-                            maxLines: isExpanded ? null : 3,
-                            overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 18.h),
-                          Divider(height: 1.h, color: AppColors.gray100),
-                          SizedBox(height: 8.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextButton(
-                                  onPressed: () {
+
+                          // 🔥 수정된 overview 부분
+                          if (course.overview != null && course.overview!.isNotEmpty) ...[
+                            Text(AppStrings.spotIntro,
+                                style: context.textStyles.label3
+                                    .copyWith(color: AppColors.gray500)),
+                            SizedBox(height: 8.h),
+
+                            // LayoutBuilder로 사용 가능한 너비 계산
+                            LayoutBuilder(
+                              builder: (context, constraints) {
+                                final textStyle = context.textStyles.body2.copyWith(color: AppColors.gray400);
+                                final maxWidth = constraints.maxWidth;
+
+                                // 텍스트가 3줄을 넘는지 확인
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  final shouldShowButton = _isTextOverflow(course.overview!, textStyle, maxWidth);
+                                  if (_showExpandButton != shouldShowButton) {
                                     setState(() {
-                                      isExpanded = !isExpanded;
+                                      _showExpandButton = shouldShowButton;
                                     });
-                                  },
-                                  child: Text(
-                                      isExpanded ? '접기' : AppStrings.showMore,
-                                      style: context.textStyles.body1.copyWith(color: AppColors.gray200)
-                                  )
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 48.h),
+                                  }
+                                });
+
+                                return Column(
+                                  children: [
+                                    Text(
+                                      course.overview!,
+                                      style: textStyle,
+                                      maxLines: isExpanded ? null : 3,
+                                      overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+                                    ),
+
+                                    // 3줄을 넘을 때만 더보기 버튼 표시
+                                    if (_showExpandButton) ...[
+                                      SizedBox(height: 18.h),
+                                      Divider(height: 1.h, color: AppColors.gray100),
+                                      SizedBox(height: 8.h),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  isExpanded = !isExpanded;
+                                                });
+                                              },
+                                              child: Text(
+                                                  isExpanded ? '접기' : AppStrings.showMore,
+                                                  style: context.textStyles.body1.copyWith(color: AppColors.gray200)
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ],
+                                );
+                              },
+                            ),
+                            SizedBox(height: 48.h),
+                          ],
+                          // 🔥 overview 수정 끝
+
                         ],
                       ),
                     ),
@@ -363,7 +312,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                                   ),
                                   SizedBox(width: 6.w),
                                   Text(
-                                      course.reviewCount.toString(),
+                                    '${course.reviewCount.toString()}',
                                     style: context.textStyles.body1
                                         .copyWith(color: AppColors.gray300),
                                   ),
@@ -423,15 +372,18 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                         isMyReview: isMyReview,
                         reviewId: reviewId,
                         onReviewDeleted: () {
-                          ref.read(courseDetailViewModelProvider.notifier)
+                          ref.read(courseDetailViewModelProvider(widget.courseId).notifier)
                               .refreshCourseDetailBackground(widget.courseId);
                         },);
                     },
                   ),
                 ),
-                SizedBox(height: 8.h,),
-                Divider(height: 1.h, color: AppColors.gray100),
-                SizedBox(height: 18.h,),
+
+                if (reviews.isNotEmpty) ...[
+                  SizedBox(height: 8.h,),
+                  Divider(height: 1.h, color: AppColors.gray100),
+                  SizedBox(height: 18.h,),
+                ],
 
                 // 리뷰가 3개 초과일 때만 전체보기 버튼 표시
                 if (reviews.length > 3)
@@ -467,7 +419,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
                         child: HomeTitleText(
                           title: AppStrings.personalizedCourseRecommendation,
                           //TODO 유형 추가 enum
-                          primaryText: '모험 액티비티형',
+                          primaryText: myTravelTypeLabel,
                           subtitle: AppStrings.typeCourseRecommendation,
                         ),
                       ),

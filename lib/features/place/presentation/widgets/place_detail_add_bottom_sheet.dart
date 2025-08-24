@@ -10,6 +10,8 @@ import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
+import 'package:oreum_fe/core/widgets/custom_elevated_button.dart';
+import 'package:oreum_fe/features/folder/presentation/viewmodels/folder_detail_view_model.dart';
 import 'package:oreum_fe/features/place/presentation/viewmodels/place_detail_add_view_model.dart';
 
 import '../../../../core/constants/icon_path.dart';
@@ -24,14 +26,14 @@ class PlaceDetailAddBottomSheet extends ConsumerStatefulWidget {
   final String? originImage;
   final String title;
   final int id;
-
+  final String? folderId;
 
   const PlaceDetailAddBottomSheet({
     super.key,
     required this.originImage,
     required this.title,
     required this.id,
-
+    this.folderId,
   });
 
   @override
@@ -42,11 +44,14 @@ class PlaceDetailAddBottomSheet extends ConsumerStatefulWidget {
 class _PlaceDetailAddBottomSheetState
     extends ConsumerState<PlaceDetailAddBottomSheet> {
   bool _hasChanges = false;
-  bool _isBookmarkDeleted = false; // 🔥 북마크 삭제 플래그 추가
+  bool _isBookmarkDeleted = false;
+  bool _wasAlreadySaved = false;
 
   @override
   void initState() {
     super.initState();
+    _wasAlreadySaved = true;
+
     Future.microtask(() {
       ref
           .read(placeDetailAddViewModelProvider.notifier)
@@ -58,175 +63,191 @@ class _PlaceDetailAddBottomSheetState
   Widget build(BuildContext context) {
     final state = ref.watch(placeDetailAddViewModelProvider);
 
-    return WillPopScope(
-      // 🔥 뒤로가기 감지
-        onWillPop: () async {
-          // 🔥 북마크가 삭제된 경우만 false 반환, 그 외에는 변경사항 여부 반환
-          Navigator.of(context).pop(_isBookmarkDeleted ? false : _hasChanges);
-          return false; // 이미 pop했으므로 추가 pop 방지
+    return GestureDetector(
+        onTap: () {
+          // 🔥 바깥쪽 터치 시 바텀시트 닫기
+          if (_isBookmarkDeleted) {
+            Navigator.of(context).pop(false);
+          } else if (_hasChanges) {
+            Navigator.of(context).pop(true);
+          } else if (_wasAlreadySaved) {
+            Navigator.of(context).pop(true);
+          } else {
+            Navigator.of(context).pop(null);
+          }
         },
-        child: SafeArea(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 1.w, sigmaY: 1.h),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 1.w, sigmaY: 1.h),
+          child: GestureDetector(
+            onTap: () {}, // 바텀시트 내부 터치는 무시 (이벤트 전파 중단)
             child: Container(
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(AppSizes.radiusLG)),
+                  top: Radius.circular(AppSizes.radiusLG),
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min, // 내용에 맞게 높이 조정
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppSizes.defaultPadding),
-                    child: Column(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 10.h),
-                            Container(
-                              width: 42.w,
-                              height: 4.h,
-                              decoration: BoxDecoration(
-                                color: AppColors.gray200,
-                                borderRadius:
-                                BorderRadius.circular(AppSizes.radiusXXS),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 14.h),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: AppSizes.defaultPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: SafeArea(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                        AppSizes.radiusXS),
-                                    child: Image.network(
-                                      widget.originImage ?? '',
-                                      height: 64.r,
-                                      width: 64.r,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Container(
-                                          height: 64.r,
-                                          width: 64.r,
-                                          color: AppColors.gray100,
-                                          child: Center(
-                                            child: Image.asset(
-                                              ImagePath.imageError,
-                                              width: 32.r,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.title,
-                                          style: context.textStyles.headLine4
-                                              .copyWith(
-                                              color: AppColors.gray500)),
-                                      SizedBox(height: 2.h),
-                                      Text(AppStrings.isSaved,
-                                          style: context.textStyles.body1
-                                              .copyWith(
-                                              color: AppColors.gray300)),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                width: 24.w,
-                                height: 24.h,
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  constraints: const BoxConstraints(),
-                                  onPressed: () async {
-                                    await ref
-                                        .read(placeDetailViewModelProvider(
-                                        widget.id.toString()).notifier)
-                                        .deleteDefaultFolder(widget.id);
-
-                                    if (mounted) {
-                                      _isBookmarkDeleted =
-                                      true; // 🔥 북마크 삭제 플래그 설정
-                                      Navigator.of(context).pop(false);
-                                      CustomToast.showToast(
-                                          context, '모든 폴더에서 삭제되었습니다.', 56.h);
-                                    }
-                                  },
-                                  icon: SvgPicture.asset(
-                                    IconPath.bookmarkFill,
-                                    width: 16.w,
-                                  ),
+                              SizedBox(height: 10.h),
+                              Container(
+                                width: 42.w,
+                                height: 4.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.gray200,
+                                  borderRadius:
+                                  BorderRadius.circular(AppSizes.radiusXXS),
                                 ),
-                              ),
+                              )
                             ],
                           ),
-                        )
-                      ],
+                          SizedBox(height: 14.h),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AppSizes.defaultPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                          AppSizes.radiusXS),
+                                      child: Image.network(
+                                        widget.originImage ?? '',
+                                        height: 64.r,
+                                        width: 64.r,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Container(
+                                            height: 64.r,
+                                            width: 64.r,
+                                            color: AppColors.gray100,
+                                            child: Center(
+                                              child: Image.asset(
+                                                ImagePath.imageError,
+                                                width: 32.r,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          widget.title,
+                                          style: context.textStyles.headLine4
+                                              .copyWith(color: AppColors.gray500),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(height: 2.h),
+                                        Text(AppStrings.isSaved,
+                                            style: context.textStyles.body1
+                                                .copyWith(
+                                                color: AppColors.gray300)),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 24.w,
+                                  height: 24.h,
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(),
+                                    onPressed: () async {
+                                      await ref
+                                          .read(placeDetailViewModelProvider(
+                                          widget.id.toString())
+                                          .notifier)
+                                          .deleteDefaultFolder(widget.id);
+                                      if(widget.folderId != null) {
+                                      await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
+
+                                      if (mounted) {
+                                        _isBookmarkDeleted =
+                                        true; // 🔥 북마크 삭제 플래그 설정
+                                        Navigator.of(context).pop(false);
+                                        CustomToast.showToast(
+                                            context, '모든 폴더에서 삭제되었습니다.', 56.h);
+                                      }
+                                    },
+                                    icon: SvgPicture.asset(
+                                      IconPath.bookmarkFill,
+                                      width: 16.w,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 21.h),
-                  Divider(height: 1.h, color: AppColors.gray100),
-                  SizedBox(height: 22.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(AppStrings.folder,
-                                style: context.textStyles.headLine4
-                                    .copyWith(color: AppColors.gray500)),
-                            TextButton(
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    useRootNavigator: true,
-                                    isScrollControlled: true,
-                                    builder: (context) {
-                                      return NameEditingModal
-                                          .folderCreatePlaceDetail(
-                                          placeId: widget.id);
-                                    });
-                              },
-                              child: Text(
-                                AppStrings.addFolderButtonText,
-                                style: context.textStyles.label4
-                                    .copyWith(color: AppColors.gray300),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 18.h),
-                        _buildFolderList(state),
-                      ],
-                    ),
-                  )
-                ],
+                    SizedBox(height: 21.h),
+                    Divider(height: 1.h, color: AppColors.gray100),
+                    SizedBox(height: 22.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(AppStrings.folder,
+                                  style: context.textStyles.headLine4
+                                      .copyWith(color: AppColors.gray500)),
+                              TextButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      useRootNavigator: true,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return NameEditingModal
+                                            .folderCreatePlaceDetail(
+                                            placeId: widget.id);
+                                      });
+                                },
+                                child: Text(
+                                  AppStrings.addFolderButtonText,
+                                  style: context.textStyles.label4
+                                      .copyWith(color: AppColors.gray300),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: 18.h),
+                          _buildFolderList(state),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ));
+        ),
+      );
   }
 
   Widget _buildFolderList(PlaceDetailAddState state) {
@@ -330,6 +351,9 @@ class _PlaceDetailAddBottomSheetState
                         .notifier)
                         .deleteDefaultFolder(widget.id);
 
+                    if(widget.folderId != null) {
+                      await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
+
                     if (mounted) {
                       _isBookmarkDeleted = true; // 북마크 삭제 플래그 설정
                       Navigator.of(context).pop(false);
@@ -354,6 +378,9 @@ class _PlaceDetailAddBottomSheetState
                         .addDefaultFolder(widget.id);
                   }
 
+                  if(widget.folderId != null) {
+                    await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
+
                   _hasChanges = true; // 변경사항 표시
                 }
               },
@@ -373,9 +400,7 @@ class _PlaceDetailAddBottomSheetState
                     height: 24.h,
                     child: Center(
                       child: SvgPicture.asset(
-                        folder.isSaved
-                            ? IconPath.saveCheck
-                            : IconPath.savePlus,
+                        folder.isSaved ? IconPath.saveCheck : IconPath.savePlus,
                         width: 12.w,
                       ),
                     ),

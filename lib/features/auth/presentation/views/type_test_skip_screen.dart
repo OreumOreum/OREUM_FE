@@ -27,7 +27,6 @@ class TypeTestSkipScreen extends ConsumerStatefulWidget {
 }
 
 class _TypeTestSkipScreenState extends ConsumerState<TypeTestSkipScreen> {
-
   @override
   Widget build(BuildContext context) {
     final selectedType = ref.watch(travelTypeSelectionProvider);
@@ -88,6 +87,9 @@ class _TypeTestSkipScreenState extends ConsumerState<TypeTestSkipScreen> {
                           );
                         },
                       ),
+                      SizedBox(
+                        height: 88.h,
+                      )
                     ],
                   ),
                 ),
@@ -104,21 +106,23 @@ class _TypeTestSkipScreenState extends ConsumerState<TypeTestSkipScreen> {
                               state.status == UiStatus.loading
                           ? null
                           : () async {
-                        try {
-                          await ref
-                              .read(typeTestViewModelProvider.notifier)
-                              .submitTypeTestResult(selectedType.name);
-                          ref.read(typeTestViewModelProvider);
-                          final state = ref.watch(typeTestViewModelProvider);
-                          if(mounted && state.status == UiStatus.success) {
-                            context.go(RoutePath.typeTestResult,
-                                extra: selectedType);
-                          }
-                        } catch (e) {
-                          // 에러 처리
-                          logger.e('Error: $e');
-                        }
-                      },
+                              try {
+                                await ref
+                                    .read(typeTestViewModelProvider.notifier)
+                                    .submitTypeTestResult(selectedType.name);
+                                ref.read(typeTestViewModelProvider);
+                                final state =
+                                    ref.watch(typeTestViewModelProvider);
+                                if (mounted &&
+                                    state.status == UiStatus.success) {
+                                  context.go(RoutePath.typeTestResult,
+                                      extra: selectedType);
+                                }
+                              } catch (e) {
+                                // 에러 처리
+                                logger.e('Error: $e');
+                              }
+                            },
                       textStyle: context.textStyles.label3,
                       radius: AppSizes.radiusMD),
                 ),

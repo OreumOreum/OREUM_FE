@@ -19,7 +19,7 @@ part 'course_detail_view_model.g.dart';
 @riverpod
 class CourseDetailViewModel extends _$CourseDetailViewModel {
   @override
-  CourseDetailState build() {
+  CourseDetailState build(String courseId) {
     return CourseDetailState();
   }
 

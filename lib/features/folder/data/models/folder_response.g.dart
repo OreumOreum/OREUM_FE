@@ -11,7 +11,7 @@ _$FolderResponseImpl _$$FolderResponseImplFromJson(Map<String, dynamic> json) =>
       folderId: (json['folderId'] as num).toInt(),
       folderName: json['folderName'] as String,
       originImages: (json['originImages'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => e as String?)
           .toList(),
       isDefault: json['isDefault'] as bool,
     );

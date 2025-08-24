@@ -25,6 +25,7 @@ class FolderListViewModel extends _$FolderListViewModel {
       state = state.copyWith(status: UiStatus.success, folders: folders);
     } catch (e) {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
+      print(e.toString());
     }
   }
 

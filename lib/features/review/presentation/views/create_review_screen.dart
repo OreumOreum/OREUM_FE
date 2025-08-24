@@ -258,26 +258,25 @@ class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
                     onPressed: state.status == UiStatus.loading ? null : () async {
                       String content = _textController.text.trim();
 
+                      // 별점만 체크 (리뷰 내용은 선택사항)
                       if(rate == 0) {
                         CustomToast.showToast(context, '점수를 입력해주세요.', 56.h);
-                      } else if (content.isEmpty) {
-                        CustomToast.showToast(context, '리뷰 내용을 입력해주세요.', 56.h);
                       } else {
                         int id = int.parse(widget.id);
 
                         // 타입에 따라 분기
                         if (widget.type == ReviewType.place) {
                           await ref.read(createReviewViewModelProvider.notifier)
-                              .createPlaceReview(id, rate, content);
+                              .createPlaceReview(id, rate, content.isEmpty ? '' : content);
                         } else if (widget.type == ReviewType.course) {
                           await ref.read(createReviewViewModelProvider.notifier)
-                              .createCourseReview(id, rate, content);  // 이미 구현된 메서드!
+                              .createCourseReview(id, rate, content.isEmpty ? '' : content);
                         }
 
                         final currentState = ref.read(createReviewViewModelProvider);
                         if(mounted && currentState.status == UiStatus.success) {
                           CustomToast.showToast(context, '리뷰가 작성되었습니다.', 56.h);
-                          context.pop();
+                          context.pop(true);
                         } else if (mounted && currentState.status == UiStatus.error) {
                           CustomToast.showToast(context, currentState.errorMessage ?? '리뷰 작성에 실패했습니다.', 56.h);
                         }

@@ -94,7 +94,7 @@ class _AccountSettingScreenState extends ConsumerState<AccountSettingScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              await viewModel.deleteAccount();
+                              await viewModel.deleteAccount(context);
                               ref.read(userTypeNotifierProvider).reset();
                               Navigator.of(dialogContext).pop();
                             },

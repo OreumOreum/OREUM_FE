@@ -45,7 +45,7 @@ class FolderRepositoryImpl implements FolderRepository {
 
   @override
   Future<void> deleteDefaultFolder(int placeId) {
-    return _folderService.addDefaultFolder(placeId);
+    return _folderService.deleteDefaultFolder(placeId);
   }
 
   @override

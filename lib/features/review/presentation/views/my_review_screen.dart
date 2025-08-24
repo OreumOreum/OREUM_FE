@@ -92,54 +92,56 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
 
     return Scaffold(
       appBar: CustomAppBar.back(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
-              child: Column(
-                children: [
-                  SizedBox(height: 32.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(AppStrings.myReview,
-                        style: context.textStyles.label3
-                            .copyWith(color: AppColors.gray500),),
-                    ],
-                  ),
-                  SizedBox(height: 10.h,),
-                  Divider(height: 1.h, color: AppColors.gray100),
-                  SizedBox(height: 6.h),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
+                child: Column(
+                  children: [
+                    SizedBox(height: 32.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(AppStrings.myReview,
+                          style: context.textStyles.label3
+                              .copyWith(color: AppColors.gray500),),
+                      ],
+                    ),
+                    SizedBox(height: 10.h,),
+                    Divider(height: 1.h, color: AppColors.gray100),
+                    SizedBox(height: 6.h),
+                  ],
+                ),
               ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: myReviews.length,
-              itemBuilder: (BuildContext context, int index) {
-                String type = myReviews[index].placeTitle;
-                String date = myReviews[index].updatedAt.toString();
-                String content =
-                myReviews[index].content.toString();
-                double rating = myReviews[index].rate;
-                int reviewId = myReviews[index].reviewID;
-                return MyReviewListTile(
-                    type: type,
-                    date: date,
-                    content: content,
-                    rating: rating,
-                  reviewId: reviewId,
-                  onReviewDeleted: () {
-                    ref.read(myReviewViewModelProvider.notifier)
-                        .initializeMyReview();
-                  },
-                );
-              },
-            ),
-            SizedBox(height: 16.h,)
-          ],
+              ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: myReviews.length,
+                itemBuilder: (BuildContext context, int index) {
+                  String type = myReviews[index].placeTitle;
+                  String date = myReviews[index].updatedAt.toString().substring(0, 10);
+                  String content =
+                  myReviews[index].content.toString();
+                  double rating = myReviews[index].rate;
+                  int reviewId = myReviews[index].reviewID;
+                  return MyReviewListTile(
+                      type: type,
+                      date: date,
+                      content: content,
+                      rating: rating,
+                    reviewId: reviewId,
+                    onReviewDeleted: () {
+                      ref.read(myReviewViewModelProvider.notifier)
+                          .initializeMyReview();
+                    },
+                  );
+                },
+              ),
+              SizedBox(height: 16.h,)
+            ],
+          ),
         ),
       ),
     );

@@ -7,7 +7,7 @@ part of 'folder_list_view_model.dart';
 // **************************************************************************
 
 String _$folderListViewModelHash() =>
-    r'66144d45165e3094605609c4f1c6b686e28c451b';
+    r'8077ea061fa28cd2e4c802017c66f1788423423a';
 
 /// See also [FolderListViewModel].
 @ProviderFor(FolderListViewModel)

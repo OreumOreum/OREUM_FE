@@ -133,8 +133,10 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
                     (index) {
                       String folderId = folders[index].folderId.toString();
                       String folderName = folders[index].folderName;
-                      List<String>? thumbnailImages =
+                      List<String?>? thumbnailImages =
                           folders[index].originImages;
+                      List<String>? filteredThumbnailImage = thumbnailImages?.whereType<String>().toList();
+
                       bool isDefault = folders[index].isDefault;
                       return InkWell(
                         onTap: () {
@@ -145,7 +147,7 @@ class _FolderListScreenState extends ConsumerState<FolderListScreen> {
                         },
                         child: FolderListTile(
                           title: folderName,
-                          thumbnailImages: thumbnailImages,
+                          thumbnailImages: filteredThumbnailImage,
                         ),
                       );
                     },

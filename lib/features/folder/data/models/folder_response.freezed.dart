@@ -22,7 +22,7 @@ FolderResponse _$FolderResponseFromJson(Map<String, dynamic> json) {
 mixin _$FolderResponse {
   int get folderId => throw _privateConstructorUsedError;
   String get folderName => throw _privateConstructorUsedError;
-  List<String>? get originImages => throw _privateConstructorUsedError;
+  List<String?>? get originImages => throw _privateConstructorUsedError;
   bool get isDefault => throw _privateConstructorUsedError;
 
   /// Serializes this FolderResponse to a JSON map.
@@ -44,7 +44,7 @@ abstract class $FolderResponseCopyWith<$Res> {
   $Res call(
       {int folderId,
       String folderName,
-      List<String>? originImages,
+      List<String?>? originImages,
       bool isDefault});
 }
 
@@ -80,7 +80,7 @@ class _$FolderResponseCopyWithImpl<$Res, $Val extends FolderResponse>
       originImages: freezed == originImages
           ? _value.originImages
           : originImages // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String?>?,
       isDefault: null == isDefault
           ? _value.isDefault
           : isDefault // ignore: cast_nullable_to_non_nullable
@@ -100,7 +100,7 @@ abstract class _$$FolderResponseImplCopyWith<$Res>
   $Res call(
       {int folderId,
       String folderName,
-      List<String>? originImages,
+      List<String?>? originImages,
       bool isDefault});
 }
 
@@ -134,7 +134,7 @@ class __$$FolderResponseImplCopyWithImpl<$Res>
       originImages: freezed == originImages
           ? _value._originImages
           : originImages // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+              as List<String?>?,
       isDefault: null == isDefault
           ? _value.isDefault
           : isDefault // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ class _$FolderResponseImpl implements _FolderResponse {
   const _$FolderResponseImpl(
       {required this.folderId,
       required this.folderName,
-      final List<String>? originImages,
+      final List<String?>? originImages,
       required this.isDefault})
       : _originImages = originImages;
 
@@ -160,9 +160,9 @@ class _$FolderResponseImpl implements _FolderResponse {
   final int folderId;
   @override
   final String folderName;
-  final List<String>? _originImages;
+  final List<String?>? _originImages;
   @override
-  List<String>? get originImages {
+  List<String?>? get originImages {
     final value = _originImages;
     if (value == null) return null;
     if (_originImages is EqualUnmodifiableListView) return _originImages;
@@ -219,7 +219,7 @@ abstract class _FolderResponse implements FolderResponse {
   const factory _FolderResponse(
       {required final int folderId,
       required final String folderName,
-      final List<String>? originImages,
+      final List<String?>? originImages,
       required final bool isDefault}) = _$FolderResponseImpl;
 
   factory _FolderResponse.fromJson(Map<String, dynamic> json) =
@@ -230,7 +230,7 @@ abstract class _FolderResponse implements FolderResponse {
   @override
   String get folderName;
   @override
-  List<String>? get originImages;
+  List<String?>? get originImages;
   @override
   bool get isDefault;
 

@@ -63,7 +63,9 @@ class PlaceDetailViewModel extends _$PlaceDetailViewModel {
           getPlaceReviewsUseCaseProvider);
       List<ReviewResponse> reviews = await getPlaceReviewsUseCase.call(
           placeId, '0', '4');
-      state = state.copyWith(reviews: reviews);
+      final GetPlaceUseCase getPlaceUseCase = ref.read(getPlaceUseCaseProvider);
+      PlaceResponse place = await getPlaceUseCase.call(placeId);
+      state = state.copyWith(reviews: reviews,place: place);
     } catch (e) {
       state =
           state.copyWith(status: UiStatus.error, errorMessage: e.toString());

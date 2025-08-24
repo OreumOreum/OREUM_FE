@@ -7,7 +7,7 @@ part of 'create_review_view_model.dart';
 // **************************************************************************
 
 String _$createReviewViewModelHash() =>
-    r'12940f8c97af2a6691a2cdbdffca648bc3be4c2e';
+    r'9ef43fa67b9c941175f169c8189759d3717abbef';
 
 /// See also [CreateReviewViewModel].
 @ProviderFor(CreateReviewViewModel)
