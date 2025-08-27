@@ -25,6 +25,7 @@ class PlannerListTile extends StatelessWidget {
   final VoidCallback? onButtonPressed;
   final PlaceListType type;
   final VoidCallback? onPressed;
+  final String? myType;
 
   const PlannerListTile(
       {super.key,
@@ -32,7 +33,9 @@ class PlannerListTile extends StatelessWidget {
       required this.title,
       required this.subTitle,
       this.onButtonPressed,
-      this.onPressed});
+      this.onPressed,
+        this.myType,
+      });
 
   factory PlannerListTile.create() => PlannerListTile(
         type: PlaceListType.create,
@@ -40,9 +43,9 @@ class PlannerListTile extends StatelessWidget {
         subTitle: AppStrings.userCreatedCourseTileSubTitle,
       );
 
-  factory PlannerListTile.recommendation() => PlannerListTile(
+  factory PlannerListTile.recommendation({required String myType}) => PlannerListTile(
         type: PlaceListType.recommendation,
-        title: AppStrings.userRecommendationCourseTileTitle('모험 액티비티형'),
+        title: AppStrings.userRecommendationCourseTileTitle(myType),
         subTitle: AppStrings.userRecommendationCourseTileSubTitle,
       );
 

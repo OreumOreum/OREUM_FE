@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:oreum_fe/core/constants/app_colors.dart';
 import 'package:oreum_fe/core/constants/app_sizes.dart';
 import 'package:oreum_fe/core/constants/app_strings.dart';
@@ -11,6 +12,7 @@ import 'package:oreum_fe/features/review/data/models/my_review_response.dart';
 import 'package:oreum_fe/features/review/presentation/viewmodels/my_review_view_model.dart';
 import 'package:oreum_fe/features/review/presentation/widgets/my_review_list_tile.dart';
 
+import '../../../../core/constants/animation_path.dart';
 import '../../../../core/constants/ui_status.dart';
 import '../../../../core/widgets/error_widget.dart';
 
@@ -71,8 +73,11 @@ class _MyReviewScreenState extends ConsumerState<MyReviewScreen> {
     if (state.status == UiStatus.loading) {
       return Scaffold(
         appBar: CustomAppBar.back(),
-        body: const Center(
-          child: CircularProgressIndicator(), //로티
+        body: Padding(
+          padding: EdgeInsets.only(bottom: 56.h),
+          child: Center(
+            child: Lottie.asset(AnimationPath.loading, repeat: true),
+          ),
         ),
       );
     }

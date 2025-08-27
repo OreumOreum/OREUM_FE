@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
@@ -84,22 +86,30 @@ GoRouter appRouter(AppRouterRef ref) {
       GoRoute(
         path: RoutePath.auth,
         builder: (context, state) => const AuthScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.myReview,
         builder: (context, state) => const MyReviewScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.typeTestStart,
         builder: (context, state) => const TypeTestStartScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.typeTest,
         builder: (context, state) => const TypeTestScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(path: RoutePath.typeTestSkip,
       builder: (context, state) => const TypeTestSkipScreen()),
@@ -109,7 +119,9 @@ GoRouter appRouter(AppRouterRef ref) {
           final TravelType travelType = state.extra as TravelType;
           return TypeTestResultScreen(travelType: travelType);
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) => CustomScaffold(
@@ -153,7 +165,9 @@ GoRouter appRouter(AppRouterRef ref) {
             plannerName: plannerName,
           );
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '${RoutePath.planner}/:id/edit',
@@ -173,7 +187,9 @@ GoRouter appRouter(AppRouterRef ref) {
             initialDay: initialDay,
           );
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '${RoutePath.planner}/:id',
@@ -185,7 +201,9 @@ GoRouter appRouter(AppRouterRef ref) {
             plannerName: plannerName,
           );
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
           path: RoutePath.plannerSearch,
@@ -195,7 +213,9 @@ GoRouter appRouter(AppRouterRef ref) {
               day: day,
             );
           },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.recommend,
@@ -206,7 +226,9 @@ GoRouter appRouter(AppRouterRef ref) {
           final type = extra?['type'] ?? true;
           return RecommendScreen(contentTypeId: contentTypeId, regionFilter: regionFilter, type: type,);
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
           path: '${RoutePath.createPlaceReview}/:id',
@@ -224,7 +246,9 @@ GoRouter appRouter(AppRouterRef ref) {
               originImage: originImage,
             );
           },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
           ),
       GoRoute(
           path: '${RoutePath.createCourseReview}/:id',
@@ -240,7 +264,9 @@ GoRouter appRouter(AppRouterRef ref) {
                 originImage: originImage
             );
           },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,),
       GoRoute(
           path: '${RoutePath.reviewPlaceDetail}/:id',
           builder: (context, state) {
@@ -261,7 +287,9 @@ GoRouter appRouter(AppRouterRef ref) {
               reviewCount: reviewCount,
             );
           },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,),
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,),
       GoRoute(
           path: '${RoutePath.reviewCourseDetail}/:id',
           builder: (context, state) {
@@ -282,7 +310,9 @@ GoRouter appRouter(AppRouterRef ref) {
                 reviewCount: reviewCount,
             );
           },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '${RoutePath.courseDetail}/:id',
@@ -298,22 +328,30 @@ GoRouter appRouter(AppRouterRef ref) {
             contentTypeId: contentTypeId,
           );
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.search,
         builder: (context, state) => SearchScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.accountSetting,
         builder: (context, state) => AccountSettingScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.monthlySpot,
         builder: (context, state) => MonthlySpot(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.monthlySpotDetail,
@@ -325,7 +363,9 @@ GoRouter appRouter(AppRouterRef ref) {
 
           return MonthlySpotDetail(year: year, month: month);
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.monthlySpotMap,
@@ -339,7 +379,9 @@ GoRouter appRouter(AppRouterRef ref) {
 
           return MonthlySpotMap(year: year, month: month, spots: spots,initialSelectedPlaceId: placeId);
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '/${RoutePath.folderDetailBase}/:id',
@@ -351,7 +393,9 @@ GoRouter appRouter(AppRouterRef ref) {
               folderName: args.folderName,
               isDefault: args.isDefault);
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: '${RoutePath.placeDetail}/:id',
@@ -372,12 +416,16 @@ GoRouter appRouter(AppRouterRef ref) {
             folderId: folderId,
           );
         },
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
       GoRoute(
         path: RoutePath.myReview,
         builder: (context, state) => MyReviewScreen(),
-        pageBuilder: GoTransitions.slide.toLeft.withFade.call,
+        pageBuilder: Platform.isIOS
+            ? null
+            : GoTransitions.slide.toLeft.withFade.call,
       ),
     ],
   );

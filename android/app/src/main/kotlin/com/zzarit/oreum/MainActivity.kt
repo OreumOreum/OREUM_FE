@@ -1,4 +1,4 @@
-package com.example.oreum.oreum_fe
+package com.zzarit.oreum
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -115,57 +115,56 @@ class _PlaceDetailAddBottomSheetState
                             padding: EdgeInsets.symmetric(
                                 horizontal: AppSizes.defaultPadding),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                          AppSizes.radiusXS),
-                                      child: Image.network(
-                                        widget.originImage ?? '',
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                      AppSizes.radiusXS),
+                                  child: Image.network(
+                                    widget.originImage ?? '',
+                                    height: 64.r,
+                                    width: 64.r,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) {
+                                      return Container(
                                         height: 64.r,
                                         width: 64.r,
-                                        fit: BoxFit.cover,
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Container(
-                                            height: 64.r,
-                                            width: 64.r,
-                                            color: AppColors.gray100,
-                                            child: Center(
-                                              child: Image.asset(
-                                                ImagePath.imageError,
-                                                width: 32.r,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          widget.title,
-                                          style: context.textStyles.headLine4
-                                              .copyWith(color: AppColors.gray500),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                        color: AppColors.gray100,
+                                        child: Center(
+                                          child: Image.asset(
+                                            ImagePath.imageError,
+                                            width: 32.r,
+                                          ),
                                         ),
-                                        SizedBox(height: 2.h),
-                                        Text(AppStrings.isSaved,
-                                            style: context.textStyles.body1
-                                                .copyWith(
-                                                color: AppColors.gray300)),
-                                      ],
-                                    )
-                                  ],
+                                      );
+                                    },
+                                  ),
                                 ),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        widget.title,
+                                        style: context.textStyles.headLine4
+                                            .copyWith(color: AppColors.gray500),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(height: 2.h),
+                                      Text(AppStrings.isSaved,
+                                          style: context.textStyles.body1
+                                              .copyWith(
+                                              color: AppColors.gray300)),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 6.w,),
                                 SizedBox(
                                   width: 24.w,
                                   height: 24.h,
@@ -342,6 +341,11 @@ class _PlaceDetailAddBottomSheetState
                   await ref
                       .read(placeDetailAddViewModelProvider.notifier)
                       .deletePlaceFromFolder(widget.id, folder.folderId);
+
+                  if (widget.folderId != null) {
+                    await ref.read(folderDetailViewModelProvider.notifier)
+                        .refreshMyFolderPlacesBackground(widget.folderId!);
+                  }
 
                   // 🔥 "모든 저장됨" 기본 폴더인 경우 추가 처리
                   if (folder.folderName == '모든 저장됨') {

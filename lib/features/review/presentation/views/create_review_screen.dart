@@ -63,6 +63,8 @@ class CreateReviewScreen extends ConsumerStatefulWidget {
 
 class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode();
   int _characterCount = 0;
   final int _maxCharacters = 300;
   double rate = 0;
@@ -71,12 +73,16 @@ class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
   void initState() {
     super.initState();
     _textController.addListener(_updateCharacterCount);
+    _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
     _textController.removeListener(_updateCharacterCount);
+    _focusNode.removeListener(_onFocusChange);
     _textController.dispose();
+    _focusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -84,6 +90,31 @@ class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
     setState(() {
       _characterCount = _textController.text.length;
     });
+  }
+
+  void _onFocusChange() {
+    if (_focusNode.hasFocus) {
+      // 키보드가 나타날 때 텍스트 필드가 키보드 위에 오도록 스크롤
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
+          if (renderBox != null) {
+            final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+            final screenHeight = MediaQuery.of(context).size.height;
+            final textFieldPosition = 308.h; // 텍스트 필드의 대략적인 위치
+
+            // 텍스트 필드가 키보드 위에 오도록 스크롤 위치 계산
+            final scrollOffset = (screenHeight - keyboardHeight - textFieldPosition - 200.h).clamp(0.0, _scrollController.position.maxScrollExtent);
+
+            _scrollController.animateTo(
+              scrollOffset > 0 ? scrollOffset : _scrollController.position.maxScrollExtent * 0.7,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+      });
+    }
   }
 
   final List<Map<String, String>> mockPlace2 = [
@@ -123,173 +154,184 @@ class _CreateReviewScreenState extends ConsumerState<CreateReviewScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(createReviewViewModelProvider);
 
-    return Scaffold(
-      appBar: CustomAppBar.back(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 56.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: CustomAppBar.back(),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Column(
               children: [
-                Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: CachedNetworkImage(
-                        cacheManager: CustomCacheManager(),
-                        imageUrl: widget.originImage!,
-                        height: 84.r,
-                        width: 84.r,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Container(
-                          height: 84.r,
-                          width: 84.r,
-                          color: AppColors.gray100,
-                          child: Center(
-                            child: Image.asset(
-                              ImagePath.imageError,
-                              width: 52.r,
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      children: [
+                        SizedBox(height: 56.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                    cacheManager: CustomCacheManager(),
+                                    imageUrl: widget.originImage!,
+                                    height: 84.r,
+                                    width: 84.r,
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, url, error) => Container(
+                                      height: 84.r,
+                                      width: 84.r,
+                                      color: AppColors.gray100,
+                                      child: Center(
+                                        child: Image.asset(
+                                          ImagePath.imageError,
+                                          width: 52.r,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 14.h),
+                                Text(
+                                  widget.name,
+                                  style: context.textStyles.headLine4
+                                      .copyWith(color: AppColors.gray500),
+                                ),
+                                SizedBox(height: 2.h),
+                                if (widget.address != null) ...[
+                                  SizedBox(height: 2.h),
+                                  Text(
+                                    widget.address!,
+                                    style: context.textStyles.body1
+                                        .copyWith(color: AppColors.gray400),
+                                  ),
+                                ],
+                                SizedBox(height: 24.h),
+                                RatingBar.builder(
+                                  initialRating: 0,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: false,
+                                  itemCount: 5,
+                                  itemSize: 27.w,
+                                  itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
+                                  itemBuilder: (context, _) =>
+                                      SvgPicture.asset(
+                                        IconPath.star,
+                                      ),
+                                  unratedColor: AppColors.gray200,
+                                  onRatingUpdate: (rating) {
+                                    rate = rating;
+                                  },
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24.h),
+                        Divider(height: 2.h, color: AppColors.gray100),
+                        SizedBox(height: 56.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 18.w),
+                            Text(
+                              AppStrings.writeReview,
+                              style: context.textStyles.label4
+                                  .copyWith(color: AppColors.gray500),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 14.h),
+                        Container(
+                            width: double.infinity,
+                            height: 153.h,
+                            padding: EdgeInsets.fromLTRB(14.w, 12.h, 14.w, 12.h),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: AppColors.gray100,
+                            ),
+                            child: TextField(
+                              controller: _textController,
+                              focusNode: _focusNode,
+                              maxLength: _maxCharacters,
+                              maxLines: null,
+                              expands: true,
+                              cursorColor: AppColors.primary,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                counterText: '',
+                                hintText: AppStrings.writeDetailReview,
+                                hintStyle: context.textStyles.body2
+                                    .copyWith(color: AppColors.gray200),
+                              ),
+                              style: context.textStyles.body2.copyWith(color: AppColors.gray400),
                             ),
                           ),
+                        SizedBox(height: 6.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '$_characterCount자 / $_maxCharacters자',
+                              style: context.textStyles.caption1
+                                  .copyWith(color: AppColors.primary),
+                            ),
+                            SizedBox(width: 18.w)
+                          ],
                         ),
-                      ),
+                        SizedBox(height: 42.h,)
+                      ],
                     ),
-                    SizedBox(height: 14.h),
-                    Text(
-                      widget.name,
-                      style: context.textStyles.headLine4
-                          .copyWith(color: AppColors.gray500),
-                    ),
-                    SizedBox(height: 2.h),
-                    if (widget.address != null) ...[
-                      SizedBox(height: 2.h),
-                      Text(
-                        widget.address!,
-                        style: context.textStyles.body1
-                            .copyWith(color: AppColors.gray400),
-                      ),
-                    ],
-                    SizedBox(height: 24.h),
-                    RatingBar.builder(
-                      initialRating: 0,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      itemSize: 27.w,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 6.w),
-                      itemBuilder: (context, _) =>
-                          SvgPicture.asset(
-                            IconPath.star,
-                          ),
-                      unratedColor: AppColors.gray200,
-                      onRatingUpdate: (rating) {
-                        rate = rating;
-                        },
-                    )
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 24.h),
-            Divider(height: 2.h, color: AppColors.gray100),
-            SizedBox(height: 56.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(width: 18.w),
-                Text(
-                  AppStrings.writeReview,
-                  style: context.textStyles.label4
-                      .copyWith(color: AppColors.gray500),
-                ),
-              ],
-            ),
-            SizedBox(height: 14.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
-              child: Container(
-                width: double.infinity,
-                height: 153.h,
-                padding: EdgeInsets.fromLTRB(14.w, 12.h, 14.w, 12.h),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: AppColors.gray100, // 배경색
-                ),
-                child: TextField(
-                  controller: _textController,
-                  maxLength: _maxCharacters,
-                  maxLines: null,
-                  expands: true,
-                  cursorColor: AppColors.primary,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    counterText: '', // 기본 카운터 숨기기
-                    hintText: AppStrings.writeDetailReview,
-                    hintStyle: context.textStyles.body2
-                        .copyWith(color: AppColors.gray200),
                   ),
-                  style:
-                  context.textStyles.body2.copyWith(color: AppColors.gray400),
                 ),
-              ),
-            ),
-            SizedBox(height: 6.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '$_characterCount자 / $_maxCharacters자',
-                  style: context.textStyles.caption1
-                      .copyWith(color: AppColors.primary),
-                ),
-                SizedBox(width: 18.w)
+                // 하단 고정 버튼
+                 Column(
+                   children: [
+                     SizedBox(
+                        height: 56.h,
+                        width: double.infinity,
+                        child: CustomElevatedButton.primary(
+                            text: AppStrings.writeReviewButton,
+                            onPressed: state.status == UiStatus.loading ? null : () async {
+                              String content = _textController.text.trim();
+
+                              if(rate == 0) {
+                                CustomToast.showToast(context, '점수를 입력해주세요.', 56.h + MediaQuery.of(context).viewInsets.bottom);
+                              } else {
+                                int id = int.parse(widget.id);
+
+                                if (widget.type == ReviewType.place) {
+                                  await ref.read(createReviewViewModelProvider.notifier)
+                                      .createPlaceReview(id, rate, content.isEmpty ? '' : content);
+                                } else if (widget.type == ReviewType.course) {
+                                  await ref.read(createReviewViewModelProvider.notifier)
+                                      .createCourseReview(id, rate, content.isEmpty ? '' : content);
+                                }
+
+                                final currentState = ref.read(createReviewViewModelProvider);
+                                if(mounted && currentState.status == UiStatus.success) {
+                                  CustomToast.showToast(context, '리뷰가 작성되었습니다.', 56.h);
+                                  context.pop(true);
+                                } else if (mounted && currentState.status == UiStatus.error) {
+                                  CustomToast.showToast(context, currentState.errorMessage ?? '리뷰 작성에 실패했습니다.', 56.h);
+                                }
+                              }
+                            },
+                            textStyle: context.textStyles.label3,
+                            radius: AppSizes.radiusMD),
+                      ),
+                     SizedBox(height: 16.h,)
+                   ],
+                 ),
               ],
             ),
-            Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14.w),
-              child: SizedBox(
-                height: 56.h,
-                width: double.infinity,
-                child: CustomElevatedButton.primary(
-                    text: AppStrings.writeReviewButton,
-                    onPressed: state.status == UiStatus.loading ? null : () async {
-                      String content = _textController.text.trim();
-
-                      // 별점만 체크 (리뷰 내용은 선택사항)
-                      if(rate == 0) {
-                        CustomToast.showToast(context, '점수를 입력해주세요.', 56.h);
-                      } else {
-                        int id = int.parse(widget.id);
-
-                        // 타입에 따라 분기
-                        if (widget.type == ReviewType.place) {
-                          await ref.read(createReviewViewModelProvider.notifier)
-                              .createPlaceReview(id, rate, content.isEmpty ? '' : content);
-                        } else if (widget.type == ReviewType.course) {
-                          await ref.read(createReviewViewModelProvider.notifier)
-                              .createCourseReview(id, rate, content.isEmpty ? '' : content);
-                        }
-
-                        final currentState = ref.read(createReviewViewModelProvider);
-                        if(mounted && currentState.status == UiStatus.success) {
-                          CustomToast.showToast(context, '리뷰가 작성되었습니다.', 56.h);
-                          context.pop(true);
-                        } else if (mounted && currentState.status == UiStatus.error) {
-                          CustomToast.showToast(context, currentState.errorMessage ?? '리뷰 작성에 실패했습니다.', 56.h);
-                        }
-                      }
-                    },
-                    textStyle: context.textStyles.label3,
-                    radius: AppSizes.radiusMD),
-              ),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-          ],
+          ),
         ),
       ),
     );
