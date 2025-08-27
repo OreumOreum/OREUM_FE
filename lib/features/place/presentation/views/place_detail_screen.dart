@@ -10,6 +10,7 @@ import 'package:oreum_fe/core/constants/app_strings.dart';
 import 'package:oreum_fe/core/constants/content_type_id.dart';
 import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/constants/route_path.dart';
+import 'package:oreum_fe/core/constants/travel_type.dart';
 import 'package:oreum_fe/core/constants/ui_status.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
@@ -25,6 +26,7 @@ import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bo
 import 'package:oreum_fe/features/review/data/models/review_response.dart';
 
 import '../../../../core/constants/animation_path.dart';
+import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../home/data/models/place_response.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
@@ -136,6 +138,10 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
 
     // 🔥 placeId별로 다른 provider 인스턴스 사용
     final state = ref.watch(placeDetailViewModelProvider(widget.placeId));
+
+    final myTypeState = ref.watch(myTravelTypeProvider);
+    final myTravelType = myTypeState.myTravelType;
+    final myTravelTypeLabel = myTravelType!.type;
 
     print('=== Provider 로딩상태: ${state.status} ===');
 
@@ -311,6 +317,11 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                       widget.placeId.toString())
                                       .notifier)
                                       .deleteDefaultFolder(int.parse(widget.placeId));
+
+                                  if (widget.folderId != null) {
+                                    await ref.read(folderDetailViewModelProvider.notifier)
+                                        .refreshMyFolderPlacesBackground(widget.folderId!);
+                                  }
 
                                   final state = ref.read(placeDetailViewModelProvider(
                                       widget.placeId.toString()));
@@ -603,8 +614,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                           horizontal: AppSizes.defaultPadding,
                         ),
                         child: HomeTitleText(
-                            title: AppStrings.typeRecommend('모험 액티비티형'),
-                            primaryText: '모험 액티비티형',
+                            title: AppStrings.typeRecommend(myTravelTypeLabel),
+                            primaryText: myTravelTypeLabel,
                             subtitle: AppStrings.typePlaceRecommendation),
                       ),
                       SizedBox(

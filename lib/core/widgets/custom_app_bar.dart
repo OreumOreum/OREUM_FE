@@ -142,6 +142,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       case AppBarType.back:
         return AppBar(
+          centerTitle: false,
           leading: Row(
             children: [
               SizedBox(
@@ -167,6 +168,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       case AppBarType.backWithText:
         return AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           titleSpacing: -10.w,
           leading: Row(
@@ -198,6 +200,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       case AppBarType.backWithButtonAndText:
         return AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           titleSpacing: -10.w,
           leading: Row(
@@ -244,6 +247,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       case AppBarType.backWithTextButtonAndText:
         return AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           titleSpacing: -10.w,
           leading: Row(
@@ -288,6 +292,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       case AppBarType.backWithSearchBar:
         return AppBar(
+          centerTitle: false,
           automaticallyImplyLeading: false,
           titleSpacing: 8.w,
           leadingWidth: AppSizes.defaultPadding + AppSizes.iconSM,

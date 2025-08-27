@@ -93,7 +93,7 @@ class _PlannerListScreenState extends ConsumerState<PlannerListScreen> {
             SizedBox(
               height: 18.h,
             ),
-            PlannerListTile.recommendation(),
+            PlannerListTile.recommendation(myType: myTravelTypeLabel),
             SizedBox(
               height: 18.h,
             ),
