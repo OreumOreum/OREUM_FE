@@ -24,6 +24,7 @@ import 'package:oreum_fe/core/utils/custom_tab_launcher.dart';
 import 'package:oreum_fe/core/utils/email_sander.dart';
 import 'package:oreum_fe/core/widgets/error_widget.dart';
 import 'package:oreum_fe/features/setting/presentation/viewmodels/setting_view_model.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingScreen extends ConsumerStatefulWidget {
   const SettingScreen({super.key});
@@ -35,6 +36,7 @@ class SettingScreen extends ConsumerStatefulWidget {
 class _SettingScreenState extends ConsumerState<SettingScreen> {
   final bool _isLocationEnabled = true;
   final bool _isNotificationEnabled = false;
+  String _versionInfo = '...';
 
   void _showLogoutDialog(BuildContext context) {
     showModalBottomSheet(
@@ -178,7 +180,18 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
       },
     );
   }*/
-
+  @override
+  void initState() {
+    super.initState();
+    // 👇 3. initState에서 버전 정보를 가져오는 함수 호출
+    _loadVersionInfo();
+  }
+  Future<void> _loadVersionInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _versionInfo = info.version;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final settingState = ref.watch(settingViewModelProvider);
@@ -497,7 +510,7 @@ class _SettingScreenState extends ConsumerState<SettingScreen> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '0.0.0',
+                                  _versionInfo,
                                   style: context.textStyles.body2
                                       .copyWith(color: AppColors.gray300),
                                   maxLines: 1,

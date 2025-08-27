@@ -16,6 +16,7 @@ import 'package:oreum_fe/features/place/presentation/widgets/place_detail_add_bo
 
 import '../../../../core/constants/image_path.dart';
 import '../../../../core/utils/custom_cache_manager.dart';
+import '../../../folder/presentation/viewmodels/folder_list_view_model.dart';
 
 class PlaceListTile extends ConsumerStatefulWidget {
   final String thumbnailImage;
@@ -240,7 +241,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                         widget.placeId.toString())
                         .notifier)
                         .deleteDefaultFolder(widget.placeId);
-
+                    await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                     final state = ref.read(placeDetailViewModelProvider(
                         widget.placeId.toString()));
                     if (context.mounted &&
@@ -264,7 +265,7 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                     await ref
                         .read(placeDetailViewModelProvider(widget.placeId.toString()).notifier)
                         .addDefaultFolder(widget.placeId);
-
+                    await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                     final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
 
                     if (context.mounted) {
@@ -287,9 +288,11 @@ class _PlaceListTileState extends ConsumerState<PlaceListTile> {
                           // 북마크가 삭제된 경우
                           bookmarkNotifier.toggleBookmark(widget.placeId); // 다시 false로
                           widget.onBookmarkChanged?.call(widget.placeId, false);
+                          await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                         } else {
                           // 저장 완료 또는 폴더 변경
                           widget.onBookmarkChanged?.call(widget.placeId, true);
+                          await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                         }
                       } else if (state.buttonStatus == UiStatus.error) {
                         // 실패시 북마크 상태 되돌리기

@@ -420,7 +420,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                 ],
               ),
             ),
-            if (state.status == UiStatus.loading && !state.isLoadingNextPage)
+            if (state.status == UiStatus.loading)
               SliverFillRemaining(
                 child: Center(
                   child: Lottie.asset(AnimationPath.loading,
@@ -451,12 +451,7 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                   final place = state.filteredPlaces[index];
                   final isSaved =
                       state.bookmarkStatusMap[place.placeId] ?? place.isSaved;
-                  return PlaceListTile(
-                    thumbnailImage: place.thumbnailImage ?? '',
-                    title: place.title,
-                    address: place.address ?? '',
-                    isSaved: place.isSaved,
-                    placeId: place.placeId,
+                  return InkWell(
                     onTap: () {
                       context.push(
                         '${RoutePath.placeDetail}/${place.placeId}',
@@ -466,6 +461,13 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                         },
                       );
                     },
+                    child: PlaceListTile(
+                      thumbnailImage: place.thumbnailImage ?? '',
+                      title: place.title,
+                      address: place.address ?? '',
+                      isSaved: place.isSaved,
+                      placeId: place.placeId,
+                    ),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
@@ -475,16 +477,6 @@ class _RecommendScreenState extends ConsumerState<RecommendScreen> {
                     color: AppColors.gray100,
                   );
                 },
-              ),
-            if (state.isLoadingNextPage)
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: Center(
-                    child: Lottie.asset(AnimationPath.loading,
-                        repeat: true, width: 1000.w),
-                  ),
-                ),
               ),
             SliverToBoxAdapter(child: SizedBox(height: 16.h)),
           ],
