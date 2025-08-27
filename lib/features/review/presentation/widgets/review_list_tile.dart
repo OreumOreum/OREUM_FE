@@ -142,17 +142,21 @@ class _ReviewListTileState extends ConsumerState<ReviewListTile> {
                   )
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  if (widget.isMyReview) {
-                    // 삭제 모달 호출
-                    _showDeleteReviewBottomSheet(context);
-                  } else {
-                    // 신고 모달 호출
-                    _showReportReviewBottomSheet(context);
-                  }
-                },
-                child: SvgPicture.asset(IconPath.dots),
+              SizedBox(
+                height: 24.r,
+                width: 24.r,
+                child: IconButton(
+                  onPressed: () {
+                    if (widget.isMyReview) {
+                      // 삭제 모달 호출
+                      _showDeleteReviewBottomSheet(context);
+                    } else {
+                      // 신고 모달 호출
+                      _showReportReviewBottomSheet(context);
+                    }
+                  },
+                  icon: SvgPicture.asset(IconPath.dots, width: 16.r,),
+                ),
               )
             ],
           ),

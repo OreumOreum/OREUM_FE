@@ -308,7 +308,7 @@ class _DetailContainerState extends State<DetailContainer> {
                   child: Center(
                     child: Text(
                       '상세정보',
-                      style: context.textStyles.body2.copyWith(
+                      style: context.textStyles.label3.copyWith(
                         color: selectedTabIndex == 0
                             ? AppColors.primary
                             : AppColors.gray200,
@@ -341,7 +341,7 @@ class _DetailContainerState extends State<DetailContainer> {
                   child: Center(
                     child: Text(
                       '지도',
-                      style: context.textStyles.body2.copyWith(
+                      style: context.textStyles.label3.copyWith(
                         color: selectedTabIndex == 1
                             ? AppColors.primary
                             : AppColors.gray200,
@@ -362,7 +362,7 @@ class _DetailContainerState extends State<DetailContainer> {
                       opacity: 0.5,
                       child: Text(
                         '지도',
-                        style: context.textStyles.body2.copyWith(
+                        style: context.textStyles.label3.copyWith(
                           color: AppColors.gray200,
                         ),
                       ),
@@ -523,6 +523,7 @@ class _DetailContainerState extends State<DetailContainer> {
     );
   }
 
+  // 🔥 지도 탭 내용 - 동기 방식
   Widget _buildMapContent() {
     final screenWidth = MediaQuery.of(context).size.width;
     final isWideScreen = screenWidth > 600;
