@@ -98,21 +98,16 @@ class AuthScreen extends ConsumerWidget {
                         constraints: const BoxConstraints(),
                         onPressed: () async {
                           await authViewModel.checkUserExist('APPLE');
-                          final isExist = ref.read(authViewModelProvider).isExist;
-                          if (isExist) {
-                            await authViewModel.loginWithApple();
-                          } else {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return TermsModal(
-                                  onPressed: () async {
-                                    await authViewModel.loginWithApple();
-                                  },
-                                );
-                              },
-                            );
-                          }
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return TermsModal(
+                                onPressed: () async {
+                                  await authViewModel.loginWithApple();
+                                },
+                              );
+                            },
+                          );
                         },
                         icon: SvgPicture.asset(
                           IconPath.apple,

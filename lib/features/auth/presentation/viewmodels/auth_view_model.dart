@@ -34,9 +34,7 @@ class AuthViewModel extends _$AuthViewModel {
       case 'APPLE':
         final AppleLoginUseCase appleLoginUseCase = ref.read(appleLoginUseCaseProvider);
         String token = await appleLoginUseCase.call();
-        final CheckExistMemberUseCase checkExistMemberUseCase = ref.read(checkExistMemberUseCaseProvider);
-        bool isExist = await checkExistMemberUseCase.call(token, provider);
-        state = state.copyWith(isExist: isExist, token: token);
+        state = state.copyWith(token: token);
         break;
       case 'GOOGLE':
         final GoogleLoginUseCase googleLoginUseCase = ref.read(googleLoginUseCaseProvider);
