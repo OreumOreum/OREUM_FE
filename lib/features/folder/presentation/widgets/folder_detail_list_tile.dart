@@ -80,10 +80,10 @@ class FolderDetailListTile extends ConsumerWidget {
                     constraints: const BoxConstraints(),
                     icon: SvgPicture.asset(IconPath.bookmarkFill),
                     onPressed: () async {
+                      ref.read(bookmarkProvider.notifier).toggleBookmark(placeId);
                       await ref
                           .read(folderDetailViewModelProvider.notifier)
                           .deleteFolderPlace(folderId, placeId);
-                      ref.read(bookmarkProvider.notifier).toggleBookmark(placeId);
                     },
                   ),
                 ),
