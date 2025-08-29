@@ -266,7 +266,7 @@ class _DetailContainerState extends State<DetailContainer> {
             borderRadius: BorderRadius.circular(8.r),
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0.w, 44.h, 0.w, 12.h),
+            padding: EdgeInsets.only(top: 44.h),
             child: selectedTabIndex == 0
                 ? _buildDetailContent()
                 : _buildMapContent(), // 동기 메서드
@@ -556,7 +556,9 @@ class _DetailContainerState extends State<DetailContainer> {
           height: isWideScreen ? 200.h : 100.h,
           width: double.infinity,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(8.r),
+            ),
           ),
           child: _buildGoogleMap(), // 동기 메서드
         ),
@@ -657,7 +659,7 @@ class _DetailContainerState extends State<DetailContainer> {
 
     // 실제 GoogleMap 위젯
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8.r),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(8.r)),
       child: GoogleMap(
         style: mapStyle,
         onMapCreated: (GoogleMapController controller) async {

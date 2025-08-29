@@ -574,33 +574,36 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     },
                   ),
                 ),
-                if (reviews.isNotEmpty) ...[
-                  SizedBox(height: 8.h),
-                  Divider(height: 1.h, color: AppColors.gray100),
-                  SizedBox(height: 18.h),
-                ],
+                SizedBox(height: 8.h),
 
                 if (reviews.length > 3)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      TextButton(
-                          onPressed: () {
-                            // 🔥 안전한 place 접근
-                            final currentPlace = state.place ?? _cachedPlace;
-                            if (currentPlace != null) {
-                              context.push('${RoutePath.reviewPlaceDetail}/${widget.placeId}', extra: {
-                                'name': currentPlace.title,
-                                'address': currentPlace.address,
-                                'rate': currentPlace.averageRate,
-                                'originImage': currentPlace.originImage,
-                                'reviewCount': state.place?.reviewCount
-                              });
-                            }
-                          },
-                          child: Text('전체보기',
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray200))),
+                      SizedBox(height: 8.h),
+                      Divider(height: 1.h, color: AppColors.gray100),
+                      SizedBox(height: 18.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                // 🔥 안전한 place 접근
+                                final currentPlace = state.place ?? _cachedPlace;
+                                if (currentPlace != null) {
+                                  context.push('${RoutePath.reviewPlaceDetail}/${widget.placeId}', extra: {
+                                    'name': currentPlace.title,
+                                    'address': currentPlace.address,
+                                    'rate': currentPlace.averageRate,
+                                    'originImage': currentPlace.originImage,
+                                    'reviewCount': state.place?.reviewCount
+                                  });
+                                }
+                              },
+                              child: Text('전체보기',
+                                  style: context.textStyles.body1
+                                      .copyWith(color: AppColors.gray200))),
+                        ],
+                      ),
                     ],
                   ),
                 SizedBox(height: 48.h),
