@@ -102,7 +102,7 @@ class _AccountSettingScreenState extends ConsumerState<AccountSettingScreen> {
                               padding: EdgeInsets.symmetric(vertical: 16.h),
                               child: Text(
                                 '탈퇴하기',
-                                style: context.textStyles.label3.copyWith(color: AppColors.white),
+                                style: context.textStyles.label3.copyWith(color: AppColors.gray200),
                               ),
                             ),
                           ),

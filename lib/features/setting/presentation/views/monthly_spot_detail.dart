@@ -183,6 +183,7 @@ class _MonthlySpotDetailState extends ConsumerState<MonthlySpotDetail> {
                 itemBuilder: (context, index) {
                   final spot = spotsByMonth[index];
                   return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: () {
                       context.push(
                         RoutePath.monthlySpotMap,

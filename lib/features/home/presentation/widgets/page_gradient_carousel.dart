@@ -28,7 +28,7 @@ class PagedGradientCarousel extends StatefulWidget {
 
 class _PagedGradientCarouselState extends State<PagedGradientCarousel>
     with SingleTickerProviderStateMixin {
-  late final List<CarouselItem> _loopedItems;
+  late List<CarouselItem> _loopedItems;
   PageController? _pageController;
   int _currentPage = 1;
   Timer? _autoPlayTimer;
@@ -51,6 +51,24 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
+
+    _initializeItems();
+
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_fadeController);
+
+    _startAutoPlay();
+  }
+
+  @override
+  void didUpdateWidget(PagedGradientCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.items != oldWidget.items) {
+      setState(() {
+        _initializeItems();
+      });
+    }
+  }
+  void _initializeItems() {
     if (widget.items.isEmpty) {
       _loopedItems = [];
       return;
@@ -61,10 +79,6 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
       ...widget.items,
       widget.items.first,
     ];
-
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(_fadeController);
-
-    _startAutoPlay();
   }
 
   PageController _createPageController(double screenWidth) {
@@ -206,13 +220,13 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
                 children: [
                   isPlay
                       ? SvgPicture.asset(
-                          IconPath.pause,
-                          width: 7.w,
-                        )
+                    IconPath.pause,
+                    width: 7.w,
+                  )
                       : SvgPicture.asset(
-                          IconPath.play,
-                          width: 7.w,
-                        ),
+                    IconPath.play,
+                    width: 7.w,
+                  ),
                   SizedBox(
                     width: 8.w,
                   ),
@@ -221,7 +235,7 @@ class _PagedGradientCarouselState extends State<PagedGradientCarousel>
                       children: [
                         TextSpan(
                           text:
-                              '${((_currentPage - 1) % widget.items.length) + 1}',
+                          '${((_currentPage - 1) % widget.items.length) + 1}',
                           // 이 부분 색상 변경
                           style: context.textStyles.caption1
                               .copyWith(color: AppColors.white),
