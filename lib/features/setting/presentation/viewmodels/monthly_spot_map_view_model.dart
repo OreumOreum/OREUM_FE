@@ -10,10 +10,10 @@ import 'package:oreum_fe/core/constants/icon_path.dart';
 import 'package:oreum_fe/core/themes/app_text_styles.dart';
 import 'package:oreum_fe/core/themes/text_theme_extension.dart';
 import 'package:oreum_fe/features/spot/data/models/spot_month_response.dart';
+import '../../../home/presentation/viewmodels/home_view_model.dart';
 import 'package:oreum_fe/features/spot/di/spot_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
-
 import '../../../../core/constants/ui_status.dart';
 import 'states/monthly_spot_map_state.dart';
 
@@ -269,18 +269,20 @@ class MonthlySpotMapViewModel extends _$MonthlySpotMapViewModel {
       final spotId = state.proximateSpot!.spotId.toString();
       final visitSpotUseCase = ref.read(postVisitSpotUseCaseProvider);
       await visitSpotUseCase.call(spotId);
-
+      ref
+          .read(homeViewModelProvider.notifier)
+          .updateSpotVisitStatus(state.proximateSpot!.spotId, true);
+      final updatedSelectedSpot = (state.selectedSpot?.spotId == state.proximateSpot?.spotId)
+          ? state.selectedSpot?.copyWith(visited: true)
+          : state.selectedSpot;
       final updatedSpots = state.spots.map((spot) {
         if (spot.spotId.toString() == spotId) {
           return spot.copyWith(visited: true);
         }
         return spot;
       }).toList();
-
       final updatedProximateSpot = state.proximateSpot?.copyWith(visited: true);
-      state = state.copyWith(status: UiStatus.success, spots: updatedSpots, proximateSpot: updatedProximateSpot);
-
-      // 스탬프 성공 후 마커 모양을 다시 그리도록 호출
+      state = state.copyWith(status: UiStatus.success, spots: updatedSpots, proximateSpot: updatedProximateSpot, selectedSpot: updatedSelectedSpot);
       await retryLoadingMarkers();
     } catch (e) {
       state =
