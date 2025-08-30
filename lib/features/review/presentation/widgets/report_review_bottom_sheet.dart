@@ -50,41 +50,45 @@ class ReportReviewBottomSheet extends StatelessWidget {
                   onTap: () {
                     EmailSander().sendEmail(context);
                   },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(6.w, 12.h, 6.w, 12.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 24.w,
-                              height: 24.h,
-                              child: Center(
-                                child: SvgPicture.asset(IconPath.report,
-                                    width: 16.w),
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(6.w, 12.h, 6.w, 12.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: 24.w,
+                                height: 24.h,
+                                child: Center(
+                                  child: SvgPicture.asset(IconPath.report,
+                                      width: 16.w),
+                                ),
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                AppStrings.reportReview,
+                                style: context.textStyles.body1
+                                    .copyWith(color: AppColors.gray400),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 24.w,
+                            height: 24.h,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                IconPath.arrowRight,
+                                width: 8.w,
                               ),
                             ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              AppStrings.reportReview,
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray400),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 24.w,
-                          height: 24.h,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              IconPath.arrowRight,
-                              width: 8.w,
-                            ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 )

@@ -11,7 +11,7 @@ class TourService {
 
   Future<TourResponse> getTourApi(String contentId, String contentTypeId) async {
     final queryParams = {
-      'serviceKey': dotenv.env['TOUR_API_SERVICE_KEY']!,
+      'serviceKey': dotenv.env['DATA_PORTAL_API_KEY']!,
       'contentId': contentId,
       'contentTypeId': contentTypeId,
       'MobileOS': 'IOS',
