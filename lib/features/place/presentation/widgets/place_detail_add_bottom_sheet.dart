@@ -19,6 +19,7 @@ import '../../../../core/constants/image_path.dart';
 import '../../../../core/widgets/custom_toast.dart';
 import '../../../../core/widgets/name_editing_modal.dart';
 import '../../../folder/data/models/folder_saved_response.dart';
+import '../../../folder/presentation/viewmodels/folder_list_view_model.dart';
 import '../viewmodels/place_detail_view_model.dart';
 import '../viewmodels/states/place_detail_add_state.dart';
 
@@ -177,9 +178,9 @@ class _PlaceDetailAddBottomSheetState
                                           widget.id.toString())
                                           .notifier)
                                           .deleteDefaultFolder(widget.id);
+                                      await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                                       if(widget.folderId != null) {
                                       await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
-
                                       if (mounted) {
                                         _isBookmarkDeleted =
                                         true; // 🔥 북마크 삭제 플래그 설정
@@ -342,19 +343,21 @@ class _PlaceDetailAddBottomSheetState
                       .read(placeDetailAddViewModelProvider.notifier)
                       .deletePlaceFromFolder(widget.id, folder.folderId);
 
+                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                   if (widget.folderId != null) {
                     await ref.read(folderDetailViewModelProvider.notifier)
                         .refreshMyFolderPlacesBackground(widget.folderId!);
                   }
 
                   // 🔥 "모든 저장됨" 기본 폴더인 경우 추가 처리
-                  if (folder.folderName == '모든 저장됨') {
+                  if (folder.isDefault) {
                     // 기본 폴더에서 제거되면 북마크도 함께 해제
                     await ref
                         .read(placeDetailViewModelProvider(widget.id.toString())
                         .notifier)
                         .deleteDefaultFolder(widget.id);
 
+                    await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                     if(widget.folderId != null) {
                       await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
 
@@ -374,7 +377,7 @@ class _PlaceDetailAddBottomSheetState
                       .addPlaceToFolder(widget.id, folder.folderId);
 
                   // 🔥 "모든 저장됨" 기본 폴더인 경우 추가 처리
-                  if (folder.folderName == '모든 저장됨') {
+                  if (folder.isDefault) {
                     // 기본 폴더에 추가되면 북마크도 함께 활성화
                     await ref
                         .read(placeDetailViewModelProvider(widget.id.toString())
@@ -382,6 +385,7 @@ class _PlaceDetailAddBottomSheetState
                         .addDefaultFolder(widget.id);
                   }
 
+                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
                   if(widget.folderId != null) {
                     await ref.read(folderDetailViewModelProvider.notifier).refreshMyFolderPlacesBackground(widget.folderId!);}
 

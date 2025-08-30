@@ -42,7 +42,7 @@ class _PlannerTabModalState extends ConsumerState<PlannerTabModal> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 14.h,
+                  height: 10.h,
                 ),
                 Container(
                   width: 42.w,

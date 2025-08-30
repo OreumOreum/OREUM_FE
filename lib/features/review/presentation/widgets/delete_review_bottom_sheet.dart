@@ -28,7 +28,8 @@ class DeleteReviewBottomSheet extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(AppSizes.radiusLG)),
         ),
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: AppSizes.defaultPadding),
@@ -37,7 +38,7 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 13.h),
+                    SizedBox(height: 10.h),
                     Container(
                       width: 42.w,
                       height: 4.h,
@@ -53,52 +54,53 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pop(context); // 바텀시트 닫기
-                    onDeleteConfirm(); // 삭제 실행
+                    Navigator.pop(context);
+                    onDeleteConfirm();
                   },
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(6.w, 12.h, 6.w, 12.h),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.transparent,
+                    child: Padding(
+                        padding: EdgeInsets.fromLTRB(6.w, 12.h, 6.w, 12.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 24.w,
+                                  height: 24.h,
+                                  child: Center(
+                                    child: SvgPicture.asset(IconPath.trashCan,
+                                        width: 12.w),
+                                  ),
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  AppStrings.deleteReview,
+                                  style: context.textStyles.body1
+                                      .copyWith(color: AppColors.gray400),
+                                ),
+                              ],
+                            ),
                             SizedBox(
                               width: 24.w,
                               height: 24.h,
                               child: Center(
                                 child: SvgPicture.asset(
-                                    IconPath.trashCan,
-                                    width: 12.w
+                                  IconPath.arrowRight,
+                                  width: 8.w,
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              AppStrings.deleteReview,
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray400),
-                            ),
+                            )
                           ],
                         ),
-                        SizedBox(
-                          width: 24.w,
-                          height: 24.h,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              IconPath.arrowRight,
-                              width: 8.w,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                        ),
                   ),
-                )
+                ),
               ],
-            )
-        ),
+            )),
       ),
     );
   }

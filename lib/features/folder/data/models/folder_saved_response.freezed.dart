@@ -23,6 +23,7 @@ mixin _$FolderSavedResponse {
   int get folderId => throw _privateConstructorUsedError;
   String get folderName => throw _privateConstructorUsedError;
   bool get isSaved => throw _privateConstructorUsedError;
+  bool get isDefault => throw _privateConstructorUsedError;
 
   /// Serializes this FolderSavedResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +41,7 @@ abstract class $FolderSavedResponseCopyWith<$Res> {
           FolderSavedResponse value, $Res Function(FolderSavedResponse) then) =
       _$FolderSavedResponseCopyWithImpl<$Res, FolderSavedResponse>;
   @useResult
-  $Res call({int folderId, String folderName, bool isSaved});
+  $Res call({int folderId, String folderName, bool isSaved, bool isDefault});
 }
 
 /// @nodoc
@@ -61,6 +62,7 @@ class _$FolderSavedResponseCopyWithImpl<$Res, $Val extends FolderSavedResponse>
     Object? folderId = null,
     Object? folderName = null,
     Object? isSaved = null,
+    Object? isDefault = null,
   }) {
     return _then(_value.copyWith(
       folderId: null == folderId
@@ -75,6 +77,10 @@ class _$FolderSavedResponseCopyWithImpl<$Res, $Val extends FolderSavedResponse>
           ? _value.isSaved
           : isSaved // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDefault: null == isDefault
+          ? _value.isDefault
+          : isDefault // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -87,7 +93,7 @@ abstract class _$$FolderSavedResponseImplCopyWith<$Res>
       __$$FolderSavedResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int folderId, String folderName, bool isSaved});
+  $Res call({int folderId, String folderName, bool isSaved, bool isDefault});
 }
 
 /// @nodoc
@@ -106,6 +112,7 @@ class __$$FolderSavedResponseImplCopyWithImpl<$Res>
     Object? folderId = null,
     Object? folderName = null,
     Object? isSaved = null,
+    Object? isDefault = null,
   }) {
     return _then(_$FolderSavedResponseImpl(
       folderId: null == folderId
@@ -120,6 +127,10 @@ class __$$FolderSavedResponseImplCopyWithImpl<$Res>
           ? _value.isSaved
           : isSaved // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDefault: null == isDefault
+          ? _value.isDefault
+          : isDefault // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -130,7 +141,8 @@ class _$FolderSavedResponseImpl implements _FolderSavedResponse {
   const _$FolderSavedResponseImpl(
       {required this.folderId,
       required this.folderName,
-      required this.isSaved});
+      required this.isSaved,
+      required this.isDefault});
 
   factory _$FolderSavedResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$FolderSavedResponseImplFromJson(json);
@@ -141,10 +153,12 @@ class _$FolderSavedResponseImpl implements _FolderSavedResponse {
   final String folderName;
   @override
   final bool isSaved;
+  @override
+  final bool isDefault;
 
   @override
   String toString() {
-    return 'FolderSavedResponse(folderId: $folderId, folderName: $folderName, isSaved: $isSaved)';
+    return 'FolderSavedResponse(folderId: $folderId, folderName: $folderName, isSaved: $isSaved, isDefault: $isDefault)';
   }
 
   @override
@@ -156,12 +170,15 @@ class _$FolderSavedResponseImpl implements _FolderSavedResponse {
                 other.folderId == folderId) &&
             (identical(other.folderName, folderName) ||
                 other.folderName == folderName) &&
-            (identical(other.isSaved, isSaved) || other.isSaved == isSaved));
+            (identical(other.isSaved, isSaved) || other.isSaved == isSaved) &&
+            (identical(other.isDefault, isDefault) ||
+                other.isDefault == isDefault));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, folderId, folderName, isSaved);
+  int get hashCode =>
+      Object.hash(runtimeType, folderId, folderName, isSaved, isDefault);
 
   /// Create a copy of FolderSavedResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -184,7 +201,8 @@ abstract class _FolderSavedResponse implements FolderSavedResponse {
   const factory _FolderSavedResponse(
       {required final int folderId,
       required final String folderName,
-      required final bool isSaved}) = _$FolderSavedResponseImpl;
+      required final bool isSaved,
+      required final bool isDefault}) = _$FolderSavedResponseImpl;
 
   factory _FolderSavedResponse.fromJson(Map<String, dynamic> json) =
       _$FolderSavedResponseImpl.fromJson;
@@ -195,6 +213,8 @@ abstract class _FolderSavedResponse implements FolderSavedResponse {
   String get folderName;
   @override
   bool get isSaved;
+  @override
+  bool get isDefault;
 
   /// Create a copy of FolderSavedResponse
   /// with the given fields replaced by the non-null parameter values.

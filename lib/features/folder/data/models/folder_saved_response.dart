@@ -9,6 +9,7 @@ class FolderSavedResponse with _$FolderSavedResponse {
     required int folderId,
     required String folderName,
     required bool isSaved,
+    required bool isDefault,
   }) = _FolderSavedResponse;
 
   factory FolderSavedResponse.fromJson(Map<String, dynamic> json) =>

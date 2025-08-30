@@ -28,6 +28,7 @@ import 'package:oreum_fe/features/review/data/models/review_response.dart';
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/error_widget.dart';
+import '../../../folder/presentation/viewmodels/folder_list_view_model.dart';
 import '../../../home/data/models/place_response.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../home/presentation/widgets/place_list_tile.dart';
@@ -318,6 +319,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                       .notifier)
                                       .deleteDefaultFolder(int.parse(widget.placeId));
 
+                                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
+
                                   if (widget.folderId != null) {
                                     await ref.read(folderDetailViewModelProvider.notifier)
                                         .refreshMyFolderPlacesBackground(widget.folderId!);
@@ -348,6 +351,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                       .addDefaultFolder(int.parse(widget.placeId));
 
                                   final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
+                                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
 
                                   if (context.mounted) {
                                     if (state.buttonStatus == UiStatus.success) {
@@ -574,33 +578,36 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                     },
                   ),
                 ),
-                if (reviews.isNotEmpty) ...[
-                  SizedBox(height: 8.h),
-                  Divider(height: 1.h, color: AppColors.gray100),
-                  SizedBox(height: 18.h),
-                ],
+                SizedBox(height: 8.h),
 
                 if (reviews.length > 3)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      TextButton(
-                          onPressed: () {
-                            // 🔥 안전한 place 접근
-                            final currentPlace = state.place ?? _cachedPlace;
-                            if (currentPlace != null) {
-                              context.push('${RoutePath.reviewPlaceDetail}/${widget.placeId}', extra: {
-                                'name': currentPlace.title,
-                                'address': currentPlace.address,
-                                'rate': currentPlace.averageRate,
-                                'originImage': currentPlace.originImage,
-                                'reviewCount': state.place?.reviewCount
-                              });
-                            }
-                          },
-                          child: Text('전체보기',
-                              style: context.textStyles.body1
-                                  .copyWith(color: AppColors.gray200))),
+                      SizedBox(height: 8.h),
+                      Divider(height: 1.h, color: AppColors.gray100),
+                      SizedBox(height: 18.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                // 🔥 안전한 place 접근
+                                final currentPlace = state.place ?? _cachedPlace;
+                                if (currentPlace != null) {
+                                  context.push('${RoutePath.reviewPlaceDetail}/${widget.placeId}', extra: {
+                                    'name': currentPlace.title,
+                                    'address': currentPlace.address,
+                                    'rate': currentPlace.averageRate,
+                                    'originImage': currentPlace.originImage,
+                                    'reviewCount': state.place?.reviewCount
+                                  });
+                                }
+                              },
+                              child: Text('전체보기',
+                                  style: context.textStyles.body1
+                                      .copyWith(color: AppColors.gray200))),
+                        ],
+                      ),
                     ],
                   ),
                 SizedBox(height: 48.h),

@@ -44,7 +44,7 @@ class _FolderMenuModalState extends ConsumerState<FolderMenuModal> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 14.h,
+                  height: 10.h,
                 ),
                 Container(
                   width: 42.w,
