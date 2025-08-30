@@ -28,6 +28,7 @@ import 'package:oreum_fe/features/review/data/models/review_response.dart';
 import '../../../../core/constants/animation_path.dart';
 import '../../../../core/di/my_type_provider.dart';
 import '../../../../core/widgets/error_widget.dart';
+import '../../../folder/presentation/viewmodels/folder_list_view_model.dart';
 import '../../../home/data/models/place_response.dart';
 import '../../../home/presentation/widgets/home_title_text.dart';
 import '../../../home/presentation/widgets/place_list_tile.dart';
@@ -318,6 +319,8 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                       .notifier)
                                       .deleteDefaultFolder(int.parse(widget.placeId));
 
+                                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
+
                                   if (widget.folderId != null) {
                                     await ref.read(folderDetailViewModelProvider.notifier)
                                         .refreshMyFolderPlacesBackground(widget.folderId!);
@@ -348,6 +351,7 @@ class _PlaceDetailScreenState extends ConsumerState<PlaceDetailScreen> {
                                       .addDefaultFolder(int.parse(widget.placeId));
 
                                   final state = ref.read(placeDetailViewModelProvider(widget.placeId.toString()));
+                                  await ref.read(folderListViewModelProvider.notifier).refreshFoldersInBackground();
 
                                   if (context.mounted) {
                                     if (state.buttonStatus == UiStatus.success) {

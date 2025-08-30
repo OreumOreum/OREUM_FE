@@ -12,6 +12,7 @@ _$FolderSavedResponseImpl _$$FolderSavedResponseImplFromJson(
       folderId: (json['folderId'] as num).toInt(),
       folderName: json['folderName'] as String,
       isSaved: json['isSaved'] as bool,
+      isDefault: json['isDefault'] as bool,
     );
 
 Map<String, dynamic> _$$FolderSavedResponseImplToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$FolderSavedResponseImplToJson(
       'folderId': instance.folderId,
       'folderName': instance.folderName,
       'isSaved': instance.isSaved,
+      'isDefault': instance.isDefault,
     };
