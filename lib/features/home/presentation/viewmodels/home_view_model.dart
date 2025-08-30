@@ -49,18 +49,15 @@ class HomeViewModel extends _$HomeViewModel {
       state = state.copyWith(status: UiStatus.error, errorMessage: e.toString());
     }
   }
-
-  Future<void> refreshWeatherBackground() async {
-    try {
-      GetWeatherInfoUseCase getWeatherInfoUseCase = ref.read(getWeatherInfoUseCaseProvider);
-      WeatherInfo weatherInfo = await getWeatherInfoUseCase.call();
-      state = state.copyWith(weatherStatus: UiStatus.success, weatherInfo: weatherInfo);
-    } catch (e) {
-      state = state.copyWith(weatherStatus: UiStatus.error, errorMessage: e.toString());
-    }
+  void updateSpotVisitStatus(int spotId, bool isVisited) {
+    final updatedMonthlySpots = state.monthlySpots.map((spot) {
+      if (spot.spotId == spotId) {
+        return spot.copyWith(visited: isVisited);
+      }
+      return spot;
+    }).toList();
+    state = state.copyWith(monthlySpots: updatedMonthlySpots);
   }
-
-  // UI 단에서만 북마크 상태를 업데이트하는 메서드 (서버 통신 없음)
   void updatePlaceBookmarkStatus(int placeId, bool isSaved) {
     final updatedTypePlaces = state.typePlaces.map((place) {
       if (place.placeId == placeId) {
@@ -71,6 +68,16 @@ class HomeViewModel extends _$HomeViewModel {
 
     state = state.copyWith(typePlaces: updatedTypePlaces);
   }
+  Future<void> refreshWeatherBackground() async {
+    try {
+      GetWeatherInfoUseCase getWeatherInfoUseCase = ref.read(getWeatherInfoUseCaseProvider);
+      WeatherInfo weatherInfo = await getWeatherInfoUseCase.call();
+      state = state.copyWith(weatherStatus: UiStatus.success, weatherInfo: weatherInfo);
+    } catch (e) {
+      state = state.copyWith(weatherStatus: UiStatus.error, errorMessage: e.toString());
+    }
+  }
+
 
 
 
