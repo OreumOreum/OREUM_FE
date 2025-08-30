@@ -409,7 +409,6 @@ GoRouter appRouter(AppRouterRef ref) {
           String? folderId = extraData['folderId'];
 
           return PlaceDetailScreen(
-            key: UniqueKey(), // 🔥 이 줄 추가 - 매번 새로운 위젯 인스턴스 생성
             placeId: placeId,
             contentId: contentId,
             contentTypeId: contentTypeId,
