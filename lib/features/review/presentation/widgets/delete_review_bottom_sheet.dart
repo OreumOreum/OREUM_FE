@@ -38,7 +38,7 @@ class DeleteReviewBottomSheet extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: 13.h),
+                    SizedBox(height: 10.h),
                     Container(
                       width: 42.w,
                       height: 4.h,
